@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mbc-qa-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mbc-qa-app
+    restart: always
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    networks:
+      - mbc-qa-network
+
+  mbc-qa-webserver:
+    build:
+      context: ./nginx-qa
+      dockerfile: Dockerfile
+    container_name: mbc-qa-webserver
+    restart: always
+    volumes:
+      - ./public:/var/www/html/public
+      - ./devlogdna:/var/log/nginx
+    ports:
+      - "8082:80"
+    depends_on:
+      - mbc-qa-app
+    networks: 
+      - mbc-qa-network
+
+networks:
+  mbc-qa-network:
+    driver: bridge
