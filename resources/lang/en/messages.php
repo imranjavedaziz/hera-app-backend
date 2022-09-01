@@ -26,5 +26,11 @@ return [
     'invalid_method' => 'Please enter valid method.',
     'endpoint_not_found' => 'Endpoint not found.',
     'email_not_verify' => 'Your email address has been not verified, Please verify it.',
-
+    'MOBILE_OTP_SENT_SUCCESS'=> 'OTP has been sent successfully.',
+    'MOBILE_OTP_SUCCESS' => 'OTP verified sucessfully.',
+    'MOBILE_OTP_FAIL' => 'Incorrect OTP. Please Try Again.',
+    'MOBILE_OTP_EXPIRED' => 'Sorry, verification otp has been expired.',
+    'MOBILE_OTP_EXCEEDED_ATTEMPT' => 'You have exceeded the maximum number of attempts. Please try after 24 hours.',
+    'INVALID_MOBILE' => 'Please use a valid number.',
+    'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.'
 ];
