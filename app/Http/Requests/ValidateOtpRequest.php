@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class LoginRequest extends ApiFormRequest
+class ValidateOtpRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,11 @@ class LoginRequest extends ApiFormRequest
      */
     public function rules()
     {
-        return [            
+        return [
             'phone_no' => ValidationRule::PHONE,
-            'password' => [
-                REQUIRED                        
-            ],
+            'otp' => ValidationRule::OTP,
         ];
+
     }
 
     /**
@@ -40,6 +39,18 @@ class LoginRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors->first()[0] : "";
+        return !empty($errors) ? $errors : "";
+    }
+
+     /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'phone_no.digits' => __('messages.PHONE_NO_LIMIT'),
+        ];
     }
 }

@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -25,7 +27,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         return Response::json(
             [
                 'data' => null,
-                'message' => config('constants.msgs.invalid_url')
+                'message' => trans('messages.invalid_url')
             ],
             200
         );
@@ -34,7 +36,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         return Response::json(
             [
                 'data' => null,
-                'message' => config('constants.msgs.invalid_method')
+                'message' => trans('messages.invalid_method')
             ],
             405
         );
@@ -45,6 +47,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('sent-otp', [AuthController::class, 'sentOtp']);
+    Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {

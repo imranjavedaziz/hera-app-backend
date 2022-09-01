@@ -44,6 +44,8 @@ define('RESULTS', 'results');
 define('BASIC', 'basic');
 define('EMAIL', 'email');
 define('PASSWORD', 'password');
+define('STATUS', 'status');
+define('UPDATED_AT', 'updated_at');
 
 //define status text 
 define('ACTIVE_STATUS', 'Active');
@@ -54,3 +56,9 @@ define('DELETED_STATUS', 'Deleted');
 
 //define statuses table column
 define('NAME', 'name');
+
+//define phone varification table column
+define('PHONE_NO', 'phone_no');
+define('OTP', 'otp');
+define('MAX_ATTEMPT', 'max_attempt');
+define('OTP_BLOCK_TIME', 'otp_block_time');
