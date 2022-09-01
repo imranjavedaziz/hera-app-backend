@@ -12,6 +12,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\CheckPhoneRequest;
 use App\Http\Requests\ValidateOtpRequest;
 use App\Helpers\TwilioOtp;
+use App\Helpers\AuthHelper;
+use Log;
 
 class AuthController extends Controller
 {
@@ -219,6 +221,109 @@ class AuthController extends Controller
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/logout",
+     *      operationId="logout",
+     *      tags={"Auth"},
+     *      summary="User logout",
+     *      description="User logout for MBC portal.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function logout(Request $request)
+    {
+        $user = AuthHelper::authenticatedUser();
+        if (empty($user) || (!empty($user) && $user->role_id === ADMIN)) {
+            return response()->Error(__('messages.invalid_access_token'));
+        }
+        JWTAuth::invalidate(JWTAuth::parseToken());
+        return response()->Success(__('messages.logged_out'));
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/refresh-token",
+     *      operationId="refresh-token",
+     *      tags={"Auth"},
+     *      summary="User refresh token",
+     *      description="User refresh token for MBC portal.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function refreshToken()
+    {
+        $token = JWTAuth::getToken();
+        try {
+            $newToken = JWTAuth::refresh($token);
+            $response = response()->json(['token' => $newToken], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+                $response = response()->json([MESSAGE => 'Token is Invalid.'], Response::HTTP_UNAUTHORIZED);
+            } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+                $response = response()->json([MESSAGE => 'Token is Expired.'], Response::HTTP_UNAUTHORIZED);
+            } else {
+                $response = response()->json([MESSAGE => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
+            }
         }
 
         return $response;
