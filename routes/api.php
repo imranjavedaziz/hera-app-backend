@@ -43,7 +43,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     });
 
     /*******Test Route*****/
-
+    
     
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);
@@ -52,14 +52,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
-
-    Route::group([MIDDLEWARE => ['jwt.refresh']], function() {        
-        Route::get('refresh_token', [AuthController::class, 'refreshToken']);
-    });
-
+    Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::get('logout', [AuthController::class, 'logout']);
-        
     });
 
 });
