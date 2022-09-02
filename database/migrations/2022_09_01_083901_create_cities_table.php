@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusesTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create(STATUSES, function (Blueprint $table) {
+        Schema::create(CITIES, function (Blueprint $table) {
             $table->increments(ID);
+            $table->integer(STATE_ID)->unsigned();
             $table->string(NAME);
+            $table->integer(STATUS_ID)->unsigned();
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->softDeletes();
+            $table->foreign(STATE_ID)->references(ID)->on(STATES);
+            $table->foreign(STATUS_ID)->references(ID)->on(STATUSES);
         });
     }
 
@@ -28,6 +33,6 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(STATUSES);
+        Schema::dropIfExists(CITIES);
     }
 }

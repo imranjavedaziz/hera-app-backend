@@ -32,5 +32,12 @@ return [
     'MOBILE_OTP_EXPIRED' => 'Sorry, verification otp has been expired.',
     'MOBILE_OTP_EXCEEDED_ATTEMPT' => 'You have exceeded the maximum number of attempts. Please try after 24 hours.',
     'INVALID_MOBILE' => 'Please use a valid number.',
-    'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.'
+    'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.',
+    'common_msg' =>[
+        'something_went_wrong' => 'Something went wrong.',
+    ],
+    'register' => [
+        'success' => 'You have registered successfully!',
+        'profile_success' => 'Details saved Successfully!',
+    ],
 ];

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\V1\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('register', [UserController::class, 'register']);
+    Route::post('profile-register', [UserController::class, 'profileRegister']);
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
