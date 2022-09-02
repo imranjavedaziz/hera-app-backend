@@ -76,8 +76,11 @@ class AuthController extends Controller
                 PHONE_NO => strtolower($request->phone_no),
                 PASSWORD => $request->password,
             ];
+            $user = User::checkUser(PHONE_NO, $request->phone_no);
+            if (empty($user)) {
+                return response()->Error(trans('messages.invalid_user_phone'));
+            }
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
-                $user = User::checkUser(PHONE_NO, strtolower($request->phone_no));
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.logged_in'), $user);
             } else {
