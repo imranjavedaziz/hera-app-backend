@@ -15,7 +15,7 @@ class PhoneVerification extends Model
     * @var array
     */
    protected $fillable = [
-       COUNTRY_CODE
+       COUNTRY_CODE,
        PHONE_NO,
        OTP,
        MAX_ATTEMPT,
