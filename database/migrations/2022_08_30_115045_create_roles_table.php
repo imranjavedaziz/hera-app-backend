@@ -13,11 +13,11 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create(ROLES, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->string(NAME);
+            $table->timestamp(CREATED_AT)->useCurrent();
+            $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
         });
     }
 
@@ -28,6 +28,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists(ROLES);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Location extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,12 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        NAME
+        USER_ID,
+        ADDRESS,
+        CITY_ID,
+        STATE_ID,
+        ZIPCODE,
+        LATITUDE,
+        LONGITUDE,
     ];
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Height extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,6 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        NAME
+        NAME, STATUS_ID
     ];
 }

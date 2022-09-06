@@ -15,10 +15,10 @@ class PhoneVerification extends Model
     * @var array
     */
    protected $fillable = [
-       'country_code',
-       'phone_no',
-       'otp',
-       'max_attempt',
-       'otp_block_time',
+       COUNTRY_CODE,
+       PHONE_NO,
+       OTP,
+       MAX_ATTEMPT,
+       OTP_BLOCK_TIME,
    ];
 }

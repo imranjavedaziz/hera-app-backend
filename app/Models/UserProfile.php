@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class UserProfile extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        NAME
+        USER_ID, DOB, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID, OCCUPATION, BIO
     ];
 }

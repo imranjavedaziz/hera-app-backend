@@ -14,8 +14,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RoleSeeder::class,
             StatusSeeder::class,
+            RoleSeeder::class,
+            EthnicitySeeder::class,
+            EyeColourSeeder::class,
+            GenderSeeder::class,
+            HairColourSeeder::class,
+            HeightSeeder::class,
+            RaceSeeder::class,
+            RelationshipStatusSeeder::class,
+            SexualOrientationSeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
+            WeightSeeder::class,
         ]);
     }
 }

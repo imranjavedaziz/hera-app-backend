@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhoneVerificationsTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreatePhoneVerificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create(PHONE_VERIFICATIONS, function (Blueprint $table) {
+        Schema::create(CITIES, function (Blueprint $table) {
             $table->id();
-            $table->string(COUNTRY_CODE)->nullable();
-            $table->string(PHONE_NO)->nullable();
-            $table->string(OTP)->nullable();
-            $table->integer(MAX_ATTEMPT)->nullable()->default(ZERO);
-            $table->bigInteger(OTP_BLOCK_TIME)->nullable();
+            $table->foreignId(STATE_ID)->constrained(STATES)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->string(NAME);
+            $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
         });
@@ -32,6 +30,6 @@ class CreatePhoneVerificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(PHONE_VERIFICATIONS);
+        Schema::dropIfExists(CITIES);
     }
 }

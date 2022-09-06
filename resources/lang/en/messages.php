@@ -33,5 +33,22 @@ return [
     'MOBILE_OTP_EXPIRED' => 'Sorry, verification otp has been expired.',
     'MOBILE_OTP_EXCEEDED_ATTEMPT' => 'You have exceeded the maximum number of attempts. Please try after 24 hours.',
     'INVALID_MOBILE' => 'Please use a valid number.',
-    'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.'
+    'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.',
+    'common_msg' =>[
+        'something_went_wrong' => 'Something went wrong.',
+        'data_found' => 'Data found.',
+        'no_data_found' => 'No Data found.',
+    ],
+    'request_validation' => [
+        'error_msgs' =>[
+            'email_unique' => 'Please enter a valid Email ID.',
+            'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
+            'pro_pic_max' => 'Image size is more than 5MB.',
+        ],
+    ],
+    'register' => [
+        'success' => 'You have registered successfully!',
+        'profile_success' => 'Profile saved Successfully!',
+        'preferences_save_success' => 'Preferences saved Successfully!',
+    ],
 ];
