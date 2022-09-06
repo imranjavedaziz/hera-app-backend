@@ -73,7 +73,7 @@ class UserRegisterService
         $user_profile->gender_id = $input[GENDER_ID];
         $user_profile->sexual_orientations_id = $input[SEXUAL_ORIENTATION_ID];
         $user_profile->relationship_status_id = $input[RELATIONSHIP_STATUS_ID];
-        $user_profile->occupation = $input[OCCUPATION];
+        $user_profile->occupation = !empty($input[OCCUPATION]) ? $input[OCCUPATION]: NULL;
         $user_profile->bio = $input[BIO];
         if($user_profile->save()){
             $user->registration_step = TWO;
