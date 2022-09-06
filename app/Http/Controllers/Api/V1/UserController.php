@@ -172,7 +172,7 @@ class UserController extends Controller
         try {
             $profile_setter_data = UserRegisterService::getProfileSetterData();
             if ($profile_setter_data) {
-                $response = response()->Success(trans('messages.data_found'), $profile_setter_data);
+                $response = response()->Success(trans('messages.common_msg.data_found'), $profile_setter_data);
             } else {
                 $response = response()->Error(trans('messages.common_msg.no_data_found'));
             }
@@ -321,7 +321,7 @@ class UserController extends Controller
         try {
             $preferences_setter_data = UserRegisterService::getPreferencesSetterData();
             if ($preferences_setter_data) {
-                $response = response()->Success(trans('messages.data_found'), $preferences_setter_data);
+                $response = response()->Success(trans('messages.common_msg.data_found'), $preferences_setter_data);
             } else {
                 $response = response()->Error(trans('messages.common_msg.no_data_found'));
             }
