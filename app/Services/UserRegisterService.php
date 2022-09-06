@@ -64,8 +64,18 @@ class UserRegisterService
     {
         $input[USER_ID] = $user->id;
         $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
-        $user_profile = UserProfile::create($input);
-        if($user_profile){
+        $user_profile = UserProfile::where(USER_ID, $input[USER_ID])->first();
+        if(!$user_profile){
+            $user_profile = new UserProfile();
+        }
+        $user_profile->user_id = $input[USER_ID];
+        $user_profile->dob = $input[DOB];
+        $user_profile->gender_id = $input[GENDER_ID];
+        $user_profile->sexual_orientations_id = $input[SEXUAL_ORIENTATION_ID];
+        $user_profile->relationship_status_id = $input[RELATIONSHIP_STATUS_ID];
+        $user_profile->occupation = $input[OCCUPATION];
+        $user_profile->bio = $input[BIO];
+        if($user_profile->save()){
             $user->registration_step = TWO;
             $user->save();
             $user_profile->location = $this->setLocation($input);
@@ -75,7 +85,14 @@ class UserRegisterService
 
     private function setLocation($input)
     {
-        return Location::create($input);
+        $location = Location::where(USER_ID, $input[USER_ID])->first();
+        if(!$location){
+            $location = new Location();
+        }
+        $location->user_id = $input[USER_ID];
+        $location->state_id = $input[STATE_ID];
+        $location->zipcode = $input[ZIPCODE];
+        return $location->save();
     }
 
     public function getPreferencesSetterData()
@@ -91,11 +108,22 @@ class UserRegisterService
     public function setPreferences($user, $input)
     {
         $input[USER_ID] = $user->id;
-        $user_preferences = UserPreference::create($input);
-        if($user_preferences){
+        $user_preference = UserPreference::where(USER_ID, $input[USER_ID])->first();
+        if(!$user_preference){
+            $user_preference = new UserPreference();
+        }
+        $user_preference->user_id = $input[USER_ID];
+        $user_preference->role_id_looking_for = $input[ROLE_ID_LOOKING_FOR];
+        $user_preference->age = $input[AGE];
+        $user_preference->height = $input[HEIGHT];
+        $user_preference->race = $input[RACE];
+        $user_preference->ethnicity = $input[ETHNICITY];
+        $user_preference->hair_colour = $input[HAIR_COLOUR];
+        $user_preference->eye_colour = $input[EYE_COLOUR];
+        if($user_preference->save()){
             $user->registration_step = THREE;
             $user->save();
         }
-        return $user_preferences;
+        return $user_preference;
     }
 }

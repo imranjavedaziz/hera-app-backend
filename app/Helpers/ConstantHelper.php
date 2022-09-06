@@ -206,3 +206,7 @@ define('EYE_COLOUR_ID', 'eye_colour_id');
 // date formats
 
 define('YMD_FORMAT', 'Y-m-d');
+
+//lang messages constant
+
+define('LANG_SOMETHING_WRONG', 'messages.common_msg.something_went_wrong');

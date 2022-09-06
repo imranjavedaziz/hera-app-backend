@@ -126,7 +126,7 @@ class UserController extends Controller
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
-                $response = response()->Error(trans('messages.common_msg.something_went_wrong'));
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (JWTException $e) {
             DB::rollback();
@@ -272,13 +272,12 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-            $user = User::where(ID, 1)->first();
-            $user_profile = UserRegisterService::profileRegister($user, $request->all());
+            $user_profile = UserRegisterService::profileRegister(AuthHelper::authenticatedUser(), $request->all());
             DB::commit();
             if ($user_profile) {
                 $response = response()->Success(trans('messages.register.profile_success'), $user_profile);
             } else {
-                $response = response()->Error(trans('messages.common_msg.something_went_wrong'));
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (\Exception $e) {
             DB::rollback();
@@ -416,13 +415,12 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-            $user = User::where(ID, 1)->first();
-            $user_preferences = UserRegisterService::setPreferences($user, $request->all());
+            $user_preferences = UserRegisterService::setPreferences(AuthHelper::authenticatedUser(), $request->all());
             DB::commit();
             if ($user_preferences) {
                 $response = response()->Success(trans('messages.register.preferences_save_success'), $user_preferences);
             } else {
-                $response = response()->Error(trans('messages.common_msg.something_went_wrong'));
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (\Exception $e) {
             DB::rollback();
