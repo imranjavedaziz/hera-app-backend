@@ -58,6 +58,7 @@ define('DELETED_STATUS', 'Deleted');
 define('NAME', 'name');
 
 //define phone varification table column
+define('COUNTRY_CODE', 'country_code');
 define('PHONE_NO', 'phone_no');
 define('OTP', 'otp');
 define('MAX_ATTEMPT', 'max_attempt');

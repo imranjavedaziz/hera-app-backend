@@ -28,6 +28,7 @@ class CheckPhoneRequest extends ApiFormRequest
     public function rules()
     {
         return [
+            'country_code' => ValidationRule::COUNTRY_CODE,
             'phone_no' => ValidationRule::PHONE
         ];
     }

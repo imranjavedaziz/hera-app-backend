@@ -15,6 +15,7 @@ class CreatePhoneVerificationsTable extends Migration
     {
         Schema::create('phone_verifications', function (Blueprint $table) {
             $table->id();
+            $table->string('country_code')->nullable();
             $table->string('phone_no')->nullable();
             $table->string('otp')->nullable();
             $table->integer('max_attempt')->nullable()->default(ZERO);
