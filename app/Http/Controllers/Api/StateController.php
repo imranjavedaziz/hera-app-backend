@@ -38,7 +38,6 @@ class StateController extends Controller
      *          response=404,
      *          description="Not found"
      *      ),
-     *      security={ {"bearer": {}} },
      *  )
      */
     public function getStates()

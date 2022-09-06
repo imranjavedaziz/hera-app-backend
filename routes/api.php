@@ -58,11 +58,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
+    Route::get('states', [StateController::class, 'getStates']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
-        Route::get('states', [StateController::class, 'getStates']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
