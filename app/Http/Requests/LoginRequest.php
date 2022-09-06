@@ -27,7 +27,8 @@ class LoginRequest extends ApiFormRequest
      */
     public function rules()
     {
-        return [            
+        return [
+            'country_code' => ValidationRule::COUNTRY_CODE,       
             'phone_no' => ValidationRule::PHONE,
             'password' => [
                 REQUIRED                        

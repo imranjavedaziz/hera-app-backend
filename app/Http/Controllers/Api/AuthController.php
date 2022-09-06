@@ -30,6 +30,11 @@ class AuthController extends Controller
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
+     *                property="country_code",
+     *                type="string",
+     *                example="+1"
+     *             ),
+     *             @OA\Property(
      *                property="phone_no",
      *                type="string",
      *                example="1234567897"
@@ -73,10 +78,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request) {
         try {
             $user_credentials = [
-                PHONE_NO => strtolower($request->phone_no),
+                COUNTRY_CODE => $request->country_code,
+                PHONE_NO => $request->phone_no,
                 PASSWORD => $request->password,
             ];
-            $user = User::checkUser(PHONE_NO, $request->phone_no);
+            $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->first();
             if (empty($user)) {
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
@@ -105,6 +111,11 @@ class AuthController extends Controller
      *        description = "Sent OTP",
      *        @OA\JsonContent(
      *             type="object",
+     *             @OA\Property(
+     *                property="country_code",
+     *                type="string",
+     *                example="+1"
+     *             ),
      *             @OA\Property(
      *                property="phone_no",
      *                type="string",
@@ -143,11 +154,11 @@ class AuthController extends Controller
      */
     public function sentOtp(CheckPhoneRequest $request) {
         try {
-            $phoneExits = User::where(PHONE_NO, '=', $request->phone_no)->count();
+            $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no])->count();
             if ($phoneExits > ZERO) {
                 return response()->Error(__('messages.phone_already_exists'));
             } else {
-                $result = TwilioOtp::sendOTPOnPhone($request->phone_no);
+                $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
                 if($result[STATUS]) {
                     $response = response()->Success($result[MESSAGE]);
                 } else {
@@ -173,6 +184,11 @@ class AuthController extends Controller
      *        description = "Verify OTP",
      *        @OA\JsonContent(
      *             type="object",
+     *             @OA\Property(
+     *                property="country_code",
+     *                type="string",
+     *                example="+1"
+     *             ),
      *             @OA\Property(
      *                property="phone_no",
      *                type="string",
