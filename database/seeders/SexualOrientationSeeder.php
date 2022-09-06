@@ -16,16 +16,20 @@ class SexualOrientationSeeder extends Seeder
     {
         $sexual_orientations = [
             [
-                NAME  => 'Heterosexual',                
+                NAME  => 'Heterosexual',
+                STATUS_ID   => ACTIVE       
             ],
             [
-                NAME  => 'Homosexual',                
+                NAME  => 'Homosexual',
+                STATUS_ID   => ACTIVE
             ],
             [
                 NAME  => 'Bisexual',
+                STATUS_ID   => ACTIVE
             ],
             [
                 NAME  => 'Other',
+                STATUS_ID   => ACTIVE
             ],
         ];
         SexualOrientation::insert($sexual_orientations);

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Race extends Model
+class UserAttribute extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,13 @@ class Race extends Model
      * @var array
      */
     protected $fillable = [
-        NAME, STATUS_ID
+        USER_ID,
+        HEIGHT_ID,
+        RACE_ID,
+        MOTHER_ETHNICITY_ID,
+        FATHER_ETHNICITY_ID,
+        WEIGHT_ID,
+        HAIR_COLOUR_ID,
+        EYE_COLOUR_ID,
     ];
 }

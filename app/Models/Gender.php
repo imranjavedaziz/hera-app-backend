@@ -15,6 +15,6 @@ class Gender extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        NAME, STATUS_ID
     ];
 }

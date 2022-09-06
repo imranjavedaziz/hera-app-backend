@@ -16,16 +16,20 @@ class EyeColourSeeder extends Seeder
     {
         $eye_colours = [
             [
-                NAME  => 'Black'
+                NAME  => 'Black',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Brown'
+                NAME  => 'Brown',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Blue'
+                NAME  => 'Blue',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Other'
+                NAME  => 'Other',
+                STATUS_ID   => ACTIVE
             ]
         ];   
         EyeColour::insert($eye_colours);

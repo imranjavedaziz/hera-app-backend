@@ -16,22 +16,28 @@ class HairColourSeeder extends Seeder
     {
         $hair_colours = [
             [
-                NAME  => 'Black'
+                NAME  => 'Black',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Brown'
+                NAME  => 'Brown',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Gray'
+                NAME  => 'Gray',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Yellow'
+                NAME  => 'Yellow',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'White'
+                NAME  => 'White',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Others'
+                NAME  => 'Others',
+                STATUS_ID   => ACTIVE
             ]
         ];   
         HairColour::insert($hair_colours);

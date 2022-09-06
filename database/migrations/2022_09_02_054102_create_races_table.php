@@ -14,11 +14,11 @@ class CreateRacesTable extends Migration
     public function up()
     {
         Schema::create(RACES, function (Blueprint $table) {
-            $table->increments(ID);
+            $table->id();
             $table->string(NAME);
+            $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->timestamp(CREATED_AT)->useCurrent();
-            $table->timestamp(UPDATED_AT)->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-            $table->softDeletes();
+            $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
         });
     }
 

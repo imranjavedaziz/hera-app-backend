@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitiesTable extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,18 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create(CITIES, function (Blueprint $table) {
+        Schema::create(LOCATIONS, function (Blueprint $table) {
             $table->id();
+            $table->foreignId(USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->string(ADDRESS)->nullable();
+            $table->foreignId(CITY_ID)->nullable()->constrained(CITIES)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->foreignId(STATE_ID)->constrained(STATES)->onDelete(CASCADE)->onUpdate(CASCADE);
-            $table->string(NAME);
-            $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->string(ZIPCODE);
+            $table->string(LATITUDE)->nullable();
+            $table->string(LONGITUDE)->nullable();
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +35,6 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(CITIES);
+        Schema::dropIfExists(LOCATIONS);
     }
 }

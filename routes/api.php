@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\StateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,25 +45,36 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     });
 
     /*******Test Route*****/
-
+    
     
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
-    Route::post('register', [UserController::class, 'register']);
-    Route::post('profile-register', [UserController::class, 'profileRegister']);
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
-
-    Route::group([MIDDLEWARE => ['jwt.refresh']], function() {        
-        Route::get('refresh_token', [AuthController::class, 'refreshToken']);
-    });
-
+    Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::get('logout', [AuthController::class, 'logout']);
-        
     });
+
+});
+
+Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
+    /***Public register route before authentication***/
+    Route::post('register', [UserController::class, 'register']);
+});
+
+Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
+
+    // Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+        /***Profile Routes***/
+        Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
+        Route::get('states', [StateController::class, 'getStates']);
+        Route::post('profile-register', [UserController::class, 'profileRegister']);
+        Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
+        Route::post('set-preferences', [UserController::class, 'setPreferences']);
+    // });
 
 });

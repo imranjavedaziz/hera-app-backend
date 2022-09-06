@@ -48,14 +48,34 @@ define('BAIL', 'bail');
 define('NUMERIC', 'numeric');
 define('STRING', 'string');
 define('UNIQUE', 'unique');
+define('IMAGE_MIMES', 'mimes:jpeg,png');
+
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
-define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
-define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
-define('IMAGE_MIMES', 'mimes:jpg,jpeg,png');
+define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
 define('EXISTS_USERS_ID', 'exists:users,id');
 define('EXISTS_GENDERS_ID', 'exists:genders,id');
 define('EXISTS_SEXUAL_ORIENTATIONS_ID', 'exists:sexual_orientations,id');
 define('EXISTS_RELATIONSHIP_STATUSES_ID', 'exists:relationship_statuses,id');
+define('EXISTS_ROLES_ID', 'exists:roles,id');
+define('EXISTS_STATE_ID', 'exists:states,id');
+
+define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
+define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
+define('PASSWORD_REGEX', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^*?&])[A-Za-z\d@#$!%^*?&]{8,}$/');
+
+//Request Validation Error Custom Messages Variables
+define('EMAIL_UNIQUE', 'email.unique');
+define('PASS_REGEX', 'password.regex');
+define('PRO_PIC_MAX', 'profile_pic.max');
+
+// define migration text
+define('DATETIME', 'datetime');
+define('CASCADE', 'cascade');
+
+define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
+define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
+
+define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
 //define status text 
 define('ACTIVE_STATUS', 'Active');
@@ -71,6 +91,7 @@ define('CREATED_AT', 'created_at');
 define('UPDATED_AT', 'updated_at');
 define('DELETED_AT', 'deleted_at');
 
+<<<<<<< Updated upstream
 //define statuses table column
 define('STATUSES', 'statuses');
 define('NAME', 'name');
@@ -79,44 +100,56 @@ define('NAME', 'name');
 define('ROLES', 'roles');
 
 //define phone varification table column
+define('COUNTRY_CODE', 'country_code');
 define('PHONE_NO', 'phone_no');
 define('OTP', 'otp');
 define('MAX_ATTEMPT', 'max_attempt');
 define('OTP_BLOCK_TIME', 'otp_block_time');
 
+=======
+>>>>>>> Stashed changes
 //define user table column
 define('USERS', 'users');
 define('PROFILE_PIC', 'profile_pic');
 define('ROLE_ID', 'role_id');
+define('USERNAME', 'username');
 define('FIRST_NAME', 'first_name');
 define('MIDDLE_NAME', 'middle_name');
 define('LAST_NAME', 'last_name');
+define('COUNTRY_CODE', 'country_code');
 define('EMAIL', 'email');
 define('EMAIL_VERIFIED', 'email_verified');
 define('EMAIL_VERIFIED_AT', 'email_verified_at');
 define('PASSWORD', 'password');
 define('STATUS_ID', 'status_id');
 define('REGISTRATION_STEP', 'registration_step');
+define('RECENT_ACTIVITY', 'recent_activity');
+define('REMEMBER_TOKEN', 'remember_token');
 
-//define user profile table column
-define('USER_PROFILES', 'user_profiles');
-define('USER_ID', 'user_id');
-define('DOB', 'dob');
-define('GENDER_ID', 'gender_id');
-define('SEXUAL_ORIENTATION_ID', 'sexual_orientations_id');
-define('RELATIONSHIP_STATUS_ID', 'relationship_status_id');
-define('OCCUPATION', 'occupation');
-define('BIO', 'bio');
+//define user table column
+define('PASSWORD_RESETS', 'password_resets');
 
-//define user preferences and attribute table column
-define('USER_PREFERENCES', 'user_preferences');
-define('RACE_ID', 'race_id');
-define('ETHNICITY_ID', 'ethnicity_id');
-define('HEIGHT_ID', 'height_id');
-define('WEIGHT_ID', 'weight_id');
-define('HAIR_COLOUR_ID', 'hair_colour_id');
-define('EYE_COLOUR_ID', 'eye_colour_id');
-define('EDUCATION_ID', 'education_id');
+//define roles table column
+define('ROLES', 'roles');
+
+//define statuses table column
+define('STATUSES', 'statuses');
+define('NAME', 'name');
+
+//define phone varification table column
+define('PHONE_VERIFICATIONS', 'phone_verifications');
+define('PHONE_NO', 'phone_no');
+define('OTP', 'otp');
+define('MAX_ATTEMPT', 'max_attempt');
+define('OTP_BLOCK_TIME', 'otp_block_time');
+
+//define state table column
+define('STATES', 'states');
+define('CODE', 'code');
+
+//define city table column
+define('CITIES', 'cities');
+define('STATE_ID', 'state_id');
 
 //define gender table column
 define('GENDERS', 'genders');
@@ -126,23 +159,6 @@ define('SEXUAL_ORIENTATIONS', 'sexual_orientations');
 
 //define Relationship status table column
 define('RELATIONSHIP_STATUSES', 'relationship_statuses');
-
-//define Location table column
-define('LOCATIONS', 'Locations');
-define('ADDRESS', 'address');
-define('CITY', 'city');
-define('STATE', 'state');
-define('ZIPCODE', 'zipcode');
-define('LATITUDE', 'latitude');
-define('LONGITUDE', 'longitude');
-
-//define state table column
-define('STATES', 'states');
-define('CODE', 'code');
-
-//define city table column
-define('CITIES', 'cities');
-define('STATE_ID', 'state_id');
 
 //define race table column
 define('RACES', 'races');
@@ -162,5 +178,48 @@ define('HAIR_COLOURS', 'hair_colours');
 //define eye colour table column
 define('EYE_COLOURS', 'eye_colours');
 
-//define education table column
-define('EDUCATIONS', 'educations');
+//define user profile table column
+define('USER_PROFILES', 'user_profiles');
+define('USER_ID', 'user_id');
+define('DOB', 'dob');
+define('GENDER_ID', 'gender_id');
+define('SEXUAL_ORIENTATION_ID', 'sexual_orientations_id');
+define('RELATIONSHIP_STATUS_ID', 'relationship_status_id');
+define('STATE', 'state');
+define('OCCUPATION', 'occupation');
+define('BIO', 'bio');
+define('GENDER', 'gender');
+define('SEXUAL_ORIENTATION', 'sexual_orientation');
+define('RELATIONSHIP_STATUS', 'relationship_status');
+
+//define Location table column
+define('LOCATIONS', 'Locations');
+define('ADDRESS', 'address');
+define('CITY_ID', 'city_id');
+define('ZIPCODE', 'zipcode');
+define('LATITUDE', 'latitude');
+define('LONGITUDE', 'longitude');
+
+//define user preferences table column
+define('USER_PREFERENCES', 'user_preferences');
+define('ROLE_ID_LOOKING_FOR', 'role_id_looking_for');
+define('AGE', 'age');
+define('HEIGHT', 'height');
+define('RACE', 'race');
+define('ETHNICITY', 'ethnicity');
+define('HAIR_COLOUR', 'hair_colour');
+define('EYE_COLOUR', 'eye_colour');
+
+//define user attribute table column
+define('USER_ATTRIBUTES', 'user_attributes');
+define('HEIGHT_ID', 'height_id');
+define('RACE_ID', 'race_id');
+define('MOTHER_ETHNICITY_ID', 'mother_ethnicity_id');
+define('FATHER_ETHNICITY_ID', 'father_ethnicity_id');
+define('WEIGHT_ID', 'weight_id');
+define('HAIR_COLOUR_ID', 'hair_colour_id');
+define('EYE_COLOUR_ID', 'eye_colour_id');
+
+// date formats
+
+define('YMD_FORMAT', 'Y-m-d');

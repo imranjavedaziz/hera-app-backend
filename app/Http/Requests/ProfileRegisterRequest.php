@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
+use App\Http\ValidationRule;
 
 class ProfileRegisterRequest extends ApiFormRequest
 {
@@ -26,15 +27,14 @@ class ProfileRegisterRequest extends ApiFormRequest
      */
     public function rules()
     {
-        $emailValidationRule = array_merge(ValidationRule::EMAIL,[UNIQUE_USERS_EMAIL]);
         return [
-            REGISTRATION_STEP => ValidationRule::REGISTRATION_STEP,
-            USER_ID => ValidationRule::USER_ID,
             DOB => ValidationRule::DOB,
             GENDER_ID => ValidationRule::GENDER_ID,
             SEXUAL_ORIENTATION_ID => ValidationRule::SEXUAL_ORIENTATION_ID,
             RELATIONSHIP_STATUS_ID => ValidationRule::RELATIONSHIP_STATUS_ID,
             BIO => ValidationRule::BIO,
+            STATE_ID => ValidationRule::STATE,
+            ZIPCODE => ValidationRule::ZIPCODE,
         ];
     }
 

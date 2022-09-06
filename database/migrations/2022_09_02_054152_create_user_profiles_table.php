@@ -14,21 +14,17 @@ class CreateUserProfilesTable extends Migration
     public function up()
     {
         Schema::create(USER_PROFILES, function (Blueprint $table) {
-            $table->increments(ID);
-            $table->integer(USER_ID)->unsigned();
+            $table->id();
+            $table->foreignId(USER_ID)->nullable()->default(ONE)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->date(DOB)->nullable();
-            $table->integer(GENDER_ID)->unsigned();
-            $table->integer(SEXUAL_ORIENTATION_ID)->unsigned();
-            $table->integer(RELATIONSHIP_STATUS_ID)->unsigned();
-            $table->string(OCCUPATION);
+            $table->foreignId(GENDER_ID)->nullable()->default(ONE)->constrained(GENDERS)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->foreignId(SEXUAL_ORIENTATION_ID)->nullable()->default(ONE)->constrained(SEXUAL_ORIENTATIONS)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->foreignId(RELATIONSHIP_STATUS_ID)->nullable()->default(ONE)->constrained(RELATIONSHIP_STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->string(OCCUPATION)->nullable();
             $table->string(BIO);
             $table->timestamp(CREATED_AT)->useCurrent();
-            $table->timestamp(UPDATED_AT)->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
             $table->softDeletes();
-            $table->foreign(USER_ID)->references(ID)->on(USERS);
-            $table->foreign(GENDER_ID)->references(ID)->on(GENDERS);
-            $table->foreign(SEXUAL_ORIENTATION_ID)->references(ID)->on(SEXUAL_ORIENTATIONS);
-            $table->foreign(RELATIONSHIP_STATUS_ID)->references(ID)->on(RELATIONSHIP_STATUSES);
         });
     }
 

@@ -16,19 +16,24 @@ class RaceSeeder extends Seeder
     {
         $races = [
             [
-                NAME  => 'ABC'
+                NAME  => 'ABC',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'DEF'
+                NAME  => 'DEF',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'GHI'
+                NAME  => 'GHI',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'JKL'
+                NAME  => 'JKL',
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'MNO'
+                NAME  => 'MNO',
+                STATUS_ID   => ACTIVE
             ]
         ];   
         Race::insert($races);

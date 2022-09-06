@@ -16,13 +16,16 @@ class GenderSeeder extends Seeder
     {
         $genders = [
             [
-                NAME  => 'Male',                
+                NAME  => 'Male',
+                STATUS_ID   => ACTIVE             
             ],
             [
-                NAME  => 'Female',                
+                NAME  => 'Female',
+                STATUS_ID   => ACTIVE              
             ],
             [
                 NAME  => 'Other',
+                STATUS_ID   => ACTIVE
             ],
         ];
         Gender::insert($genders);

@@ -14,13 +14,12 @@ class CreateStatesTable extends Migration
     public function up()
     {
         Schema::create(STATES, function (Blueprint $table) {
-            $table->increments(ID);
+            $table->id();
             $table->string(CODE);
             $table->string(NAME);
-            $table->integer(STATUS_ID)->unsigned();
-            $table->timestamps();
-            $table->softDeletes();
-            $table->foreign(STATUS_ID)->references(ID)->on(STATUSES);
+            $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
+            $table->timestamp(CREATED_AT)->useCurrent();
+            $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
         });
     }
 

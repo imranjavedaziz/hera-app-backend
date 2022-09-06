@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class LoginRequest extends ApiFormRequest
+class SetPreferencesRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,13 @@ class LoginRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'country_code' => ValidationRule::COUNTRY_CODE,       
-            'phone_no' => ValidationRule::PHONE,
-            'password' => [
-                REQUIRED                        
-            ],
+            ROLE_ID_LOOKING_FOR => ValidationRule::ROLE_ID,
+            AGE => ValidationRule::AGE,
+            HEIGHT => ValidationRule::HEIGHT,
+            RACE => ValidationRule::RACE,
+            ETHNICITY => ValidationRule::ETHNICITY,
+            HAIR_COLOUR => ValidationRule::HAIR_COLOUR,
+            EYE_COLOUR => ValidationRule::EYE_COLOUR,
         ];
     }
 
@@ -41,6 +43,6 @@ class LoginRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors->first()[0] : "";
+        return !empty($errors) ? $errors : "";
     }
 }

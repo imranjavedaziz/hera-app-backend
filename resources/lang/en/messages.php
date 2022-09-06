@@ -18,7 +18,8 @@ return [
     'email_already_exists' => 'Email Address is already exists.',
     'phone_already_exists' => 'Phone number is already exists.',
     'signup_success' => 'Sign Up successful!',
-    'invalid_user_pass' => 'Please login with valid credentials.',
+    'invalid_user_pass' => 'Wrong Password. Please try again.',
+    'invalid_user_phone' => 'Entered Mobile Number is not Registered. Please check again.',
     'invalid_access_token' => 'Invalid access token.',
     'refresh_token' => 'Refresh token generated successfully.',
     'access_denied' => 'Sorry! You are not authorized to access this page.',
@@ -35,9 +36,19 @@ return [
     'PHONE_NO_LIMIT' => 'Mobile number should be of 10 digits.',
     'common_msg' =>[
         'something_went_wrong' => 'Something went wrong.',
+        'data_found' => 'Data found.',
+        'no_data_found' => 'No Data found.',
+    ],
+    'request_validation' => [
+        'error_msgs' =>[
+            'email_unique' => 'Please enter a valid Email ID.',
+            'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
+            'pro_pic_max' => 'Image size is more than 5MB.',
+        ],
     ],
     'register' => [
         'success' => 'You have registered successfully!',
-        'profile_success' => 'Details saved Successfully!',
+        'profile_success' => 'Profile saved Successfully!',
+        'preferences_save_success' => 'Preferences saved Successfully!',
     ],
 ];

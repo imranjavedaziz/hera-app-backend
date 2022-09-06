@@ -15,9 +15,17 @@ class PhoneVerification extends Model
     * @var array
     */
    protected $fillable = [
+<<<<<<< Updated upstream
+       'country_code',
        'phone_no',
        'otp',
        'max_attempt',
        'otp_block_time',
+=======
+       PHONE_NO,
+       OTP,
+       MAX_ATTEMPT,
+       OTP_BLOCK_TIME,
+>>>>>>> Stashed changes
    ];
 }
