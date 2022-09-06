@@ -91,23 +91,6 @@ define('CREATED_AT', 'created_at');
 define('UPDATED_AT', 'updated_at');
 define('DELETED_AT', 'deleted_at');
 
-<<<<<<< Updated upstream
-//define statuses table column
-define('STATUSES', 'statuses');
-define('NAME', 'name');
-
-//define roles table column
-define('ROLES', 'roles');
-
-//define phone varification table column
-define('COUNTRY_CODE', 'country_code');
-define('PHONE_NO', 'phone_no');
-define('OTP', 'otp');
-define('MAX_ATTEMPT', 'max_attempt');
-define('OTP_BLOCK_TIME', 'otp_block_time');
-
-=======
->>>>>>> Stashed changes
 //define user table column
 define('USERS', 'users');
 define('PROFILE_PIC', 'profile_pic');
@@ -116,7 +99,6 @@ define('USERNAME', 'username');
 define('FIRST_NAME', 'first_name');
 define('MIDDLE_NAME', 'middle_name');
 define('LAST_NAME', 'last_name');
-define('COUNTRY_CODE', 'country_code');
 define('EMAIL', 'email');
 define('EMAIL_VERIFIED', 'email_verified');
 define('EMAIL_VERIFIED_AT', 'email_verified_at');
@@ -126,7 +108,7 @@ define('REGISTRATION_STEP', 'registration_step');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
 
-//define user table column
+//define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');
 
 //define roles table column
@@ -138,6 +120,7 @@ define('NAME', 'name');
 
 //define phone varification table column
 define('PHONE_VERIFICATIONS', 'phone_verifications');
+define('COUNTRY_CODE', 'country_code');
 define('PHONE_NO', 'phone_no');
 define('OTP', 'otp');
 define('MAX_ATTEMPT', 'max_attempt');
