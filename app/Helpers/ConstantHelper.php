@@ -162,6 +162,9 @@ define('HAIR_COLOURS', 'hair_colours');
 //define eye colour table column
 define('EYE_COLOURS', 'eye_colours');
 
+//define education table column
+define('EDUCATION', 'education');
+
 //define user profile table column
 define('USER_PROFILES', 'user_profiles');
 define('USER_ID', 'user_id');
@@ -184,8 +187,8 @@ define('ZIPCODE', 'zipcode');
 define('LATITUDE', 'latitude');
 define('LONGITUDE', 'longitude');
 
-//define user preferences table column
-define('USER_PREFERENCES', 'user_preferences');
+//define parents preferences table column
+define('PARENTS_PREFERENCES', 'parents_preferences');
 define('ROLE_ID_LOOKING_FOR', 'role_id_looking_for');
 define('AGE', 'age');
 define('HEIGHT', 'height');
@@ -194,8 +197,8 @@ define('ETHNICITY', 'ethnicity');
 define('HAIR_COLOUR', 'hair_colour');
 define('EYE_COLOUR', 'eye_colour');
 
-//define user attribute table column
-define('USER_ATTRIBUTES', 'user_attributes');
+//define doner attribute table column
+define('DONER_ATTRIBUTES', 'doner_attributes');
 define('HEIGHT_ID', 'height_id');
 define('RACE_ID', 'race_id');
 define('MOTHER_ETHNICITY_ID', 'mother_ethnicity_id');
@@ -203,9 +206,9 @@ define('FATHER_ETHNICITY_ID', 'father_ethnicity_id');
 define('WEIGHT_ID', 'weight_id');
 define('HAIR_COLOUR_ID', 'hair_colour_id');
 define('EYE_COLOUR_ID', 'eye_colour_id');
+define('EDUCATION_ID', 'education_id');
 
 // date formats
-
 define('YMD_FORMAT', 'Y-m-d');
 define('DATE_TIME', "Y-m-d H:i:s");
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserAttribute extends Model
+class DonerAttribute extends Model
 {
     use HasFactory;
 
@@ -23,5 +23,6 @@ class UserAttribute extends Model
         WEIGHT_ID,
         HAIR_COLOUR_ID,
         EYE_COLOUR_ID,
+        EDUCATION_ID,
     ];
 }
