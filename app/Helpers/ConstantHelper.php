@@ -59,6 +59,13 @@ define('EXISTS_SEXUAL_ORIENTATIONS_ID', 'exists:sexual_orientations,id');
 define('EXISTS_RELATIONSHIP_STATUSES_ID', 'exists:relationship_statuses,id');
 define('EXISTS_ROLES_ID', 'exists:roles,id');
 define('EXISTS_STATE_ID', 'exists:states,id');
+define('EXISTS_HEIGHTS_ID', 'exists:heights,id');
+define('EXISTS_RACES_ID', 'exists:races,id');
+define('EXISTS_ETHNICITIES_ID', 'exists:ethnicities,id');
+define('EXISTS_WEIGHTS_ID', 'exists:weights,id');
+define('EXISTS_HAIR_COLOURS_ID', 'exists:hair_colours,id');
+define('EXISTS_EYE_COLOURS_ID', 'exists:eye_colours,id');
+define('EXISTS_EDUCATION_ID', 'exists:education,id');
 
 define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
@@ -207,6 +214,7 @@ define('WEIGHT_ID', 'weight_id');
 define('HAIR_COLOUR_ID', 'hair_colour_id');
 define('EYE_COLOUR_ID', 'eye_colour_id');
 define('EDUCATION_ID', 'education_id');
+define('WEIGHT', 'weight');
 
 // date formats
 define('YMD_FORMAT', 'Y-m-d');

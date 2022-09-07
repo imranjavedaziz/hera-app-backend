@@ -50,5 +50,6 @@ return [
         'success' => 'You have registered successfully!',
         'profile_success' => 'Profile saved Successfully!',
         'preferences_save_success' => 'Preferences saved Successfully!',
+        'attributes_save_success' => 'Attributes saved Successfully!',
     ],
 ];
