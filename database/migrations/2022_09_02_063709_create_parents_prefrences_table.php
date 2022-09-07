@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserPrefrencesTable extends Migration
+class CreateParentsPrefrencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserPrefrencesTable extends Migration
      */
     public function up()
     {
-        Schema::create(USER_PREFERENCES, function (Blueprint $table) {
+        Schema::create(PARENTS_PREFERENCES, function (Blueprint $table) {
             $table->id();
             $table->foreignId(USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->foreignId(ROLE_ID_LOOKING_FOR)->constrained(ROLES, ID)->onDelete(CASCADE)->onUpdate(CASCADE);
@@ -23,6 +23,7 @@ class CreateUserPrefrencesTable extends Migration
             $table->string(ETHNICITY)->nullable();
             $table->string(HAIR_COLOUR)->nullable();
             $table->string(EYE_COLOUR)->nullable();
+            $table->string(EDUCATION)->nullable();
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
             $table->softDeletes();
@@ -36,6 +37,6 @@ class CreateUserPrefrencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(USER_PREFERENCES);
+        Schema::dropIfExists(PARENTS_PREFERENCES);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserPreference extends Model
+class ParentsPreference extends Model
 {
     use HasFactory;
 
@@ -23,5 +23,6 @@ class UserPreference extends Model
         ETHNICITY,
         HAIR_COLOUR,
         EYE_COLOUR,
+        EDUCATION,
     ];
 }

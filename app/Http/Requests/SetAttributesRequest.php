@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class SetPreferencesRequest extends ApiFormRequest
+class SetAttributesRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,14 +28,14 @@ class SetPreferencesRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            ROLE_ID_LOOKING_FOR => ValidationRule::ROLE_ID,
-            AGE => ValidationRule::AGE,
-            HEIGHT => ValidationRule::HEIGHT,
-            RACE => ValidationRule::RACE,
-            ETHNICITY => ValidationRule::ETHNICITY,
-            HAIR_COLOUR => ValidationRule::HAIR_COLOUR,
-            EYE_COLOUR => ValidationRule::EYE_COLOUR,
-            EDUCATION => ValidationRule::EDUCATION,
+            HEIGHT_ID => ValidationRule::HEIGHT_ID,
+            RACE_ID => ValidationRule::RACE_ID,
+            MOTHER_ETHNICITY_ID => ValidationRule::ETHNICITY_ID,
+            FATHER_ETHNICITY_ID => ValidationRule::ETHNICITY_ID,
+            WEIGHT_ID => ValidationRule::WEIGHT_ID,
+            HAIR_COLOUR_ID => ValidationRule::HAIR_COLOUR_ID,
+            EYE_COLOUR_ID => ValidationRule::EYE_COLOUR_ID,
+            EDUCATION_ID => ValidationRule::EDUCATION_ID,
         ];
     }
 

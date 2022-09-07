@@ -69,6 +69,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
+        Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
+        Route::post('set-attributes', [UserController::class, 'setAttributes']);
     });
 
     /***Only Donar route***/

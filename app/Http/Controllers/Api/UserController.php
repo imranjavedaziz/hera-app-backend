@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\SetAttributesRequest;
 use App\Http\Requests\SetPreferencesRequest;
 use DB;
 use App\Helpers\AuthHelper;
@@ -378,6 +379,11 @@ class UserController extends Controller
      *                type="string",
      *                example="1,2"
      *             ),
+     *             @OA\Property(
+     *                property="education",
+     *                type="string",
+     *                example="1,2"
+     *             ),
      *         ),
      *     ),
      *     @OA\Response(
@@ -419,6 +425,154 @@ class UserController extends Controller
             DB::commit();
             if ($user_preferences) {
                 $response = response()->Success(trans('messages.register.preferences_save_success'), $user_preferences);
+            } else {
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/attributes-setter-data",
+     *      operationId="attributes-setter-data",
+     *      tags={"User"},
+     *      summary="Get attributes-setter-data",
+     *      description="Get attributes-setter-data",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getAttributesSetterData()
+    {
+        try {
+            $attributes_setter_data = UserRegisterService::getAttributesSetterData();
+            if ($attributes_setter_data) {
+                $response = response()->Success(trans('messages.common_msg.data_found'), $attributes_setter_data);
+            } else {
+                $response = response()->Error(trans('messages.common_msg.no_data_found'));
+            }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/set-attributes",
+     *     description="User set-attributes",
+     *     operationId="user-set-attributes",
+     *     tags={"User"},
+     *     summary="User set-attributes",
+     *     description="User set-attributes for MBC portal.",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "User set-attributes",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="height_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="race_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="mother_ethnicity_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="father_ethnicity_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="weight_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="hair_colour_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="eye_colour_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="education_id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+
+    public function setAttributes(SetAttributesRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $doner_attributes = UserRegisterService::setAttributes(AuthHelper::authenticatedUser(), $request->all());
+            DB::commit();
+            if ($doner_attributes) {
+                $response = response()->Success(trans('messages.register.attributes_save_success'), $doner_attributes);
             } else {
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }

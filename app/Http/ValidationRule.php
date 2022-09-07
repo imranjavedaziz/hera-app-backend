@@ -30,4 +30,12 @@ class ValidationRule
     public const ETHNICITY =[BAIL, REQUIRED];
     public const HAIR_COLOUR =[BAIL, REQUIRED];
     public const EYE_COLOUR =[BAIL, REQUIRED];
+    public const EDUCATION =[BAIL, REQUIRED];
+    public const HEIGHT_ID =[BAIL, REQUIRED, EXISTS_HEIGHTS_ID];
+    public const RACE_ID =[BAIL, REQUIRED, EXISTS_RACES_ID];
+    public const ETHNICITY_ID =[BAIL, REQUIRED, EXISTS_ETHNICITIES_ID];
+    public const WEIGHT_ID =[BAIL, REQUIRED, EXISTS_WEIGHTS_ID];
+    public const HAIR_COLOUR_ID =[BAIL, REQUIRED, EXISTS_HAIR_COLOURS_ID];
+    public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
+    public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
 }

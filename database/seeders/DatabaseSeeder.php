@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             StatusSeeder::class,
             RoleSeeder::class,
+            EducationSeeder::class,
             EthnicitySeeder::class,
             EyeColourSeeder::class,
             GenderSeeder::class,
