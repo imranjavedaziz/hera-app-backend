@@ -39,6 +39,7 @@ define('MIDDLEWARE', 'middleware');
 define('AUTHORIZATION', 'Authorization');
 define('RESULTS', 'results');
 define('BASIC', 'basic');
+define('DASHBOARD_PAGE_LIMIT', '10');
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -206,6 +207,7 @@ define('EYE_COLOUR_ID', 'eye_colour_id');
 // date formats
 
 define('YMD_FORMAT', 'Y-m-d');
+define('DATE_TIME', "Y-m-d H:i:s");
 
 //lang messages constant
 

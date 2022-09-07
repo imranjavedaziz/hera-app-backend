@@ -7,6 +7,7 @@ use JWTAuth;
 use Exception;
 use Illuminate\Http\Response;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use App\Models\User;
 
 class JwtMiddleware extends BaseMiddleware
 {
@@ -24,6 +25,7 @@ class JwtMiddleware extends BaseMiddleware
             if (JWTAuth::parseToken()->authenticate()==NULL) {
                 return response()->json([MESSAGE => 'Token is Expired, Please login again.'], Response::HTTP_FORBIDDEN);
             }
+            User::where([ID => JWTAuth::parseToken()->authenticate()->id])->update([RECENT_ACTIVITY => Date(DATE_TIME)]);
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
                 $response = response()->json([MESSAGE => 'Token is Invalid.'], Response::HTTP_UNAUTHORIZED);
