@@ -3,9 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
+use App\Http\Middleware\EnsureDonarTokenIsValid;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StateController;
+use App\Http\Controllers\Api\DonarDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +69,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
+    });
+
+    /***Only Donar route***/
+    Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
+        Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
     });
 
 });
