@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\DonarDashboardController;
+use App\Http\Controllers\Api\ParentsToBeDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,11 +72,16 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
         Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
         Route::post('set-attributes', [UserController::class, 'setAttributes']);
-    });
 
-    /***Only Donar route***/
-    Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
-        Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
-    });
+        /***Only Donar route***/
+        Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
+            Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
+        });
 
+        /***Only Parents route***/
+        Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
+            Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
+        });
+
+    });
 });

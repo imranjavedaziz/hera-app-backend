@@ -223,3 +223,15 @@ define('DATE_TIME', "Y-m-d H:i:s");
 //lang messages constant
 
 define('LANG_SOMETHING_WRONG', 'messages.common_msg.something_went_wrong');
+
+define('LOCATION_VALUE', 45);
+define('AGE_VALUE', 45);
+define('RACE_VALUE', 45);
+define('ETHNICITY_VALUE', 45);
+define('HEIGHT_VALUE', 45);
+define('HAIR_COLOUR_VALUE', 45);
+define('EYE_COLOUR_VALUE', 45);
+define('EDUCATION_VALUE', 45);
+define('CRITERIA_WEIGHT', 360);
+define('MATCH_VALUE', 'match_value');
+

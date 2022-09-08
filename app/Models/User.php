@@ -73,4 +73,19 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(UserProfile::class, USER_ID, ID);
     }
+
+    public function parents_preference()
+    {
+        return $this->hasOne(ParentsPreference::class, USER_ID, ID);
+    }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class, USER_ID, ID);
+    }
+
+    public function donar_attribute()
+    {
+        return $this->hasOne(DonerAttribute::class, USER_ID, ID);
+    }
 }
