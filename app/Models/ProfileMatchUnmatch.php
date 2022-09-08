@@ -20,4 +20,13 @@ class ProfileMatchUnmatch extends Model
         TO_USER_ID,
         STATUS_ID,
     ];
+
+    public function fromUser() {
+        return $this->belongsTo(User::class,FROM_USER_ID);
+    }
+
+    public function toUser() {
+        return $this->belongsTo(User::class, TO_USER_ID);
+    }
+
 }

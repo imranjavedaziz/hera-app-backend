@@ -73,6 +73,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
         Route::post('set-attributes', [UserController::class, 'setAttributes']);
         Route::post('profile-match-unmatch', [ProfileMatchUnmatchController::class, 'profileMatchUnmatch']);
+        Route::get('profile-match-unmatch', [ProfileMatchUnmatchController::class, 'getProfileMatches']);
     });
 
     /***Only Donar route***/

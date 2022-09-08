@@ -40,6 +40,16 @@ class ProfileMatchUnmatchService
 
     public function getProfileMatches($user_id)
     {
-        return ProfileMatchUnmatch::where(FROM_USER_ID, $user_id)->get();
+        return ProfileMatchUnmatch::with([
+            FROMUSER => function($q) {
+                return $q->select([
+                    ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC
+                ]);
+            },
+            TOUSER => function($q) {
+                return $q->select([
+                    ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC
+                ]);
+            }])->where(FROM_USER_ID, $user_id)->get();
     }
 }

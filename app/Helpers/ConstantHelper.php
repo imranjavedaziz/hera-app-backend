@@ -233,6 +233,8 @@ define('LANG_DATA_NOT_FOUND', 'messages.common_msg.no_data_found');
 define('PROFILE_MATCH_UNMATCHES', 'profile_match_unmatches');
 define('FROM_USER_ID', 'from_user_id');
 define('TO_USER_ID', 'to_user_id');
+define('FROMUSER', 'fromUser');
+define('TOUSER', 'toUser');
 
 //define matched statuses 
 define('PENDING_FOR_APPROVAL', 1);

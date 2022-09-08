@@ -120,10 +120,10 @@ class ProfileMatchUnmatchController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function getProfileMatchUnmatch()
+    public function getProfileMatches()
     {
         try {
-            $profile_match_unmatch = ProfileMatchUnmatchService::profileMatchUnmatch(AuthHelper::authenticatedUser()->id, $request->all());
+            $profile_match_unmatch = ProfileMatchUnmatchService::getProfileMatches(AuthHelper::authenticatedUser()->id);
             if ($profile_match_unmatch) {
                 $response = response()->Success(trans(LANG_DATA_FOUND), $profile_match_unmatch);
             } else {
