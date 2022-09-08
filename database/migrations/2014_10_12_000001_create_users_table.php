@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->boolean(EMAIL_VERIFIED)->default(false);
             $table->datetime(EMAIL_VERIFIED_AT)->nullable();
             $table->string(PASSWORD);
-            $table->boolean(STATUS)->default(true);
+            $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->tinyInteger(REGISTRATION_STEP)->nullable()->comment(REGISTRATION_STEP_COMMENT)->default(ONE);
             $table->datetime(RECENT_ACTIVITY)->nullable();
             $table->rememberToken();

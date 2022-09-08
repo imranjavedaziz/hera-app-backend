@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\DonarDashboardController;
+use App\Http\Controllers\Api\ProfileMatchUnmatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
         Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
         Route::post('set-attributes', [UserController::class, 'setAttributes']);
+        Route::post('profile-match-unmatch', [ProfileMatchUnmatchController::class, 'profileMatchUnmatch']);
     });
 
     /***Only Donar route***/

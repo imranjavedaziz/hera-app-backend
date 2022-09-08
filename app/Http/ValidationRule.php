@@ -21,7 +21,7 @@ class ValidationRule
     public const GENDER_ID =[BAIL, REQUIRED, EXISTS_GENDERS_ID];
     public const SEXUAL_ORIENTATION_ID =[BAIL, REQUIRED, EXISTS_SEXUAL_ORIENTATIONS_ID];
     public const RELATIONSHIP_STATUS_ID =[BAIL, REQUIRED, EXISTS_RELATIONSHIP_STATUSES_ID];
-    public const BIO =[BAIL, REQUIRED, STRING,  'max:200'];
+    public const BIO =[BAIL, REQUIRED, STRING,  'max:250'];
     public const STATE =[BAIL, REQUIRED, EXISTS_STATE_ID];
     public const ZIPCODE =[BAIL, REQUIRED, NUMERIC, 'digits:5'];
     public const AGE =[BAIL, REQUIRED];
@@ -38,4 +38,5 @@ class ValidationRule
     public const HAIR_COLOUR_ID =[BAIL, REQUIRED, EXISTS_HAIR_COLOURS_ID];
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
     public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
+    public const STATUS =[BAIL, REQUIRED];
 }

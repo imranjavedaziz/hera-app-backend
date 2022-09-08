@@ -52,4 +52,9 @@ return [
         'preferences_save_success' => 'Preferences saved Successfully!',
         'attributes_save_success' => 'Attributes saved Successfully!',
     ],
+    'profile_match_unmatch' => [
+        'request_sent' => 'Profile match request send successfully.',
+        'request_approved' => 'Profile match request approved.',
+        'request_rejected' => 'Profile match request gets rejected.',
+    ],
 ];
