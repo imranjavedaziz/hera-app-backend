@@ -3,28 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProfileMatchUnmatchRequest;
-use DB;
+use App\Http\Requests\ProfileMatchRequest;
 use App\Helpers\AuthHelper;
 use Facades\{
-    App\Services\ProfileMatchUnmatchService,
+    App\Services\ProfileMatchService,
 };
-use App\Models\User;
-
-class ProfileMatchUnmatchController extends Controller
+use DB;
+class ProfileMatchController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/v1/profile-match-unmatch",
-     *     description="User match unmatch profile",
-     *     operationId="set-match-unmatch-profile",
+     *     path="/v1/profile-match-request",
+     *     description="User profile match request",
+     *     operationId="profile-match-request",
      *     tags={"User"},
-     *     summary="User match unmatch profile",
-     *     description="User match unmatch profile for MBC portal.",
+     *     summary="User profile match request",
+     *     description="User profile match request for MBC portal.",
      *     @OA\RequestBody(
      *        required = true,
      *        description = "status : 1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner",
@@ -73,14 +69,14 @@ class ProfileMatchUnmatchController extends Controller
      *  )
      */
 
-    public function profileMatchUnmatch(ProfileMatchUnmatchRequest $request)
+    public function profileMatchRequest(ProfileMatchRequest $request)
     {
         try {
             DB::beginTransaction();
-            $profile_match_unmatch = ProfileMatchUnmatchService::profileMatchUnmatch(AuthHelper::authenticatedUser()->id, $request->all());
+            $profile_match = ProfileMatchService::profileMatchRequest(AuthHelper::authenticatedUser()->id, $request->all());
             DB::commit();
-            if ($profile_match_unmatch[SUCCESS]) {
-                $response = response()->Success($profile_match_unmatch[MESSAGE], $profile_match_unmatch[DATA]);
+            if ($profile_match[SUCCESS]) {
+                $response = response()->Success($profile_match[MESSAGE], $profile_match[DATA]);
             } else {
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
@@ -93,11 +89,11 @@ class ProfileMatchUnmatchController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/v1/profile-match-unmatch",
-     *      operationId="get-profile-match-unmatch",
+     *      path="/v1/get-profile-matches",
+     *      operationId="get-profile-matches",
      *      tags={"User"},
-     *      summary="get profile match unmatch",
-     *      description="get profile match unmatch",
+     *      summary="get profile matches",
+     *      description="get profile matches",
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -123,9 +119,9 @@ class ProfileMatchUnmatchController extends Controller
     public function getProfileMatches()
     {
         try {
-            $profile_match_unmatch = ProfileMatchUnmatchService::getProfileMatches(AuthHelper::authenticatedUser()->id);
-            if ($profile_match_unmatch) {
-                $response = response()->Success(trans(LANG_DATA_FOUND), $profile_match_unmatch);
+            $profile_match = ProfileMatchService::getProfileMatches(AuthHelper::authenticatedUser()->id);
+            if ($profile_match) {
+                $response = response()->Success(trans(LANG_DATA_FOUND), $profile_match);
             } else {
                 $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
             }

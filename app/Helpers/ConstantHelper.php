@@ -229,15 +229,19 @@ define('LANG_SOMETHING_WRONG', 'messages.common_msg.something_went_wrong');
 define('LANG_DATA_FOUND', 'messages.common_msg.data_found');
 define('LANG_DATA_NOT_FOUND', 'messages.common_msg.no_data_found');
 
-//define user matches table column
-define('PROFILE_MATCH_UNMATCHES', 'profile_match_unmatches');
+//define profile matches table column
+define('PROFILE_MATCHES', 'profile_matches');
 define('FROM_USER_ID', 'from_user_id');
 define('TO_USER_ID', 'to_user_id');
-define('FROMUSER', 'fromUser');
-define('TOUSER', 'toUser');
 
 //define matched statuses 
 define('PENDING_FOR_APPROVAL', 1);
 define('APPROVED_AND_MATCHED', 2);
 define('REJECTED_BY_PTB', 3);
 define('REJECTED_BY_DONAR', 4);
+
+// ====Relationships of modals
+
+//define profile matches relationship
+define('FROMUSER', 'fromUser');
+define('TOUSER', 'toUser');

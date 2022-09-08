@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class ProfileMatchUnmatchRequest extends ApiFormRequest
+class ProfileMatchRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

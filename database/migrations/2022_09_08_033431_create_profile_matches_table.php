@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfileMatchUnmatchesTable extends Migration
+class CreateProfileMatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProfileMatchUnmatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create(PROFILE_MATCH_UNMATCHES, function (Blueprint $table) {
+        Schema::create(PROFILE_MATCHES, function (Blueprint $table) {
             $table->id();
             $table->foreignId(FROM_USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->foreignId(TO_USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
@@ -30,6 +30,6 @@ class CreateProfileMatchUnmatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(PROFILE_MATCH_UNMATCHES);
+        Schema::dropIfExists(PROFILE_MATCHES);
     }
 }
