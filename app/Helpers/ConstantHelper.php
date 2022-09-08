@@ -28,6 +28,8 @@ define('EGG_DONER', 4);
 define('SPERM_DONER', 5);
 
 //define keys
+define('SUCCESS', 'success');
+define('DATA', 'data');
 define('MESSAGE', 'message');
 define('TOKEN', 'token');
 define('ERRORS', 'errors');
@@ -75,6 +77,7 @@ define('PASSWORD_REGEX', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^*?&]
 define('EMAIL_UNIQUE', 'email.unique');
 define('PASS_REGEX', 'password.regex');
 define('PRO_PIC_MAX', 'profile_pic.max');
+define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -82,6 +85,7 @@ define('CASCADE', 'cascade');
 
 define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
 define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
+define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -187,7 +191,7 @@ define('SEXUAL_ORIENTATION', 'sexual_orientation');
 define('RELATIONSHIP_STATUS', 'relationship_status');
 
 //define Location table column
-define('LOCATIONS', 'Locations');
+define('LOCATIONS', 'locations');
 define('ADDRESS', 'address');
 define('CITY_ID', 'city_id');
 define('ZIPCODE', 'zipcode');
@@ -221,8 +225,26 @@ define('YMD_FORMAT', 'Y-m-d');
 define('DATE_TIME', "Y-m-d H:i:s");
 
 //lang messages constant
-
 define('LANG_SOMETHING_WRONG', 'messages.common_msg.something_went_wrong');
+define('LANG_DATA_FOUND', 'messages.common_msg.data_found');
+define('LANG_DATA_NOT_FOUND', 'messages.common_msg.no_data_found');
+
+//define profile matches table column
+define('PROFILE_MATCHES', 'profile_matches');
+define('FROM_USER_ID', 'from_user_id');
+define('TO_USER_ID', 'to_user_id');
+
+//define matched statuses 
+define('PENDING_FOR_APPROVAL', 1);
+define('APPROVED_AND_MATCHED', 2);
+define('REJECTED_BY_PTB', 3);
+define('REJECTED_BY_DONAR', 4);
+
+// ====Relationships of modals
+
+//define profile matches relationship
+define('FROMUSER', 'fromUser');
+define('TOUSER', 'toUser');
 
 define('LOCATION_VALUE', 45);
 define('AGE_VALUE', 45);
@@ -234,4 +256,3 @@ define('EYE_COLOUR_VALUE', 45);
 define('EDUCATION_VALUE', 45);
 define('CRITERIA_WEIGHT', 360);
 define('MATCH_VALUE', 'match_value');
-

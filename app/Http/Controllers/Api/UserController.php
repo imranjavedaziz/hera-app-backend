@@ -173,9 +173,9 @@ class UserController extends Controller
         try {
             $profile_setter_data = UserRegisterService::getProfileSetterData();
             if ($profile_setter_data) {
-                $response = response()->Success(trans('messages.common_msg.data_found'), $profile_setter_data);
+                $response = response()->Success(trans(LANG_DATA_FOUND), $profile_setter_data);
             } else {
-                $response = response()->Error(trans('messages.common_msg.no_data_found'));
+                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
@@ -321,9 +321,9 @@ class UserController extends Controller
         try {
             $preferences_setter_data = UserRegisterService::getPreferencesSetterData();
             if ($preferences_setter_data) {
-                $response = response()->Success(trans('messages.common_msg.data_found'), $preferences_setter_data);
+                $response = response()->Success(trans(LANG_DATA_FOUND), $preferences_setter_data);
             } else {
-                $response = response()->Error(trans('messages.common_msg.no_data_found'));
+                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
@@ -469,9 +469,9 @@ class UserController extends Controller
         try {
             $attributes_setter_data = UserRegisterService::getAttributesSetterData();
             if ($attributes_setter_data) {
-                $response = response()->Success(trans('messages.common_msg.data_found'), $attributes_setter_data);
+                $response = response()->Success(trans(LANG_DATA_FOUND), $attributes_setter_data);
             } else {
-                $response = response()->Error(trans('messages.common_msg.no_data_found'));
+                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
