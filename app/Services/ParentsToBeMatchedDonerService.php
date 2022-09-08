@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\ProfileMatch;
 use Illuminate\Database\Eloquent\Collection;
 use App\Helpers\AuthHelper;
 use App\Helpers\CustomHelper;
@@ -70,9 +71,11 @@ class ParentsToBeMatchedDonerService
      */
     private function getDonarList($donarBaseCondition): Collection
     {
+        $notInterstedDonar = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id, STATUS => REJECTED_BY_PTB])->get()->pluck(TO_USER_ID)->toArray();
         $srch = User::with(['user_profile','location','donar_attribute']);
         $srch->where($donarBaseCondition);
-        $srch->whereIn('role_id',[SURROGATE_MOTHER,EGG_DONER,SPERM_DONER]);
+        $srch->whereIn('role_id',[SURROGATE_MOTHER,EGG_DONER,SPERM_DONER])
+        ->whereNotIn(ID, $notInterstedDonar);
         return $srch->get();
     }
 
