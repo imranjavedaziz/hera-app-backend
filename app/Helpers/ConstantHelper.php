@@ -187,8 +187,6 @@ define('STATE', 'state');
 define('OCCUPATION', 'occupation');
 define('BIO', 'bio');
 define('GENDER', 'gender');
-define('SEXUAL_ORIENTATION', 'sexual_orientation');
-define('RELATIONSHIP_STATUS', 'relationship_status');
 
 //define Location table column
 define('LOCATIONS', 'locations');
@@ -245,3 +243,16 @@ define('REJECTED_BY_DONAR', 4);
 //define profile matches relationship
 define('FROMUSER', 'fromUser');
 define('TOUSER', 'toUser');
+
+//define user relationship
+define('ROLE', 'role');
+define('USER_PROFILE', 'user_profile');
+define('DONERATTRIBUTE', 'donerAttribute');
+
+//define doner attributes relationship
+define('MOTHER_ETHNICITY', 'mother_ethnicity');
+define('FATHER_ETHNICITY', 'father_ethnicity');
+
+//define user profile relationship
+define('SEXUAL_ORIENTATION', 'sexual_orientation');
+define('RELATIONSHIP_STATUS', 'relationship_status');
