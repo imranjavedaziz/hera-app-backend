@@ -51,6 +51,7 @@ return [
         'profile_success' => 'Profile saved Successfully!',
         'preferences_save_success' => 'Preferences saved Successfully!',
         'attributes_save_success' => 'Attributes saved Successfully!',
+        'gallery_save_success' => 'Gallery saved Successfully!',
     ],
     'profile_match' => [
         'request_sent' => 'Profile match request send successfully.',

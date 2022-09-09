@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Ramsey\Uuid\Uuid;
 use App\Models\DonerAttribute;
+use App\Models\DonerGallery;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\ParentsPreference;
@@ -25,8 +26,8 @@ class UserRegisterService
         $user = User::create($input);
         if($user){
             $user->username = $this->setUserName($input[ROLE_ID], $user->id);
-            $filename = 'ABCDEF';
-            $user->profile_pic = $filename;
+            $file = $this->uploadFile($input, 'images/user_profile_images');
+            $user->profile_pic = $file[FILE_URL];
             $user->save();
         }
         return $user;
@@ -162,5 +163,41 @@ class UserRegisterService
             $user->save();
         }
         return $doner_attribute;
+    }
+
+    public function setGallery($user, $input)
+    {
+        $input[USER_ID] = $user->id;
+        $file = $this->uploadFile($input, 'images/user_gellery');
+        $doner_gallery = new DonerGallery();
+        if(!empty($input[OLD_FILE_NAME])){
+            $doner_gallery = DonerGallery::where(FILE_NAME, $input[OLD_FILE_NAME])->first();
+            if(!empty($doner_gallery)){
+                Storage::disk('local')->delete($doner_gallery->file_url);
+            }else{
+                $doner_gallery = new DonerGallery();
+            }
+        }
+        $doner_gallery->user_id = $input[USER_ID];
+        $doner_gallery->file_name = $file[FILE_NAME];
+        $doner_gallery->file_url = $file[FILE_URL];
+        if($doner_gallery->save()){
+            $user->registration_step = FOUR;
+            $user->save();
+        }
+        return $doner_gallery;
+    }
+
+    public function uploadFile($input, $path)
+    {
+        $fileName = time().'.'.$input[FILE]->extension();  
+        $path = Storage::disk('local')->put($path, $input[FILE]);
+        $path = Storage::disk('local')->url($path);
+        return [FILE_NAME => $fileName, FILE_URL => $path];
+    }
+
+    public function getGalleryData($user_id)
+    {
+        return DonerGallery::select(ID, FILE_NAME, FILE_URL)->where(USER_ID, $user_id)->get();
     }
 }

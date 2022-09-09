@@ -83,6 +83,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('set-attributes', [UserController::class, 'setAttributes']);
         Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
         Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
+        Route::post('set-gallery', [UserController::class, 'setGallery']);
+        Route::get('get-gallery', [UserController::class, 'getGalleryData']);
     });
 
 });

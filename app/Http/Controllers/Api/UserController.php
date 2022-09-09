@@ -11,6 +11,7 @@ use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetAttributesRequest;
 use App\Http\Requests\SetPreferencesRequest;
+use App\Http\Requests\SetGalleryRequest;
 use DB;
 use App\Helpers\AuthHelper;
 use Facades\{
@@ -37,7 +38,7 @@ class UserController extends Controller
      *                     @OA\Schema(
      *                         @OA\Property(
      *                             description="Item image PNG/JPEG",
-     *                             property="profile_pic",
+     *                             property="file",
      *                             type="string", 
      *                             format="binary"
      *                         ),
@@ -578,6 +579,129 @@ class UserController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/set-gallery",
+     *     description="User set-gallery",
+     *     operationId="user-set-gallery",
+     *     tags={"User"},
+     *     summary="User set-gallery",
+     *     description="User set-gallery for MBC portal.",
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 allOf={
+     *                     @OA\Schema(
+     *                         @OA\Property(
+     *                             description="Item file jpeg/png/mp4",
+     *                             property="file",
+     *                             type="string", 
+     *                             format="binary"
+     *                         ),
+     *                          @OA\Property(
+     *                              property="old_file_name",
+     *                              type="string",
+     *                              example="abc.png"
+     *                          ),
+     *                     )
+     *                 }
+     *             )
+     *         )
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+
+    public function setGallery(SetGalleryRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $doner_attributes = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $request->all());
+            DB::commit();
+            if ($doner_attributes) {
+                $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_attributes);
+            } else {
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/get-gallery",
+     *      operationId="get-gallery",
+     *      tags={"User"},
+     *      summary="get-gallery",
+     *      description="get-gallery",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getGalleryData()
+    {
+        try {
+            $gallery_data = UserRegisterService::getGalleryData(AuthHelper::authenticatedUser()->id);
+            if ($gallery_data) {
+                $response = response()->Success(trans(LANG_DATA_FOUND), $gallery_data);
+            } else {
+                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
+            }
+        } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
         return $response;

@@ -39,4 +39,5 @@ class ValidationRule
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
     public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
     public const STATUS =[BAIL, REQUIRED];
+    public const FILE =[BAIL, REQUIRED, FILE_MIMES, 'max:5000'];
 }

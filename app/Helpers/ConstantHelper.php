@@ -52,6 +52,7 @@ define('NUMERIC', 'numeric');
 define('STRING', 'string');
 define('UNIQUE', 'unique');
 define('IMAGE_MIMES', 'mimes:jpeg,png');
+define('FILE_MIMES', 'mimes:jpeg,png,mp4');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -218,6 +219,11 @@ define('EYE_COLOUR_ID', 'eye_colour_id');
 define('EDUCATION_ID', 'education_id');
 define('WEIGHT', 'weight');
 
+//define doner gallery table column
+define('DONER_GALLERIES', 'doner_galleries');
+define('FILE_NAME', 'file_name');
+define('FILE_URL', 'file_url');
+
 // date formats
 define('YMD_FORMAT', 'Y-m-d');
 define('DATE_TIME', "Y-m-d H:i:s");
@@ -238,22 +244,26 @@ define('APPROVED_AND_MATCHED', 2);
 define('REJECTED_BY_PTB', 3);
 define('REJECTED_BY_DONAR', 4);
 
-// ====Relationships of modals
+// ====Relationships of modals and function constants
 
-//define profile matches relationship
+//define profile matches relationship and function constants
 define('FROMUSER', 'fromUser');
 define('TOUSER', 'toUser');
 
-//define user relationship
+//define user relationship and function constants
 define('ROLE', 'role');
 define('USER_PROFILE', 'user_profile');
 define('DONERATTRIBUTE', 'donerAttribute');
 
-//define doner attributes relationship
+//define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
 define('FATHER_ETHNICITY', 'father_ethnicity');
 define('AS_CONNECT', ') AS ');
 
-//define user profile relationship
+//define user profile relationship and function constants
 define('SEXUAL_ORIENTATION', 'sexual_orientation');
 define('RELATIONSHIP_STATUS', 'relationship_status');
+
+// define doner gallery relationship and function constants
+define('OLD_FILE_NAME', 'old_file_name');
+define('FILE', 'file');
