@@ -14,11 +14,11 @@ class DonarDashboardController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/v1/donar-profile-card",
-     *      operationId="donar-profile-card",
+     *      path="/v1/ptb-profile-card",
+     *      operationId="ptb-profile-card",
      *      tags={"User"},
-     *      summary="donar-profile-card",
-     *      description="donar-profile-card",
+     *      summary="ptb-profile-card",
+     *      description="ptb-profile-card",
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -41,11 +41,11 @@ class DonarDashboardController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function getDonarProfileCard(Request $request)
+    public function getPtbProfileCard(Request $request)
     {
         try {
             $limit    = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
-            $donarProfileCard = DonarDashboardService::getDonarProfileCard();
+            $donarProfileCard = DonarDashboardService::getPtbProfileCard();
             $profileCards = $donarProfileCard->paginate($limit);
             $response = response()->Success(trans('messages.common_msg.data_found'), $profileCards);
         } catch (\Exception $e) {

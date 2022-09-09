@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\DonarDashboardController;
+use App\Http\Controllers\Api\ParentsToBeDashboardController;
 use App\Http\Controllers\Api\ProfileMatchController;
 use App\Http\Controllers\Api\UserProfileController;
 
@@ -74,17 +75,19 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
 
-        Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
+        /***Only Donar route***/
+        Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
+            Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
+            Route::post('set-attributes', [UserController::class, 'setAttributes']);
+            Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
+            Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
+            Route::post('set-gallery', [UserController::class, 'setGallery']);
+            Route::get('get-gallery', [UserController::class, 'getGalleryData']);
+        });
+        /***Only Parents route***/
+        Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
+            Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
+            Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
+        });
     });
-
-    /***Only Donar route***/
-    Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
-        Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
-        Route::post('set-attributes', [UserController::class, 'setAttributes']);
-        Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
-        Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
-        Route::post('set-gallery', [UserController::class, 'setGallery']);
-        Route::get('get-gallery', [UserController::class, 'getGalleryData']);
-    });
-
 });

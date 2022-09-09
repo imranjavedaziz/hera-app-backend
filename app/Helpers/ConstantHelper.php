@@ -244,13 +244,22 @@ define('APPROVED_AND_MATCHED', 2);
 define('REJECTED_BY_PTB', 3);
 define('REJECTED_BY_DONAR', 4);
 
-// ====Relationships of modals and function constants
-
 //define profile matches relationship and function constants
 define('FROMUSER', 'fromUser');
 define('TOUSER', 'toUser');
 
-//define user relationship and function constants
+define('LOCATION_VALUE', 45);
+define('AGE_VALUE', 45);
+define('RACE_VALUE', 45);
+define('ETHNICITY_VALUE', 45);
+define('HEIGHT_VALUE', 45);
+define('HAIR_COLOUR_VALUE', 45);
+define('EYE_COLOUR_VALUE', 45);
+define('EDUCATION_VALUE', 45);
+define('CRITERIA_WEIGHT', 360);
+define('MATCH_VALUE', 'match_value');
+
+//define user relationship
 define('ROLE', 'role');
 define('USER_PROFILE', 'user_profile');
 define('DONERATTRIBUTE', 'donerAttribute');
