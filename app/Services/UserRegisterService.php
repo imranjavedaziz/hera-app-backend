@@ -21,6 +21,7 @@ class UserRegisterService
     {
         $input[PASSWORD] = bcrypt($input[PASSWORD]);
         $input[REGISTRATION_STEP] = ONE;
+        $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
         $user = User::create($input);
         if($user){
             $user->username = $this->setUserName($input[ROLE_ID], $user->id);
@@ -64,13 +65,11 @@ class UserRegisterService
     public function profileRegister($user, $input)
     {
         $input[USER_ID] = $user->id;
-        $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
         $user_profile = UserProfile::where(USER_ID, $input[USER_ID])->first();
         if(!$user_profile){
             $user_profile = new UserProfile();
         }
         $user_profile->user_id = $input[USER_ID];
-        $user_profile->dob = $input[DOB];
         $user_profile->gender_id = $input[GENDER_ID];
         $user_profile->sexual_orientations_id = $input[SEXUAL_ORIENTATION_ID];
         $user_profile->relationship_status_id = $input[RELATIONSHIP_STATUS_ID];

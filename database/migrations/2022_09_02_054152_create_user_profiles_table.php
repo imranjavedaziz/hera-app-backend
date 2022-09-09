@@ -16,7 +16,6 @@ class CreateUserProfilesTable extends Migration
         Schema::create(USER_PROFILES, function (Blueprint $table) {
             $table->id();
             $table->foreignId(USER_ID)->nullable()->default(ONE)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
-            $table->date(DOB)->nullable();
             $table->foreignId(GENDER_ID)->nullable()->default(ONE)->constrained(GENDERS)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->foreignId(SEXUAL_ORIENTATION_ID)->nullable()->default(ONE)->constrained(SEXUAL_ORIENTATIONS)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->foreignId(RELATIONSHIP_STATUS_ID)->nullable()->default(ONE)->constrained(RELATIONSHIP_STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);

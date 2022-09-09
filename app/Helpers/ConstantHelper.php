@@ -187,8 +187,6 @@ define('STATE', 'state');
 define('OCCUPATION', 'occupation');
 define('BIO', 'bio');
 define('GENDER', 'gender');
-define('SEXUAL_ORIENTATION', 'sexual_orientation');
-define('RELATIONSHIP_STATUS', 'relationship_status');
 
 //define Location table column
 define('LOCATIONS', 'locations');
@@ -256,3 +254,16 @@ define('EYE_COLOUR_VALUE', 45);
 define('EDUCATION_VALUE', 45);
 define('CRITERIA_WEIGHT', 360);
 define('MATCH_VALUE', 'match_value');
+//define user relationship
+define('ROLE', 'role');
+define('USER_PROFILE', 'user_profile');
+define('DONERATTRIBUTE', 'donerAttribute');
+
+//define doner attributes relationship
+define('MOTHER_ETHNICITY', 'mother_ethnicity');
+define('FATHER_ETHNICITY', 'father_ethnicity');
+define('AS_CONNECT', ') AS ');
+
+//define user profile relationship
+define('SEXUAL_ORIENTATION', 'sexual_orientation');
+define('RELATIONSHIP_STATUS', 'relationship_status');

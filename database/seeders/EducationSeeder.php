@@ -20,19 +20,23 @@ class EducationSeeder extends Seeder
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Intermediate',
+                NAME  => 'Some College',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Graduation',
+                NAME  => 'Associate’s Degree',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Post Graduation',
+                NAME  => 'Bachelor’s Degree',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Other',
+                NAME  => 'Master’s Degree',
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                NAME  => 'Ph.D.',
                 STATUS_ID   => ACTIVE
             ]
         ];   

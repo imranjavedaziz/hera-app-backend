@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class ProfileRegisterRequest extends ApiFormRequest
+class ProfileDetailsRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,12 +28,7 @@ class ProfileRegisterRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            GENDER_ID => ValidationRule::GENDER_ID,
-            SEXUAL_ORIENTATION_ID => ValidationRule::SEXUAL_ORIENTATION_ID,
-            RELATIONSHIP_STATUS_ID => ValidationRule::RELATIONSHIP_STATUS_ID,
-            BIO => ValidationRule::BIO,
-            STATE_ID => ValidationRule::STATE,
-            ZIPCODE => ValidationRule::ZIPCODE,
+            USER_ID => ValidationRule::USER_ID,
         ];
     }
 
@@ -42,6 +37,6 @@ class ProfileRegisterRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors : "";
+        return !empty($errors) ? $errors->first()[0] : "";
     }
 }

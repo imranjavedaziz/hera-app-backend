@@ -16,23 +16,27 @@ class RaceSeeder extends Seeder
     {
         $races = [
             [
-                NAME  => 'ABC',
+                NAME  => 'White',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'DEF',
+                NAME  => 'Black or African American',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'GHI',
+                NAME  => 'American Indian or Alaska Native',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'JKL',
+                NAME  => 'Asian',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'MNO',
+                NAME  => 'Native Hawaiian or Other Pacific Islander',
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                NAME  => 'Mixed Or Other Race',
                 STATUS_ID   => ACTIVE
             ]
         ];   

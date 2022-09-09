@@ -26,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         COUNTRY_CODE,
         PHONE_NO,
         EMAIL,
+        DOB,
         PROFILE_PIC,
         EMAIL_VERIFIED,
         EMAIL_VERIFIED_AT,
@@ -69,12 +70,12 @@ class User extends Authenticatable implements JWTSubject
         return self::where($field,$value)->first();
     }
 
-    public function user_profile()
+    public function userProfile()
     {
         return $this->hasOne(UserProfile::class, USER_ID, ID);
     }
 
-    public function parents_preference()
+    public function parentsPreference()
     {
         return $this->hasOne(ParentsPreference::class, USER_ID, ID);
     }
@@ -84,7 +85,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Location::class, USER_ID, ID);
     }
 
-    public function donar_attribute()
+    public function role()
+    {
+        return $this->hasOne(Role::class, ID, ROLE_ID);
+    }
+
+    public function donerAttribute()
     {
         return $this->hasOne(DonerAttribute::class, USER_ID, ID);
     }
