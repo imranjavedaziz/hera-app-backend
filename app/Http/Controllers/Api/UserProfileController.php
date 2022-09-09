@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProfileDetailsRequest;
 use DB;
 use Facades\{
     App\Services\UserProfileService,
@@ -49,7 +50,7 @@ class UserProfileController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function getDonerProfileDetails(Request $request)
+    public function getDonerProfileDetails(ProfileDetailsRequest $request)
     {
         try {
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());
@@ -100,7 +101,7 @@ class UserProfileController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function getPtbProfileDetails(Request $request)
+    public function getPtbProfileDetails(ProfileDetailsRequest $request)
     {
         try {
             $ptb_profile_details_data = UserProfileService::getPtbProfileDetails($request->all());
