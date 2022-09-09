@@ -38,6 +38,7 @@ class RegisterRequest extends ApiFormRequest
             COUNTRY_CODE => ValidationRule::COUNTRY_CODE,
             PHONE_NO => $phoneValidationRule,
             EMAIL => $emailValidationRule,
+            DOB => ValidationRule::DOB,
             PASSWORD => ValidationRule::PASSWORD,
         ];
     }

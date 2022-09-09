@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string(COUNTRY_CODE);
             $table->string(PHONE_NO);
             $table->string(EMAIL)->unique();
+            $table->date(DOB)->nullable();
             $table->text(PROFILE_PIC)->nullable();
             $table->boolean(EMAIL_VERIFIED)->default(false);
             $table->datetime(EMAIL_VERIFIED_AT)->nullable();

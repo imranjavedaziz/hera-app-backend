@@ -16,7 +16,7 @@ class RelationshipStatusSeeder extends Seeder
     {
         $relationship_statuses = [
             [
-                NAME  => 'Unmarried',
+                NAME  => 'Single',
                 STATUS_ID   => ACTIVE               
             ],
             [
@@ -24,13 +24,17 @@ class RelationshipStatusSeeder extends Seeder
                 STATUS_ID   => ACTIVE               
             ],
             [
+                NAME  => 'Widowed',
+                STATUS_ID   => ACTIVE
+            ],
+            [
                 NAME  => 'Divorced',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Widow',
+                NAME  => 'Married but separated',
                 STATUS_ID   => ACTIVE
-            ],
+            ]
         ];
         RelationshipStatus::insert($relationship_statuses);
     }

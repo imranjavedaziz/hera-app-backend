@@ -16,10 +16,6 @@ class EyeColourSeeder extends Seeder
     {
         $eye_colours = [
             [
-                NAME  => 'Black',
-                STATUS_ID   => ACTIVE
-            ],
-            [
                 NAME  => 'Brown',
                 STATUS_ID   => ACTIVE
             ],
@@ -28,7 +24,15 @@ class EyeColourSeeder extends Seeder
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Other',
+                NAME  => 'Hazel',
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                NAME  => 'Amber',
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                NAME  => 'Green',
                 STATUS_ID   => ACTIVE
             ]
         ];   

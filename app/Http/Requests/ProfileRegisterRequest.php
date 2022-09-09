@@ -28,7 +28,6 @@ class ProfileRegisterRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            DOB => ValidationRule::DOB,
             GENDER_ID => ValidationRule::GENDER_ID,
             SEXUAL_ORIENTATION_ID => ValidationRule::SEXUAL_ORIENTATION_ID,
             RELATIONSHIP_STATUS_ID => ValidationRule::RELATIONSHIP_STATUS_ID,

@@ -16,23 +16,23 @@ class WeightSeeder extends Seeder
     {
         $weights = [
             [
-                NAME  => 'ABC',
+                NAME  => '100',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'DEF',
+                NAME  => '101',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'GHI',
+                NAME  => '102',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'JKL',
+                NAME  => '103',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'MNO',
+                NAME  => '104',
                 STATUS_ID   => ACTIVE
             ]
         ];   
