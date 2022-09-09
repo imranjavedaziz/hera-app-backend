@@ -78,6 +78,11 @@ class UserController extends Controller
      *                              example="xyz@yopmail.com"
      *                          ),
      *                          @OA\Property(
+     *                              property="dob",
+     *                              type="string",
+     *                              example="14-12-1990"
+     *                          ),
+     *                          @OA\Property(
      *                              property="password",
      *                              type="string",
      *                              example="Xyz@12345"
@@ -196,11 +201,6 @@ class UserController extends Controller
      *        description = "User profile register",
      *        @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                property="dob",
-     *                type="string",
-     *                example="14-12-1990"
-     *             ),
      *             @OA\Property(
      *                property="gender_id",
      *                type="integer",
@@ -341,7 +341,7 @@ class UserController extends Controller
      *     description="User set-preferences for MBC portal.",
      *     @OA\RequestBody(
      *        required = true,
-     *        description = "User set-preferences",
+     *        description = "User set-preferences, Height Should be in inches only",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -352,12 +352,12 @@ class UserController extends Controller
      *             @OA\Property(
      *                property="age",
      *                type="string",
-     *                example="12,24"
+     *                example="21-28, 28-35"
      *             ),
      *             @OA\Property(
      *                property="height",
      *                type="string",
-     *                example="60,70"
+     *                example="60-70"
      *             ),
      *             @OA\Property(
      *                property="race",

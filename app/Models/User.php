@@ -26,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         COUNTRY_CODE,
         PHONE_NO,
         EMAIL,
+        DOB,
         PROFILE_PIC,
         EMAIL_VERIFIED,
         EMAIL_VERIFIED_AT,

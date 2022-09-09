@@ -252,6 +252,7 @@ define('DONERATTRIBUTE', 'donerAttribute');
 //define doner attributes relationship
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
 define('FATHER_ETHNICITY', 'father_ethnicity');
+define('AS_CONNECT', ') AS ');
 
 //define user profile relationship
 define('SEXUAL_ORIENTATION', 'sexual_orientation');

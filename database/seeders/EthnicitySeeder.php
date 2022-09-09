@@ -16,23 +16,19 @@ class EthnicitySeeder extends Seeder
     {
         $ethnicities = [
             [
-                NAME  => 'ABC',
+                NAME  => 'Hispanic and/or Latino/a/x',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'DEF',
+                NAME  => 'Not Hispanic and/or Latino/a/x',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'GHI',
+                NAME  => 'Prefer not to disclose',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'JKL',
-                STATUS_ID   => ACTIVE
-            ],
-            [
-                NAME  => 'MNO',
+                NAME  => 'Other',
                 STATUS_ID   => ACTIVE
             ]
         ];   

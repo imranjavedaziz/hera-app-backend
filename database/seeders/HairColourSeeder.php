@@ -16,27 +16,19 @@ class HairColourSeeder extends Seeder
     {
         $hair_colours = [
             [
-                NAME  => 'Black',
-                STATUS_ID   => ACTIVE
-            ],
-            [
                 NAME  => 'Brown',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Gray',
+                NAME  => 'Black',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Yellow',
+                NAME  => 'Blonde',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'White',
-                STATUS_ID   => ACTIVE
-            ],
-            [
-                NAME  => 'Others',
+                NAME  => 'Red',
                 STATUS_ID   => ACTIVE
             ]
         ];   
