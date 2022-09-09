@@ -70,9 +70,19 @@ class User extends Authenticatable implements JWTSubject
         return self::where($field,$value)->first();
     }
 
-    public function user_profile()
+    public function userProfile()
     {
         return $this->hasOne(UserProfile::class, USER_ID, ID);
+    }
+
+    public function parentsPreference()
+    {
+        return $this->hasOne(ParentsPreference::class, USER_ID, ID);
+    }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class, USER_ID, ID);
     }
 
     public function role()

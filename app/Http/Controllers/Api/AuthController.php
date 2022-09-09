@@ -81,6 +81,7 @@ class AuthController extends Controller
                 COUNTRY_CODE => $request->country_code,
                 PHONE_NO => $request->phone_no,
                 PASSWORD => $request->password,
+                ROLE_ID => [PARENTS_TO_BE, SURROGATE_MOTHER, EGG_DONER, SPERM_DONER],
             ];
             $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->first();
             if (empty($user)) {
