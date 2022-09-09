@@ -122,6 +122,7 @@ class UserRegisterService
         $parents_preference->hair_colour = $input[HAIR_COLOUR];
         $parents_preference->eye_colour = $input[EYE_COLOUR];
         $parents_preference->education = $input[EDUCATION];
+        $parents_preference->state = $input[STATE];
         if($parents_preference->save()){
             $user->registration_step = THREE;
             $user->save();
@@ -199,5 +200,14 @@ class UserRegisterService
     public function getGalleryData($user_id)
     {
         return DonerGallery::select(ID, FILE_NAME, FILE_URL)->where(USER_ID, $user_id)->get();
+    }
+
+    public function getPreferencesAgeRangeData($input)
+    {
+        if($input[ROLE_ID_LOOKING_FOR] == 3 || $input[ROLE_ID_LOOKING_FOR] == 4){
+            return config('constants.age_range_female');
+        }else{
+            return config('constants.age_range_male');
+        }
     }
 }

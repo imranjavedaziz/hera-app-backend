@@ -24,5 +24,6 @@ class ParentsPreference extends Model
         HAIR_COLOUR,
         EYE_COLOUR,
         EDUCATION,
+        STATE,
     ];
 }

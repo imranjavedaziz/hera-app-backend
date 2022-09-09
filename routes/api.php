@@ -70,8 +70,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
-        Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
-        Route::post('set-preferences', [UserController::class, 'setPreferences']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
 
@@ -86,8 +84,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
+            Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
+            Route::post('set-preferences', [UserController::class, 'setPreferences']);
             Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
             Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
+            Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
         });
     });
 });

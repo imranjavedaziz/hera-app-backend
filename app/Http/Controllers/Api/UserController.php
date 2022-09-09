@@ -7,6 +7,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Requests\AgeRangeRequest;
 use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetAttributesRequest;
@@ -290,6 +291,58 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
+     *      path="/v1/preferences-age-range-data",
+     *      operationId="preferences-age-range-data",
+     *      tags={"User"},
+     *      summary="Get preferences-age-range-data",
+     *      description="Get preferences-age-range-data",
+     *      @OA\Parameter(
+     *          name="role_id_looking_for",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getPreferencesAgeRangeData(AgeRangeRequest $request)
+    {
+        try {
+            $preferences_age_range_data = UserRegisterService::getPreferencesAgeRangeData($request->all());
+            if ($preferences_age_range_data) {
+                $response = response()->Success(trans(LANG_DATA_FOUND), $preferences_age_range_data);
+            } else {
+                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
+            }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
      *      path="/v1/preferences-setter-data",
      *      operationId="preferences-setter-data",
      *      tags={"User"},
@@ -382,6 +435,11 @@ class UserController extends Controller
      *             ),
      *             @OA\Property(
      *                property="education",
+     *                type="string",
+     *                example="1,2"
+     *             ),
+     *             @OA\Property(
+     *                property="state",
      *                type="string",
      *                example="1,2"
      *             ),
