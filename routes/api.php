@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\DonarDashboardController;
 use App\Http\Controllers\Api\ProfileMatchController;
+use App\Http\Controllers\Api\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,15 +71,18 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
         Route::post('set-preferences', [UserController::class, 'setPreferences']);
-        Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
-        Route::post('set-attributes', [UserController::class, 'setAttributes']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
+
+        Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
     });
 
     /***Only Donar route***/
     Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
+        Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
+        Route::post('set-attributes', [UserController::class, 'setAttributes']);
         Route::get('donar-profile-card', [DonarDashboardController::class, 'getDonarProfileCard']);
+        Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
     });
 
 });
