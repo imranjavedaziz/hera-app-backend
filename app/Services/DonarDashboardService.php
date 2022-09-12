@@ -14,7 +14,7 @@ class DonarDashboardService
         ->with(['userProfile' => function($q) {
             return $q->select(['id','user_id','gender_id','sexual_orientations_id','relationship_status_id','occupation','bio'
             ]);
-        }])
+        },'location'])
         ->orderBy('users.recent_activity', DESC);
     }
 }

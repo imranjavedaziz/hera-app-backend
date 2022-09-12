@@ -60,6 +60,9 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['email'] = $donar->email;
         $result['user']['id'] = $donar->id;
         $result['user']['profile_image'] = $donar->profile_image;
+        $result['user']['zipcode'] = $donar->location->zipcode;
+        $result['user']['state_id'] = $donar->location->state_id;
+        $result['user']['state_name'] = $donar->location->name;
         $result['age'] = CustomHelper::ageCalculator($donar->dob);
         $result[MATCH_VALUE] = $matchValue;
         return $result;
