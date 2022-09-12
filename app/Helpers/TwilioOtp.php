@@ -29,7 +29,7 @@ class TwilioOtp
             $phoneVerify->otp_block_time = null;
             $attempt = $phoneVerify->max_attempt;
             $attempt++; 
-            if($attempt == 3){
+            if($attempt == 5){
                 $phoneVerify->otp_block_time = Carbon::now()->getTimestamp() + (60 * 60 * 24);              
             }
             $phoneVerify->otp = $otp;

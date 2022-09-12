@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use DB;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -82,7 +83,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function location()
     {
-        return $this->hasOne(Location::class, USER_ID, ID);
+        return $this->hasOne(Location::class, USER_ID, ID)
+        ->select([
+            ID,USER_ID,STATE_ID,ZIPCODE,
+            DB::raw("(select name from ".STATES." where id=".STATE_ID.") as " .NAME. " "),
+        ]);
     }
 
     public function role()
