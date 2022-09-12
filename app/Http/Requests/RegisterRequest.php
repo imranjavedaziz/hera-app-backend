@@ -31,7 +31,7 @@ class RegisterRequest extends ApiFormRequest
         $phoneValidationRule = array_merge(ValidationRule::PHONE,[UNIQUE_USERS_PHONE]);
         return [
             ROLE_ID => ValidationRule::ROLE_ID,
-            PROFILE_PIC => ValidationRule::PROFILE_PIC,
+            FILE => ValidationRule::PROFILE_PIC,
             FIRST_NAME => ValidationRule::NAME,
             MIDDLE_NAME => ValidationRule::MIDDLE_NAME,
             LAST_NAME => ValidationRule::NAME,

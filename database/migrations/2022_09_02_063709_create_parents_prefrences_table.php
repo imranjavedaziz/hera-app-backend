@@ -24,6 +24,7 @@ class CreateParentsPrefrencesTable extends Migration
             $table->string(HAIR_COLOUR)->nullable();
             $table->string(EYE_COLOUR)->nullable();
             $table->string(EDUCATION)->nullable();
+            $table->string(STATE)->nullable();
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
             $table->softDeletes();
