@@ -276,3 +276,12 @@ define('RELATIONSHIP_STATUS', 'relationship_status');
 // define doner gallery relationship and function constants
 define('OLD_FILE_NAME', 'old_file_name');
 define('FILE', 'file');
+
+define('LOCATION_PREFERENCE', '1,2');
+define('AGE_PREFERENCE', '21-28, 28-35');
+define('RACE_PREFERENCE', '2,3');
+define('ETHNICITY_PREFERENCE', '2,3');
+define('HEIGHT_PREFERENCE', '60-70');
+define('HAIR_COLOUR_PREFERENCE', '1,2');
+define('EYE_COLOUR_PREFERENCE', '1,2');
+define('EDUCATION_PREFERENCE', '1,2');

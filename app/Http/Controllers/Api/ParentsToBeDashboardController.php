@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Facades\{
-    App\Services\ParentsToBeMatchedDonerService,
-};
+use App\Traits\ParentsToBeMatchedDonerTrait;
 
 class ParentsToBeDashboardController extends Controller
 {
+    use ParentsToBeMatchedDonerTrait;
+
     /**
      * @OA\Get(
      *      path="/v1/parents-matched-doner",
@@ -49,7 +49,7 @@ class ParentsToBeDashboardController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $page = isset($request->page) && ($request->page > ZERO) ? $request->page : ONE;
-            $collection = collect(ParentsToBeMatchedDonerService::myMatchedDonars());
+            $collection = collect($this->myMatchedDonars());
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
             $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit , $page, []);
             $response = response()->Success(trans('messages.common_msg.data_found'), $matchedDonars);
