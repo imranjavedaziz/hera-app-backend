@@ -173,7 +173,6 @@ class UserRegisterService
     public function uploadedFilesCount($input)
     {
         $uploaded_doner_gallery_count = DonerGallery::where(FILE_NAME, $input[OLD_FILE_NAME])->first();
-        $doc_count = UserDocument::where(USER_ID, auth()->user()->id)->count();
     }
 
     public function setGallery($user, $input)
@@ -207,7 +206,7 @@ class UserRegisterService
         $mime = $input[FILE]->getMimeType();
         $path = Storage::disk('local')->put($path, $input[FILE]);
         $path = Storage::disk('local')->url($path);
-        return [FILE_NAME => $fileName, FILE_URL => $path, FILE_TYPE => $mime];
+        return [FILE_NAME => $fileName, FILE_URL => $path, MIME => $mime];
     }
 
     public function getGalleryData($user_id)

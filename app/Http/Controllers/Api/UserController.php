@@ -664,7 +664,7 @@ class UserController extends Controller
      *                         ),
      *                         @OA\Property(
      *                             description="Item file mp4,ogx,oga,ogv,ogg,webm",
-     *                             property="image",
+     *                             property="video",
      *                             type="string", 
      *                             format="binary"
      *                         ),
@@ -714,7 +714,6 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $uploaded_doner_gallery_count = UserRegisterService::uploadedFilesCount($input);
             $doner_gallery = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $input);
             if ($doner_gallery[SUCCESS]) {
                 DB::commit();
