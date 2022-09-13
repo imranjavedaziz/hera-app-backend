@@ -28,7 +28,8 @@ class SetGalleryRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            FILE => ValidationRule::FILE,
+            IMAGE => ValidationRule::IMAGE,
+            VIDEO => ValidationRule::VIDEO,
         ];
     }
 

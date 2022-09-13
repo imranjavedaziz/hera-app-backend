@@ -52,7 +52,7 @@ define('NUMERIC', 'numeric');
 define('STRING', 'string');
 define('UNIQUE', 'unique');
 define('IMAGE_MIMES', 'mimes:jpeg,png');
-define('FILE_MIMES', 'mimes:jpeg,png,mp4');
+define('VIDEO_MIMES', 'mimes:mp4,ogx,oga,ogv,ogg,webm');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -223,6 +223,7 @@ define('WEIGHT', 'weight');
 define('DONER_GALLERIES', 'doner_galleries');
 define('FILE_NAME', 'file_name');
 define('FILE_URL', 'file_url');
+define('FILE_TYPE', 'file_type');
 
 // date formats
 define('YMD_FORMAT', 'Y-m-d');
@@ -273,10 +274,6 @@ define('AS_CONNECT', ') AS ');
 define('SEXUAL_ORIENTATION', 'sexual_orientation');
 define('RELATIONSHIP_STATUS', 'relationship_status');
 
-// define doner gallery relationship and function constants
-define('OLD_FILE_NAME', 'old_file_name');
-define('FILE', 'file');
-
 define('LOCATION_PREFERENCE', '1,2');
 define('AGE_PREFERENCE', '21-28, 28-35');
 define('RACE_PREFERENCE', '2,3');
@@ -285,3 +282,10 @@ define('HEIGHT_PREFERENCE', '60-70');
 define('HAIR_COLOUR_PREFERENCE', '1,2');
 define('EYE_COLOUR_PREFERENCE', '1,2');
 define('EDUCATION_PREFERENCE', '1,2');
+
+// define doner gallery relationship and function constants
+define('OLD_FILE_NAME', 'old_file_name');
+define('FILE', 'file');
+define('MIME', 'mime');
+define('VIDEO', 'video');
+define('IMAGE', 'image');

@@ -123,7 +123,7 @@ class UserController extends Controller
      *      ),
      *  )
      */
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -657,8 +657,14 @@ class UserController extends Controller
      *                 allOf={
      *                     @OA\Schema(
      *                         @OA\Property(
-     *                             description="Item file jpeg/png/mp4",
-     *                             property="file",
+     *                             description="Item file jpeg/png",
+     *                             property="image",
+     *                             type="string", 
+     *                             format="binary"
+     *                         ),
+     *                         @OA\Property(
+     *                             description="Item file mp4,ogx,oga,ogv,ogg,webm",
+     *                             property="image",
      *                             type="string", 
      *                             format="binary"
      *                         ),
@@ -707,12 +713,16 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-            $doner_attributes = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $request->all());
-            DB::commit();
-            if ($doner_attributes) {
-                $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_attributes);
+            $input = $request->all();
+            $uploaded_doner_gallery_count = UserRegisterService::uploadedFilesCount($input);
+            $doner_gallery = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $input);
+            if ($doner_gallery[SUCCESS]) {
+                DB::commit();
+                $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_gallery[DATA]);
             } else {
-                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+                DB::rollback();
+                $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
+                $response = response()->Error($message);
             }
         } catch (\Exception $e) {
             DB::rollback();

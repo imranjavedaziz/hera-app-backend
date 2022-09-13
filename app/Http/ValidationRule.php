@@ -12,7 +12,7 @@ class ValidationRule
     public const REGISTRATION_STEP =[BAIL, REQUIRED, 'in : 1,2,3'];
     public const ROLE_ID =[BAIL, REQUIRED, 'in : 2,3,4,5'];
     public const NAME =[BAIL, REQUIRED, 'min:2', NAME_REGEX, 'max:30'];
-    public const MIDDLE_NAME =[BAIL, SOMETIMES, 'min:2', NAME_REGEX, 'max:30'];
+    public const MIDDLE_NAME =[BAIL, SOMETIMES, NULLABLE, 'min:2', NAME_REGEX, 'max:30'];
     public const EMAIL =[BAIL, REQUIRED, EMAIL, EMAIL_MAX_LENGTH, EMAIL_REGEX];
     public const PASSWORD =[BAIL, REQUIRED, 'min:8', 'max:20', PASSWORD_REGEX];
     public const PROFILE_PIC =[BAIL, REQUIRED, IMAGE_MIMES, 'max:5000'];
@@ -39,5 +39,6 @@ class ValidationRule
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
     public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
     public const STATUS =[BAIL, REQUIRED];
-    public const FILE =[BAIL, REQUIRED, FILE_MIMES, 'max:5000'];
+    public const IMAGE =[BAIL, SOMETIMES, NULLABLE, IMAGE_MIMES, 'max:5000'];
+    public const VIDEO =[BAIL, SOMETIMES, NULLABLE, VIDEO_MIMES, 'max:5000'];
 }

@@ -41,7 +41,7 @@ return [
     ],
     'request_validation' => [
         'error_msgs' =>[
-            'email_unique' => 'Please enter a valid Email ID.',
+            'email_unique' => 'Email is already registered with us.',
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'Image size is more than 5MB.',
         ],
@@ -52,6 +52,7 @@ return [
         'preferences_save_success' => 'Preferences saved Successfully!',
         'attributes_save_success' => 'Attributes saved Successfully!',
         'gallery_save_success' => 'Gallery saved Successfully!',
+        'gallery_save_old_file_error' => 'No such file exists to update.',
     ],
     'profile_match' => [
         'request_sent' => 'Profile match request send successfully.',
