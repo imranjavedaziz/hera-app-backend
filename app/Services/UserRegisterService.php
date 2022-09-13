@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use App\Traits\SetterDataTrait;
 use Storage;
+use App\Jobs\SendEmailVerificationJob;
 
 class UserRegisterService
 {
@@ -29,6 +30,7 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
+            // dispatch(new SendEmailVerificationJob($user));
         }
         return $user;
     }
@@ -79,7 +81,7 @@ class UserRegisterService
         if($user_profile->save()){
             $user->registration_step = TWO;
             $user->save();
-            $user_profile->location = $this->setLocation($input);
+            $this->setLocation($input);
         }
         return $user_profile;
     }
@@ -99,10 +101,12 @@ class UserRegisterService
     public function getPreferencesSetterData()
     {
         $data = [];
+        $data[ROLE] = $this->getRoleData();
         $data[ETHNICITY] = $this->getEthnicityData();
         $data[EYE_COLOUR] = $this->getEyeColourData();
         $data[HAIR_COLOUR] = $this->getHairColourData();
         $data[RACE] = $this->getRaceData();
+        $data[EDUCATION] = $this->getEducationData();
         return $data;
     }
 
@@ -166,9 +170,15 @@ class UserRegisterService
         return $doner_attribute;
     }
 
+    public function uploadedFilesCount($input)
+    {
+        $uploaded_doner_gallery_count = DonerGallery::where(FILE_NAME, $input[OLD_FILE_NAME])->first();
+    }
+
     public function setGallery($user, $input)
     {
         $input[USER_ID] = $user->id;
+        $input[FILE] = !empty($input[IMAGE]) ? $input[IMAGE] : $input[VIDEO];
         $file = $this->uploadFile($input, 'images/user_gellery');
         $doner_gallery = new DonerGallery();
         if(!empty($input[OLD_FILE_NAME])){
@@ -176,25 +186,27 @@ class UserRegisterService
             if(!empty($doner_gallery)){
                 Storage::disk('local')->delete($doner_gallery->file_url);
             }else{
-                $doner_gallery = new DonerGallery();
+                return [SUCCESS => false, MESSAGE => trans('messages.register.gallery_save_old_file_error')];
             }
         }
         $doner_gallery->user_id = $input[USER_ID];
         $doner_gallery->file_name = $file[FILE_NAME];
         $doner_gallery->file_url = $file[FILE_URL];
+        $doner_gallery->file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
         if($doner_gallery->save()){
             $user->registration_step = FOUR;
             $user->save();
         }
-        return $doner_gallery;
+        return [SUCCESS => true, DATA => $doner_gallery];
     }
 
     public function uploadFile($input, $path)
     {
-        $fileName = time().'.'.$input[FILE]->extension();  
+        $fileName = time().'.'.$input[FILE]->extension();
+        $mime = $input[FILE]->getMimeType();
         $path = Storage::disk('local')->put($path, $input[FILE]);
         $path = Storage::disk('local')->url($path);
-        return [FILE_NAME => $fileName, FILE_URL => $path];
+        return [FILE_NAME => $fileName, FILE_URL => $path, MIME => $mime];
     }
 
     public function getGalleryData($user_id)

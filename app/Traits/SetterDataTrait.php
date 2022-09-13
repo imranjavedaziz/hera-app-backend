@@ -10,6 +10,7 @@ use App\Models\HairColour;
 use App\Models\Height;
 use App\Models\Race;
 use App\Models\RelationshipStatus;
+use App\Models\Role;
 use App\Models\SexualOrientation;
 use App\Models\Weight;
 use DB;
@@ -64,5 +65,10 @@ trait setterDataTrait {
     private function getEducationData()
     {
         return Education::select(ID, NAME)->where(STATUS_ID, 1)->get();
+    }
+
+    private function getRoleData()
+    {
+        return Role::select(ID, NAME)->where(ID, '>', 2)->get();
     }
 }
