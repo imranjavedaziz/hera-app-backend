@@ -42,6 +42,7 @@ define('AUTHORIZATION', 'Authorization');
 define('RESULTS', 'results');
 define('BASIC', 'basic');
 define('DASHBOARD_PAGE_LIMIT', '10');
+define('LIKE', 'like');
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -79,6 +80,7 @@ define('EMAIL_UNIQUE', 'email.unique');
 define('PASS_REGEX', 'password.regex');
 define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
+define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -260,10 +262,12 @@ define('EDUCATION_VALUE', 45);
 define('CRITERIA_WEIGHT', 360);
 define('MATCH_VALUE', 'match_value');
 
-//define user relationship
+//define user relationship and function constants
 define('ROLE', 'role');
-define('USER_PROFILE', 'user_profile');
+define('USERPROFILE', 'userProfile');
 define('DONERATTRIBUTE', 'donerAttribute');
+define('LOCATION', 'location');
+define('PARENTSPREFERENCE', 'parentsPreference');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
@@ -289,3 +293,8 @@ define('FILE', 'file');
 define('MIME', 'mime');
 define('VIDEO', 'video');
 define('IMAGE', 'image');
+
+// define doner dashboard relationship and function constants
+define('KEYWORD', 'keyword');
+define('STATE_IDS', 'state_ids');
+define('STATE_IDS_ELEMENTS', 'state_ids.*');

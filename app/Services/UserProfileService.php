@@ -12,7 +12,7 @@ class UserProfileService
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
-            'userProfile' => function($q) {
+            USERPROFILE => function($q) {
                 return $q->select(ID, USER_ID, OCCUPATION, BIO);
             },
             DONERATTRIBUTE => function($q) {
@@ -34,7 +34,7 @@ class UserProfileService
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
-            'userProfile' => function($q) {
+            USERPROFILE => function($q) {
                 return $q->select(ID, USER_ID, BIO, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID)
                 ->selectRaw('(select name from genders where id='.GENDER_ID.AS_CONNECT.GENDER.' ')
                 ->selectRaw('(select name from sexual_orientations where id='.SEXUAL_ORIENTATION_ID.AS_CONNECT.SEXUAL_ORIENTATION.' ')
