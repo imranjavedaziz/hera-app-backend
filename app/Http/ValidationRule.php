@@ -41,4 +41,7 @@ class ValidationRule
     public const STATUS =[BAIL, REQUIRED];
     public const IMAGE =[BAIL, SOMETIMES, NULLABLE, IMAGE_MIMES, 'max:5000'];
     public const VIDEO =[BAIL, SOMETIMES, NULLABLE, VIDEO_MIMES, 'max:5000'];
+    public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:3'];
+    public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, 'min:1', 'max:3'];
+    public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
 }

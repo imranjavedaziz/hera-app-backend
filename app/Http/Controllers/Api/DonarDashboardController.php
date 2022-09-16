@@ -9,6 +9,7 @@ use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\DonarDashboardService,
 };
+use App\Http\Requests\PtbProfileCardRequest;
 
 class DonarDashboardController extends Controller
 {
@@ -19,6 +20,30 @@ class DonarDashboardController extends Controller
      *      tags={"User"},
      *      summary="ptb-profile-card",
      *      description="ptb-profile-card",
+     *     @OA\Parameter(
+     *         description="Keyword => Min 3 characters",
+     *         in="query",
+     *         name="keyword",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *      ),
+     *      @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -41,11 +66,11 @@ class DonarDashboardController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function getPtbProfileCard(Request $request)
+    public function getPtbProfileCard(PtbProfileCardRequest $request)
     {
         try {
-            $limit    = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
-            $donarProfileCard = DonarDashboardService::getPtbProfileCard();
+            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $donarProfileCard = DonarDashboardService::getPtbProfileCard($request->all());
             $profileCards = $donarProfileCard->paginate($limit);
             $response = response()->Success(trans('messages.common_msg.data_found'), $profileCards);
         } catch (\Exception $e) {
