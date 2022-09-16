@@ -22,7 +22,6 @@ class SubscriptionPlan extends Model
         DESCRIPTION,
         IOS_PRODUCT,
         ANDROID_PRODUCT,
-        TRIAL_PERIOD_DAYS,
         FOR_WHOM,
         STATUS_ID,
     ];

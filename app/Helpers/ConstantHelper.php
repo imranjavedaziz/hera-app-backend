@@ -307,15 +307,12 @@ define('INTERVAL_COUNT', 'interval_count');
 define('DESCRIPTION', 'description');
 define('IOS_PRODUCT', 'ios_product');
 define('ANDROID_PRODUCT', 'android_product');
-define('TRIAL_PERIOD_DAYS', 'trial_period_days');
 define('FOR_WHOM', 'for_whom');
 
 //define subscription table column
 define('SUBSCRIPTION_PLAN_ID', 'subscription_plan_id');
 define('CURRENT_PERIOD_START', 'current_period_start');
 define('CURRENT_PERIOD_END', 'current_period_end');
-define('TRIAL_START', 'trial_start');
-define('TRIAL_END', 'trial_end');
 define('SUBSCRIPTION_ID', 'subscription_id');
 define('ORIGINAL_TRANSACTION_ID', 'original_transaction_id');
 define('PRODUCT_ID', 'product_id');

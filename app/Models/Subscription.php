@@ -20,8 +20,6 @@ class Subscription extends Model
         PRICE,
         CURRENT_PERIOD_START,
         CURRENT_PERIOD_END,
-        TRIAL_START,
-        TRIAL_END,
         SUBSCRIPTION_ID,
         ORIGINAL_TRANSACTION_ID,
         PRODUCT_ID,

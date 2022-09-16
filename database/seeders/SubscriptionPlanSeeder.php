@@ -23,9 +23,8 @@ class SubscriptionPlanSeeder extends Seeder
                 DESCRIPTION  => 'monthly',
                 IOS_PRODUCT  => 'monthly',
                 ANDROID_PRODUCT  => 'monthly',
-                TRIAL_PERIOD_DAYS  => null,
                 FOR_WHOM  => ONE,
-                STATUS_ID   => ACTIVE       
+                STATUS_ID   => ACTIVE     
             ],
             [
                 NAME  => 'yearly',
@@ -35,7 +34,6 @@ class SubscriptionPlanSeeder extends Seeder
                 DESCRIPTION  => 'yearly',
                 IOS_PRODUCT  => 'yearly',
                 ANDROID_PRODUCT  => 'monthly',
-                TRIAL_PERIOD_DAYS  => null,
                 FOR_WHOM  => ONE,
                 STATUS_ID   => ACTIVE
             ],
