@@ -29,6 +29,17 @@ class DonarDashboardController extends Controller
      *         )
      *      ),
      *      @OA\Parameter(
+     *          description="Can Select Upto 3 states",
+     *          in="query",
+     *          name="state_ids[]",
+     *          example="1",
+     *          @OA\Items(
+     *              type="array",
+     *              example="1",
+     *          ),
+  
+     *      ),
+     *      @OA\Parameter(
      *          name="page",
      *          in="query",
      *          required=true,
