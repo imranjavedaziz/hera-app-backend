@@ -44,6 +44,7 @@ return [
             'email_unique' => 'Email is already registered with us.',
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'Image size is more than 5MB.',
+            'state_id_exists' => 'Selected state is invalid.',
         ],
     ],
     'register' => [

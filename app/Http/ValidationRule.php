@@ -43,4 +43,7 @@ class ValidationRule
     public const VIDEO =[BAIL, SOMETIMES, NULLABLE, VIDEO_MIMES, MAX_LIMIT_FIVE_THOUSAND];
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
+    public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:3'];
+    public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, 'min:1', 'max:3'];
+    public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
 }
