@@ -21,7 +21,14 @@ class DonarDashboardService
             });
         }
 
-        $user = $user->where(ROLE_ID, PARENTS_TO_BE)->where(STATUS_ID, ONE)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
-        return $user;
+        if(!empty($input[STATE_IDS])){
+            $user = $user->whereHas(LOCATION, function($q) use ($input) {
+                $q->whereIn(STATE_ID, $input[STATE_IDS]);
+            });
+        }else{
+            $user = $user->whereHas(LOCATION);
+        }
+
+        return $user->with(LOCATION)->where(ROLE_ID, PARENTS_TO_BE)->where(STATUS_ID, ONE)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
     }
 }
