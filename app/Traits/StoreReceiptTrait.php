@@ -14,11 +14,10 @@ trait StoreReceiptTrait
             
             $base_path = base_path();
             /***google authentication***/
-            $applicationName = 'TeachMe'; /***Define application name ***/
+            $applicationName = env('APPLICATION_NAME'); /***Define application name ***/
             $scope = ['https://www.googleapis.com/auth/androidpublisher']; /***Define application scope ***/
-            $configLocation = $base_path . '/' . 'teachme-google-api.json'; /***Define your service_account json file path***/
-            $packageName = 'com.teach.me'; /***Define application package_name ***/
-            /***$productId = 'com.kiwitech.teachme.1monthplan';***/ /***Define application product_id ***/
+            $configLocation = $base_path . '/' . env('GOOGLE_API_JSON_FILE'); /***Define your service_account json file path***/
+            $packageName = env('PACKAGE_NAME'); /***Define application package_name ***/
             $client = new \Google_Client();
             $client->setApplicationName($applicationName);
             $client->setAuthConfig($configLocation);
@@ -91,14 +90,14 @@ trait StoreReceiptTrait
             $response = [];
             $googleClient = new \Google_Client();
             $googleClient->setScopes([\Google_Service_AndroidPublisher::ANDROIDPUBLISHER]);
-            $googleClient->setApplicationName('TeachMe');
+            $googleClient->setApplicationName(env('APPLICATION_NAME'));
             $googleClient->setAuthConfig($pathToServiceAccountJsonFile);
 
             $googleAndroidPublisher = new \Google_Service_AndroidPublisher($googleClient);
             $validator = new \ReceiptValidator\GooglePlay\Validator($googleAndroidPublisher);
 
             try {
-            $result = $validator->setPackageName('com.teach.me')
+            $result = $validator->setPackageName(env('PACKAGE_NAME'))
                 ->setProductId($productId)
                 ->setPurchaseToken($purchaseToken)
                 ->validateSubscription();
