@@ -20,6 +20,10 @@ class ReceiptService
 
     private $iosSharedSecret;
 
+    private $headers;
+
+    private $verifyReceiptUrl;
+
     public function __construct()
     {
         $this->iosSharedSecret = config('constants.ITUNES_SHARED_SECRET');
