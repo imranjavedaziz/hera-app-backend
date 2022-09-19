@@ -56,7 +56,7 @@ return [
         'gallery_save_old_file_error' => 'No such file exists to update.',
     ],
     'profile_match' => [
-        'request_sent' => 'Profile match request send successfully.',
+        'request_sent' => 'A match request has been sent to :name.',
         'request_approved' => 'Profile match request approved.',
         'request_rejected' => 'Profile match request gets rejected.',
     ],

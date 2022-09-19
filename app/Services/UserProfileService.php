@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\ProfileMatch;
+use App\Helpers\AuthHelper;
 use DB;
+
 class UserProfileService
 {
     public function getDonerProfileDetails($input)
@@ -25,21 +28,28 @@ class UserProfileService
                 ->selectRaw('(select name from hair_colours where id='.HAIR_COLOUR_ID.AS_CONNECT.HAIR_COLOUR.' ')
                 ->selectRaw('(select name from eye_colours where id='.EYE_COLOUR_ID.AS_CONNECT.EYE_COLOUR.' ');
             },
-        ])->where(ID, $input[USER_ID])->get();
+        ])->where(ID, $input[USER_ID])->first();
     }
 
     public function getPtbProfileDetails($input)
     {
-        return User::select(ID, ROLE_ID, PROFILE_PIC)
+        $user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ROLE_ID, PROFILE_PIC)
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
             USERPROFILE => function($q) {
-                return $q->select(ID, USER_ID, BIO, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID)
+                return $q->select(ID, USER_ID, BIO, OCCUPATION, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID)
                 ->selectRaw('(select name from genders where id='.GENDER_ID.AS_CONNECT.GENDER.' ')
                 ->selectRaw('(select name from sexual_orientations where id='.SEXUAL_ORIENTATION_ID.AS_CONNECT.SEXUAL_ORIENTATION.' ')
                 ->selectRaw('(select name from relationship_statuses where id='.RELATIONSHIP_STATUS_ID.AS_CONNECT.RELATIONSHIP_STATUS.' ');
-            },
-        ])->where(ID, $input[USER_ID])->get();
+            }, LOCATION
+        ])->where(ID, $input[USER_ID])->first();
+
+        $user->profile_match_request = $this->profileMatchRequest(AuthHelper::authenticatedUser()->id, $input[USER_ID]);
+        return $user;
+    }
+
+    private function profileMatchRequest($from_user_id, $to_user_id){
+        return ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS)->where(FROM_USER_ID, $from_user_id)->where(TO_USER_ID, $to_user_id)->first();
     }
 }
