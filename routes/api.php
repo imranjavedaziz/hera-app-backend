@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\DonarDashboardController;
 use App\Http\Controllers\Api\ParentsToBeDashboardController;
 use App\Http\Controllers\Api\ProfileMatchController;
 use App\Http\Controllers\Api\UserProfileController;
+use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\InAppWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
+    Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
 
     /***Public register route before authentication***/
     Route::post('register', [UserController::class, 'register']);
@@ -89,6 +93,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
             Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
+            Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
+            Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
         });
     });
 });

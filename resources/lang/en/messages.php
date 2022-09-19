@@ -60,4 +60,5 @@ return [
         'request_approved' => 'Profile match request approved.',
         'request_rejected' => 'Profile match request gets rejected.',
     ],
+    'subscription_created' => 'Subcription created successfully.'
 ];

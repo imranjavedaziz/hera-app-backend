@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string(PASSWORD);
             $table->foreignId(STATUS_ID)->nullable()->default(ONE)->constrained(STATUSES)->onDelete(CASCADE)->onUpdate(CASCADE);
             $table->tinyInteger(REGISTRATION_STEP)->nullable()->comment(REGISTRATION_STEP_COMMENT)->default(ONE);
+            $table->tinyInteger(SUBSCRIPTION_STATUS)->nullable()->default(ZERO)->comment(USER_SUBSCRIPTION_STATUS_COMMENT);
             $table->datetime(RECENT_ACTIVITY)->nullable();
             $table->rememberToken();
             $table->timestamp(CREATED_AT)->useCurrent();
