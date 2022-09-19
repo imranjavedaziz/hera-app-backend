@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\ProfileMatchController;
 use App\Http\Controllers\Api\UserProfileController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppWebhookController;
+use App\Http\Controllers\Api\FcmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('states', [StateController::class, 'getStates']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+        Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
