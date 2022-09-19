@@ -46,4 +46,7 @@ class ValidationRule
     public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:3'];
     public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, 'min:1', 'max:3'];
     public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
+    public const DEVICE_ID =[BAIL, REQUIRED, STRING];
+    public const DEVICE_TOKEN =[BAIL, REQUIRED, STRING];
+    public const DEVICE_TYPE =[BAIL, REQUIRED, STRING];
 }

@@ -54,6 +54,7 @@ return [
         'attributes_save_success' => 'Attributes saved Successfully!',
         'gallery_save_success' => 'Gallery saved Successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
+        'device_saved' => 'Device data has been saved successfully.',
     ],
     'profile_match' => [
         'request_sent' => 'Profile match request send successfully.',
