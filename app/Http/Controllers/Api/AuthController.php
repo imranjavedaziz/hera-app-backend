@@ -14,6 +14,9 @@ use App\Http\Requests\ValidateOtpRequest;
 use App\Helpers\TwilioOtp;
 use App\Helpers\AuthHelper;
 use Log;
+use Facades\{
+    App\Services\FcmService
+};
 
 class AuthController extends Controller
 {
@@ -290,6 +293,7 @@ class AuthController extends Controller
             return response()->Error(__('messages.invalid_access_token'));
         }
         JWTAuth::invalidate(JWTAuth::parseToken());
+        FcmService::deRegisterDevice($user->id);
         return response()->Success(__('messages.logged_out'));
     }
 

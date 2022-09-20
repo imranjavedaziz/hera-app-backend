@@ -5,7 +5,6 @@ namespace App\Services;
 use Ramsey\Uuid\Uuid;
 use App\Models\DonerAttribute;
 use App\Models\DonerGallery;
-use App\Models\Location;
 use App\Models\User;
 use App\Models\ParentsPreference;
 use App\Models\UserProfile;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use App\Traits\SetterDataTrait;
 use Storage;
 use App\Jobs\SendEmailVerificationJob;
+use App\Jobs\SetLocationJob;
 
 class UserRegisterService
 {
@@ -30,7 +30,7 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            // dispatch(new SendEmailVerificationJob($user));
+            dispatch(new SendEmailVerificationJob($user));
         }
         return $user;
     }
@@ -81,21 +81,9 @@ class UserRegisterService
         if($user_profile->save()){
             $user->registration_step = TWO;
             $user->save();
-            $this->setLocation($input);
+            dispatch(new SetLocationJob($input));
         }
         return $user_profile;
-    }
-
-    private function setLocation($input)
-    {
-        $location = Location::where(USER_ID, $input[USER_ID])->first();
-        if(!$location){
-            $location = new Location();
-        }
-        $location->user_id = $input[USER_ID];
-        $location->state_id = $input[STATE_ID];
-        $location->zipcode = $input[ZIPCODE];
-        return $location->save();
     }
 
     public function getPreferencesSetterData()

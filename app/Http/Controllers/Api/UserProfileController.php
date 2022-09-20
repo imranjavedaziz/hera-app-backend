@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileDetailsRequest;
 use DB;
+use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\UserProfileService,
 };

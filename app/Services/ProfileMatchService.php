@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ProfileMatch;
+use App\Models\User;
 
 class ProfileMatchService
 {
@@ -17,16 +18,17 @@ class ProfileMatchService
         $profile_match->to_user_id = $input[TO_USER_ID];
         $profile_match->status = $input[STATUS];
         if($profile_match->save()){
-            $message = $this->getMatchRequestMsg($input[STATUS]);
+            /*****Notification Code****/
+            $message = $this->getMatchRequestMsg($input[STATUS], User::where(ID, $input[TO_USER_ID])->first());
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
     }
 
-    private function getMatchRequestMsg($status){
+    private function getMatchRequestMsg($status, $user){
         switch ($status) {
             case 1:
-                $message = __('messages.profile_match.request_sent');
+                $message = __('messages.profile_match.request_sent', [NAME => $user->first_name]);
                 break;
             case 2:
                 $message = __('messages.profile_match.request_approved');
