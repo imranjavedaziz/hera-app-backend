@@ -237,4 +237,13 @@ class SubscriptionService
             $this->createNewSubscription($subscriptionFields);
         }
     }
+
+    public function getSubcriptionEndBeforeTenDay() {
+        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format('Y-m-d');
+        return Subscription::with(USERS)
+            ->where(STATUS_ID,ACTIVE)
+            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format('Y-m-d'))
+            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            ->get();
+    }
 }
