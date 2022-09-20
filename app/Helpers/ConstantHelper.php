@@ -348,3 +348,8 @@ define('SUBSCRIPTION_ENABLED', 1);
 define('KEYWORD', 'keyword');
 define('STATE_IDS', 'state_ids');
 define('STATE_IDS_ELEMENTS', 'state_ids.*');
+
+//define notification table column
+define('RECIPIENT_ID', 'recipient_id');
+define('TITLE', 'title');
+define('NOTIFY_TYPE', 'notify_type');

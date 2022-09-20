@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
+use App\Models\Notification;
 use FCM;
 
 trait FcmTrait
@@ -50,5 +51,15 @@ trait FcmTrait
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public static function saveNotificationInDB($title, $description, $recipient) {
+        Notification::create([
+            'title' => $title,
+            'description' => $description,
+            'recipient' => $recipient,
+        ]);
+    
+        return true;
     }
 }
