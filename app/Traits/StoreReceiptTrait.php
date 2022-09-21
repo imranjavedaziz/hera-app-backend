@@ -86,7 +86,7 @@ trait StoreReceiptTrait
     public static function playStoreServiceAccount($purchaseToken,$productId){
         try {
             $base_path = base_path();
-            $pathToServiceAccountJsonFile = $base_path . '/' . 'teachme-google-api.json';
+            $pathToServiceAccountJsonFile = $base_path . '/' . env('GOOGLE_API_JSON_FILE');
             $response = [];
             $googleClient = new \Google_Client();
             $googleClient->setScopes([\Google_Service_AndroidPublisher::ANDROIDPUBLISHER]);
