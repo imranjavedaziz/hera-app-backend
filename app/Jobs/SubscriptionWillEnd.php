@@ -13,10 +13,12 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\DeviceRegistration;
 use App\Notifications\SubscriptionReminder;
+use App\Constants\NotificationType;
+use App\Traits\FcmTrait;
 
 class SubscriptionWillEnd implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, FcmTrait;
 
     protected $data;
 
@@ -41,16 +43,15 @@ class SubscriptionWillEnd implements ShouldQueue
         $title = 'Renew Susbcription!';
         $description  = 'Your subscription will end on '.$subscriptionEndDate.'. Please renew to get good matches.';
         $userId = $this->data->user_id;
-        $this->saveNotificationInDB($title, $description, $userId);
         $membershipArrayPtb[USER_ID] = $userId;
         $membershipArrayPtb[NAME] = $this->data->user->first_name.' '.$this->data->user->last_name;
         $membershipArrayPtb['membership_name'] = $this->data->subscriptionPlan->name;
         $membershipArrayPtb['membership_end'] = $subscriptionEndDate;
         $membershipArrayPtb['membership_id'] = $this->data->id;
-        $userDevice = DeviceRegistration::where([USER_ID => $userId, STATUS => ACTIVE])->first();
+        $userDevice = DeviceRegistration::where([USER_ID => $userId, STATUS_ID => ACTIVE])->first();
         if ($userDevice != null) {
-            $ptb = User::find($userId);
-            $ptb->notify(new SubscriptionReminder($userDevice->device_token, $title, $description, $membershipArrayPtb));
+            FcmTrait::sendPush($userDevice->device_token, $title, $description, $membershipArrayPtb);
+            $this->saveNotificationInDB($title, $description, $userId);
         }
     }
 
@@ -58,7 +59,8 @@ class SubscriptionWillEnd implements ShouldQueue
         Notification::create([
             'title' => $title,
             'description' => $description,
-            'recipient' => $recipient,
+            'notify_type' => NotificationType::SUBSCRIPTION,
+            'recipient_id' => $recipient,
         ]);
 
         return true;
