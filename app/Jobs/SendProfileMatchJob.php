@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Helpers\CustomHelper;
 use App\Traits\FcmTrait;
 use App\Models\Notification;
+use App\Constants\NotificationType;
 
 class SendProfileMatchJob implements ShouldQueue
 {
@@ -56,7 +57,7 @@ class SendProfileMatchJob implements ShouldQueue
         $notification = Notification::create([
             TITLE => $this->title,
             DESCRIPTION => $this->description,
-            NOTIFY_TYPE => 1,
+            NOTIFY_TYPE => NotificationType::MATCH,
             RECIPIENT_ID => $this->user->id
         ]);
         return true;
