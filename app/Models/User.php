@@ -100,4 +100,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(DonerAttribute::class, USER_ID, ID);
     }
+
+    public function deviceRegistration()
+    {
+        return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, 1);
+    }
 }

@@ -58,7 +58,7 @@ return [
     ],
     'profile_match' => [
         'request_sent' => 'A match request has been sent to :name.',
-        'request_approved' => 'Profile match request approved.',
+        'request_approved' => 'It\'s a match. Profile match request has been approved.',
         'request_rejected' => 'Profile match request gets rejected.',
     ],
     'subscription_created' => 'Subcription created successfully.'
