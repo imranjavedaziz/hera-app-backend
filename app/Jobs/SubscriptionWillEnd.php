@@ -50,7 +50,7 @@ class SubscriptionWillEnd implements ShouldQueue
         $userDevice = DeviceRegistration::where([USER_ID => $userId, STATUS => ACTIVE])->first();
         if ($userDevice != null) {
             $ptb = User::find($userId);
-            $ptb->notify(new SubscriptionReminder($userDevice->device_token, $title, $description, $MembershipArray));
+            $ptb->notify(new SubscriptionReminder($userDevice->device_token, $title, $description, $membershipArrayPtb));
         }
     }
 
