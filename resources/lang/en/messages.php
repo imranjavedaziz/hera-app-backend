@@ -44,6 +44,7 @@ return [
             'email_unique' => 'Email is already registered with us.',
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'Image size is more than 5MB.',
+            'state_id_exists' => 'Selected state is invalid.',
         ],
     ],
     'register' => [
@@ -53,10 +54,12 @@ return [
         'attributes_save_success' => 'Attributes saved Successfully!',
         'gallery_save_success' => 'Gallery saved Successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
+        'device_saved' => 'Device data has been saved successfully.',
     ],
     'profile_match' => [
-        'request_sent' => 'Profile match request send successfully.',
-        'request_approved' => 'Profile match request approved.',
+        'request_sent' => 'A match request has been sent to :name.',
+        'request_approved' => 'It\'s a match. Profile match request has been approved.',
         'request_rejected' => 'Profile match request gets rejected.',
     ],
+    'subscription_created' => 'Subcription created successfully.'
 ];

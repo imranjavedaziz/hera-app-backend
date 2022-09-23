@@ -35,6 +35,7 @@ class User extends Authenticatable implements JWTSubject
         STATUS,
         REGISTRATION_STEP,
         RECENT_ACTIVITY,
+        SUBSCRIPTION_STATUS,
     ];
 
     /**
@@ -98,5 +99,10 @@ class User extends Authenticatable implements JWTSubject
     public function donerAttribute()
     {
         return $this->hasOne(DonerAttribute::class, USER_ID, ID);
+    }
+
+    public function deviceRegistration()
+    {
+        return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, 1);
     }
 }

@@ -12,6 +12,10 @@ use App\Http\Controllers\Api\DonarDashboardController;
 use App\Http\Controllers\Api\ParentsToBeDashboardController;
 use App\Http\Controllers\Api\ProfileMatchController;
 use App\Http\Controllers\Api\UserProfileController;
+use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\InAppWebhookController;
+use App\Http\Controllers\Api\FcmController;
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +61,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
+    Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
 
     /***Public register route before authentication***/
     Route::post('register', [UserController::class, 'register']);
@@ -67,11 +73,15 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('states', [StateController::class, 'getStates']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+        Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
+        Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
+        Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
+        Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -89,6 +99,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
             Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
+            Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
+            Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
         });
     });
 });

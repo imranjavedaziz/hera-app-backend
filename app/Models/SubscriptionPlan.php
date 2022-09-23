@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Height extends Model
+class SubscriptionPlan extends Model
 {
     use HasFactory;
 
@@ -13,13 +13,16 @@ class Height extends Model
      * The attributes that are mass assignable.
      *
      * @var array
-     */
+    */
     protected $fillable = [
-        NAME, STATUS_ID
+        NAME,
+        PRICE,
+        INTERVAL,
+        INTERVAL_COUNT,
+        DESCRIPTION,
+        IOS_PRODUCT,
+        ANDROID_PRODUCT,
+        FOR_WHOM,
+        STATUS_ID,
     ];
-
-    public static function getHeight($id) {
-        $height = self::where(ID, $id)->first();
-        return isset($height) ? $height->name :'';
-    }
 }

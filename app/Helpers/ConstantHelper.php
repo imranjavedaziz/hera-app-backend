@@ -42,6 +42,9 @@ define('AUTHORIZATION', 'Authorization');
 define('RESULTS', 'results');
 define('BASIC', 'basic');
 define('DASHBOARD_PAGE_LIMIT', '10');
+define('PTB', '1');
+define('DONAR', '2');
+define('LIKE', 'like');
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -53,6 +56,7 @@ define('STRING', 'string');
 define('UNIQUE', 'unique');
 define('IMAGE_MIMES', 'mimes:jpeg,png');
 define('VIDEO_MIMES', 'mimes:mp4,ogx,oga,ogv,ogg,webm');
+define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -79,6 +83,7 @@ define('EMAIL_UNIQUE', 'email.unique');
 define('PASS_REGEX', 'password.regex');
 define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
+define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -87,6 +92,7 @@ define('CASCADE', 'cascade');
 define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
 define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
 define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner');
+define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -118,6 +124,7 @@ define('EMAIL_VERIFIED_AT', 'email_verified_at');
 define('PASSWORD', 'password');
 define('STATUS_ID', 'status_id');
 define('REGISTRATION_STEP', 'registration_step');
+define('SUBSCRIPTION_STATUS', 'subscription_status');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
 
@@ -260,10 +267,12 @@ define('EDUCATION_VALUE', 45);
 define('CRITERIA_WEIGHT', 360);
 define('MATCH_VALUE', 'match_value');
 
-//define user relationship
+//define user relationship and function constants
 define('ROLE', 'role');
-define('USER_PROFILE', 'user_profile');
+define('USERPROFILE', 'userProfile');
 define('DONERATTRIBUTE', 'donerAttribute');
+define('LOCATION', 'location');
+define('PARENTSPREFERENCE', 'parentsPreference');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
@@ -289,3 +298,70 @@ define('FILE', 'file');
 define('MIME', 'mime');
 define('VIDEO', 'video');
 define('IMAGE', 'image');
+
+//define subscription plan table column
+define('SUBSCRIPTION_PLANS', 'subscription_plans');
+define('PRICE', 'price');
+define('INTERVAL', 'interval');
+define('INTERVAL_COUNT', 'interval_count');
+define('DESCRIPTION', 'description');
+define('IOS_PRODUCT', 'ios_product');
+define('ANDROID_PRODUCT', 'android_product');
+define('FOR_WHOM', 'for_whom');
+
+//define subscription table column
+define('SUBSCRIPTION_PLAN_ID', 'subscription_plan_id');
+define('CURRENT_PERIOD_START', 'current_period_start');
+define('CURRENT_PERIOD_END', 'current_period_end');
+define('SUBSCRIPTION_ID', 'subscription_id');
+define('ORIGINAL_TRANSACTION_ID', 'original_transaction_id');
+define('PRODUCT_ID', 'product_id');
+define('PURCHASE_TOKEN', 'purchase_token');
+define('DEVICE_TYPE', 'device_type');
+define('CANCELED_AT', 'canceled_at');
+define('MAIL_STATUS', 'mail_status');
+
+//define ios webhook variable
+define('NOTIFICATION_TYPE', 'notification_type');
+define('AUTORENEW_STATUS', 'autorenew_status');
+define('START_DATE', 'start_date');
+define('IOS', 'ios');
+define('ANDROID', 'android');
+
+//define android webhook variable
+define('SUBSCRIPTION_RENEWED', 2);
+define('SUBSCRIPTION_CANCELED', 3);
+define('SUBSCRIPTION_PURCHASED', 4);
+define('SUBSCRIPTION_EXPIRED', 13);
+
+//define payment table column
+define('PAYMENT', 'payments');
+define('PAYMENT_FOR', 'payment_for');
+define('PAYMENT_ID', 'payment_id');
+define('COST', 'cost');
+define('PAYMENT_GATEWAY', 'payment_gateway');
+
+//define subscription status
+define('SUBSCRIPTION_DISABLED', 0);
+define('SUBSCRIPTION_ENABLED', 1);
+define('SUBSCRIPTION_TRIAL', 2);
+
+// define doner dashboard relationship and function constants
+define('KEYWORD', 'keyword');
+define('STATE_IDS', 'state_ids');
+define('STATE_IDS_ELEMENTS', 'state_ids.*');
+
+//define notification table column
+define('RECIPIENT_ID', 'recipient_id');
+define('SENDER_ID', 'sender_id');
+define('TITLE', 'title');
+define('NOTIFY_TYPE', 'notify_type');
+define('READ_AT', 'read_at');
+
+//define device registration table column
+define('DEVICE_REGISTRATIONS', 'device_registrations');
+define('DEVICE_ID', 'device_id');
+define('DEVICE_TOKEN', 'device_token');
+
+// Notification Vairables
+define('PROFILE_MATCH_ID', 'profile_match_id');
