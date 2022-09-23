@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\UserProfileController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppWebhookController;
 use App\Http\Controllers\Api\FcmController;
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
+        Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
+        Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){

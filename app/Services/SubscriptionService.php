@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
+use App\Models\ProfileMatch;
 use App\Services\ReceiptService;
 use Log;
 use Carbon\Carbon;
@@ -239,11 +240,39 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format('Y-m-d');
+        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format('Y-m-d'))
+            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
             ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
             ->get();
+    }
+
+    public function getSubscriptionStatus($userId) {
+        $user = User::where([ID => $userId])->first();
+        $joinningDate = strtotime($user->created_at);
+        $currentDate = strtotime(date(DATE_TIME));
+        $days = round(($joinningDate - $currentDate) / 3600,2);
+        $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
+        if ($subscription == null && $user->subscription_status == ZERO && $days < 30) {
+            $status = SUBSCRIPTION_TRIAL;
+        } else {
+            $status = SUBSCRIPTION_DISABLED;
+            if ($subscription !== null && $subscription->status == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
+                $status = SUBSCRIPTION_ENABLED;
+            }
+        }
+        return $status;
+    }
+
+    public function getDailiyTrailCardLimit($userId) {
+        $maxRequest = FIVE;
+        $sentRequest = ProfileMatch::where([FROM_USER_ID => $userId])->whereDate(CREATED_AT, date(YMD_FORMAT))->get()->count();
+        $limit = 0;
+        if ($sentRequest < $maxRequest) {
+            $limit = $maxRequest - $sentRequest;
+        }
+
+        return $limit;
     }
 }
