@@ -362,3 +362,6 @@ define('READ_AT', 'read_at');
 define('DEVICE_REGISTRATIONS', 'device_registrations');
 define('DEVICE_ID', 'device_id');
 define('DEVICE_TOKEN', 'device_token');
+
+// Notification Vairables
+define('PROFILE_MATCH_ID', 'profile_match_id');
