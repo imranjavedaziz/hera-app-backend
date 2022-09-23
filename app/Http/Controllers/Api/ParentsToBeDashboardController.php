@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Traits\ParentsToBeMatchedDonerTrait;
+use Facades\{
+    App\Services\SubscriptionService,
+};
+use App\Helpers\AuthHelper;
 
 class ParentsToBeDashboardController extends Controller
 {
@@ -47,8 +51,13 @@ class ParentsToBeDashboardController extends Controller
     public function matchedDonars(Request $request)
     {
         try {
+            $subscriptionStatus = SubscriptionService::getSubscriptionStatus(AuthHelper::authenticatedUser()->id);
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $page = isset($request->page) && ($request->page > ZERO) ? $request->page : ONE;
+            if ($subscriptionStatus == SUBSCRIPTION_TRIAL) {
+                $limit = SubscriptionService::getDailiyTrailCardLimit(AuthHelper::authenticatedUser()->id);
+                $page = ONE;
+            }
             $collection = collect($this->myMatchedDonars());
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
             $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit , $page, []);

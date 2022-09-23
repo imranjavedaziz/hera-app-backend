@@ -17,4 +17,9 @@ class Height extends Model
     protected $fillable = [
         NAME, STATUS_ID
     ];
+
+    public static function getHeight($id) {
+        $height = self::where(ID, $id)->first();
+        return isset($height) ? $height->name :'';
+    }
 }

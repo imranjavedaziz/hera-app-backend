@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\User;
 use App\Models\ProfileMatch;
+use App\Models\Height;
 use Illuminate\Database\Eloquent\Collection;
 use App\Helpers\AuthHelper;
 use App\Helpers\CustomHelper;
@@ -63,7 +64,8 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['zipcode'] = $donar->location->zipcode;
         $result['user']['state_id'] = $donar->location->state_id;
         $result['user']['state_name'] = $donar->location->name;
-        $result['age'] = CustomHelper::ageCalculator($donar->dob);
+        $result['user']['age'] = CustomHelper::ageCalculator($donar->dob);
+        $result['match_request'] = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, FROM_USER_ID => $donar->id])->select(ID,FROM_USER_ID,TO_USER_ID,STATUS)->first();
         $result[MATCH_VALUE] = $matchValue;
         return $result;
     }
@@ -74,11 +76,13 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getDonarList($donarBaseCondition): Collection
     {
-        $notInterstedDonar = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id, STATUS => REJECTED_BY_PTB])->get()->pluck(TO_USER_ID)->toArray();
+        $ptbSentRequest = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id])->get()->pluck(TO_USER_ID)->toArray();
+        $ptbRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, STATUS => REJECTED_BY_PTB])->get()->pluck(FROM_USER_ID)->toArray();
+        $excludeDonar = array_merge($ptbSentRequest, $ptbRejecteRequest);
         $srch = User::with(['userProfile','location','donerAttribute']);
         $srch->where($donarBaseCondition);
         $srch->whereIn('role_id',[SURROGATE_MOTHER,EGG_DONER,SPERM_DONER])
-        ->whereNotIn(ID, $notInterstedDonar);
+        ->whereNotIn(ID, $excludeDonar);
         return $srch->get();
     }
 
@@ -217,7 +221,7 @@ trait ParentsToBeMatchedDonerTrait
     private function getMatchValue($donar, $parents): int
     {
        $totalPoint =  $this->getAgeValue(CustomHelper::ageCalculator($donar->dob),$parents->parentsPreference->age)
-        + $this->getHeightValue($donar->donerAttribute->height_id,$parents->parentsPreference->height)
+        + $this->getHeightValue(Height::getHeight($donar->donerAttribute->height_id),$parents->parentsPreference->height)
         + $this->getRaceValue($donar->donerAttribute->race_id, $parents->parentsPreference->race)
         + $this->getEthnicityValue($donar->donerAttribute->mother_ethinicity_id, $donar->donerAttribute->father_ethinicity_id,$parents->parentsPreference->ethnicity)
         + $this->getLocationValue($donar->location->state_id, $parents->parentsPreference->state)

@@ -48,9 +48,9 @@ class SubscriptionWillEnd implements ShouldQueue
         $membershipArrayPtb['membership_name'] = $this->data->subscriptionPlan->name;
         $membershipArrayPtb['membership_end'] = $subscriptionEndDate;
         $membershipArrayPtb['membership_id'] = $this->data->id;
-        $userDevice = DeviceRegistration::where([USER_ID => $userId, STATUS_ID => ACTIVE])->first();
-        if ($userDevice != null) {
-            FcmTrait::sendPush($userDevice->device_token, $title, $description, $membershipArrayPtb);
+        $userDevices = DeviceRegistration::where([USER_ID => $userId, STATUS_ID => ACTIVE])->get();
+        foreach($userDevices as $device) {
+            FcmTrait::sendPush($device->device_token, $title, $description, $membershipArrayPtb);
             $this->saveNotificationInDB($title, $description, $userId);
         }
     }
