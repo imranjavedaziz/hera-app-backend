@@ -19,7 +19,7 @@ class CreateDonerGalleriesTable extends Migration
             $table->string(FILE_NAME)->nullable();
             $table->string(FILE_URL)->nullable();
             $table->string(FILE_TYPE)->nullable();
-            $table->interger(POSITION)->default(ONE)->nullable();
+            $table->integer(POSITION)->default(ONE)->nullable();
             $table->tinyInteger(IS_LATER)->nullable()->comment(IS_LATER_STATUS_COMMENT)->default(ONE);
             $table->timestamp(CREATED_AT)->useCurrent();
             $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
