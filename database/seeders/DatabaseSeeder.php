@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             RelationshipStatusSeeder::class,
             SexualOrientationSeeder::class,
             StateSeeder::class,
-            CitySeeder::class,
+            // CitySeeder::class,
             WeightSeeder::class,
         ]);
     }
