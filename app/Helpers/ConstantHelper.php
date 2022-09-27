@@ -273,6 +273,8 @@ define('USERPROFILE', 'userProfile');
 define('DONERATTRIBUTE', 'donerAttribute');
 define('LOCATION', 'location');
 define('PARENTSPREFERENCE', 'parentsPreference');
+define('DONERPHOTOGALLERY', 'donerPhotoGallery');
+define('DONERVIDEOGALLERY', 'donerVideoGallery');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');

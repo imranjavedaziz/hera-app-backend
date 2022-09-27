@@ -731,6 +731,67 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *      path="/v1/delete-gallery",
+     *      operationId="user-delete-gallery",
+     *      tags={"User"},
+     *      summary="Delete user gallery and save later",
+     *      description="Delete user gallery and save later",
+     *      @OA\RequestBody(
+     *        required = true,
+     *        description = "Delete user gallery and save later",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="ids",
+     *                type="array",
+     *                @OA\Items(
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      example="1"
+     *                   )
+     *                ),
+     *             ),
+     *         ),
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function  deleteGallery(Request $request) {
+        try {
+            $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
+            $response = response()->Success(trans('messages.common_msg.data_deleted'));
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @OA\Get(
      *      path="/v1/get-gallery",
      *      operationId="get-gallery",

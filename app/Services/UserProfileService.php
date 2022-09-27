@@ -11,7 +11,7 @@ class UserProfileService
 {
     public function getDonerProfileDetails($input)
     {
-        return User::select(ID, USERNAME, ROLE_ID, PROFILE_PIC,DOB)
+        $user = User::select(ID, USERNAME, ROLE_ID, PROFILE_PIC, DOB, SUBSCRIPTION_STATUS)
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
@@ -26,9 +26,13 @@ class UserProfileService
                 ->selectRaw('(select name from ethnicities where id='.FATHER_ETHNICITY_ID.AS_CONNECT.FATHER_ETHNICITY.' ')
                 ->selectRaw('(select name from weights where id='.WEIGHT_ID.AS_CONNECT.WEIGHT.' ')
                 ->selectRaw('(select name from hair_colours where id='.HAIR_COLOUR_ID.AS_CONNECT.HAIR_COLOUR.' ')
-                ->selectRaw('(select name from eye_colours where id='.EYE_COLOUR_ID.AS_CONNECT.EYE_COLOUR.' ');
-            },
+                ->selectRaw('(select name from eye_colours where id='.EYE_COLOUR_ID.AS_CONNECT.EYE_COLOUR.' ')
+                ->selectRaw('(select name from education where id='.EDUCATION_ID.AS_CONNECT.EDUCATION.' ');
+            }, LOCATION, DONERPHOTOGALLERY, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
+        $user->profile_match_request = $this->profileMatchRequest(AuthHelper::authenticatedUser()->id, $input[USER_ID]);
+
+        return $user;
     }
 
     public function getPtbProfileDetails($input)
@@ -42,7 +46,7 @@ class UserProfileService
                 ->selectRaw('(select name from genders where id='.GENDER_ID.AS_CONNECT.GENDER.' ')
                 ->selectRaw('(select name from sexual_orientations where id='.SEXUAL_ORIENTATION_ID.AS_CONNECT.SEXUAL_ORIENTATION.' ')
                 ->selectRaw('(select name from relationship_statuses where id='.RELATIONSHIP_STATUS_ID.AS_CONNECT.RELATIONSHIP_STATUS.' ');
-            }, LOCATION
+            }, LOCATION, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
 
         $user->profile_match_request = $this->profileMatchRequest(AuthHelper::authenticatedUser()->id, $input[USER_ID]);
