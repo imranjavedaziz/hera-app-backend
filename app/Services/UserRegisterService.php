@@ -229,7 +229,7 @@ class UserRegisterService
         $user->profile_pic = $file[FILE_URL];
         if($user->save()){
             Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
-            return true;
+            return $user->profile_pic;
         }
         return false;
     }
