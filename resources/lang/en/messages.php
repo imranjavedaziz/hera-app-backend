@@ -38,6 +38,7 @@ return [
         'something_went_wrong' => 'Something went wrong.',
         'data_found' => 'Data found.',
         'no_data_found' => 'No Data found.',
+        'data_deleted' => 'Data deleted successfully.',
     ],
     'request_validation' => [
         'error_msgs' =>[
