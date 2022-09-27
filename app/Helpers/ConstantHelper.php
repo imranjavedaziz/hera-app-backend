@@ -346,6 +346,7 @@ define('PAYMENT_GATEWAY', 'payment_gateway');
 //define subscription status
 define('SUBSCRIPTION_DISABLED', 0);
 define('SUBSCRIPTION_ENABLED', 1);
+define('SUBSCRIPTION_TRIAL', 2);
 
 // define doner dashboard relationship and function constants
 define('KEYWORD', 'keyword');
@@ -354,10 +355,15 @@ define('STATE_IDS_ELEMENTS', 'state_ids.*');
 
 //define notification table column
 define('RECIPIENT_ID', 'recipient_id');
+define('SENDER_ID', 'sender_id');
 define('TITLE', 'title');
 define('NOTIFY_TYPE', 'notify_type');
+define('READ_AT', 'read_at');
 
 //define device registration table column
 define('DEVICE_REGISTRATIONS', 'device_registrations');
 define('DEVICE_ID', 'device_id');
 define('DEVICE_TOKEN', 'device_token');
+
+// Notification Vairables
+define('PROFILE_MATCH_ID', 'profile_match_id');

@@ -25,7 +25,7 @@ class FcmService
         return true;
     }
 
-    public function deRegisterDevice($user_id)
+    public function deactivateRegisterDevice($user_id)
     {
         return DeviceRegistration::where(USER_ID, $user_id)->update([STATUS_ID=>2]);
     }

@@ -293,7 +293,7 @@ class AuthController extends Controller
             return response()->Error(__('messages.invalid_access_token'));
         }
         JWTAuth::invalidate(JWTAuth::parseToken());
-        FcmService::deRegisterDevice($user->id);
+        FcmService::deactivateRegisterDevice($user->id);
         return response()->Success(__('messages.logged_out'));
     }
 
