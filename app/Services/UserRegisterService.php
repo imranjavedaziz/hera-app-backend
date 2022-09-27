@@ -197,6 +197,16 @@ class UserRegisterService
         return [FILE_NAME => $fileName, FILE_URL => $path, MIME => $mime];
     }
 
+    public function deleteGallery($userId, $galleryIds)
+    {
+        $doner_galleries = DonerGallery::where(USER_ID, $userId)->whereIn(ID, $galleryIds)->get();
+        foreach ($doner_galleries as $doner_gallery) {
+            Storage::disk('local')->delete($doner_gallery->file_url);
+            $doner_gallery->delete();
+        }
+        return true;
+    }
+
     public function getGalleryData($user_id)
     {
         return DonerGallery::select(ID, FILE_NAME, FILE_URL)->where(USER_ID, $user_id)->get();

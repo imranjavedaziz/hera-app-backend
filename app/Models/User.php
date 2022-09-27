@@ -100,4 +100,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(DonerAttribute::class, USER_ID, ID);
     }
+
+    public function donerPhotoGallery()
+    {
+        return $this->hasMany(DonerGallery::class, USER_ID, ID)->where(FILE_TYPE, IMAGE);
+    }
+
+    public function donerVideoGallery()
+    {
+        return $this->hasOne(DonerGallery::class, USER_ID, ID)->where(FILE_TYPE, VIDEO);
+    }
 }

@@ -231,8 +231,6 @@ define('DONER_GALLERIES', 'doner_galleries');
 define('FILE_NAME', 'file_name');
 define('FILE_URL', 'file_url');
 define('FILE_TYPE', 'file_type');
-define('POSITION', 'position');
-define('IS_LATER', 'is_later');
 
 // date formats
 define('YMD_FORMAT', 'Y-m-d');
@@ -275,6 +273,8 @@ define('USERPROFILE', 'userProfile');
 define('DONERATTRIBUTE', 'donerAttribute');
 define('LOCATION', 'location');
 define('PARENTSPREFERENCE', 'parentsPreference');
+define('DONERPHOTOGALLERY', 'donerPhotoGallery');
+define('DONERVIDEOGALLERY', 'donerVideoGallery');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');

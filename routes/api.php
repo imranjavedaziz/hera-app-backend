@@ -86,6 +86,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('set-gallery', [UserController::class, 'setGallery']);
+            Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
             Route::get('get-gallery', [UserController::class, 'getGalleryData']);
         });
         /***Only Parents route***/
