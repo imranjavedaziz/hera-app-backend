@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use DB;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -18,9 +19,23 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        ROLE_ID,
+        USERNAME,
+        FIRST_NAME,
+        MIDDLE_NAME,
+        LAST_NAME,
+        COUNTRY_CODE,
+        PHONE_NO,
+        EMAIL,
+        DOB,
+        PROFILE_PIC,
+        EMAIL_VERIFIED,
+        EMAIL_VERIFIED_AT,
+        PASSWORD,
+        STATUS,
+        REGISTRATION_STEP,
+        RECENT_ACTIVITY,
+        SUBSCRIPTION_STATUS,
     ];
 
     /**
@@ -29,8 +44,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        PASSWORD,
+        REMEMBER_TOKEN,
     ];
 
     /**
@@ -39,7 +54,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        EMAIL_VERIFIED_AT => DATETIME,
     ];
 
     public function getJWTIdentifier()
@@ -55,5 +70,49 @@ class User extends Authenticatable implements JWTSubject
     public static function checkUser($field, $value)
     {
         return self::where($field,$value)->first();
+    }
+
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class, USER_ID, ID);
+    }
+
+    public function parentsPreference()
+    {
+        return $this->hasOne(ParentsPreference::class, USER_ID, ID);
+    }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class, USER_ID, ID)
+        ->select([
+            ID,USER_ID,STATE_ID,ZIPCODE,
+            DB::raw("(select name from ".STATES." where id=".STATE_ID.") as " .NAME. " "),
+        ]);
+    }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class, ID, ROLE_ID);
+    }
+
+    public function donerAttribute()
+    {
+        return $this->hasOne(DonerAttribute::class, USER_ID, ID);
+    }
+
+    public function donerPhotoGallery()
+    {
+        return $this->hasMany(DonerGallery::class, USER_ID, ID)->where(FILE_TYPE, IMAGE);
+    }
+
+    public function donerVideoGallery()
+    {
+        return $this->hasOne(DonerGallery::class, USER_ID, ID)->where(FILE_TYPE, VIDEO);
+    }
+
+    public function deviceRegistration()
+    {
+        return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, 1);
     }
 }
