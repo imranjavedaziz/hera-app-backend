@@ -714,6 +714,9 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
+            if(!empty($input[IMAGE]) && !empty($input[VIDEO])){
+                return response()->Error(trans('messages.register.gallery_save_only_one_at_a_time'));
+            }
             $doner_gallery = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $input);
             if ($doner_gallery[SUCCESS]) {
                 DB::commit();
@@ -784,7 +787,7 @@ class UserController extends Controller
     public function  deleteGallery(Request $request) {
         try {
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
-            $response = response()->Success(trans('messages.common_msg.data_deleted'));
+            $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -823,12 +826,8 @@ class UserController extends Controller
     public function getGalleryData()
     {
         try {
-            $gallery_data = UserRegisterService::getGalleryData(AuthHelper::authenticatedUser()->id);
-            if ($gallery_data) {
-                $response = response()->Success(trans(LANG_DATA_FOUND), $gallery_data);
-            } else {
-                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
-            }
+            $user = AuthHelper::authenticatedUser();
+            $response = response()->Success(trans(LANG_DATA_FOUND), [DONER_PHOTO_GALLERY => $user->donerPhotoGallery, DONER_VIDEO_GALLERY => $user->donerVideoGallery]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
