@@ -123,7 +123,7 @@ class UserController extends Controller
      *      ),
      *  )
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
             DB::beginTransaction();
