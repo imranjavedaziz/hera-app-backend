@@ -220,4 +220,17 @@ class UserRegisterService
             return config('constants.age_range_male');
         }
     }
+
+    public function updateProfilePic($user, $input)
+    {
+        $pathInfo = pathinfo($user->profile_pic);
+        $fileName = $pathInfo['filename'].'.'.$pathInfo['extension'];
+        $file = $this->uploadFile($input, 'images/user_profile_images');
+        $user->profile_pic = $file[FILE_URL];
+        if($user->save()){
+            Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
+            return true;
+        }
+        return false;
+    }
 }
