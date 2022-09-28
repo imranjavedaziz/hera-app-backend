@@ -83,6 +83,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
         Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
 
+        //Profile Routes
+        Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
+
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
             Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
