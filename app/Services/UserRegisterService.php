@@ -160,7 +160,7 @@ class UserRegisterService
 
     public function uploadedFilesCountValidation($user, $input)
     {
-        $response = [SUCCESS => true];
+        $response = [SUCCESS => true, MESSAGE => trans('messages.common_msg.no_data_found')];
         if(empty($input[OLD_FILE_NAME])){
             if(!empty($input[IMAGE]) && $user->donerPhotoGallery->count() == 6){
                 $response = [SUCCESS => false, MESSAGE => trans('messages.register.gallery_max_image_upload')];
