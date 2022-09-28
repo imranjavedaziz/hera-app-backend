@@ -158,6 +158,22 @@ class UserRegisterService
         return $doner_attribute;
     }
 
+    public function uploadedFilesCountValidation($user, $input)
+    {
+        if(!empty($input[IMAGE]) && !empty($input[VIDEO])){
+            return [SUCCESS => false, MESSAGE => trans('messages.register.gallery_save_only_one_at_a_time')];
+        }
+        $response = [SUCCESS => true];
+        if(empty($input[OLD_FILE_NAME])){
+            if(!empty($input[IMAGE]) && $user->donerPhotoGallery->count() == 6){
+                $response = [SUCCESS => false, MESSAGE => trans('messages.register.gallery_max_image_upload')];
+            }elseif (!empty($input[VIDEO]) && $user->donerVideoGallery) {
+                $response = [SUCCESS => false, MESSAGE => trans('messages.register.gallery_max_video_upload')];
+            }
+        }
+        return $response;
+    }
+
     public function setGallery($user, $input)
     {
         $input[USER_ID] = $user->id;

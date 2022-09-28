@@ -715,17 +715,20 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            if(!empty($input[IMAGE]) && !empty($input[VIDEO])){
-                return response()->Error(trans('messages.register.gallery_save_only_one_at_a_time'));
-            }
-            $doner_gallery = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $input);
-            if ($doner_gallery[SUCCESS]) {
-                DB::commit();
-                $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_gallery[DATA]);
-            } else {
-                DB::rollback();
-                $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
-                $response = response()->Error($message);
+            $user = AuthHelper::authenticatedUser();
+            $existed_count = UserRegisterService::uploadedFilesCountValidation($user, $input);
+            if($existed_count[SUCCESS]){
+                $doner_gallery = UserRegisterService::setGallery($user, $input);
+                if ($doner_gallery[SUCCESS]) {
+                    DB::commit();
+                    $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_gallery[DATA]);
+                } else {
+                    DB::rollback();
+                    $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
+                    $response = response()->Error($message);
+                }
+            }else{
+                $response = response()->Error($existed_count[MESSAGE]);
             }
         } catch (\Exception $e) {
             DB::rollback();

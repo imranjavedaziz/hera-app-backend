@@ -58,6 +58,8 @@ return [
         'gallery_save_old_file_error' => 'No such file exists to update.',
         'gallery_save_only_one_at_a_time' => 'You can upload either image or video at a time.',
         'gallery_data_delete_success' => 'Image Removed from Gallery.',
+        'gallery_max_image_upload' => 'You can upload only 6 images into Gallery.',
+        'gallery_max_video_upload' => 'You can upload only 1 video into Gallery.',
         'device_saved' => 'Device data has been saved successfully.',
     ],
     'profile_match' => [
