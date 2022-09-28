@@ -902,4 +902,43 @@ class UserController extends Controller
         }
         return $response;
     }
+    
+    /**
+     * @OA\Get(
+     *      path="/v1/get-attributes",
+     *      operationId="get-attributes",
+     *      tags={"User"},
+     *      summary="get-attributes",
+     *      description="get-attributes",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getAttributes()
+    {
+        try {
+            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->donerAttribute);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
 }
