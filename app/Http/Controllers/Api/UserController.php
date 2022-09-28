@@ -14,6 +14,7 @@ use App\Http\Requests\SetAttributesRequest;
 use App\Http\Requests\SetPreferencesRequest;
 use App\Http\Requests\SetGalleryRequest;
 use App\Http\Requests\UpdateProfilePicRequest;
+use App\Http\Requests\UpdateUserProfileRequest;
 use DB;
 use App\Helpers\AuthHelper;
 use Facades\{
@@ -129,12 +130,13 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $user = UserRegisterService::register($request->all());
-            DB::commit();
             if ($user) {
+                DB::commit();
                 $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password]);
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
+                DB::rollback();
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (JWTException $e) {
@@ -271,7 +273,6 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-
     public function profileRegister(ProfileRegisterRequest $request)
     {
         try {
@@ -476,16 +477,16 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-
     public function setPreferences(SetPreferencesRequest $request)
     {
         try {
             DB::beginTransaction();
             $user_preferences = UserRegisterService::setPreferences(AuthHelper::authenticatedUser(), $request->all());
-            DB::commit();
             if ($user_preferences) {
+                DB::commit();
                 $response = response()->Success(trans('messages.register.preferences_save_success'), $user_preferences);
             } else {
+                DB::rollback();
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (\Exception $e) {
@@ -624,16 +625,16 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-
     public function setAttributes(SetAttributesRequest $request)
     {
         try {
             DB::beginTransaction();
             $doner_attributes = UserRegisterService::setAttributes(AuthHelper::authenticatedUser(), $request->all());
-            DB::commit();
             if ($doner_attributes) {
+                DB::commit();
                 $response = response()->Success(trans('messages.register.attributes_save_success'), $doner_attributes);
             } else {
+                DB::rollback();
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
         } catch (\Exception $e) {
@@ -709,7 +710,6 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-
     public function setGallery(SetGalleryRequest $request)
     {
         try {
@@ -887,7 +887,6 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    
     public function updateProfilePic(UpdateProfilePicRequest $request)
     {
         try {
@@ -937,6 +936,170 @@ class UserController extends Controller
         try {
             $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->donerAttribute);
         } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * @OA\Get(
+     *      path="/v1/get-user-profile",
+     *      operationId="get-user-profile",
+     *      tags={"User"},
+     *      summary="get-user-profile",
+     *      description="get-user-profile",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getUserProfile()
+    {
+        try {
+            $user_profile_data = UserRegisterService::getUserProfile(AuthHelper::authenticatedUser()->id);
+            $response = response()->Success(trans(LANG_DATA_FOUND), $user_profile_data);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * @OA\Post(
+     *     path="/v1/update-profile",
+     *     description="User update profile",
+     *     operationId="user-update-profile",
+     *     tags={"User"},
+     *     summary="User update profile",
+     *     description="User update profile for MBC portal.",
+     *     @OA\RequestBody(
+     *        description = "User update profile for MBC portal.",
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 allOf={
+     *                     @OA\Schema(
+     *                          @OA\Property(
+     *                              property="first_name",
+     *                              type="string",
+     *                              example="Xyx"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="middle_name",
+     *                              type="string",
+     *                              example="Xyz"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="last_name",
+     *                              type="string",
+     *                              example="Xyz"
+     *                          ),
+     *                          @OA\Property(
+     *                              property="dob",
+     *                              type="string",
+     *                              example="14-12-1990"
+     *                          ),
+     *                           @OA\Property(
+     *                               property="gender_id",
+     *                                type="integer",
+     *                                example=1
+     *                          ),
+     *                          @OA\Property(
+     *                               property="sexual_orientations_id",
+     *                               type="integer",
+     *                               example=1
+     *                           ),
+     *                           @OA\Property(
+     *                              property="relationship_status_id",
+     *                              type="integer",
+     *                              example=1
+     *                          ),
+     *                           @OA\Property(
+     *                              property="occupation",
+     *                              type="string",
+     *                              example="abcd"
+     *                           ),
+     *                           @OA\Property(
+     *                              property="bio",
+     *                              type="string",
+     *                              example="Hi i am xyz."
+     *                           ),
+     *                          @OA\Property(
+     *                             property="state_id",
+     *                             type="integer",
+     *                             example=1
+     *                          ),
+     *                          @OA\Property(
+     *                              property="zipcode",
+     *                              type="integer",
+     *                              example=12345
+     *                           ),
+     *                      )
+     *                 }
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function updateProfile(UpdateUserProfileRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $user = UserRegisterService::updateUser(AuthHelper::authenticatedUser(), $request->all());
+            if ($user) {
+                DB::commit();
+                $response = response()->Success(trans('messages.profile_update.profile_data'), $user);
+            } else {
+                DB::rollback();
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
             $response = response()->Error($e->getMessage());
         }
         return $response;
