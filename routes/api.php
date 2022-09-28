@@ -86,6 +86,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
         Route::get('get-gallery', [UserController::class, 'getGalleryData']);
 
+        //Profile Routes
+        Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
+
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
             Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);

@@ -65,5 +65,8 @@ return [
         'request_approved' => 'It\'s a match. Profile match request has been approved.',
         'request_rejected' => 'Profile match request gets rejected.',
     ],
+    'profile_update' => [
+        'image' => 'Image Updated Successfully.',
+    ],
     'subscription_created' => 'Subcription created successfully.'
 ];

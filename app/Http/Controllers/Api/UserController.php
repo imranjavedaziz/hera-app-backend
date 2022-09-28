@@ -13,6 +13,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetAttributesRequest;
 use App\Http\Requests\SetPreferencesRequest;
 use App\Http\Requests\SetGalleryRequest;
+use App\Http\Requests\UpdateProfilePicRequest;
 use DB;
 use App\Helpers\AuthHelper;
 use Facades\{
@@ -784,7 +785,7 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function  deleteGallery(Request $request) {
+    public function deleteGallery(Request $request) {
         try {
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
             $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
@@ -828,6 +829,72 @@ class UserController extends Controller
         try {
             $user = AuthHelper::authenticatedUser();
             $response = response()->Success(trans(LANG_DATA_FOUND), [DONER_PHOTO_GALLERY => $user->donerPhotoGallery, DONER_VIDEO_GALLERY => $user->donerVideoGallery]);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/update-profile-pic",
+     *      operationId="update-profile-pic",
+     *      tags={"User"},
+     *      summary="update profile pic",
+     *      description="update profile pic.",
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 allOf={
+     *                     @OA\Schema(
+     *                         @OA\Property(
+     *                             description="Item image PNG/JPEG",
+     *                             property="file",
+     *                             type="string", 
+     *                             format="binary"
+     *                         )
+     *                     )
+     *                 }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Request successfully completed.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Conflict",
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    
+    public function updateProfilePic(UpdateProfilePicRequest $request)
+    {
+        try {
+            $update_profile_image = UserRegisterService::updateProfilePic(AuthHelper::authenticatedUser(), $request->all());
+            if ($update_profile_image) {
+                $response = response()->Success(trans('messages.profile_update.image'), $update_profile_image);
+            } else {
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+            }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
