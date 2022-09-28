@@ -160,9 +160,6 @@ class UserRegisterService
 
     public function uploadedFilesCountValidation($user, $input)
     {
-        if(!empty($input[IMAGE]) && !empty($input[VIDEO])){
-            return [SUCCESS => false, MESSAGE => trans('messages.register.gallery_save_only_one_at_a_time')];
-        }
         $response = [SUCCESS => true];
         if(empty($input[OLD_FILE_NAME])){
             if(!empty($input[IMAGE]) && $user->donerPhotoGallery->count() == 6){

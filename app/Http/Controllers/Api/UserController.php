@@ -717,6 +717,7 @@ class UserController extends Controller
             $input = $request->all();
             $user = AuthHelper::authenticatedUser();
             $existed_count = UserRegisterService::uploadedFilesCountValidation($user, $input);
+            $response = response()->Error($existed_count[MESSAGE]);
             if($existed_count[SUCCESS]){
                 $doner_gallery = UserRegisterService::setGallery($user, $input);
                 if ($doner_gallery[SUCCESS]) {
@@ -727,8 +728,6 @@ class UserController extends Controller
                     $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
                     $response = response()->Error($message);
                 }
-            }else{
-                $response = response()->Error($existed_count[MESSAGE]);
             }
         } catch (\Exception $e) {
             DB::rollback();
