@@ -30,7 +30,7 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            /** dispatch(new SendEmailVerificationJob($user)); **/
+            // dispatch(new SendEmailVerificationJob($user));
         }
         return $user;
     }
