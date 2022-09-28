@@ -93,6 +93,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
             Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
             Route::post('set-attributes', [UserController::class, 'setAttributes']);
+            Route::get('get-attributes', [UserController::class, 'getAttributes']);
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
         });
