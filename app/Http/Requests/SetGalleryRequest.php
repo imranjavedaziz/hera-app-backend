@@ -38,6 +38,18 @@ class SetGalleryRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors : "";
+        return !empty($errors) ? $errors->first()[0] : "";
+    }
+    
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            IMAGE_REQUIRED_WITHOUT => __('messages.request_validation.error_msgs.image_required_without'),
+        ];
     }
 }

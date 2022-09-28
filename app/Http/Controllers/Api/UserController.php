@@ -715,14 +715,19 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $doner_gallery = UserRegisterService::setGallery(AuthHelper::authenticatedUser(), $input);
-            if ($doner_gallery[SUCCESS]) {
-                DB::commit();
-                $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_gallery[DATA]);
-            } else {
-                DB::rollback();
-                $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
-                $response = response()->Error($message);
+            $user = AuthHelper::authenticatedUser();
+            $existed_count = UserRegisterService::uploadedFilesCountValidation($user, $input);
+            $response = response()->Error($existed_count[MESSAGE]);
+            if($existed_count[SUCCESS]){
+                $doner_gallery = UserRegisterService::setGallery($user, $input);
+                if ($doner_gallery[SUCCESS]) {
+                    DB::commit();
+                    $response = response()->Success(trans('messages.register.gallery_save_success'), $doner_gallery[DATA]);
+                } else {
+                    DB::rollback();
+                    $message = !empty($doner_gallery[MESSAGE]) ? $doner_gallery[MESSAGE] : trans(LANG_SOMETHING_WRONG);
+                    $response = response()->Error($message);
+                }
             }
         } catch (\Exception $e) {
             DB::rollback();
@@ -785,7 +790,7 @@ class UserController extends Controller
     public function deleteGallery(Request $request) {
         try {
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
-            $response = response()->Success(trans('messages.common_msg.data_deleted'));
+            $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -824,12 +829,8 @@ class UserController extends Controller
     public function getGalleryData()
     {
         try {
-            $gallery_data = UserRegisterService::getGalleryData(AuthHelper::authenticatedUser()->id);
-            if ($gallery_data) {
-                $response = response()->Success(trans(LANG_DATA_FOUND), $gallery_data);
-            } else {
-                $response = response()->Error(trans(LANG_DATA_NOT_FOUND));
-            }
+            $user = AuthHelper::authenticatedUser();
+            $response = response()->Success(trans(LANG_DATA_FOUND), [DONER_PHOTO_GALLERY => $user->donerPhotoGallery, DONER_VIDEO_GALLERY => $user->donerVideoGallery]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

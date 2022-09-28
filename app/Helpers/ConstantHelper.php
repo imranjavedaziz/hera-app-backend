@@ -60,6 +60,7 @@ define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
+
 define('EXISTS_USERS_ID', 'exists:users,id');
 define('EXISTS_GENDERS_ID', 'exists:genders,id');
 define('EXISTS_SEXUAL_ORIENTATIONS_ID', 'exists:sexual_orientations,id');
@@ -78,12 +79,16 @@ define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
 define('PASSWORD_REGEX', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^*?&])[A-Za-z\d@#$!%^*?&]{8,}$/');
 
+define('REQUIRED_WITHOUT_VIDEO', 'required_without:video');
+define('REQUIRED_WITHOUT_IMAGE', 'required_without:image');
+
 //Request Validation Error Custom Messages Variables
 define('EMAIL_UNIQUE', 'email.unique');
 define('PASS_REGEX', 'password.regex');
 define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
+define('IMAGE_REQUIRED_WITHOUT', 'image.required_without');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -275,6 +280,8 @@ define('LOCATION', 'location');
 define('PARENTSPREFERENCE', 'parentsPreference');
 define('DONERPHOTOGALLERY', 'donerPhotoGallery');
 define('DONERVIDEOGALLERY', 'donerVideoGallery');
+define('DONER_PHOTO_GALLERY', 'doner_photo_gallery');
+define('DONER_VIDEO_GALLERY', 'doner_video_gallery');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
