@@ -236,4 +236,29 @@ class UserRegisterService
         }
         return false;
     }
+
+    public function getUserProfile($user_id)
+    {
+        return User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
+        ->with([USERPROFILE => function($q) {
+                return $q->select(ID, USER_ID, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID, OCCUPATION, BIO);
+            },
+            LOCATION => function($q) {
+                return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
+            }
+        ])
+        ->where(ID, $user_id)
+        ->first();
+    }
+
+    public function updateUser($user, $input)
+    {
+        $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
+        if($user->update($input)){
+            $user->userProfile->update($input);
+            $user->location->update($input);
+            return true;
+        }
+        return false;
+    }
 }

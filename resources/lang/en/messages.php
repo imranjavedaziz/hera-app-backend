@@ -52,9 +52,9 @@ return [
     'register' => [
         'success' => 'You have registered successfully!',
         'profile_success' => 'Profile saved Successfully!',
-        'preferences_save_success' => 'Preferences saved Successfully!',
-        'attributes_save_success' => 'Attributes saved Successfully!',
-        'gallery_save_success' => 'Gallery saved Successfully!',
+        'preferences_save_success' => 'Preferences saved successfully!',
+        'attributes_save_success' => 'Attributes saved successfully!',
+        'gallery_save_success' => 'Gallery saved successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
         'gallery_save_only_one_at_a_time' => 'You can upload either image or video at a time.',
         'gallery_data_delete_success' => 'Image Removed from Gallery.',
@@ -68,7 +68,8 @@ return [
         'request_rejected' => 'Profile match request gets rejected.',
     ],
     'profile_update' => [
-        'image' => 'Image Updated Successfully.',
+        'image' => 'Image updated successfully.',
+        'profile_data' => 'Profile updated successfully.'
     ],
     'subscription_created' => 'Subcription created successfully.'
 ];

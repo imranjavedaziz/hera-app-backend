@@ -126,6 +126,7 @@ define('LAST_NAME', 'last_name');
 define('EMAIL', 'email');
 define('EMAIL_VERIFIED', 'email_verified');
 define('EMAIL_VERIFIED_AT', 'email_verified_at');
+define('DOB', 'dob');
 define('PASSWORD', 'password');
 define('STATUS_ID', 'status_id');
 define('REGISTRATION_STEP', 'registration_step');
@@ -192,7 +193,6 @@ define('EDUCATION', 'education');
 //define user profile table column
 define('USER_PROFILES', 'user_profiles');
 define('USER_ID', 'user_id');
-define('DOB', 'dob');
 define('GENDER_ID', 'gender_id');
 define('SEXUAL_ORIENTATION_ID', 'sexual_orientations_id');
 define('RELATIONSHIP_STATUS_ID', 'relationship_status_id');
