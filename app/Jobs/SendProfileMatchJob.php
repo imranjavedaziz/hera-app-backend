@@ -54,7 +54,7 @@ class SendProfileMatchJob implements ShouldQueue
     }
 
     private function saveProfileMatchNotification() {
-        $notification = Notification::create([
+        Notification::create([
             TITLE => $this->title,
             DESCRIPTION => $this->description,
             NOTIFY_TYPE => NotificationType::MATCH,

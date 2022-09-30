@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\ValidationRule;
 use App\Http\Requests\ApiFormRequest;
 
-class SetGalleryRequest extends ApiFormRequest
+class UpdateUserProfileRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,16 @@ class SetGalleryRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            IMAGE => ValidationRule::IMAGE,
-            VIDEO => ValidationRule::VIDEO,
+            FIRST_NAME => ValidationRule::NAME,
+            MIDDLE_NAME => ValidationRule::MIDDLE_NAME,
+            LAST_NAME => ValidationRule::NAME,
+            DOB => ValidationRule::DOB,
+            GENDER_ID => ValidationRule::GENDER_ID,
+            SEXUAL_ORIENTATION_ID => ValidationRule::SEXUAL_ORIENTATION_ID,
+            RELATIONSHIP_STATUS_ID => ValidationRule::RELATIONSHIP_STATUS_ID,
+            BIO => ValidationRule::BIO,
+            STATE_ID => ValidationRule::STATE,
+            ZIPCODE => ValidationRule::ZIPCODE,
         ];
     }
 
@@ -38,18 +46,6 @@ class SetGalleryRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors->first()[0] : "";
-    }
-    
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            IMAGE_REQUIRED_WITHOUT => __('messages.request_validation.error_msgs.image_required_without'),
-        ];
+        return !empty($errors) ? $errors : "";
     }
 }
