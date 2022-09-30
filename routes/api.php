@@ -82,16 +82,22 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
         Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
         Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
+        Route::post('set-gallery', [UserController::class, 'setGallery']);
+        Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
+        Route::get('get-gallery', [UserController::class, 'getGalleryData']);
+
+        //Profile Routes
+        Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
+        Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
+        Route::post('/update-profile', [UserController::class, 'updateProfile']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
             Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
             Route::post('set-attributes', [UserController::class, 'setAttributes']);
+            Route::get('get-attributes', [UserController::class, 'getAttributes']);
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
-            Route::post('set-gallery', [UserController::class, 'setGallery']);
-            Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
-            Route::get('get-gallery', [UserController::class, 'getGalleryData']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){

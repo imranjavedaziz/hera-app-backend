@@ -46,21 +46,30 @@ return [
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'Image size is more than 5MB.',
             'state_id_exists' => 'Selected state is invalid.',
+            'image_required_without' => 'Either Video or image is required.',
         ],
     ],
     'register' => [
         'success' => 'You have registered successfully!',
         'profile_success' => 'Profile saved Successfully!',
-        'preferences_save_success' => 'Preferences saved Successfully!',
-        'attributes_save_success' => 'Attributes saved Successfully!',
-        'gallery_save_success' => 'Gallery saved Successfully!',
+        'preferences_save_success' => 'Preferences saved successfully!',
+        'attributes_save_success' => 'Attributes saved successfully!',
+        'gallery_save_success' => 'Gallery saved successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
+        'gallery_save_only_one_at_a_time' => 'You can upload either image or video at a time.',
+        'gallery_data_delete_success' => 'Image Removed from Gallery.',
+        'gallery_max_image_upload' => 'You can upload only 6 images into Gallery.',
+        'gallery_max_video_upload' => 'You can upload only 1 video into Gallery.',
         'device_saved' => 'Device data has been saved successfully.',
     ],
     'profile_match' => [
         'request_sent' => 'A match request has been sent to :name.',
         'request_approved' => 'It\'s a match. Profile match request has been approved.',
         'request_rejected' => 'Profile match request gets rejected.',
+    ],
+    'profile_update' => [
+        'image' => 'Image updated successfully.',
+        'profile_data' => 'Profile updated successfully.'
     ],
     'subscription_created' => 'Subcription created successfully.'
 ];
