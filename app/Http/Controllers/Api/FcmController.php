@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Facades\{
-    App\Services\FcmService
+    App\Services\FirebaseService
 };
 use App\Http\Requests\RegisterDeviceRequest;
 use App\Helpers\AuthHelper;
 use DB;
+use Log;
+use App\Models\User;
 
 class FcmController extends Controller {
 
@@ -85,6 +87,58 @@ class FcmController extends Controller {
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/test-firebase",
+     *     description="User test firebase",
+     *     operationId="test-firebase",
+     *     tags={"Firebase"},
+     *     summary="User test firebase",
+     *     description="Test Firebase MBC.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function testFirebase(Request $request) {
+        try {
+            $userOne = AuthHelper::authenticatedUser();
+            $userTwo = User::where(ID,3)->first();
+            $response = FirebaseService::createChatFriends($userOne,$userTwo);
+            Log::info($response );
+            $response = response()->Success(trans('messages.register.device_saved'));
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+            Log::info($response );
         }
         return $response;
     }

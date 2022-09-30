@@ -56,13 +56,27 @@ class ProfileMatchService
         return $message;
     }
 
-    public function getProfileMatches($user_id)
+    public function getProfileMatches($userId)
     {
         return ProfileMatch::with([
             TOUSER => function($q) {
                 return $q->select([
+                    ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC,
+                ])->with([NOTIFICATION => function ($query) {
+                    $query->orderBy(ID, DESC);
+                    $query->limit(ONE);
+                }]);
+            },
+            FROMUSER => function($q) {
+                return $q->select([
                     ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC
-                ]);
-            }])->where(FROM_USER_ID, $user_id)->get();
+                ])->with([NOTIFICATION =>function ($query) {
+                    $query->orderBy(ID, DESC);
+                    $query->limit(ONE);
+                }]);
+            }])->where(function ($query) use ($userId) {
+                $query->where(FROM_USER_ID, $userId);
+                $query->orWhere(TO_USER_ID, $userId);
+            })->where(STATUS,APPROVED_AND_MATCHED)->get();
     }
 }
