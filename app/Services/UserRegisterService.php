@@ -30,7 +30,7 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            dispatch(new SendEmailVerificationJob($user));
+            // dispatch(new SendEmailVerificationJob($user));
         }
         return $user;
     }
@@ -158,9 +158,17 @@ class UserRegisterService
         return $doner_attribute;
     }
 
-    public function uploadedFilesCount($input)
+    public function uploadedFilesCountValidation($user, $input)
     {
-        $uploaded_doner_gallery_count = DonerGallery::where(FILE_NAME, $input[OLD_FILE_NAME])->first();
+        $response = [SUCCESS => true, MESSAGE => trans('messages.common_msg.no_data_found')];
+        if(empty($input[OLD_FILE_NAME])){
+            if(!empty($input[IMAGE]) && $user->donerPhotoGallery->count() == 6){
+                $response = [SUCCESS => false, MESSAGE => trans('messages.register.gallery_max_image_upload')];
+            }elseif (!empty($input[VIDEO]) && $user->donerVideoGallery) {
+                $response = [SUCCESS => false, MESSAGE => trans('messages.register.gallery_max_video_upload')];
+            }
+        }
+        return $response;
     }
 
     public function setGallery($user, $input)
@@ -172,7 +180,7 @@ class UserRegisterService
         if(!empty($input[OLD_FILE_NAME])){
             $doner_gallery = DonerGallery::where(FILE_NAME, $input[OLD_FILE_NAME])->first();
             if(!empty($doner_gallery)){
-                Storage::disk('local')->delete($doner_gallery->file_url);
+                Storage::disk('s3')->delete('images/user_gellery/'.$doner_gallery->file_name);
             }else{
                 return [SUCCESS => false, MESSAGE => trans('messages.register.gallery_save_old_file_error')];
             }
@@ -181,19 +189,17 @@ class UserRegisterService
         $doner_gallery->file_name = $file[FILE_NAME];
         $doner_gallery->file_url = $file[FILE_URL];
         $doner_gallery->file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
-        if($doner_gallery->save()){
-            $user->registration_step = FOUR;
-            $user->save();
-        }
+        $doner_gallery->save();
         return [SUCCESS => true, DATA => $doner_gallery];
     }
 
     public function uploadFile($input, $path)
     {
-        $fileName = time().'.'.$input[FILE]->extension();
         $mime = $input[FILE]->getMimeType();
-        $path = Storage::disk('local')->put($path, $input[FILE]);
-        $path = Storage::disk('local')->url($path);
+        $filePath = Storage::disk('s3')->put($path, $input[FILE]);
+        $path = Storage::disk('s3')->url($filePath);
+        $pathInfo = pathinfo($path);
+        $fileName = $pathInfo['filename'].'.'.$pathInfo['extension'];
         return [FILE_NAME => $fileName, FILE_URL => $path, MIME => $mime];
     }
 
@@ -201,15 +207,12 @@ class UserRegisterService
     {
         $doner_galleries = DonerGallery::where(USER_ID, $userId)->whereIn(ID, $galleryIds)->get();
         foreach ($doner_galleries as $doner_gallery) {
-            Storage::disk('local')->delete($doner_gallery->file_url);
-            $doner_gallery->delete();
+            $data = Storage::disk('s3')->delete('images/user_gellery/'.$doner_gallery->file_name);
+            if($data){
+                $doner_gallery->delete();
+            }
         }
         return true;
-    }
-
-    public function getGalleryData($user_id)
-    {
-        return DonerGallery::select(ID, FILE_NAME, FILE_URL)->where(USER_ID, $user_id)->get();
     }
 
     public function getPreferencesAgeRangeData($input)
@@ -219,5 +222,43 @@ class UserRegisterService
         }else{
             return config('constants.age_range_male');
         }
+    }
+
+    public function updateProfilePic($user, $input)
+    {
+        $pathInfo = pathinfo($user->profile_pic);
+        $fileName = $pathInfo['filename'].'.'.$pathInfo['extension'];
+        $file = $this->uploadFile($input, 'images/user_profile_images');
+        $user->profile_pic = $file[FILE_URL];
+        if($user->save()){
+            Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
+            return $user->profile_pic;
+        }
+        return false;
+    }
+
+    public function getUserProfile($user_id)
+    {
+        return User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
+        ->with([USERPROFILE => function($q) {
+                return $q->select(ID, USER_ID, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID, OCCUPATION, BIO);
+            },
+            LOCATION => function($q) {
+                return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
+            }
+        ])
+        ->where(ID, $user_id)
+        ->first();
+    }
+
+    public function updateUser($user, $input)
+    {
+        $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
+        if($user->update($input)){
+            $user->userProfile->update($input);
+            $user->location->update($input);
+            return true;
+        }
+        return false;
     }
 }

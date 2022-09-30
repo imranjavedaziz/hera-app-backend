@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\ValidationRule;
 use App\Http\Requests\ApiFormRequest;
 
-class SetGalleryRequest extends ApiFormRequest
+class UpdateProfilePicRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,7 @@ class SetGalleryRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            IMAGE => ValidationRule::IMAGE,
-            VIDEO => ValidationRule::VIDEO,
+            FILE => ValidationRule::PROFILE_PIC,
         ];
     }
 
@@ -38,7 +37,7 @@ class SetGalleryRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors->first()[0] : "";
+        return !empty($errors) ? $errors : "";
     }
     
     /**
@@ -49,7 +48,7 @@ class SetGalleryRequest extends ApiFormRequest
     public function messages()
     {
         return [
-            IMAGE_REQUIRED_WITHOUT => __('messages.request_validation.error_msgs.image_required_without'),
+            PRO_PIC_MAX => __('messages.request_validation.error_msgs.pro_pic_max'),
         ];
     }
 }

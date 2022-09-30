@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class EmailVerifyMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    public $user;
     /**
      * Create a new message instance.
      *
@@ -18,7 +18,7 @@ class EmailVerifyMail extends Mailable
      */
     public function __construct($user)
     {
-        $this->data = $user;
+        $this->user = $user;
     }
 
     /**
