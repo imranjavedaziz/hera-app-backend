@@ -11,7 +11,8 @@ class TwilioOtp
 {
     public static function sendOTPOnPhone($countryCode, $phoneNo){
         try{
-            $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+            /*** This code commented for testing purpose on 30-09-2022 */
+            /***$client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
             $otp =  mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
             $client->messages->create(
                 $countryCode.$phoneNo,
@@ -19,7 +20,8 @@ class TwilioOtp
                 'from' => env('TWILIO_FROM'),
                 'body' => $otp .' is your One Time Password for phone verification.'
                 )
-            );
+            );***/
+            $otp = '123456';
             $phoneVerify = PhoneVerification::firstOrNew([COUNTRY_CODE => $countryCode, PHONE_NO => $phoneNo]);
             $otpBlockedTime = $phoneVerify->otp_block_time - Carbon::now()->getTimestamp();
             if ($otpBlockedTime >= ONE) {
