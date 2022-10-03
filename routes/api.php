@@ -85,7 +85,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('set-gallery', [UserController::class, 'setGallery']);
         Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
         Route::get('get-gallery', [UserController::class, 'getGalleryData']);
-        Route::post('test-firebase', [FcmController::class, 'testFirebase']);
 
         //Profile Routes
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
