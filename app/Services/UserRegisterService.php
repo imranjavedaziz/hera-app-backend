@@ -23,6 +23,7 @@ class UserRegisterService
     {
         $input[PASSWORD] = bcrypt($input[PASSWORD]);
         $input[REGISTRATION_STEP] = ONE;
+        $input[EMAIL] = strtolower($input[EMAIL]);
         $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
         $user = User::create($input);
         if($user){
