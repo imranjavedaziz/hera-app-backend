@@ -76,12 +76,13 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getDonarList($donarBaseCondition): Collection
     {
+        $parents = AuthHelper::authenticatedUser();
         $ptbSentRequest = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id])->get()->pluck(TO_USER_ID)->toArray();
         $ptbRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, STATUS => REJECTED_BY_PTB])->get()->pluck(FROM_USER_ID)->toArray();
         $excludeDonar = array_merge($ptbSentRequest, $ptbRejecteRequest);
         $srch = User::with(['userProfile','location','donerAttribute']);
         $srch->where($donarBaseCondition);
-        $srch->whereIn('role_id',[SURROGATE_MOTHER,EGG_DONER,SPERM_DONER])
+        $srch->whereIn('role_id',[$parents->parentsPreference->role_id_looking_for])
         ->whereNotIn(ID, $excludeDonar);
         return $srch->get();
     }
