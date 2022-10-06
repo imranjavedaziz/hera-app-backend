@@ -78,7 +78,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
-        Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
         Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
         Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
@@ -98,6 +97,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('get-attributes', [UserController::class, 'getAttributes']);
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
+            Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){

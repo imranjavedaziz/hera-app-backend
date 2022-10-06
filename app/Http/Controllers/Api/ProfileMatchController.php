@@ -24,7 +24,7 @@ class ProfileMatchController extends Controller
      *     description="User profile match request for MBC portal.",
      *     @OA\RequestBody(
      *        required = true,
-     *        description = "status : 1 => Pending for approval, 3 => Rejected by PTB, 4=> Rejected by Doner",
+     *        description = "status : 1 => Pending for approval, 3 => Rejected by PTB",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -74,15 +74,84 @@ class ProfileMatchController extends Controller
     {
         try {
             DB::beginTransaction();
-            $input = $request->all();
-            $input[FROM_USER_ID] = AuthHelper::authenticatedUser()->id;
-            $profile_match = ProfileMatchService::profileMatchRequest($input);
-            DB::commit();
+            $profile_match = ProfileMatchService::profileMatchRequest(AuthHelper::authenticatedUser()->id, $request->all());
             if ($profile_match[SUCCESS]) {
+                DB::commit();
                 $response = response()->Success($profile_match[MESSAGE], $profile_match[DATA]);
             } else {
+                DB::rollback();
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/profile-match-request-response",
+     *     description="User profile match request response",
+     *     operationId="profile-match-request-response",
+     *     tags={"User"},
+     *     summary="User profile match request response",
+     *     description="User profile match request response for MBC portal.",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "2 => Approved and matched, 4=> Rejected by Doner",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="id",
+     *                type="integer",
+     *                example=3
+     *             ),
+     *             @OA\Property(
+     *                property="status",
+     *                type="integer",
+     *                example=2
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+
+    public function profileMatchRequestResponse(ProfileMatchRequestResponse $request)
+    {
+        try {
+            DB::beginTransaction();
+            $profile_match_request_response = ProfileMatchService::profileMatchRequestResponse(AuthHelper::authenticatedUser()->id, $request->all());
+            DB::commit();
+            $response = response()->Success($profile_match_request_response[MESSAGE], $profile_match_request_response[DATA]);
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());

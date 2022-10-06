@@ -24,6 +24,10 @@ class EducationSeeder extends Seeder
                 STATUS_ID   => ACTIVE
             ],
             [
+                NAME  => 'Trade School',
+                STATUS_ID   => ACTIVE
+            ],
+            [
                 NAME  => 'Associate’s Degree',
                 STATUS_ID   => ACTIVE
             ],
@@ -37,6 +41,10 @@ class EducationSeeder extends Seeder
             ],
             [
                 NAME  => 'Ph.D.',
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                NAME  => 'Other',
                 STATUS_ID   => ACTIVE
             ]
         ];   

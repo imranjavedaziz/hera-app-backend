@@ -11,8 +11,8 @@ class ValidationRule
     public const OTP =[BAIL,REQUIRED, NUMERIC,'digits:6'];
     public const REGISTRATION_STEP =[BAIL, REQUIRED, 'in : 1,2,3'];
     public const ROLE_ID =[BAIL, REQUIRED, 'in : 2,3,4,5'];
-    public const NAME =[BAIL, REQUIRED, 'min:1', NAME_REGEX, 'max:30'];
-    public const MIDDLE_NAME =[BAIL, SOMETIMES, NULLABLE, 'min:1', NAME_REGEX, 'max:30'];
+    public const NAME =[BAIL, REQUIRED, MIN_ONE, NAME_REGEX, 'max:30'];
+    public const MIDDLE_NAME =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, NAME_REGEX, 'max:30'];
     public const EMAIL =[BAIL, REQUIRED, EMAIL, EMAIL_MAX_LENGTH, EMAIL_REGEX];
     public const PASSWORD =[BAIL, REQUIRED, 'min:8', 'max:20', PASSWORD_REGEX];
     public const PROFILE_PIC =[BAIL, REQUIRED];
@@ -44,9 +44,10 @@ class ValidationRule
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
     public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:3'];
-    public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, 'min:1', 'max:3'];
+    public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, 'max:3'];
     public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
     public const DEVICE_ID =[BAIL, REQUIRED, STRING];
     public const DEVICE_TOKEN =[BAIL, REQUIRED, STRING];
     public const DEVICE_TYPE =[BAIL, REQUIRED, STRING];
+    public const PROFILE_MATCH_VALIDATION_ID =[BAIL, REQUIRED, EXISTS_PROFILE_MATCH_ID];
 }

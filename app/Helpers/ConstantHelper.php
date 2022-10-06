@@ -57,6 +57,7 @@ define('UNIQUE', 'unique');
 define('IMAGE_MIMES', 'mimes:jpeg,png');
 define('VIDEO_MIMES', 'mimes:mp4,ogx,oga,ogv,ogg,webm');
 define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
+define('MIN_ONE', 'min:1');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -74,6 +75,7 @@ define('EXISTS_WEIGHTS_ID', 'exists:weights,id');
 define('EXISTS_HAIR_COLOURS_ID', 'exists:hair_colours,id');
 define('EXISTS_EYE_COLOURS_ID', 'exists:eye_colours,id');
 define('EXISTS_EDUCATION_ID', 'exists:education,id');
+define('EXISTS_PROFILE_MATCH_ID', 'exists:profile_matches,id');
 
 define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
