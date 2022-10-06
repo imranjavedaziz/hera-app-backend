@@ -45,6 +45,7 @@ define('DASHBOARD_PAGE_LIMIT', '10');
 define('PTB', '1');
 define('DONAR', '2');
 define('LIKE', 'like');
+define('MATCH_REQUEST', 'match_request');
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -375,3 +376,7 @@ define('DEVICE_TOKEN', 'device_token');
 // Notification Vairables 
 define('PROFILE_MATCH_ID', 'profile_match_id');
 define('NOTIFICATION', 'notification');
+
+define('SENT_REQUEST', 'sent_request');
+define('APPROVED_REQUEST', 'approved_request');
+define('REJECTED_REQUEST', 'rejected_request');
