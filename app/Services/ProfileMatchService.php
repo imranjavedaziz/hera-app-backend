@@ -9,16 +9,27 @@ use App\Jobs\FirebaseChatFriend;
 
 class ProfileMatchService
 {
-    public function profileMatchRequest($input)
+    public function profileMatchRequest($user_id, $input)
     {
-        $profile_match = ProfileMatch::where(FROM_USER_ID, $input[FROM_USER_ID])->where(TO_USER_ID, $input[TO_USER_ID])->first();
-        
-        if(!$profile_match){
+        $input[FROM_USER_ID] = $user_id;
+         $profile_match = ProfileMatch::where(function ($query) use ($input) {
+            $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
+            $query->where(TO_USER_ID, $input[TO_USER_ID]);  
+        })
+        ->orWhere(function ($query) use ($input) {
+            $query->where(FROM_USER_ID, $input[TO_USER_ID]);
+            $query->where(TO_USER_ID, $input[FROM_USER_ID]);  
+        })
+        ->first();
+        if($profile_match){
+            $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
+            $profile_match->status = $input[STATUS]; 
+        }else{
             $profile_match = new ProfileMatch();
+            $profile_match->status = $input[STATUS];
+            $profile_match->from_user_id = $input[FROM_USER_ID];
+            $profile_match->to_user_id = $input[TO_USER_ID];
         }
-        $profile_match->from_user_id = $input[FROM_USER_ID];
-        $profile_match->to_user_id = $input[TO_USER_ID];
-        $profile_match->status = $input[STATUS];
         if($profile_match->save()){
             $message = $this->getMatchRequestMsg($input, $profile_match->id);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
@@ -58,6 +69,17 @@ class ProfileMatchService
                 break;
         }
         return $message;
+    }
+    public function profileMatchRequestResponse($user_id, $input)
+    {
+        $profile_match = ProfileMatch::where(ID, $input[ID])->first();
+        if($profile_match->update([STATUS => $input[STATUS]])){
+            $input[FROM_USER_ID] = $user_id;
+            $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
+            $message = $this->getMatchRequestMsg($input, $input[ID]);
+            return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
+        }
+        return [SUCCESS => false];
     }
 
     public function getProfileMatches($userId)
