@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ProfileMatch;
 use App\Models\User;
 use App\Jobs\SendProfileMatchJob;
+use App\Jobs\FirebaseChatFriend;
 
 class ProfileMatchService
 {
@@ -46,6 +47,7 @@ class ProfileMatchService
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $name]);
                 dispatch(new SendProfileMatchJob($to_user, $profile_match_id, $description, $title));
+                dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
             case 2:
                 $title = 'Profile Match Request Approved.';
@@ -59,9 +61,11 @@ class ProfileMatchService
                 }
                 $message = __('messages.profile_match.request_approved');
                 dispatch(new SendProfileMatchJob($from_user, $profile_match_id, $description, $title));
+                dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
             default:
                 $message = __('messages.profile_match.request_rejected');
+                dispatch(new FirebaseChatFriend($from_user, $to_user, REJECTED_REQUEST));
                 break;
         }
         return $message;
@@ -78,13 +82,27 @@ class ProfileMatchService
         return [SUCCESS => false];
     }
 
-    public function getProfileMatches($user_id)
+    public function getProfileMatches($userId)
     {
         return ProfileMatch::with([
             TOUSER => function($q) {
                 return $q->select([
+                    ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC,
+                ])->with([NOTIFICATION => function ($query) {
+                    $query->orderBy(ID, DESC);
+                    $query->limit(ONE);
+                }]);
+            },
+            FROMUSER => function($q) {
+                return $q->select([
                     ID, ROLE_ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE_NO, PROFILE_PIC
-                ]);
-            }])->where(FROM_USER_ID, $user_id)->get();
+                ])->with([NOTIFICATION =>function ($query) {
+                    $query->orderBy(ID, DESC);
+                    $query->limit(ONE);
+                }]);
+            }])->where(function ($query) use ($userId) {
+                $query->where(FROM_USER_ID, $userId);
+                $query->orWhere(TO_USER_ID, $userId);
+            })->where(STATUS,APPROVED_AND_MATCHED)->get();
     }
 }

@@ -115,4 +115,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, 1);
     }
+
+    public function notification() {
+        return $this->hasOne(Notification::class, RECIPIENT_ID, ID)->whereNull(READ_AT);
+    }
 }

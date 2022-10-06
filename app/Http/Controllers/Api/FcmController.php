@@ -11,6 +11,8 @@ use Facades\{
 use App\Http\Requests\RegisterDeviceRequest;
 use App\Helpers\AuthHelper;
 use DB;
+use Log;
+use App\Models\User;
 
 class FcmController extends Controller {
 
@@ -78,7 +80,7 @@ class FcmController extends Controller {
         try {
             DB::beginTransaction();
             $input = $request->all();
-            $input[USER_ID] = AuthHelper::authenticatedUser()->id; 
+            $input[USER_ID] = AuthHelper::authenticatedUser()->id;
             FcmService::registerDevice($input);
             DB::commit();
             $response = response()->Success(trans('messages.register.device_saved'));
@@ -88,5 +90,4 @@ class FcmController extends Controller {
         }
         return $response;
     }
-
 }
