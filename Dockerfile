@@ -1,5 +1,4 @@
-#FROM kiwidevops/php:php-8.0
-FROM php:latest
+FROM kiwidevops/php:php-8.0
 
 COPY . /var/www/html
 WORKDIR /var/www/html
