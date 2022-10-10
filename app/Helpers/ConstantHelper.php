@@ -59,6 +59,7 @@ define('IMAGE_MIMES', 'mimes:jpeg,png');
 define('VIDEO_MIMES', 'mimes:mp4,ogx,oga,ogv,ogg,webm');
 define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
 define('MIN_ONE', 'min:1');
+define('IN_ZERO_ONE', 'in:0,1');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -101,6 +102,8 @@ define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User
 define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
 define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner');
 define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
+define('FEEDBACK_LIKE_COMMENT', '0=>thumbs up, 1=>thumbs down');
+define('FEEDBACK_SKIP_COMMENT', '0=>not skip, 1=>skip');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -382,3 +385,7 @@ define('NOTIFICATION', 'notification');
 define('SENT_REQUEST', 'sent_request');
 define('APPROVED_REQUEST', 'approved_request');
 define('REJECTED_REQUEST', 'rejected_request');
+
+//define feedbacks table column
+define('FEEDBACK', 'feedback');
+define('IS_SKIP', 'is_skip');

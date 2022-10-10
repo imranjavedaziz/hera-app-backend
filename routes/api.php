@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppWebhookController;
 use App\Http\Controllers\Api\FcmController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ChatFeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
+            Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
         });
     });
 });
