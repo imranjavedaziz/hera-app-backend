@@ -71,5 +71,11 @@ return [
         'image' => 'Image updated successfully.',
         'profile_data' => 'Profile updated successfully.'
     ],
+    'chat' => [
+        'feedback' => [
+            'skip' => 'Skipped',
+            'saved' => 'Feeback saved successfully.',
+        ],
+    ],
     'subscription_created' => 'Subcription created successfully.'
 ];
