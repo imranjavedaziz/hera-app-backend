@@ -7,8 +7,7 @@ RUN sed -i "s/max_execution_time = .*/max_execution_time = 2800/" /etc/php/8.0/f
 RUN sed -i "s/post_max_size = .*/post_max_size = 250M/" /etc/php/8.0/fpm/php.ini
 RUN sed -i "s/memory_limit = .*/memory_limit = 350M/" /etc/php/8.0/fpm/php.ini
 
-#RUN composer install && \
-composer update && \ 
+RUN composer update && \ 
  apt-get update && \
  apt-get install -y software-properties-common
 
