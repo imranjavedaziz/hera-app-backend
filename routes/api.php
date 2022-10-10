@@ -72,6 +72,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
+    Route::get('get-php-version', [StateController::class, 'getPhpVersion']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
