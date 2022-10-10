@@ -32,7 +32,7 @@ class SaveChatFeedbackRequest extends ApiFormRequest
         return [
             LIKE => ValidationRule::LIKE,
             RECIPIENT_ID => $recipient,
-            IS_SKIP => ValidationRule::IS_SKIP,
+            IS_SKIP => ValidationRule::IS_SKIP, 
         ];
     }
 
