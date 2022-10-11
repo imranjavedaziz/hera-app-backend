@@ -144,21 +144,7 @@ class SubscriptionService
         $data = $this->getSubscriptionDetails($fields);
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
             $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first();  
-            $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
-            $fields[PRICE] = $plan->price;
-            $fields[PRODUCT_ID] = $data[PRODUCT_ID];
-            $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-            $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-            $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
-            $fields[ORIGINAL_TRANSACTION_ID] = $data[ORIGINAL_TRANSACTION_ID];
-            $prevSubDetails = $this->getPrevSubscriptionDetails($fields[ORIGINAL_TRANSACTION_ID]);
-            $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
-            $fields[SUBSCRIPTION_ID] = $prevSubDetails[SUBSCRIPTION_ID];
-            $subscriptionFields = $this->setSubscriptionFields($fields);
-            Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
-            if(!empty($subscriptionFields)) {
-                $this->createNewSubscription($subscriptionFields);
-            }
+            $this->setAndCreateSubscriptionData($plan, $data);
         }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
             $prevSubDetails = Subscription::where(ORIGINAL_TRANSACTION_ID,$fields[ORIGINAL_TRANSACTION_ID])->orderBy(ID,DESC)->first();
             $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
@@ -216,27 +202,8 @@ class SubscriptionService
     }
 
     private function updateSubscriptionData($data) {
-        $plan = SubscriptionPlan::where(ANDROID_PRODUCT,$data[PRODUCT_ID])->first();  
-
-        $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
-        $fields[PRICE] = $plan->price;
-        $fields[PRODUCT_ID] = $data[PRODUCT_ID];
-        
-        $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-        Log::info($startEndDate);
-        $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-        $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
-        $fields[ORIGINAL_TRANSACTION_ID] = $data[ORIGINAL_TRANSACTION_ID];
-
-        $prevSubDetails = $this->getPrevSubscriptionDetails($fields[ORIGINAL_TRANSACTION_ID]);
-        $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
-        $fields[SUBSCRIPTION_ID] = $prevSubDetails[SUBSCRIPTION_ID];
-        $subscriptionFields = $this->setSubscriptionFields($fields);
-        
-        Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
-        if(!empty($subscriptionFields)) {
-            $this->createNewSubscription($subscriptionFields);
-        }
+        $plan = SubscriptionPlan::where(ANDROID_PRODUCT,$data[PRODUCT_ID])->first();
+        return $this->setAndCreateSubscriptionData($plan, $data);
     }
 
     public function getSubcriptionEndBeforeTenDay() {
@@ -274,5 +241,25 @@ class SubscriptionService
         }
 
         return $limit;
+    }
+
+    public function setAndCreateSubscriptionData($plan, $data) {
+        $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
+        $fields[PRICE] = $plan->price;
+        $fields[PRODUCT_ID] = $data[PRODUCT_ID];
+        $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
+        $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
+        $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
+        $fields[ORIGINAL_TRANSACTION_ID] = $data[ORIGINAL_TRANSACTION_ID];
+        $prevSubDetails = $this->getPrevSubscriptionDetails($fields[ORIGINAL_TRANSACTION_ID]);
+        $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
+        $fields[SUBSCRIPTION_ID] = $prevSubDetails[SUBSCRIPTION_ID];
+        $subscriptionFields = $this->setSubscriptionFields($fields);
+        Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
+        if(!empty($subscriptionFields)) {
+            $this->createNewSubscription($subscriptionFields);
+        }
+
+        return true;
     }
 }

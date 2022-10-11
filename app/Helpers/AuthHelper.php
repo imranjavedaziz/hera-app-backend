@@ -9,6 +9,8 @@ use Hash;
 use JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthHelper
 {
@@ -23,7 +25,7 @@ class AuthHelper
     }
     
     public static function authenticatedUser()
-    {   
+    { 
         $returnNull = null;
         try {
             if (!JWTAuth::parseToken()->authenticate()) {
@@ -31,11 +33,11 @@ class AuthHelper
             } else {
                 return JWTAuth::parseToken()->authenticate();
             }
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        } catch (TokenExpiredException $e) {
             $returnNull;
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+        } catch (TokenInvalidException $e) {
             $returnNull;
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+        } catch (JWTException $e) {
             $returnNull;
         }
         return $returnNull;
