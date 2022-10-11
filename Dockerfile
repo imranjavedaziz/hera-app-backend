@@ -2,14 +2,21 @@
 FROM kiwidevops/php:php-8.0.17
 COPY . /var/www/html
 WORKDIR /var/www/html
-RUN sed -i "s/upload_max_filesize = .*/upload_max_filesize = 150M/" /etc/php/8.0.17/fpm/php.ini
-RUN sed -i "s/max_execution_time = .*/max_execution_time = 2800/" /etc/php/8.0.17/fpm/php.ini
-RUN sed -i "s/post_max_size = .*/post_max_size = 250M/" /etc/php/8.0.17/fpm/php.ini
-RUN sed -i "s/memory_limit = .*/memory_limit = 350M/" /etc/php/8.0.17/fpm/php.ini
+#RUN sed -i "s/upload_max_filesize = .*/upload_max_filesize = 150M/" /etc/php/8.0.17/fpm/php.ini
+#RUN sed -i "s/max_execution_time = .*/max_execution_time = 2800/" /etc/php/8.0.17/fpm/php.ini
+#RUN sed -i "s/post_max_size = .*/post_max_size = 250M/" /etc/php/8.0.17/fpm/php.ini
+#RUN sed -i "s/memory_limit = .*/memory_limit = 350M/" /etc/php/8.0.17/fpm/php.ini
+RUN sed -i "s/upload_max_filesize = .*/upload_max_filesize = 150M/" /etc/php/8.0/fpm/php.ini
+RUN sed -i "s/max_execution_time = .*/max_execution_time = 2800/" /etc/php/8.0/fpm/php.ini
+RUN sed -i "s/post_max_size = .*/post_max_size = 250M/" /etc/php/8.0/fpm/php.ini
+RUN sed -i "s/memory_limit = .*/memory_limit = 350M/" /etc/php/8.0/fpm/php.ini
 
-RUN composer update && \ 
- apt-get update && \
- apt-get install -y software-properties-common
+
+RUN apt-get update && \
+    apt-get install -y software-properties-common
+#RUN composer update && \ 
+ #apt-get update && \
+ #apt-get install -y software-properties-common
 
 # Install "ffmpeg"
 #RUN add-apt-repository ppa:jonathonf/ffmpeg-4 -y
@@ -34,5 +41,5 @@ ADD script.sh /var/ww/html/script.sh
 RUN chmod +x /var/ww/html/script.sh
 
 EXPOSE 9000
-CMD ["php-fpm8.0.17"]
-ENTRYPOINT cron start && php-fpm8.0.17
+CMD ["php-fpm8.0"]
+ENTRYPOINT cron start && php-fpm8.0
