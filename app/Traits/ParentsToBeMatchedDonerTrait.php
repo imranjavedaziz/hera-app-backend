@@ -61,10 +61,10 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['email'] = $donar->email;
         $result['user']['id'] = $donar->id;
         $result['user']['role_id'] = $donar->role_id;
-        $result['user']['profile_image'] = $donar->profile_image;
+        $result['user']['profile_pic'] = $donar->profile_pic;
         $result['user']['zipcode'] = $donar->location->zipcode;
         $result['user']['state_id'] = $donar->location->state_id;
-        $result['user']['state_name'] = $donar->location->name;
+        $result['user']['state_name'] = strtoupper($donar->location->name);
         $result['user']['age'] = CustomHelper::ageCalculator($donar->dob);
         $result['match_request'] = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, FROM_USER_ID => $donar->id])->select(ID,FROM_USER_ID,TO_USER_ID,STATUS)->first();
         $result[MATCH_VALUE] = $matchValue;
