@@ -60,6 +60,7 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['username'] = $donar->username;
         $result['user']['email'] = $donar->email;
         $result['user']['id'] = $donar->id;
+        $result['user']['role_id'] = $donar->role_id;
         $result['user']['profile_image'] = $donar->profile_image;
         $result['user']['zipcode'] = $donar->location->zipcode;
         $result['user']['state_id'] = $donar->location->state_id;
