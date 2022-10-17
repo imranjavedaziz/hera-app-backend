@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
 use App\Http\ValidationRule;
 
-class ProfileMatchRequestResponse extends ApiFormRequest
+class SaveChatFeedbackRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,10 +27,12 @@ class ProfileMatchRequestResponse extends ApiFormRequest
      */
     public function rules()
     {
-        $statusValidationRule = array_merge(ValidationRule::STATUS,['in : 2,4']);
+        $ids = [3,4,5];
+        $recipient = array_merge(ValidationRule::USER_ID,[Rule::exists(USERS, ID)->whereIn(ROLE_ID, $ids)]);
         return [
-            ID => ValidationRule::PROFILE_MATCH_VALIDATION_ID,
-            STATUS => $statusValidationRule,
+            LIKE => ValidationRule::LIKE,
+            RECIPIENT_ID => $recipient,
+            IS_SKIP => ValidationRule::IS_SKIP, 
         ];
     }
 
