@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\EyeColour;
+use DB;
 
 class EyeColourSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class EyeColourSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        EyeColour::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $eye_colours = [
             [
                 NAME  => 'Brown',

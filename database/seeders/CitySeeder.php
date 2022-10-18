@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\City;
 use App\Models\State;
+use DB;
 
 class CitySeeder extends Seeder
 {
@@ -16,6 +17,9 @@ class CitySeeder extends Seeder
     
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        City::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $filePath = public_path().'/docs/us_cities.csv';
         $file = fopen($filePath, "r");
         $i=ZERO;

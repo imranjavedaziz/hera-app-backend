@@ -758,7 +758,7 @@ class UserController extends Controller
   
      *             ),
      *         ),
-     *     ),
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",

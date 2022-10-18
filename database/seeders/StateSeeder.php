@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\State;
+use DB;
 
 class StateSeeder extends Seeder
 {
@@ -16,6 +17,9 @@ class StateSeeder extends Seeder
 
     public function __construct()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        State::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $this->states = [
             ['AL','Alabama'],
             ['AK','Alaska'],
