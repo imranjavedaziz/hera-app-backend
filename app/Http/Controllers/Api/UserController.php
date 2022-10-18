@@ -752,12 +752,10 @@ class UserController extends Controller
      *                property="ids",
      *                type="array",
      *                @OA\Items(
-     *                  @OA\Property(
-     *                      property="id",
-     *                      type="integer",
-     *                      example="1"
-     *                   )
+     *                         type="string",
+     *                         example="1"
      *                ),
+  
      *             ),
      *         ),
      *     ),
