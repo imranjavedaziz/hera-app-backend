@@ -11,12 +11,16 @@ use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\CheckPhoneRequest;
 use App\Http\Requests\ValidateOtpRequest;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Helpers\TwilioOtp;
 use App\Helpers\AuthHelper;
 use Log;
 use Facades\{
     App\Services\FcmService
 };
+use Illuminate\Support\Facades\Hash;
+use App\Jobs\PasswordResetJob;
+use DB;
 
 class AuthController extends Controller
 {
@@ -350,6 +354,83 @@ class AuthController extends Controller
             }
         }
 
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/reset-password",
+     *      operationId="reset-password",
+     *      tags={"Forgot Password"},
+     *      summary="Reset Password",
+     *      description="For generating new password in mbc portal.",  
+     *      @OA\RequestBody(
+     *        required = true,
+     *        description = "Reset Password Details",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="user_id",
+     *                type="integer",
+     *                example="11"
+     *             ),
+     *             @OA\Property(
+     *                property="password",
+     *                type="string",
+     *                example="john@123"
+     *             ),
+     *             @OA\Property(
+     *                property="confirm_password",
+     *                type="integer",
+     *                example="john@123"
+     *             ),
+     *         ),
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *  )
+     */
+    public function resetPassword(ForgotPasswordRequest $request) {
+        try {
+            DB::beginTransaction();
+            $user = User::where(ID, $request->user_id)->first();
+            if (empty($user)) {
+                return response()->Error(__('messages.reset_password_invalid_user'));
+            }
+            $user->password = Hash::make($request->password);
+            $user->save();
+            dispatch(new PasswordResetJob($user));
+            DB::commit();
+            $response = response()->Success(__('messages.reset_password_success'));
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
         return $response;
     }
 }
