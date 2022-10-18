@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\SexualOrientation;
+use DB;
 
 class SexualOrientationSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class SexualOrientationSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        SexualOrientation::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $sexual_orientations = [
             [
                 NAME  => 'Heterosexual',

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\SubscriptionPlan;
+use DB;
 
 class SubscriptionPlanSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class SubscriptionPlanSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        SubscriptionPlan::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $subscriptionPlan = [
             [
                 NAME  => 'monthly',

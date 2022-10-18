@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Role;
+use DB;
 
 class RoleSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Role::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $roles = [
             [
                 NAME  => 'Admin',                
