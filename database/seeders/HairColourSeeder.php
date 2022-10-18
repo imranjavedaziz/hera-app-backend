@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\HairColour;
+use DB;
 
 class HairColourSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class HairColourSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        HairColour::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $hair_colours = [
             [
                 NAME  => 'Brown',

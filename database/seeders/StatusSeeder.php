@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Status;
+use DB;
 
 class StatusSeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Status::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $statuses = [
             [
                 NAME  => ACTIVE_STATUS

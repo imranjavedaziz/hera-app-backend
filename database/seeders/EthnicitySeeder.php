@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Ethnicity;
+use DB;
 
 class EthnicitySeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class EthnicitySeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Ethnicity::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $ethnicities = [
             [
                 NAME  => 'Hispanic and/or Latino/a/x',

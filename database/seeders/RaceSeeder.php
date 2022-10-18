@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Race;
+use DB;
 
 class RaceSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class RaceSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Race::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $races = [
             [
                 NAME  => 'White',
