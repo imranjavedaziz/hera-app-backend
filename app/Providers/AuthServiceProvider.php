@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Contracts\Cache\Repository;
+use App\Providers\UserProviderDecorator;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +29,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        \Illuminate\Support\Facades\Auth::provider('cachedUser', function ($app, array $config) {
+            $hasher = $app->make(HasherContract::class);
+            $provider = new EloquentUserProvider($hasher, $config['model']);
+            $cache = $app->make(Repository::class);
+            return new UserProviderDecorator($provider, $cache);
+        });
     }
 }
