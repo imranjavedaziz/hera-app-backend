@@ -262,4 +262,9 @@ class UserRegisterService
         }
         return false;
     }
+
+    public function updateUserAccountStatus($userId, $input) {
+        $reason = $input[REASON_ID] ?? null;
+        return User::where(ID, $userId)->update([STATUS_ID => $input[STATUS_ID], REASON_ID => $reason]);
+    }
 }

@@ -139,6 +139,7 @@ define('REGISTRATION_STEP', 'registration_step');
 define('SUBSCRIPTION_STATUS', 'subscription_status');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
+define('REASON_ID', 'reason_id');
 
 //define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');

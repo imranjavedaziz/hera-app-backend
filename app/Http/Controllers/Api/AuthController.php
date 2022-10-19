@@ -12,14 +12,19 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\CheckPhoneRequest;
 use App\Http\Requests\ValidateOtpRequest;
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\UpdateAccountStatusRequest;
 use App\Helpers\TwilioOtp;
 use App\Helpers\AuthHelper;
 use Log;
 use Facades\{
-    App\Services\FcmService
+    App\Services\FcmService,
+    App\Services\UserRegisterService,
+    App\Services\FirebaseService
 };
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\PasswordResetJob;
+use App\Models\AccountDeactiveReason;
+use App\Jobs\UpdateStatusOnFirebaseJob;
 use DB;
 
 class AuthController extends Controller
@@ -427,6 +432,121 @@ class AuthController extends Controller
             dispatch(new PasswordResetJob($user));
             DB::commit();
             $response = response()->Success(__('messages.reset_password_success'));
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+     /**
+     * @OA\Get(
+     *      path="/v1/account-deactive-reason",
+     *      operationId="account-deactive-reason",
+     *      tags={"Auth"},
+     *      summary="Deactive reasons",
+     *      description="Deactive reasons",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      )
+     *  )
+     */
+    public function getAccountDeactiveReason(Request $request)
+    {
+        try {
+            $response = response()->Success(trans('messages.common_msg.data_found'), AccountDeactiveReason::getReasons());
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/update-account-status",
+     *      operationId="update-account-status",
+     *      tags={"Auth"},
+     *      summary="Update acount status",
+     *      description="Activate and deactivate user account status.",  
+     *      @OA\RequestBody(
+     *        required = true,
+     *        description = "status_id 1->activate , 2 -> deactivate",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="status_id",
+     *                type="integer",
+     *                example="0"
+     *             ),
+     *             @OA\Property(
+     *                property="reason_id",
+     *                type="integer",
+     *                example="1"
+     *             ),
+     *         ),
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function updateAccountStatus(UpdateAccountStatusRequest $request) {
+        try {
+            DB::beginTransaction();
+            $msg = __('messages.account_deactive');
+            if ($request->status_id == ACTIVE) {
+                $msg = __('messages.account_active');
+            }
+            $user = AuthHelper::authenticatedUser();
+            UserRegisterService::updateUserAccountStatus($user->id, $request->all());
+            DB::commit();
+            dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
+            $response = response()->Success($msg);
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
