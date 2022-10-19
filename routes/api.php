@@ -62,6 +62,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
     Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
 

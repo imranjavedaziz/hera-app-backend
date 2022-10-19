@@ -77,5 +77,7 @@ return [
             'saved' => 'Feeback saved successfully.',
         ],
     ],
-    'subscription_created' => 'Subcription created successfully.'
+    'subscription_created' => 'Subcription created successfully.',
+    'reset_password_invalid_user' => 'Sorry, We can\'t find a user with that id.',
+    'reset_password_success' => 'Your Password has been changed successfully.'
 ];
