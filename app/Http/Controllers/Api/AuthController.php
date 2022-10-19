@@ -26,6 +26,7 @@ use App\Jobs\PasswordResetJob;
 use App\Models\AccountDeactiveReason;
 use App\Jobs\UpdateStatusOnFirebaseJob;
 use DB;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -100,8 +101,12 @@ class AuthController extends Controller
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
-                $user->access_token = $oauth_token;
-                $response = response()->Success(trans('messages.logged_in'), $user);
+                if ($user->status_id === ACTIVE) {
+                    $user->access_token = $oauth_token;
+                    $response = response()->Success(trans('messages.logged_in'), $user);
+                } else {
+                    $response = response()->Error(trans('messages.user_account_deleted'));
+                }
             } else {
                 $response = response()->Error(trans('messages.invalid_user_pass'));
             }
@@ -549,6 +554,134 @@ class AuthController extends Controller
             $response = response()->Success($msg);
         } catch (\Exception $e) {
             DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/match-password",
+     *      operationId="user-match-password",
+     *      tags={"User"},
+     *      summary="User match password",
+     *      description="User match password",
+     *      @OA\Parameter(
+     *         description="password",
+     *         in="query",
+     *         name="password",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function matchPassword(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $user = AuthHelper::authenticatedUser();
+            if (Hash::check($input[PASSWORD], $user->password)) {
+                $response = response()->Success(__('messages.password_matched'));
+            } else {
+                $response = response()->Error(__('messages.password_does_not_match'));
+            }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Delete(
+     *      path="/v1/delete-account",
+     *      operationId="user-delete-account",
+     *      tags={"User"},
+     *      summary="User Delete Account",
+     *      description="User Delete Account",
+     *      @OA\Parameter(
+     *         description="password",
+     *         in="query",
+     *         name="password",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function deleteAccount(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $user = AuthHelper::authenticatedUser();
+            if (Hash::check($input[PASSWORD], $user->password)) {
+                $user->deleted_at = Carbon::now();
+                $user->status_id = DELETED;
+                $user->save();
+                dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
+                $response = response()->Success(__('messages.account_delete_success'));
+            } else {
+                $response = response()->Error(__('messages.password_does_not_match'));
+            }
+        } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
         return $response;
