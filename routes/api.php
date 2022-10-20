@@ -62,6 +62,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
     Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
 
@@ -72,7 +73,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
-    Route::get('get-php-version', [StateController::class, 'getPhpVersion']);
+    Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
+    Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
+    Route::post('match-password', [AuthController::class, 'matchPassword']);
+    Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);

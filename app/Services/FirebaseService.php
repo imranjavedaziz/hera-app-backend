@@ -39,6 +39,7 @@ class FirebaseService
             "recieverImage" => $reciever->profile_image,
             "recieverName" => $reciever->full_name,
             "senderId" => $sender->id,
+            "status_id" => ACTIVE,
             "senderImage" => $sender->profile_image,
             "senderName"  => $sender->full_name,
             "currentRole" => isset($reciever->current_role)?$reciever->current_role:ZERO,
@@ -173,6 +174,25 @@ class FirebaseService
                 if ($this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->getSnapshot()->hasChild($key) === true){
                     $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->update([$key.'/senderName' => $receiver->full_name]);
                     $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->update([$key.'/senderImage' => $receiver->profile_image]);
+                }
+            }
+        }
+    }
+
+    public function updateUserStatus($receiver, $accountStatus, $keyName) {
+        $users = $this->database->getReference($this->tableName)->getValue();
+        if(!empty($users)) {
+            foreach($users as $key => $user) {
+                if ($key == $receiver->id){
+                    continue;
+                }
+                $friends = $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getValue();
+                if(!empty($friends)) {
+                    foreach($friends as $keyOne => $friend) {
+                        if ($keyOne == $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($keyOne) === true){
+                            $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([$receiver->id.'/'.$keyName => $accountStatus]);
+                        }
+                    } 
                 }
             }
         }
