@@ -172,7 +172,7 @@ class AuthController extends Controller
      */
     public function sentOtp(CheckPhoneRequest $request) {
         try {
-            $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no])->count();
+            $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->count();
             if ($phoneExits > ZERO) {
                 return response()->Error(__('messages.phone_already_exists'));
             } else {
