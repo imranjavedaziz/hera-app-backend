@@ -79,5 +79,10 @@ return [
     ],
     'subscription_created' => 'Subcription created successfully.',
     'reset_password_invalid_user' => 'Sorry, We can\'t find a user with that id.',
-    'reset_password_success' => 'Your Password has been changed successfully.'
+    'account_deactive' => 'Account Deactivated Successfully!.',
+    'account_active' => 'Account Activated Successfully!.',
+    'password_does_not_match' => 'Please enter valid credentials.',
+    'password_matched' => 'Password matched successfully.',
+    'account_delete_success' => 'Your Account has been Deleted Successfully!',
+    'user_account_deleted' => 'Your account has been deleted and no longer available.'
 ];

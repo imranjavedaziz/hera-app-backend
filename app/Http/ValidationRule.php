@@ -53,4 +53,5 @@ class ValidationRule
     public const PROFILE_MATCH_VALIDATION_ID =[BAIL, REQUIRED, EXISTS_PROFILE_MATCH_ID];
     public const LIKE =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const IS_SKIP =[BAIL, REQUIRED, IN_ZERO_ONE];
+    public const REASON_ID =[BAIL, REQUIRED, NULLABLE];
 }

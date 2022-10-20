@@ -54,37 +54,4 @@ class StateController extends Controller
         }
         return $response;
     }
-
-    /**
-     * @OA\Get(
-     *      path="/v1/get-php-version",
-     *      operationId="get-php-version",
-     *      tags={"User"},
-     *      summary="get-php-version",
-     *      description="get-php-version",
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Not found"
-     *      ),
-     *  )
-     */
-    public function getPhpVersion()
-    {
-        echo phpinfo();exit;
-    }
 }
