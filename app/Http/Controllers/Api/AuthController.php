@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Jobs\PasswordResetJob;
 use App\Models\AccountDeactiveReason;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use App\Constants\MobileVerificationType;
 use DB;
 use Carbon\Carbon;
 
@@ -172,16 +173,10 @@ class AuthController extends Controller
      */
     public function sentOtp(CheckPhoneRequest $request) {
         try {
-            $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->count();
-            if ($phoneExits > ZERO) {
-                return response()->Error(__('messages.phone_already_exists'));
+            if (isset($request->type) && MobileVerificationType::FORGOT_PWD == $request->type) {
+                $response = UserRegisterService::sentOtpForFogotPassword($request);
             } else {
-                $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
-                if($result[STATUS]) {
-                    $response = response()->Success($result[MESSAGE]);
-                } else {
-                    $response = response()->Error($result[MESSAGE]);
-                }
+                $response = UserRegisterService::sentOtpForMobileNumberVerify($request);
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());

@@ -186,16 +186,21 @@ class FirebaseService
                 if ($key == $receiver->id){
                     continue;
                 }
-                $friends = $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getValue();
-                if(!empty($friends)) {
-                    foreach($friends as $keyOne => $friend) {
-                        if ($keyOne == $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($keyOne) === true){
-                            $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([$receiver->id.'/'.$keyName => $accountStatus]);
-                        }
-                    } 
+                $this->updateChatUserAccountStatus($key, $receiver, $accountStatus, $keyName);
+            }
+        }
+    }
+
+    private function updateChatUserAccountStatus($key, $receiver, $accountStatus, $keyName) {
+        $friends = $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getValue();
+        if(!empty($friends)) {
+            foreach($friends as $keyOne => $friend) {
+                if ($keyOne == $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($keyOne) === true){
+                    $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([$receiver->id.'/'.$keyName => $accountStatus]);
                 }
             }
         }
+        return true;
     }
 
     /**
