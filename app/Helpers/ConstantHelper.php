@@ -78,6 +78,7 @@ define('EXISTS_HAIR_COLOURS_ID', 'exists:hair_colours,id');
 define('EXISTS_EYE_COLOURS_ID', 'exists:eye_colours,id');
 define('EXISTS_EDUCATION_ID', 'exists:education,id');
 define('EXISTS_PROFILE_MATCH_ID', 'exists:profile_matches,id');
+define('EXISTS_EMAIL_VERIFICATION_ID', 'exists:email_verifications,otp');
 
 define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
@@ -93,6 +94,7 @@ define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
 define('IMAGE_REQUIRED_WITHOUT', 'image.required_without');
+define('CODE_EXISTS', 'code.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -390,3 +392,7 @@ define('REJECTED_REQUEST', 'rejected_request');
 //define feedbacks table column
 define('FEEDBACK', 'feedback');
 define('IS_SKIP', 'is_skip');
+
+// define Email verification table column
+define('EMAIL_VERIFICATIONS', 'email_verifications');
+
