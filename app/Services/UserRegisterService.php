@@ -16,6 +16,7 @@ use Storage;
 use App\Jobs\SendEmailVerificationJob;
 use App\Jobs\SetLocationJob;
 use Carbon\Carbon;
+use App\Helpers\TwilioOtp;
 
 class UserRegisterService
 {
@@ -297,5 +298,37 @@ class UserRegisterService
         }
 
         return $data;
+    }
+
+    public function sentOtpForMobileNumberVerify($request) {
+        $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->count();
+        if ($phoneExits > ZERO) {
+            $response = response()->Error(__('messages.phone_already_exists'));
+        } else {
+            $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
+            if($result[STATUS]) {
+                $response = response()->Success($result[MESSAGE]);
+            } else {
+                $response = response()->Error($result[MESSAGE]);
+            }
+        }
+    
+        return $response;
+    }
+
+    public function sentOtpForFogotPassword($request) {
+        $user = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->first();
+        if (!empty($user)) { echo
+            $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
+            if($result[STATUS]) {
+                $response = response()->Success($result[MESSAGE], $user);
+            } else {
+                $response = response()->Error($result[MESSAGE]);
+            }
+        } else {
+            $response = response()->Error(__('messages.phone_not_exists'));
+        }
+    
+        return $response;
     }
 }

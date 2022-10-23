@@ -17,6 +17,7 @@ return [
     'logged_out' => 'Logged out successfully.',
     'email_already_exists' => 'Email Address is already exists.',
     'phone_already_exists' => 'Phone number is already exists.',
+    'phone_not_exists' => 'Mobile Number not registered. Please try again.',
     'signup_success' => 'Sign Up successful!',
     'invalid_user_pass' => 'Wrong Password. Please try again.',
     'invalid_user_phone' => 'Entered Mobile Number is not Registered. Please check again.',
@@ -87,4 +88,8 @@ return [
     'invalid_email_otp' => 'Incorrect OTP. Please Try Again.',
     'email_verified_success' => 'Email verified sucessfully.',
     'email_already_verified' => 'Email already verified.',
+    'password_does_not_match' => 'Please enter valid credentials.',
+    'password_matched' => 'Password matched successfully.',
+    'account_delete_success' => 'Your Account has been Deleted Successfully!',
+    'user_account_deleted' => 'Your account has been deleted and no longer available.'
 ];
