@@ -8,6 +8,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\AgeRangeRequest;
+use App\Http\Requests\DeleteGalleryRequest;
 use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetAttributesRequest;
@@ -786,7 +787,7 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function deleteGallery(Request $request) {
+    public function deleteGallery(DeleteGalleryRequest $request) {
         try {
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
             $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
