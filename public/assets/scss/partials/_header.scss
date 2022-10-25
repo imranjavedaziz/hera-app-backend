@@ -1,0 +1,40 @@
+.header {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: fixed;
+    z-index: 2;
+    padding: 10px 30px 10px 22px;
+    width: 100%;
+    .page-heading {
+        padding-left: 255px;
+        @include font-semi-bold(20px, 22px);
+        color: #203466;
+    }
+    .dropdown-toggle {
+        @include font-medium(14px, normal);
+        display: flex;
+        align-items: center;
+        height: 30px;
+        padding: 0;
+        color: #203466;
+        background-color: unset;
+        border: unset;
+        padding-left: 8px;
+        margin: 0;
+        .icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        &::after {
+            border: 0;
+            font-family: "icomoon", sans-serif !important;
+            font-size: 0;
+            content: "\e906";
+        }
+        &.btn:focus {
+            box-shadow: unset;
+        }
+    }
+}

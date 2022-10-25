@@ -1,0 +1,237 @@
+/*=============================================
+*   screen width
+=============================================*/
+
+$phone-landscape: 576px;
+$tablet-portrait: 768px;
+$tablet-landscape: 992px;
+$desktop: 1200px;
+$desktop-hd: 1400px;
+$font-weight: 400;
+$font-size-base: 14px;
+$line-height-base: 1;
+%all-animation {
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+@mixin vendor-prefixes($property, $value) {
+    #{$property}: $value;
+    -webkit-#{$property}: $value;
+    -moz-#{$property}: $value;
+    -ms-#{$property}: $value;
+}
+
+@mixin placeholder {
+    &.placeholder {
+        @content;
+    }
+    &:-moz-placeholder {
+        @content;
+    }
+    &::-moz-placeholder {
+        @content;
+    }
+    &::-webkit-input-placeholder {
+        @content;
+    }
+}
+
+$white: #FFFFFF;
+$black: #000000;
+$grey: #707070;
+$body-background: #141414 !default;
+$theme-color: #141414 !default;
+$theme-text: #5e6662 !default;
+$theme-secondary-text: #0f1d17 !default;
+$secondary-para-text: #828282 !default;
+$theme-main-background: #f5f6fa !default;
+$link-color: #bf9b41 !default;
+$main-border-color: #e4e4e4 !default;
+$caption-color: #5e6662;
+$icon-color: #818694;
+$pagination-bg: #141414 !default;
+// Button
+$primary-button-background: #00f83e !default;
+$primary-button-text: #141414 !default;
+$secondary-button-background: #bf9b41 !default;
+$secondary-button-text: #FFFFFF !default;
+$btn-link-background: #FFFFFF !default;
+$btn-link-text: #58ac86 !default;
+$btn-link-border: transparent !default;
+$btn-link-color: #747474 !default;
+$outline-primary-border-color: #bf9b41 !default;
+$outline-primary-button-text: #747474 !default;
+$outline-primary-button-bg: #242424 !default;
+// Search
+$search-placeholder-color: #93b5a6;
+$search-color: #FFFFFF;
+// Alert
+$alert-success-background: #e1f7ed;
+$alert-success-color: #58ac86;
+$alert-warning-background: #fff5f4;
+$alert-warning-color: #da4949;
+// Modal
+$modal-header-background: #d7efe4;
+$modal-close-color: #567366;
+$modal-title: #203466;
+// custom dropdown
+$dropdown-background: #202020;
+$dropdown-text: #fff;
+// Checkbox and radio
+$checkbox-background: #f0f0f0;
+$big-checkbox-color: #0f1d17;
+$big-checkbox-background: #e4e4e4;
+$big-checkbox-active-color: #0f1d17;
+$big-checkbox-active-background: #a7d6c1;
+$big-checkbox-disable-color: #d6d6d6;
+$big-checkbox-disable-background: #f6f6f6;
+$big-checkbox-lock-color: #e5e5e5;
+// Header
+$header-text: #84bda3;
+$header-text-active: #FFF;
+$header-background: transparent;
+// Signup
+$container-border: #e5e5e5;
+// Table
+$table-header-color: #567366;
+$table-main-color: #0f1d17;
+// Lesson
+$lesson-input-placeholder: #9ebdaf;
+// random
+$card-dropdown-icon: #d0d1d7;
+$light-blue: #e1eaff;
+// Reports
+$report-text: #485465;
+//-----------Custom variables will goes here
+$white: #FFFFFF;
+$black: #000000;
+$grey: #707070;
+$body-background: #fff;
+$theme-color: #bf9b41 !default;
+$theme-text: #5e6662 !default;
+$theme-secondary-text: #0f1d17 !default;
+$secondary-para-text: #828282 !default;
+$theme-main-background: #f5f6fa !default;
+$link-color: #bf9b41 !default;
+$main-border-color: #e4e4e4 !default;
+$caption-color: #5e6662;
+$icon-color: #818694;
+// Form
+$input-background: #1e1e1e;
+$login-form-bg: #111111;
+$input-label-color: #ffffff;
+$input-border-active-color: #616161;
+$input-border-color: #dbdbdb;
+$input-placeholder: #ffffff;
+$error-color: #da4949;
+$invalid-label-color: #ff5353;
+$success-color: #00f83e;
+$warning-color: #bf9b41;
+$input-focus-border-color: #3a362a;
+$email-color: #5e5f63;
+$select-text-color:#203466 !default;
+$forgot-text: #ffffff !default;
+$pw-show-text: #00f83e !default;
+$sub-head-text: #747474 !default;
+// Search
+$search-placeholder-color: #93b5a6;
+$search-color: #FFFFFF;
+// Alert
+$alert-success-background: #00f83e;
+$alert-success-color: #141414;
+$alert-warning-background: #ff5353;
+$alert-warning-color: #fff;
+// Modal
+// custom dropdown
+$dropdown-background: #202020;
+$dropdown-text: #fff;
+$dropdown-toggle-text-color:#203466 !default;
+$modal-theme-bg: #242424;
+$follower-text-color: #00f83e !default;
+// Checkbox and radio
+$checkbox-background: #f0f0f0;
+$big-checkbox-color: #0f1d17;
+$big-checkbox-background: #e4e4e4;
+$big-checkbox-active-color: #0f1d17;
+$big-checkbox-active-background: #a7d6c1;
+$big-checkbox-disable-color: #d6d6d6;
+$big-checkbox-disable-background: #f6f6f6;
+$big-checkbox-lock-color: #e5e5e5;
+// Header
+$header-text: #84bda3;
+$header-text-active: #FFF;
+$header-background: transparent;
+// Signup
+$container-border: #e5e5e5;
+// Table
+$table-header-color: #567366;
+$table-main-color: #0f1d17;
+$th-color:#203466;
+$inactive-status-color: #ff5353;
+$requested-status-color: #00f83e;
+$dropdown-approve-color: #00f83e;
+// Lesson
+$lesson-input-placeholder: #9ebdaf;
+// random
+$card-dropdown-icon: #d0d1d7;
+$light-blue: #e1eaff;
+// Reports
+$report-text: #485465;
+// Flex Box
+$h1-color: #ffffff !default;
+$h2-color: #9c7a03 !default;
+// Header
+$text-theme-color: #9c7a03 !default;
+$header-text: #203466 !default;
+$para-theme-text: #203466 !default;
+$header-text-active: #9c7a03 !default;
+$header-background: transparent;
+$nav-link-focus: #e2e4e7 !default;
+$nav-link-hove: #e2e4e7 !default;
+$label-text-color: #616161 !default;
+// Button
+$primary-button-text: #fff !default;
+$primary-border-background: #9c7a03 !default;
+$primary-button-text-color: #0053ff !default;
+$primary-modal-button-text-color: #0053ff !default;
+$plans-draft-status-bg-color: #f20000 !default;
+$plans-schedule-status-bg-color: #00852c !default;
+$table-active-button-color: #00852c !default;
+$table-inactive-button-color: #616161 !default;
+$table-failed-button-color: #df2d0f !default;
+$section-border-color: #9c7a03;
+$border-bottom-color: #e7dfc3;
+$input-border-color: #616161;
+$dropdown-item-focus-background: #e7dfc3 !default;
+$dropdown-item-active-color: #9c7a03 !default;
+$dropdown-item-hover-background: #0053ff;
+$link-text-color: #9c7a03 !default;
+$signin-title-color: #203466 !default;
+$signin-para-color: #222222 !default;
+$white: #FFFFFF;
+$black: #000000;
+$grey: #707070;
+$body-background: #fff;
+$theme-color: #9c7a03 !default;
+$theme-text: #203466 !default;
+$theme-secondary-text: #0f1d17 !default;
+$secondary-para-text: #828282 !default;
+$theme-main-background: #f5f6fa !default;
+$link-color: #0053ff !default;
+$main-border-color: #e4e4e4 !default;
+$caption-color: #5e6662;
+$navitem-active-border-color: #0053ff;
+$border-color: #0053ff;
+$icon-color: #818694;
+// tables
+$table-row1-background-color: #0053ff;
+$table-row2-background-color: #540bbf;
+$table-row3-background-color: #008918;
+$table-row4-background-color: #890064;
+$table-h1-color: #203466;
+$dropdown-item-active-color: #9c7a03;
+// admin
+$admin-upgrade-plan-bg-color: #e7dfc3;

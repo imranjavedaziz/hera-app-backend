@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
         'EnsureParentsToBeTokenIsValid' => \App\Http\Middleware\EnsureParentsToBeTokenIsValid::class,
         'EnsureDonarTokenIsValid' => \App\Http\Middleware\EnsureDonarTokenIsValid::class,
+        'admin' => \App\Http\Middleware\Admin::class,
     ];
 }
