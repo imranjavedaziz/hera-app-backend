@@ -1,0 +1,33 @@
+// Custom variables
+@import "partials/variables";
+@import "partials/fonts";
+@import "partials/button";
+@import "partials/form";
+@import "partials/base";
+@import "partials/modal";
+@import "partials/table";
+@import "partials/leftbar";
+@import "partials/header";
+@import "partials/signin";
+@import "partials/pages";
+@import "partials/dashboard";
+@import "partials/custom";
+@import "partials/chat";
+.hover-full-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1049;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000000, 0.5);
+    align-items: center;
+    justify-content: center;
+    display: none;
+    .modal-sm {
+        min-width: 327px;
+    }
+    .confirmation-modal h4.title {
+        line-height: 1.4;
+    }
+}

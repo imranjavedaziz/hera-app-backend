@@ -1,0 +1,40 @@
+@mixin font-shorthand($size: $font-size-base, $lineHeight: $line-height-base, $style:normal) {
+    font-size: $size;
+    line-height: $lineHeight;
+    font-style: $style;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+//-------main font Manrope
+@mixin font-light($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    @include font-shorthand($size, $lineHeight);
+}
+@mixin font-regular($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    @include font-shorthand($size, $lineHeight);
+}
+@mixin font-medium($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    @include font-shorthand($size, $lineHeight);
+}
+@mixin font-semi-bold($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    @include font-shorthand($size, $lineHeight);
+}
+@mixin font-bold($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    @include font-shorthand($size, $lineHeight);
+}
+@mixin font-extra-bold($size: $font-size-base, $lineHeight: $line-height-base) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    @include font-shorthand($size, $lineHeight);
+}
+

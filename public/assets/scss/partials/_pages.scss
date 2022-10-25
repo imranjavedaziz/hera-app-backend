@@ -1,0 +1,13 @@
+.main-right-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 100%;
+    max-width: 100%;
+    padding: 0 35px 0 274px;
+    position: relative;
+    min-height: 100vh;
+    background-color: #f7f5f0;
+    &:first-child {
+        padding: 0;
+    }
+}
