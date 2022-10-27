@@ -10,7 +10,7 @@
         <div class="main-wrapper">
             <div class="row">
                 <!-- left nav bar -->
-                @include('admin.layouts.partials.admin.sidebar')footer
+                @include('admin.layouts.partials.admin.sidebar')
                 <!-- End left nav bar -->
                 @yield('content')
             </div>
