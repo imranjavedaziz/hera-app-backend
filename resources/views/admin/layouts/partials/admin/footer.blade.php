@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="close-btn">
-                    <img src="assets/images/svg/cross.svg" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="{{ asset('assets/images/svg/cross.svg')}}" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
                 </div>
                 <div class="logout-wrapper">
                     <h3>Log Out?</h3>
@@ -29,7 +29,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="close-btn">
-                    <img src="assets/images/svg/cross.svg" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="{{ asset('assets/images/svg/cross.svg')}}" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
                 </div>
                 <div class="logout-wrapper">
                     <h3>Deactivate Jeff?</h3>
@@ -52,7 +52,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="close-btn">
-                    <img src="assets/images/svg/cross-big.svg" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="{{ asset('assets/images/svg/cross-big.svg')}}" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
                 </div>
                 <div class="users-wrapper">
                     <div class="user-profile-wrapper">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="vedio-title">Donor has uploaded a short clip</div>
                     <div class="vedio-sec">
-                        <video width="245" height="138" controls poster="./assets/images/people1.jpeg">
+                        <video width="245" height="138" controls poster="{{ asset('assets/images/people1.jpeg')}}">
                             <source src="movie.mp4" type="video/mp4">
                             <source src="movie.ogg" type="video/ogg">
                             Your browser does not support the video tag.
@@ -108,3 +108,10 @@
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/jquery-3.6.1.min.js') }} "></script>
+    <!-- end main wrapper -->
+    <script type="text/javascript">
+    $(".btn-logout").click(function() {
+        window.location.href = "/admin/logout";
+    });
+    </script>
