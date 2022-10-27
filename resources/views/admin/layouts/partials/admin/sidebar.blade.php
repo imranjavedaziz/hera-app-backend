@@ -1,7 +1,7 @@
 <div class="left-nav-wrapper left-nav-inner-wrapper scrollbar">
     <a href="dashboard.html" class="logo-container">
         <div class="logo-box">
-            <img src="./assets/images/logo.png" alt="sidebar-logo">
+            <img src="{{ asset('assets/images/logo.png')}}" alt="sidebar-logo">
         </div>
     </a>
     <div class="left-nav">
