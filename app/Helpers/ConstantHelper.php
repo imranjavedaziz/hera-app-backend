@@ -409,3 +409,7 @@ define('IS_SKIP', 'is_skip');
 
 // define Email verification table column
 define('EMAIL_VERIFICATIONS', 'email_verifications');
+
+//define enquiry form table column
+define('ENQUIRY_FORMS', 'enquiry_forms');
+define('ENQUIRING_AS', 'enquiring_as');

@@ -101,5 +101,7 @@ return [
         'new_password_can_not_be_old_password' => 'New password cannot be same as your current password.',
         'change_password_success' => 'Password changed successfully.',
     ],
-
+    'enquiry' => [
+        'success' => 'Enquiry Submitted Successfully!',
+    ],
 ];

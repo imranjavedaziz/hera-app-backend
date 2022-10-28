@@ -58,4 +58,5 @@ class ValidationRule
     public const EMAIL_CODE =[BAIL, REQUIRED, EXISTS_EMAIL_VERIFICATION_ID];
     public const IDS =[BAIL, REQUIRED, ARRAYY];
     public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
+    public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
 }
