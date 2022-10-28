@@ -102,7 +102,7 @@ class AuthController extends Controller
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
-                if ($user->status_id === ACTIVE) {
+                if ($user->status_id === ACTIVE || $user->status_id === INACTIVE) {
                     $user->access_token = $oauth_token;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
