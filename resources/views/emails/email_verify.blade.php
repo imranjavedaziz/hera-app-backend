@@ -32,7 +32,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 36px; padding: 0 40px 23px 40px; color: #5abcec; font-weight: 800;">
-	                    0  9  8  1  0  9
+	                    {{ $user['code'] }}
 	                </td>
 	            </tr>
 	            <tr>

@@ -45,7 +45,7 @@ class StateController extends Controller
         try {
             $states = StateService::getStates();
             if ($states) {
-                $response = response()->Success(trans('messages.data_found'), $states);
+                $response = response()->Success(trans('messages.common_msg.data_found'), $states);
             } else {
                 $response = response()->Error(trans('messages.common_msg.no_data_found'));
             }

@@ -1,0 +1,233 @@
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+ul, h1, h2, h3, h4, h5, h6,
+p {
+    margin: 0px;
+    text-rendering: auto;
+}
+
+ul,
+ol,
+li {
+    list-style-type: none;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    @include font-regular(15px, 1.2);
+    // color: #ffffff;
+    -webkit-tap-highlight-color: transparent !important;
+    // background-image: linear-gradient(125deg, #232323, #1a1a1a);
+    font-feature-settings: "liga";
+    // background-color: #141414;
+}
+
+*:before,
+*:after {
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+body,
+ul,
+figure {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    color: $link-color;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:active {
+        outline: none;
+        text-decoration: none;
+        cursor: pointer;
+        color: darken($link-color, 10);
+    }
+}
+
+
+.form-select {
+    width: auto;
+    border: 1px solid #e7dfc3;
+    @include font-regular(13px, 23px);
+    color: $select-text-color;
+    padding: 9px 46px 7px .75rem;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.dropdown {
+    .dropdown-toggle {
+        color: $card-dropdown-icon;
+        font-size: 26px;
+        line-height: 10px;
+        height: 50px;
+        min-width: 50px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        border: solid 1px transparent;
+        box-shadow: none;
+        @extend %all-animation;
+        &::after {
+            border: none;
+        }
+        .dropdown-img {
+            padding-left: 30px;
+        }
+    }
+    .dropdown-menu {
+        min-width: 196px;
+        padding: 0;
+        .dropdown-item {
+            min-width: 143px;
+            @include font-regular(14px, 3.21);
+            padding: 22px 30px 21px 30px;
+            color: #353a3a;
+            text-transform: uppercase;
+            .icon {
+                font-size: 24px;
+                display: inline-block;
+                margin-right: 15px;
+                color: $icon-color;
+            }
+
+            &:hover {
+                background-color: transparent;
+                color: $icon-color;
+
+                .icon {
+                    color: $dropdown-text;
+                }
+            }
+        }
+    }
+}
+.dropdown-menu {
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.04);
+    border: 0;
+    background-color: #fff;
+}
+
+.alert {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: calc(-415px / 2);
+    min-height: 61px;
+    width: 415px;
+    border-radius: 0;
+    border: 0;
+    z-index: 1032;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include font-bold(16px, 17px);
+    img{
+        margin-right: 10px;
+    }
+    .alert-text{
+        display: flex;
+        align-items: center;
+    }
+    &.alert-warning {
+        color: $alert-warning-color;
+        background-color: #ff4544;
+
+        .close {
+            &:hover {
+                color: darken($alert-warning-color, 10%);
+            }
+        }
+    }
+    &.alert-success {
+        color: $alert-warning-color;
+        background-color: #a3c6c4;
+    }
+}
+
+
+.disable {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.loader-container {
+    height: 100%;
+    width: 100%;
+    background: rgba($body-background, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+}
+
+.loader {
+    border: 5px solid #115c3a;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.text-danger{
+    color: #ff4544;
+}
