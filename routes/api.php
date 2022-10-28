@@ -93,11 +93,14 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('set-gallery', [UserController::class, 'setGallery']);
         Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
         Route::get('get-gallery', [UserController::class, 'getGalleryData']);
+        Route::post('send-verification-mail', [UserController::class, 'sendVerificationMail']);
+        Route::post('verify-email', [UserController::class, 'verifyEmail']);
 
         //Profile Routes
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
 
         //Enquiry Routes
 
