@@ -51,6 +51,7 @@ return [
             'current_password_req' => 'Please enter Current Password.',
             'new_password_req' => 'Please enter New Password.',
             'confirm_password_req' => 'Please enter Confirm Password.',
+            'code_exists' => 'Invalid OTP.'
         ],
     ],
     'register' => [
@@ -61,6 +62,7 @@ return [
         'gallery_save_success' => 'Gallery saved successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
         'gallery_save_only_one_at_a_time' => 'You can upload either image or video at a time.',
+        'gallery_id_not_found' => 'No such Gallery item exists.',
         'gallery_data_delete_success' => 'Image Removed from Gallery.',
         'gallery_max_image_upload' => 'You can upload only 6 images into Gallery.',
         'gallery_max_video_upload' => 'You can upload only 1 video into Gallery.',
@@ -85,6 +87,10 @@ return [
     'reset_password_invalid_user' => 'Sorry, We can\'t find a user with that id.',
     'account_deactive' => 'Account Deactivated Successfully!.',
     'account_active' => 'Account Activated Successfully!.',
+    'verify_email_send_success' => 'Verify mail has been sent successfully on your email.',
+    'invalid_email_otp' => 'Incorrect OTP. Please Try Again.',
+    'email_verified_success' => 'Email verified sucessfully.',
+    'email_already_verified' => 'Email already verified.',
     'password_does_not_match' => 'Please enter valid credentials.',
     'password_matched' => 'Password matched successfully.',
     'account_delete_success' => 'Your Account has been Deleted Successfully!',

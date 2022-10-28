@@ -61,6 +61,11 @@ define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
 define('MIN_ONE', 'min:1');
 define('IN_ZERO_ONE', 'in:0,1');
 
+define('EMAIL_CODE', 'email_code');
+define('ARRAYY', 'array');
+define('IDS', 'ids');
+define('ALL_IDS', 'ids.*');
+
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
 
@@ -78,6 +83,8 @@ define('EXISTS_HAIR_COLOURS_ID', 'exists:hair_colours,id');
 define('EXISTS_EYE_COLOURS_ID', 'exists:eye_colours,id');
 define('EXISTS_EDUCATION_ID', 'exists:education,id');
 define('EXISTS_PROFILE_MATCH_ID', 'exists:profile_matches,id');
+define('EXISTS_EMAIL_VERIFICATION_ID', 'exists:email_verifications,otp');
+define('EXISTS_DONER_GALLERIES_ID', 'exists:doner_galleries,id,user_id');
 
 define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
@@ -96,6 +103,8 @@ define('IMAGE_REQUIRED_WITHOUT', 'image.required_without');
 define('CURRENT_PASSWORD_REQ', 'current_password.required');
 define('NEW_PASSWORD_REQ', 'new_password.required');
 define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
+define('CODE_EXISTS', 'code.exists');
+define('ALL_IDS_EXISTS', 'ids.*.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -397,3 +406,6 @@ define('REJECTED_REQUEST', 'rejected_request');
 //define feedbacks table column
 define('FEEDBACK', 'feedback');
 define('IS_SKIP', 'is_skip');
+
+// define Email verification table column
+define('EMAIL_VERIFICATIONS', 'email_verifications');

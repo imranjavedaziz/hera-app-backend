@@ -15,14 +15,16 @@ class SendEmailVerificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $user;
+    protected $code;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $code)
     {
         $this->user = $user;
+        $this->code = $code;
     }
 
     /**
@@ -32,6 +34,7 @@ class SendEmailVerificationJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->user->code = $this->code;
         Mail::to($this->user->email)->send(new EmailVerifyMail($this->user));
     }
 }

@@ -41,7 +41,7 @@ class ValidationRule
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
     public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
     public const STATUS =[BAIL, REQUIRED];
-    public const IMAGE =[BAIL, REQUIRED_WITHOUT_VIDEO, SOMETIMES, NULLABLE];
+    public const IMAGE =[BAIL, REQUIRED_WITHOUT_VIDEO, SOMETIMES, NULLABLE, IMAGE];
     public const VIDEO =[BAIL, REQUIRED_WITHOUT_IMAGE, SOMETIMES, NULLABLE];
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
@@ -55,4 +55,7 @@ class ValidationRule
     public const LIKE =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const IS_SKIP =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const REASON_ID =[BAIL, REQUIRED, NULLABLE];
+    public const EMAIL_CODE =[BAIL, REQUIRED, EXISTS_EMAIL_VERIFICATION_ID];
+    public const IDS =[BAIL, REQUIRED, ARRAYY];
+    public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
 }
