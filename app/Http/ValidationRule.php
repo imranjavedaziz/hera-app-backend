@@ -16,6 +16,7 @@ class ValidationRule
     public const EMAIL =[BAIL, REQUIRED, EMAIL, EMAIL_MAX_LENGTH, EMAIL_REGEX];
     public const PASSWORD =[BAIL, REQUIRED, 'min:8', 'max:20', PASSWORD_REGEX];
     public const CONFIRM_PASSWORD =[BAIL, REQUIRED, 'same:password'];
+    public const CONFIRM_NEW_PASSWORD =[BAIL, REQUIRED, 'same:new_password'];
     public const PROFILE_PIC =[BAIL, REQUIRED];
     public const DOB =[BAIL, REQUIRED];
     public const USER_ID =[BAIL, REQUIRED, EXISTS_USERS_ID];

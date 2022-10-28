@@ -48,6 +48,9 @@ return [
             'pro_pic_max' => 'Image size is more than 5MB.',
             'state_id_exists' => 'Selected state is invalid.',
             'image_required_without' => 'Either Video or image is required.',
+            'current_password_req' => 'Please enter Current Password.',
+            'new_password_req' => 'Please enter New Password.',
+            'confirm_password_req' => 'Please enter Confirm Password.',
             'code_exists' => 'Invalid OTP.'
         ],
     ],
@@ -91,5 +94,12 @@ return [
     'password_does_not_match' => 'Please enter valid credentials.',
     'password_matched' => 'Password matched successfully.',
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
-    'user_account_deleted' => 'Your account has been deleted and no longer available.'
+    'user_account_deleted' => 'Your account has been deleted and no longer available.',
+    'change_password' => [
+        'invalid_authentication' => 'Invalid authentication.',
+        'old_password_does_not_match' => 'The current password you have entered is incorrect.',
+        'new_password_can_not_be_old_password' => 'New password cannot be same as your current password.',
+        'change_password_success' => 'Password changed successfully.',
+    ],
+
 ];

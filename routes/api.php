@@ -97,6 +97,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\AgeRangeRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\DeleteGalleryRequest;
 use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
@@ -23,6 +25,7 @@ use Facades\{
     App\Services\UserRegisterService,
 };
 use App\Models\User;
+use Log;
 
 class UserController extends Controller
 {
@@ -1221,6 +1224,97 @@ class UserController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/change-password",
+     *     description="Change User password",
+     *     operationId="change-password",
+     *     tags={"User"},
+     *     summary="Change User Password",
+     *     description="Change User Password",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "Change User Password",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="current_password",
+     *                type="string",
+     *                example="Xyz@1234"
+     *             ),
+     *             @OA\Property(
+     *                property="new_password",
+     *                type="string",
+     *                example="Abc@1234"
+     *             ),
+     *             @OA\Property(
+     *                property="confirm_password",
+     *                type="string",
+     *                example="Abc@1234"
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $user = AuthHelper::authenticatedUser();
+            if (!empty($user)) {
+                $userId = $user->id;
+                if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
+                    if(!Hash::check($input[NEW_PASSWORD], $user->password)){
+                        $user->password = bcrypt($input[NEW_PASSWORD]);
+                        $user->save();
+                        DB::commit();
+                        $response = response()->Success(trans('messages.change_password.change_password_success'));
+                    }else{
+                        $response = response()->Error(trans('messages.change_password.new_password_can_not_be_old_password'));
+                    }
+                } else {
+                    $response = response()->Error(trans('messages.change_password.old_password_does_not_match'));
+                }
+            }else{
+                $response = response()->Error(trans('messages.change_password.invalid_authentication'));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = $this->response->array([SUCCESS => false, MESSAGE => $e->getMessage()]);
         }
 
         return $response;
