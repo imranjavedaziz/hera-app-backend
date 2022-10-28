@@ -62,9 +62,9 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['id'] = $donar->id;
         $result['user']['role_id'] = $donar->role_id;
         $result['user']['profile_pic'] = $donar->profile_pic;
-        $result['user']['zipcode'] = $donar->location->zipcode;
-        $result['user']['state_id'] = $donar->location->state_id;
-        $result['user']['state_name'] = strtoupper($donar->location->name);
+        $result['user']['zipcode'] = isset($donar->location) ? $donar->location->zipcode : null;
+        $result['user']['state_id'] = isset($donar->location) ? $donar->location->state_id : null;
+        $result['user']['state_name'] = isset($donar->location) ? strtoupper($donar->location->name): null;
         $result['user']['age'] = CustomHelper::ageCalculator($donar->dob);
         $result['match_request'] = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, FROM_USER_ID => $donar->id])->select(ID,FROM_USER_ID,TO_USER_ID,STATUS)->first();
         $result[MATCH_VALUE] = $matchValue;
@@ -89,15 +89,16 @@ trait ParentsToBeMatchedDonerTrait
     }
 
     /**
-     * @param int $donarState
+     * @param Location $donarState
      * @param string $preference
      * @return int
      */
     private function getLocationValue ($donarState, $preference): int
     {
         $value = LOCATION_VALUE * 1/3;
+        $state_id = $donarState ? $donarState->state_id : NULL;
         $statePreference = explode(',',$preference);
-        if (in_array($donarState, $statePreference)) {
+        if (isset($state_id) && in_array($donarState, $statePreference)) {
             $value = LOCATION_VALUE;
         }
         return $value;
@@ -226,7 +227,7 @@ trait ParentsToBeMatchedDonerTrait
         + $this->getHeightValue(Height::getHeight($donar->donerAttribute->height_id),$parents->parentsPreference->height)
         + $this->getRaceValue($donar->donerAttribute->race_id, $parents->parentsPreference->race)
         + $this->getEthnicityValue($donar->donerAttribute->mother_ethinicity_id, $donar->donerAttribute->father_ethinicity_id,$parents->parentsPreference->ethnicity)
-        + $this->getLocationValue($donar->location->state_id, $parents->parentsPreference->state)
+        + $this->getLocationValue($donar->location, $parents->parentsPreference->state)
         + $this->getHairColourValue($donar->donerAttribute->hair_colour_id, $parents->parentsPreference->hair_colour)
         + $this->getEyeColourValue($donar->donerAttribute->eye_colour_id, $parents->parentsPreference->eye_colour)
         + $this->getEducationValue($donar->donerAttribute->education_id, $parents->parentsPreference->education);
