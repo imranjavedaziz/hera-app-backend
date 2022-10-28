@@ -93,6 +93,9 @@ define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
 define('IMAGE_REQUIRED_WITHOUT', 'image.required_without');
+define('CURRENT_PASSWORD_REQ', 'current_password.required');
+define('NEW_PASSWORD_REQ', 'new_password.required');
+define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -289,6 +292,10 @@ define('DONERPHOTOGALLERY', 'donerPhotoGallery');
 define('DONERVIDEOGALLERY', 'donerVideoGallery');
 define('DONER_PHOTO_GALLERY', 'doner_photo_gallery');
 define('DONER_VIDEO_GALLERY', 'doner_video_gallery');
+define('CURRENT_PASSWORD', 'current_password');
+define('NEW_PASSWORD', 'new_password');
+define('CONFIRM_PASSWORD', 'confirm_password');
+define('CONFIRM_NEW_PASSWORD', 'confirm_new_password');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
