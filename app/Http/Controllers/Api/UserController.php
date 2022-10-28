@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\AgeRangeRequest;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\DeleteGalleryRequest;
 use App\Http\Requests\ProfileRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SetAttributesRequest;
@@ -15,12 +18,14 @@ use App\Http\Requests\SetPreferencesRequest;
 use App\Http\Requests\SetGalleryRequest;
 use App\Http\Requests\UpdateProfilePicRequest;
 use App\Http\Requests\UpdateUserProfileRequest;
+use App\Http\Requests\ValidateEmailVerifyRequest;
 use DB;
 use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\UserRegisterService,
 };
 use App\Models\User;
+use Log;
 
 class UserController extends Controller
 {
@@ -785,7 +790,7 @@ class UserController extends Controller
      *      security={ {"bearer": {}} },
      *  )
      */
-    public function deleteGallery(Request $request) {
+    public function deleteGallery(DeleteGalleryRequest $request) {
         try {
             $ids = explode(',',$request->all()['ids']);
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $ids);
@@ -1101,6 +1106,218 @@ class UserController extends Controller
             DB::rollback();
             $response = response()->Error($e->getMessage());
         }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/send-verification-mail",
+     *      operationId="send-verification-mail",
+     *      tags={"User"},
+     *      summary="send email verification otp",
+     *      description="send email verification otp.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function sendVerificationMail(Request $request) {
+        try {
+            if(AuthHelper::authenticatedUser()->email_verified == true){
+                return response()->Error(__('messages.email_already_verified'));
+            }
+            DB::beginTransaction();
+            $user = UserRegisterService::sendEmailVerification(AuthHelper::authenticatedUser());
+            $response = response()->Success( __('messages.verify_email_send_success'), $user);
+            DB::commit();
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+
+        return $response;
+    }
+
+     /**
+     * @OA\Post(
+     *      path="/v1/verify-email",
+     *      operationId="verify-email",
+     *      tags={"User"},
+     *      summary="Verify email",
+     *      description="Verify email.",
+     *      @OA\RequestBody(
+     *        required = true,
+     *        description = "Verify email",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="code",
+     *                type="integer",
+     *                example="123456"
+     *             ),
+     *         ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function verifyEmail(ValidateEmailVerifyRequest $request) {
+        try {
+            DB::beginTransaction();
+            $user = UserRegisterService::verifyEmail(AuthHelper::authenticatedUser(), $request->all());
+            if($user[STATUS]) {
+                DB::commit();
+                $response = response()->Success($user[MESSAGE]);
+            } else {
+                DB::rollback();
+                $response = response()->Error($user[MESSAGE]);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = response()->Error($e->getMessage());
+        }
+
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/change-password",
+     *     description="Change User password",
+     *     operationId="change-password",
+     *     tags={"User"},
+     *     summary="Change User Password",
+     *     description="Change User Password",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "Change User Password",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="current_password",
+     *                type="string",
+     *                example="Xyz@1234"
+     *             ),
+     *             @OA\Property(
+     *                property="new_password",
+     *                type="string",
+     *                example="Abc@1234"
+     *             ),
+     *             @OA\Property(
+     *                property="confirm_password",
+     *                type="string",
+     *                example="Abc@1234"
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $user = AuthHelper::authenticatedUser();
+            if (!empty($user)) {
+                $userId = $user->id;
+                if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
+                    if(!Hash::check($input[NEW_PASSWORD], $user->password)){
+                        $user->password = bcrypt($input[NEW_PASSWORD]);
+                        $user->save();
+                        DB::commit();
+                        $response = response()->Success(trans('messages.change_password.change_password_success'));
+                    }else{
+                        $response = response()->Error(trans('messages.change_password.new_password_can_not_be_old_password'));
+                    }
+                } else {
+                    $response = response()->Error(trans('messages.change_password.old_password_does_not_match'));
+                }
+            }else{
+                $response = response()->Error(trans('messages.change_password.invalid_authentication'));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = $this->response->array([SUCCESS => false, MESSAGE => $e->getMessage()]);
+        }
+
         return $response;
     }
 }

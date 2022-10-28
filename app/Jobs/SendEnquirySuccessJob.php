@@ -9,22 +9,22 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Mail;
-use App\Mail\EmailVerifyMail;
+use App\Mail\EnquirySuccessMail;
 
-class SendEmailVerificationJob implements ShouldQueue
+class SendEnquirySuccessJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $user;
-    protected $code;
+
+    protected $enquiry;
+    
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $code)
+    public function __construct($enquiry)
     {
-        $this->user = $user;
-        $this->code = $code;
+        $this->enquiry = $enquiry;
     }
 
     /**
@@ -34,7 +34,6 @@ class SendEmailVerificationJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->code = $this->code;
-        Mail::to($this->user->email)->send(new EmailVerifyMail($this->user));
+        Mail::to($this->enquiry->email)->send(new EnquirySuccessMail($this->enquiry));
     }
 }

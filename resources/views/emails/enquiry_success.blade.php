@@ -22,22 +22,12 @@
 	            </tr>
 	            <tr>
 	                <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-	                    Welcome {{ $user['first_name'] }}!
+	                    Hi {{ $enquiry['name'] }}!
 	                </td>
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-	                    You have successfully started your <span style="font-weight: bold;">{{ $user['role']['name'] }}</span> journey on HERA. Please use the below mentioned code to verify your email address. Match & Chat with the potential Surrogate Mothers/Egg Donors/Sperm Donors.
-	                </td>
-	            </tr>
-	            <tr>
-	                <td style="font-size: 36px; padding: 0 40px 23px 40px; color: #5abcec; font-weight: 800;">
-	                    {{ $user['code'] }}
-	                </td>
-	            </tr>
-	            <tr>
-	                <td style="font-size: 13px; padding: 0 40px 30px 40px; color: #ff4544;">
-	                    <em>Note: This code will expire in 30 mins</em>
+	                    Your Enquiry Submitted Successfully!.
 	                </td>
 	            </tr>
 	            <tr>
