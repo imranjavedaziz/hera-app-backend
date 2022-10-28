@@ -86,6 +86,7 @@ class UserRegisterService
         if($user_profile->save()){
             $user->registration_step = TWO;
             $user->save();
+            dispatch(new SetLocationJob($input));
             $this->sendEmailVerification($user);
         }
         return $user_profile;
