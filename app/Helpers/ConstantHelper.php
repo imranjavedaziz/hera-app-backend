@@ -413,3 +413,7 @@ define('EMAIL_VERIFICATIONS', 'email_verifications');
 //define enquiry form table column
 define('ENQUIRY_FORMS', 'enquiry_forms');
 define('ENQUIRING_AS', 'enquiring_as');
+
+//Admin 
+define('ADMIN_NAME', 'Admin');
+define('ADMIN_PHONE', '1111111111');
