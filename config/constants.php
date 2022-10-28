@@ -25,4 +25,5 @@ return [
         'expectation_failed'=>417
     ],
     'ADMIN_URL'=>'admin',
+    'ADMIN_EMAIL' => env('ADMIN_EMAIL', 'admin-mbc@yopmail.com'),
 ];
