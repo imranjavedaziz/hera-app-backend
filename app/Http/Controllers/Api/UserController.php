@@ -792,7 +792,8 @@ class UserController extends Controller
      */
     public function deleteGallery(DeleteGalleryRequest $request) {
         try {
-            $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $request->all()['ids']);
+            $ids = explode(',',$request->all()['ids']);
+            $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $ids);
             $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());

@@ -11,4 +11,18 @@ return [
         '24-32'  => '24-32',
         '32-40'  => '32-40'
     ],
+
+    'http_code'=>[
+        'ok'=>200,
+        'unauthorize'=>401,
+        'no_content'=>204,
+        'login_fail'=>401,
+        'unprocessable entity'=>422,
+        'mail_fail'=>535,
+        'exception'=>500,
+        'notFound'=>404,
+        'forbidden'=>403,
+        'expectation_failed'=>417
+    ],
+    'ADMIN_URL'=>'admin',
 ];

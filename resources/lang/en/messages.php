@@ -95,6 +95,9 @@ return [
     'password_matched' => 'Password matched successfully.',
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
+    'admin' => [
+        'invalid_credentail' => 'Please login with valid credentials.'
+    ],
     'change_password' => [
         'invalid_authentication' => 'Invalid authentication.',
         'old_password_does_not_match' => 'The current password you have entered is incorrect.',

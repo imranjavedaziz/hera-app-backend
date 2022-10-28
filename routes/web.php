@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.auth.login');
+});
+
+
+Route::prefix('admin')->namespace('Admin')->group(function () {
+    Route::get('/', [AuthController::class, 'getlogin']);
+    Route::post('/', [AuthController::class, 'postLogin'])->name('login');
+
+    Route::group([ MIDDLEWARE =>['admin']], function(){
+        Route::get('/logout', [AuthController::class,'logout']);
+        Route::get('user-management', [UserController::class,'index'])->name('userList');
+    });    
 });
