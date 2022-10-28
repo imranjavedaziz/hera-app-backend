@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\InAppWebhookController;
 use App\Http\Controllers\Api\FcmController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChatFeedbackController;
+use App\Http\Controllers\Api\EnquiryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
     Route::post('match-password', [AuthController::class, 'matchPassword']);
     Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
+    Route::get('roles', [EnquiryController::class, 'getRoles']);
+    Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
@@ -95,6 +98,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+
+        //Enquiry Routes
+
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){

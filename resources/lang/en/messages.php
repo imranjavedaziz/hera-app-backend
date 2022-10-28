@@ -85,5 +85,8 @@ return [
     'password_does_not_match' => 'Please enter valid credentials.',
     'password_matched' => 'Password matched successfully.',
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
-    'user_account_deleted' => 'Your account has been deleted and no longer available.'
+    'user_account_deleted' => 'Your account has been deleted and no longer available.',
+    'enquiry' => [
+        'success' => 'Enquiry Submitted Successfully!',
+    ],
 ];

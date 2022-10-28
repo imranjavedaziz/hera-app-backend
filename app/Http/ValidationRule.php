@@ -54,4 +54,5 @@ class ValidationRule
     public const LIKE =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const IS_SKIP =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const REASON_ID =[BAIL, REQUIRED, NULLABLE];
+    public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
 }

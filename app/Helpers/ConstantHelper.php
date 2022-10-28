@@ -390,3 +390,7 @@ define('REJECTED_REQUEST', 'rejected_request');
 //define feedbacks table column
 define('FEEDBACK', 'feedback');
 define('IS_SKIP', 'is_skip');
+
+//define enquiry form table column
+define('ENQUIRY_FORMS', 'enquiry_forms');
+define('ENQUIRING_AS', 'enquiring_as');
