@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Gender;
+use DB;
 
 class GenderSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class GenderSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Gender::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $genders = [
             [
                 NAME  => 'Male',

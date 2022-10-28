@@ -4,15 +4,15 @@
 	style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-serif; height: 100%;" aria-describedby="Account Verify">
 	<!-- // new table -->
 	<tr>
-		<th>
+		<th scope="col">
 		</th>
 	</tr>
 	<tr>
 	    <td>
 	        <table
-	            style="background-color: white; border: 0; width: 100%; max-width: 840px; margin-right:auto; margin-left: auto; font-family: 'Open Sans', sans-serif;border:1px solid #e4e8eb;padding: 0px; color: #353a3a;" aria-describedby="Account Verify">
+	            style="background-color: white; width: 100%; max-width: 840px; margin-right:auto; margin-left: auto; font-family: 'Open Sans', sans-serif;border:1px solid #e4e8eb;padding: 0px; color: #353a3a;" aria-describedby="Account Verify">
 	            <tr>
-	                <th>
+	                <th scope="col">
 	                </th>
 	            </tr>
 				<tr>
@@ -32,7 +32,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 36px; padding: 0 40px 23px 40px; color: #5abcec; font-weight: 800;">
-	                    0  9  8  1  0  9
+	                    {{ $user['code'] }}
 	                </td>
 	            </tr>
 	            <tr>

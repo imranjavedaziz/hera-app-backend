@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="10" assertions="20" errors="0" warnings="0" failures="0" skipped="0" time="2.803616">
+    <testsuite name="Unit" tests="9" assertions="19" errors="0" warnings="0" failures="0" skipped="0" time="0.093149">
+      <testsuite name="Tests\Unit\ExampleTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ExampleTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.046560">
+        <testcase name="test_example" class="Tests\Unit\ExampleTest" classname="Tests.Unit.ExampleTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ExampleTest.php" line="14" assertions="1" time="0.046560"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" tests="8" assertions="18" errors="0" warnings="0" failures="0" skipped="0" time="0.046588">
+        <testcase name="testLocationValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="17" assertions="2" time="0.016202"/>
+        <testcase name="testAgeValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="29" assertions="4" time="0.007383"/>
+        <testcase name="testRaceValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="43" assertions="2" time="0.000962"/>
+        <testcase name="testEthnicityValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="55" assertions="2" time="0.014064"/>
+        <testcase name="testHeightValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="67" assertions="2" time="0.002142"/>
+        <testcase name="testHairColourValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="79" assertions="2" time="0.003805"/>
+        <testcase name="testEyeColourValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="91" assertions="2" time="0.001062"/>
+        <testcase name="testEducationValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Unit/ParentsMatchedDonarsTest.php" line="103" assertions="2" time="0.000968"/>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="2.710468">
+      <testsuite name="Tests\Feature\ExampleTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/ExampleTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="2.710468">
+        <testcase name="test_example" class="Tests\Feature\ExampleTest" classname="Tests.Feature.ExampleTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/ExampleTest.php" line="15" assertions="1" time="2.710468"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

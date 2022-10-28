@@ -17,6 +17,7 @@ return [
     'logged_out' => 'Logged out successfully.',
     'email_already_exists' => 'Email Address is already exists.',
     'phone_already_exists' => 'Phone number is already exists.',
+    'phone_not_exists' => 'Mobile Number not registered. Please try again.',
     'signup_success' => 'Sign Up successful!',
     'invalid_user_pass' => 'Wrong Password. Please try again.',
     'invalid_user_phone' => 'Entered Mobile Number is not Registered. Please check again.',
@@ -47,6 +48,10 @@ return [
             'pro_pic_max' => 'Image size is more than 5MB.',
             'state_id_exists' => 'Selected state is invalid.',
             'image_required_without' => 'Either Video or image is required.',
+            'current_password_req' => 'Please enter Current Password.',
+            'new_password_req' => 'Please enter New Password.',
+            'confirm_password_req' => 'Please enter Confirm Password.',
+            'code_exists' => 'Invalid OTP.'
         ],
     ],
     'register' => [
@@ -57,6 +62,7 @@ return [
         'gallery_save_success' => 'Gallery saved successfully!',
         'gallery_save_old_file_error' => 'No such file exists to update.',
         'gallery_save_only_one_at_a_time' => 'You can upload either image or video at a time.',
+        'gallery_id_not_found' => 'No such Gallery item exists.',
         'gallery_data_delete_success' => 'Image Removed from Gallery.',
         'gallery_max_image_upload' => 'You can upload only 6 images into Gallery.',
         'gallery_max_video_upload' => 'You can upload only 1 video into Gallery.',
@@ -71,5 +77,34 @@ return [
         'image' => 'Image updated successfully.',
         'profile_data' => 'Profile updated successfully.'
     ],
-    'subscription_created' => 'Subcription created successfully.'
+    'chat' => [
+        'feedback' => [
+            'skip' => 'Skipped',
+            'saved' => 'Feeback saved successfully.',
+        ],
+    ],
+    'subscription_created' => 'Subcription created successfully.',
+    'reset_password_invalid_user' => 'Sorry, We can\'t find a user with that id.',
+    'account_deactive' => 'Account Deactivated Successfully!.',
+    'account_active' => 'Account Activated Successfully!.',
+    'verify_email_send_success' => 'Verify mail has been sent successfully on your email.',
+    'invalid_email_otp' => 'Incorrect OTP. Please Try Again.',
+    'email_verified_success' => 'Email verified sucessfully.',
+    'email_already_verified' => 'Email already verified.',
+    'password_does_not_match' => 'Please enter valid credentials.',
+    'password_matched' => 'Password matched successfully.',
+    'account_delete_success' => 'Your Account has been Deleted Successfully!',
+    'user_account_deleted' => 'Your account has been deleted and no longer available.',
+    'admin' => [
+        'invalid_credentail' => 'Please login with valid credentials.'
+    ],
+    'change_password' => [
+        'invalid_authentication' => 'Invalid authentication.',
+        'old_password_does_not_match' => 'The current password you have entered is incorrect.',
+        'new_password_can_not_be_old_password' => 'New password cannot be same as your current password.',
+        'change_password_success' => 'Password changed successfully.',
+    ],
+    'enquiry' => [
+        'success' => 'Enquiry Submitted Successfully!',
+    ],
 ];

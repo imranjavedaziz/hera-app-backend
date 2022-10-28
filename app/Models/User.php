@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
         EMAIL_VERIFIED_AT => DATETIME,
     ];
 
+    public function getRoleIdAttribute()
+    {
+        return (int)$this->attributes[ROLE_ID];
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -114,5 +119,9 @@ class User extends Authenticatable implements JWTSubject
     public function deviceRegistration()
     {
         return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, 1);
+    }
+
+    public function notification() {
+        return $this->hasOne(Notification::class, RECIPIENT_ID, ID)->whereNull(READ_AT);
     }
 }

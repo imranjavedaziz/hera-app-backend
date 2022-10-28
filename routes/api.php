@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\InAppWebhookController;
 use App\Http\Controllers\Api\FcmController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ChatFeedbackController;
+use App\Http\Controllers\Api\EnquiryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
     Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
 
@@ -71,6 +74,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
+    Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
+    Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
+    Route::post('match-password', [AuthController::class, 'matchPassword']);
+    Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
+    Route::get('roles', [EnquiryController::class, 'getRoles']);
+    Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
@@ -78,18 +87,23 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
-        Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
         Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
         Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
         Route::post('set-gallery', [UserController::class, 'setGallery']);
         Route::delete('delete-gallery', [UserController::class, 'deleteGallery']);
         Route::get('get-gallery', [UserController::class, 'getGalleryData']);
+        Route::post('send-verification-mail', [UserController::class, 'sendVerificationMail']);
+        Route::post('verify-email', [UserController::class, 'verifyEmail']);
 
         //Profile Routes
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
+
+        //Enquiry Routes
+
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -98,6 +112,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('get-attributes', [UserController::class, 'getAttributes']);
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
+            Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
@@ -108,6 +123,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
+            Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
         });
     });
 });

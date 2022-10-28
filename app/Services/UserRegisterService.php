@@ -5,6 +5,7 @@ namespace App\Services;
 use Ramsey\Uuid\Uuid;
 use App\Models\DonerAttribute;
 use App\Models\DonerGallery;
+use App\Models\EmailVerification;
 use App\Models\User;
 use App\Models\ParentsPreference;
 use App\Models\UserProfile;
@@ -14,6 +15,8 @@ use App\Traits\SetterDataTrait;
 use Storage;
 use App\Jobs\SendEmailVerificationJob;
 use App\Jobs\SetLocationJob;
+use Carbon\Carbon;
+use App\Helpers\TwilioOtp;
 
 class UserRegisterService
 {
@@ -31,7 +34,8 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            // dispatch(new SendEmailVerificationJob($user));
+            $user->code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
+            /** dispatch(new SendEmailVerificationJob($user)); **/
         }
         return $user;
     }
@@ -82,7 +86,7 @@ class UserRegisterService
         if($user_profile->save()){
             $user->registration_step = TWO;
             $user->save();
-            dispatch(new SetLocationJob($input));
+            $this->sendEmailVerification($user);
         }
         return $user_profile;
     }
@@ -261,5 +265,70 @@ class UserRegisterService
             return true;
         }
         return false;
+    }
+
+    public function updateUserAccountStatus($userId, $input) {
+        $reason = $input[REASON_ID] ?? null;
+        return User::where(ID, $userId)->update([STATUS_ID => $input[STATUS_ID], REASON_ID => $reason]);
+    }
+
+    public function sendEmailVerification($user) {
+        $code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
+        $emailVerify = EmailVerification::firstOrNew([EMAIL => $user->email]);
+        $emailVerify->otp = $code;
+        $emailVerify->save();
+        dispatch(new SendEmailVerificationJob($user, $code));
+        return true;
+    }
+
+    public static function verifyEmail($user, $input){
+        $isVerifyOtp = EmailVerification::where([EMAIL => $user->email])->where(OTP,$input[CODE])->first();
+        if($isVerifyOtp) {
+            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->subMinutes(30)->toDateTimeString());
+            if ($otpExpired) {
+                return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
+            }
+            $user->email_verified = true;
+            $user->email_verified_at = Carbon::now();
+            $user->save();
+            EmailVerification::where([EMAIL => $user->email])->where(OTP,$input[CODE])->delete();
+            $data =[MESSAGE => __('messages.email_verified_success'), STATUS=> true];        
+        }else{
+            $data =[MESSAGE => __('messages.invalid_email_otp'), STATUS=> false];
+        }
+
+        return $data;
+    }
+
+    public function sentOtpForMobileNumberVerify($request) {
+        $phoneExits = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->count();
+        if ($phoneExits > ZERO) {
+            $response = response()->Error(__('messages.phone_already_exists'));
+        } else {
+            $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
+            if($result[STATUS]) {
+                $response = response()->Success($result[MESSAGE]);
+            } else {
+                $response = response()->Error($result[MESSAGE]);
+            }
+        }
+    
+        return $response;
+    }
+
+    public function sentOtpForFogotPassword($request) {
+        $user = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->first();
+        if (!empty($user)) { echo
+            $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
+            if($result[STATUS]) {
+                $response = response()->Success($result[MESSAGE], $user);
+            } else {
+                $response = response()->Error($result[MESSAGE]);
+            }
+        } else {
+            $response = response()->Error(__('messages.phone_not_exists'));
+        }
+    
+        return $response;
     }
 }

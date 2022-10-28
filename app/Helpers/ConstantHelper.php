@@ -45,6 +45,7 @@ define('DASHBOARD_PAGE_LIMIT', '10');
 define('PTB', '1');
 define('DONAR', '2');
 define('LIKE', 'like');
+define('MATCH_REQUEST', 'match_request');
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -57,6 +58,13 @@ define('UNIQUE', 'unique');
 define('IMAGE_MIMES', 'mimes:jpeg,png');
 define('VIDEO_MIMES', 'mimes:mp4,ogx,oga,ogv,ogg,webm');
 define('MAX_LIMIT_FIVE_THOUSAND', 'max:5000');
+define('MIN_ONE', 'min:1');
+define('IN_ZERO_ONE', 'in:0,1');
+
+define('EMAIL_CODE', 'email_code');
+define('ARRAYY', 'array');
+define('IDS', 'ids');
+define('ALL_IDS', 'ids.*');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -74,6 +82,9 @@ define('EXISTS_WEIGHTS_ID', 'exists:weights,id');
 define('EXISTS_HAIR_COLOURS_ID', 'exists:hair_colours,id');
 define('EXISTS_EYE_COLOURS_ID', 'exists:eye_colours,id');
 define('EXISTS_EDUCATION_ID', 'exists:education,id');
+define('EXISTS_PROFILE_MATCH_ID', 'exists:profile_matches,id');
+define('EXISTS_EMAIL_VERIFICATION_ID', 'exists:email_verifications,otp');
+define('EXISTS_DONER_GALLERIES_ID', 'exists:doner_galleries,id,user_id');
 
 define('NAME_REGEX', 'regex:/^[a-zA-Z\s\. ]+$/');
 define('EMAIL_REGEX', 'regex:/^([a-zA-Z0-9\+_\-]+)(\.[a-zA-Z0-9\+_\-]+)*@([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}$/');
@@ -89,6 +100,11 @@ define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');
 define('IMAGE_REQUIRED_WITHOUT', 'image.required_without');
+define('CURRENT_PASSWORD_REQ', 'current_password.required');
+define('NEW_PASSWORD_REQ', 'new_password.required');
+define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
+define('CODE_EXISTS', 'code.exists');
+define('ALL_IDS_EXISTS', 'ids.*.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -98,6 +114,8 @@ define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User
 define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
 define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner');
 define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
+define('FEEDBACK_LIKE_COMMENT', '0=>thumbs up, 1=>thumbs down');
+define('FEEDBACK_SKIP_COMMENT', '0=>not skip, 1=>skip');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -133,6 +151,7 @@ define('REGISTRATION_STEP', 'registration_step');
 define('SUBSCRIPTION_STATUS', 'subscription_status');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
+define('REASON_ID', 'reason_id');
 
 //define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');
@@ -282,6 +301,10 @@ define('DONERPHOTOGALLERY', 'donerPhotoGallery');
 define('DONERVIDEOGALLERY', 'donerVideoGallery');
 define('DONER_PHOTO_GALLERY', 'doner_photo_gallery');
 define('DONER_VIDEO_GALLERY', 'doner_video_gallery');
+define('CURRENT_PASSWORD', 'current_password');
+define('NEW_PASSWORD', 'new_password');
+define('CONFIRM_PASSWORD', 'confirm_password');
+define('CONFIRM_NEW_PASSWORD', 'confirm_new_password');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
@@ -372,5 +395,25 @@ define('DEVICE_REGISTRATIONS', 'device_registrations');
 define('DEVICE_ID', 'device_id');
 define('DEVICE_TOKEN', 'device_token');
 
-// Notification Vairables
+// Notification Vairables 
 define('PROFILE_MATCH_ID', 'profile_match_id');
+define('NOTIFICATION', 'notification');
+
+define('SENT_REQUEST', 'sent_request');
+define('APPROVED_REQUEST', 'approved_request');
+define('REJECTED_REQUEST', 'rejected_request');
+
+//define feedbacks table column
+define('FEEDBACK', 'feedback');
+define('IS_SKIP', 'is_skip');
+
+// define Email verification table column
+define('EMAIL_VERIFICATIONS', 'email_verifications');
+
+//define enquiry form table column
+define('ENQUIRY_FORMS', 'enquiry_forms');
+define('ENQUIRING_AS', 'enquiring_as');
+
+//Admin 
+define('ADMIN_NAME', 'Admin');
+define('ADMIN_PHONE', '1111111111');
