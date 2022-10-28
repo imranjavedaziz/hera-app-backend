@@ -16,6 +16,7 @@ class ValidationRule
     public const EMAIL =[BAIL, REQUIRED, EMAIL, EMAIL_MAX_LENGTH, EMAIL_REGEX];
     public const PASSWORD =[BAIL, REQUIRED, 'min:8', 'max:20', PASSWORD_REGEX];
     public const CONFIRM_PASSWORD =[BAIL, REQUIRED, 'same:password'];
+    public const CONFIRM_NEW_PASSWORD =[BAIL, REQUIRED, 'same:new_password'];
     public const PROFILE_PIC =[BAIL, REQUIRED];
     public const DOB =[BAIL, REQUIRED];
     public const USER_ID =[BAIL, REQUIRED, EXISTS_USERS_ID];
@@ -40,7 +41,7 @@ class ValidationRule
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
     public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
     public const STATUS =[BAIL, REQUIRED];
-    public const IMAGE =[BAIL, REQUIRED_WITHOUT_VIDEO, SOMETIMES, NULLABLE];
+    public const IMAGE =[BAIL, REQUIRED_WITHOUT_VIDEO, SOMETIMES, NULLABLE, IMAGE];
     public const VIDEO =[BAIL, REQUIRED_WITHOUT_IMAGE, SOMETIMES, NULLABLE];
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
@@ -54,4 +55,8 @@ class ValidationRule
     public const LIKE =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const IS_SKIP =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const REASON_ID =[BAIL, REQUIRED, NULLABLE];
+    public const EMAIL_CODE =[BAIL, REQUIRED, EXISTS_EMAIL_VERIFICATION_ID];
+    public const IDS =[BAIL, REQUIRED, ARRAYY];
+    public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
+    public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
 }
