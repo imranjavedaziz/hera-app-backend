@@ -19,4 +19,9 @@ class Role extends Model
     ];
 
     protected $hidden = ['deleted_at', 'updated_at'];
+
+    public static function getRoleById($id) {
+        $role = self::where(ID, $id)->first();
+        return isset($role) ? $role->name : NULL;
+    }
 }
