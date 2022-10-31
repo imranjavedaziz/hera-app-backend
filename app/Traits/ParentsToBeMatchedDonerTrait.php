@@ -41,6 +41,9 @@ trait ParentsToBeMatchedDonerTrait
         $match = [];
         $parents = AuthHelper::authenticatedUser();
         foreach ($donars as $donar) {
+            if ($donar->donerAttribute == null || $donar->location == null) {
+                continue;
+            }
             $match[] = $this->setData($donar, $this->getMatchValue($donar, $parents));
         }
         return $match;
