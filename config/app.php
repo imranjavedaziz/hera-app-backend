@@ -237,6 +237,7 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class,
+        'CustomHelper' => App\Helpers\CustomHelper::class,
     ],
 
 ];

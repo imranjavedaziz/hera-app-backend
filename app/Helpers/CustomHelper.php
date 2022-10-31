@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Status;
 use App\Models\Favorite;
+use App\Models\Location;
+use App\Models\Role;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Support\Facades\DB;
@@ -62,5 +64,23 @@ class CustomHelper
         $dt = new DateTime($dateTime, new DateTimeZone($fromTimeZone));
         $dt->setTimezone(new DateTimeZone($toTimeZone));
         return $dt->format('Y-m-d H:i:s');
+    }
+
+    public static function fullName($user) {
+        $fullName = $user->first_name.' '. $user->last_name;
+        if(!empty($user->middle_name)) {
+            $fullName = $user->first_name.' '.$user->middle_name.' '. $user->last_name;
+        }
+
+        return $fullName;
+    }
+
+    public static function getLocation($userId) {
+       $location = Location::getLocationByUserId($userId);
+       return !empty($location) ? $location->state_name.', '.$location->zipcode : 'N/A';
+    }
+
+    public static function getRoleName($roleId) {
+        return Role::getRoleById($roleId);
     }
 }
