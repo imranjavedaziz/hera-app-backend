@@ -34,8 +34,7 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            $user->code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
-            /** dispatch(new SendEmailVerificationJob($user)); **/
+            /** $this->sendEmailVerification($user); **/
         }
         return $user;
     }

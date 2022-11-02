@@ -748,21 +748,17 @@ class UserController extends Controller
      *      tags={"User"},
      *      summary="Delete user gallery and save later",
      *      description="Delete user gallery and save later",
-     *      @OA\RequestBody(
-     *        required = true,
-     *        description = "Delete user gallery and save later",
-     *        @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                property="ids",
-     *                type="array",
-     *                @OA\Items(
-     *                         type="string",
-     *                         example="1"
-     *                ),
-  
-     *             ),
-     *         ),
+     *      @OA\Parameter(
+     *         description="Delete user gallery and save later",
+     *         in="query",
+     *         name="ids[]",
+     *         @OA\Schema(
+     *            type="array",
+     *            @OA\Items(
+     *               type="integer",
+     *               example="1"
+     *            ),
+     *         )
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -792,7 +788,7 @@ class UserController extends Controller
      */
     public function deleteGallery(DeleteGalleryRequest $request) {
         try {
-            $ids = explode(',',$request->all()['ids']);
+            $ids = $request->all()['ids'];
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $ids);
             $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
         } catch (\Exception $e) {
