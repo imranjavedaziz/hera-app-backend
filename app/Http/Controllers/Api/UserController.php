@@ -1144,7 +1144,7 @@ class UserController extends Controller
      */
     public function sendVerificationMail(Request $request) {
         try {
-            if(AuthHelper::authenticatedUser()->email_verified == true){
+            if(AuthHelper::authenticatedUser()->email_verified){
                 return response()->Error(__('messages.email_already_verified'));
             }
             DB::beginTransaction();
@@ -1293,7 +1293,6 @@ class UserController extends Controller
             $input = $request->all();
             $user = AuthHelper::authenticatedUser();
             if (!empty($user)) {
-                $userId = $user->id;
                 if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
                     if(!Hash::check($input[NEW_PASSWORD], $user->password)){
                         $user->password = bcrypt($input[NEW_PASSWORD]);
