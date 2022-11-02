@@ -51,8 +51,6 @@ class ChangePasswordRequest extends ApiFormRequest
      */
     public function messages()
     {
-        
-        $msg_new_password_min = 'New password must be 8 characters minimum.';
         return [
             CURRENT_PASSWORD_REQ => __('messages.request_validation.error_msgs.current_password_req'),
             NEW_PASSWORD_REQ => __('messages.request_validation.error_msgs.new_password_req'),
