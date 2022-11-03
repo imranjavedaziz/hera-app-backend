@@ -3,7 +3,7 @@
  <div class="main-right-wrapper">
                     <div class="dashboard-container">
                         <div class="user-management-header">
-                            <div class="alert alert-success" role="alert">
+                            <div class="alert alert-success" role="alert" style="display:none;">
                                 <div class="alert-text">
                                     <span>
                                         <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
@@ -23,9 +23,12 @@
                                 </ul>
                             </div>
                         </div>
-                        <h1 class="section-title">All Users (<span>245</span>)</h1>
+                        @if ($userData->count() > 0)
+                        <h1 class="section-title">All Users (<span>{{$userData->total()}}</span>)</h1>
+                        @else
                         <!-- For no Users found -->
                         <div class="no-users d-none">No Users Yet</div>
+                        @endif
                     </div>
                     <!--  Table start from here  -->
                     <div class="table-container table-container-user">
@@ -41,25 +44,31 @@
                             </div>
                         </div>
                         <div class="table-body table-body-user">
+                        @if (!empty($userData) && $userData->count() > 0)
+                            @foreach($userData as $user)
+                            <?php
+                            $joinDate = \Carbon\Carbon::parse($user->created_at)->format('M d, Y');
+                            $img = $user->profile_pic;
+                            ?>
                             <!--  repeat this div  -->
                             <div class="table-row">
                                 <div class="td">
                                     <div class="user-title">
                                         <div class="user-img">
                                             <div>
-                                                <img src="{{ asset('assets/images/svg/user-small-img.png')}}" alt="user image" data-bs-toggle="modal" data-bs-target="#modalUserDetails" />
+                                                <img src="{{$img}}" alt="user image" data-bs-toggle="modal" data-bs-target="#modalUserDetails" />
                                             </div>
                                         </div>
                                         <div class="user-title-info">
-                                            <h5>Jeff Gregory</h5>
-                                            <p>Joined: Oct 28, 2021</p>
+                                            <h5>{{CustomHelper::fullName($user)}}</h5>
+                                            <p>Joined: {{$joinDate}}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="td">+1 049-948 (0383)</div>
-                                <div class="td">test@gmail.com</div>
-                                <div class="td">Kentucky, 60005</div>
-                                <div class="td">Parent To Be</div>
+                                <div class="td">{{$user->country_code}} {{$user->phone_no}}</div>
+                                <div class="td">{{$user->email}}</div>
+                                <div class="td">{{CustomHelper::getLocation($user->id)}}</div>
+                                <div class="td">{{CustomHelper::getRoleName($user->role_id)}}</div>
                                 <div class="td">Active</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,32 +82,13 @@
                                     </ul>
                                 </div>
                             </div>
+                            @endforeach
+                            @endif
                         </div>
                     </div>
                     <!-- end table  -->
                     <div class="pagination-section">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true"><img
-                                                src=" {{ asset('assets/images/svg/pagination-left-arrow.svg')}}"
-                                                alt="pagination left arrow" /></span>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true"><img
-                                                src="{{ asset('assets/images/svg/pagination-right-arrow.svg')}}"
-                                                alt="pagination right arrow" /></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                    {{ $userData->links() }}
                     </div>
                 </div>
             </div>
