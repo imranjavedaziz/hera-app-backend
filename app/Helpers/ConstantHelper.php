@@ -64,7 +64,8 @@ define('IN_ZERO_ONE', 'in:0,1');
 define('EMAIL_CODE', 'email_code');
 define('ARRAYY', 'array');
 define('IDS', 'ids');
-define('ALL_IDS', 'ids.*');
+define('ALL_IDS', 'ids_array.*');
+define('IDS_ARRAY', 'ids_array');
 
 define('UNIQUE_USERS_EMAIL', 'unique:users,email');
 define('UNIQUE_USERS_PHONE', 'unique:users,phone_no');
@@ -104,7 +105,7 @@ define('CURRENT_PASSWORD_REQ', 'current_password.required');
 define('NEW_PASSWORD_REQ', 'new_password.required');
 define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
 define('CODE_EXISTS', 'code.exists');
-define('ALL_IDS_EXISTS', 'ids.*.exists');
+define('ALL_IDS_EXISTS', 'ids_array.*.exists');
 
 // define migration text
 define('DATETIME', 'datetime');
