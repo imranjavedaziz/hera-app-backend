@@ -31,11 +31,10 @@ class DonarDashboardController extends Controller
      *      @OA\Parameter(
      *          description="Can Select Upto 3 states",
      *          in="query",
-     *          name="state_ids[]",
-     *          example="1",
+     *          name="state_ids",
+     *          example="1,2",
      *          @OA\Items(
-     *              type="array",
-     *              example="1",
+     *              type="string",
      *          ),
      *      ),
      *      @OA\Parameter(
@@ -81,6 +80,7 @@ class DonarDashboardController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $donarProfileCard = DonarDashboardService::getPtbProfileCard($request->all());
+            return response()->Success(trans('messages.common_msg.data_found'), $donarProfileCard);;
             $profileCards = $donarProfileCard->paginate($limit);
             $response = response()->Success(trans('messages.common_msg.data_found'), $profileCards);
         } catch (\Exception $e) {
