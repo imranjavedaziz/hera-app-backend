@@ -29,10 +29,10 @@ class RoleSeeder extends Seeder
                 NAME  => 'Surrogate Mother',
             ],
             [
-                NAME  => 'Egg Doner',
+                NAME  => 'Egg Donor',
             ],
             [
-                NAME  => 'Sperm Doner',
+                NAME  => 'Sperm Donor',
             ],
         ];
         Role::insert($roles);

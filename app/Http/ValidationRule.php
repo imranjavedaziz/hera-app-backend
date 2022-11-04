@@ -46,7 +46,7 @@ class ValidationRule
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
     public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:3'];
-    public const STATE_IDS =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, 'max:3'];
+    public const STATE_IDS_ARRAY =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, 'max:3'];
     public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
     public const DEVICE_ID =[BAIL, REQUIRED, STRING];
     public const DEVICE_TOKEN =[BAIL, REQUIRED, STRING];
@@ -56,7 +56,7 @@ class ValidationRule
     public const IS_SKIP =[BAIL, REQUIRED, IN_ZERO_ONE];
     public const REASON_ID =[BAIL, REQUIRED, NULLABLE];
     public const EMAIL_CODE =[BAIL, REQUIRED, EXISTS_EMAIL_VERIFICATION_ID];
-    public const IDS =[BAIL, REQUIRED, ARRAYY];
+    public const IDS_ARRAY =[BAIL, REQUIRED, ARRAYY];
     public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
     public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
 }
