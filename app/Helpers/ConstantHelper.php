@@ -382,7 +382,8 @@ define('SUBSCRIPTION_TRIAL', 2);
 // define doner dashboard relationship and function constants
 define('KEYWORD', 'keyword');
 define('STATE_IDS', 'state_ids');
-define('STATE_IDS_ELEMENTS', 'state_ids.*');
+define('STATE_IDS_ARRAY', 'state_ids_array');
+define('STATE_IDS_ELEMENTS', 'state_ids_array.*');
 
 //define notification table column
 define('RECIPIENT_ID', 'recipient_id');
