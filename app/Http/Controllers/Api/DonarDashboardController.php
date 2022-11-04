@@ -80,7 +80,6 @@ class DonarDashboardController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $donarProfileCard = DonarDashboardService::getPtbProfileCard($request->all());
-            return response()->Success(trans('messages.common_msg.data_found'), $donarProfileCard);;
             $profileCards = $donarProfileCard->paginate($limit);
             $response = response()->Success(trans('messages.common_msg.data_found'), $profileCards);
         } catch (\Exception $e) {
