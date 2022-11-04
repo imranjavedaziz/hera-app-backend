@@ -20,6 +20,13 @@ class PtbProfileCardRequest extends ApiFormRequest
         return true;
     }
 
+    public function validationData(){
+        $this->merge([
+            STATE_IDS_ARRAY => explode(',', $this->state_ids),
+        ]);
+        return $this->all();
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,7 +36,7 @@ class PtbProfileCardRequest extends ApiFormRequest
     {
         return [
             KEYWORD => ValidationRule::KEYWORD,
-            STATE_IDS => ValidationRule::STATE_IDS,
+            STATE_IDS_ARRAY => ValidationRule::STATE_IDS_ARRAY,
             STATE_IDS_ELEMENTS => ValidationRule::STATE_IDS_ELEMENTS,
         ];
     }

@@ -20,6 +20,13 @@ class DeleteGalleryRequest extends ApiFormRequest
         return true;
     }
 
+    public function validationData(){
+        $this->merge([
+            IDS_ARRAY => explode(',', $this->ids),
+        ]);
+        return $this->all();
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,7 +36,7 @@ class DeleteGalleryRequest extends ApiFormRequest
     {
         $all_ids = array_merge(ValidationRule::ALL_IDS,[EXISTS_DONER_GALLERIES_ID.','.auth()->user()->id]);
         return [
-            IDS => ValidationRule::IDS,
+            IDS_ARRAY => ValidationRule::IDS_ARRAY,
             ALL_IDS => $all_ids,
         ];
     }
