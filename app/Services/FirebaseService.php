@@ -9,6 +9,9 @@ use Kreait\Firebase\Exception\Database\ReferenceHasNotBeenSnapshotted;
 use Kreait\Firebase\Exception\Database\TransactionFailed;
 use Kreait\Firebase\Exception\ApiException;
 use App\Helpers\CustomHelper;
+use Facades\{
+    App\Services\SubscriptionService,
+};
 
 /**
  * Class FirebaseService
@@ -40,11 +43,13 @@ class FirebaseService
             "recieverImage" => $reciever->profile_pic,
             "recieverName" => CustomHelper::fullName($reciever),
             "recieverUserName" => $reciever->username,
+            "recieverSubscription" => SubscriptionService::getSubscriptionStatus($reciever->id),
             "senderId" => $sender->id,
             "status_id" => ACTIVE,
             "senderImage" => $sender->profile_pic,
             "senderName"  => CustomHelper::fullName($sender),
             "senderUserName" => $reciever->username,
+            "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
             MATCH_REQUEST => [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => ONE],
             "time" => time(),
