@@ -8,6 +8,10 @@ use Kreait\Firebase\Database\Transaction;
 use Kreait\Firebase\Exception\Database\ReferenceHasNotBeenSnapshotted;
 use Kreait\Firebase\Exception\Database\TransactionFailed;
 use Kreait\Firebase\Exception\ApiException;
+use App\Helpers\CustomHelper;
+use Facades\{
+    App\Services\SubscriptionService,
+};
 
 /**
  * Class FirebaseService
@@ -28,7 +32,7 @@ class FirebaseService
         $this->friendsKey = 'Friends';
     }
 
-    public function createFriend($sender,$reciever, $msg) {
+    public function createFriend($sender,$reciever, $msg = '') {
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
         return [
             "deviceToken" => "devicetoken",
@@ -36,13 +40,17 @@ class FirebaseService
             "msgId" => $msgId."-".time(),
             "read" => ZERO,
             "recieverId" => $reciever->id,
-            "recieverImage" => $reciever->profile_image,
-            "recieverName" => $reciever->full_name,
+            "recieverImage" => $reciever->profile_pic,
+            "recieverName" => CustomHelper::fullName($reciever),
+            "recieverUserName" => $reciever->username,
+            "recieverSubscription" => SubscriptionService::getSubscriptionStatus($reciever->id),
             "senderId" => $sender->id,
             "status_id" => ACTIVE,
-            "senderImage" => $sender->profile_image,
-            "senderName"  => $sender->full_name,
-            "currentRole" => isset($reciever->current_role)?$reciever->current_role:ZERO,
+            "senderImage" => $sender->profile_pic,
+            "senderName"  => CustomHelper::fullName($sender),
+            "senderUserName" => $reciever->username,
+            "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
+            "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
             MATCH_REQUEST => [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => ONE],
             "time" => time(),
             "type" => "Text"
@@ -207,7 +215,7 @@ class FirebaseService
      * Used To Create Dummy Data
      */
     public function createAdminFirebaseChatUser() {
-        $users = User::whereIn('role',[1,2,3,4,5])->get();
+        $users = User::whereIn('role_id',[2,3,4,5])->get();
         if(!empty($users)) {
             foreach($users as $user) {
                 $this->createAdminFriends($user);

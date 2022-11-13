@@ -17,6 +17,10 @@ use App\Jobs\SendEmailVerificationJob;
 use App\Jobs\SetLocationJob;
 use Carbon\Carbon;
 use App\Helpers\TwilioOtp;
+use Facades\{
+    App\Services\FirebaseService
+};
+use App\Jobs\createAdminChatFreiend;
 
 class UserRegisterService
 {
@@ -35,6 +39,7 @@ class UserRegisterService
             $user->profile_pic = $file[FILE_URL];
             $user->save();
             /** $this->sendEmailVerification($user); **/
+            dispatch(new createAdminChatFreiend($user));
         }
         return $user;
     }
