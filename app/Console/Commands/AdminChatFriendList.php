@@ -8,7 +8,7 @@ use Facades\{
 };
 use App\Jobs\adminChatFreiendList;
 
-class AdminChatFriend extends Command
+class AdminChatFriendList extends Command
 {
     /**
      * The name and signature of the console command.

@@ -42,6 +42,7 @@ define('AUTHORIZATION', 'Authorization');
 define('RESULTS', 'results');
 define('BASIC', 'basic');
 define('DASHBOARD_PAGE_LIMIT', '10');
+define('ADMIN_PAGE_LIMIT', '10');
 define('PTB', '1');
 define('DONAR', '2');
 define('LIKE', 'like');
