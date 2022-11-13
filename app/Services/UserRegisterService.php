@@ -38,32 +38,10 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             $user->profile_pic = $file[FILE_URL];
             $user->save();
-            $user->code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
-            /** dispatch(new SendEmailVerificationJob($user)); **/
+            /** $this->sendEmailVerification($user); **/
             dispatch(new createAdminChatFreiend($user));
         }
         return $user;
-    }
-
-    private function setUserName($role_id, $user_id){
-        switch ($role_id) {
-            case 2:
-                $username = 'PTB'.rand(1000, 9999).$user_id;
-                break;
-            case 3:
-                $username = 'SM'.rand(1000, 9999).$user_id;
-                break;
-            case 4:
-                $username = 'ED'.rand(1000, 9999).$user_id;
-                break;
-            case 5:
-                $username = 'SD'.rand(1000, 9999).$user_id;
-                break;
-            default:
-            $username = 'MBC'.rand(1000, 9999).$user_id;
-                break;
-        }
-        return $username;
     }
 
     public function getProfileSetterData()

@@ -748,21 +748,14 @@ class UserController extends Controller
      *      tags={"User"},
      *      summary="Delete user gallery and save later",
      *      description="Delete user gallery and save later",
-     *      @OA\RequestBody(
-     *        required = true,
-     *        description = "Delete user gallery and save later",
-     *        @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                property="ids",
-     *                type="array",
-     *                @OA\Items(
-     *                         type="string",
-     *                         example="1"
-     *                ),
-  
-     *             ),
-     *         ),
+     *      @OA\Parameter(
+     *         description="Delete user gallery and save later",
+     *         name="ids",
+     *         in="query",
+     *         required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -792,7 +785,7 @@ class UserController extends Controller
      */
     public function deleteGallery(DeleteGalleryRequest $request) {
         try {
-            $ids = explode(',',$request->all()['ids']);
+            $ids = explode(',', $request->all()['ids']);
             $deleted_gallery = UserRegisterService::deleteGallery(AuthHelper::authenticatedUser()->id, $ids);
             $response = response()->Success(trans('messages.common_msg.data_deleted'), $deleted_gallery);
         } catch (\Exception $e) {
@@ -1148,7 +1141,7 @@ class UserController extends Controller
      */
     public function sendVerificationMail(Request $request) {
         try {
-            if(AuthHelper::authenticatedUser()->email_verified == true){
+            if(AuthHelper::authenticatedUser()->email_verified){
                 return response()->Error(__('messages.email_already_verified'));
             }
             DB::beginTransaction();
@@ -1297,7 +1290,6 @@ class UserController extends Controller
             $input = $request->all();
             $user = AuthHelper::authenticatedUser();
             if (!empty($user)) {
-                $userId = $user->id;
                 if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
                     if(!Hash::check($input[NEW_PASSWORD], $user->password)){
                         $user->password = bcrypt($input[NEW_PASSWORD]);
