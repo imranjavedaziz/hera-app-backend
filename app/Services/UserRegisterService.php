@@ -17,6 +17,10 @@ use App\Jobs\SendEmailVerificationJob;
 use App\Jobs\SetLocationJob;
 use Carbon\Carbon;
 use App\Helpers\TwilioOtp;
+use Facades\{
+    App\Services\FirebaseService
+};
+use App\Jobs\createAdminChatFreiend;
 
 class UserRegisterService
 {
@@ -36,6 +40,7 @@ class UserRegisterService
             $user->save();
             $user->code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
             /** dispatch(new SendEmailVerificationJob($user)); **/
+            dispatch(new createAdminChatFreiend($user));
         }
         return $user;
     }
