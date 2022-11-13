@@ -68,8 +68,9 @@
                                 <div class="td">{{$user->country_code}} {{$user->phone_no}}</div>
                                 <div class="td">{{$user->email}}</div>
                                 <div class="td">{{CustomHelper::getLocation($user->id)}}</div>
-                                <div class="td">{{CustomHelper::getRoleName($user->role_id)}}</div>
-                                <div class="td">Active</div>
+                                <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
+                                    <span class="sm-code">{{$user->username}}</span></div>
+                                <div class="td">{{CustomHelper::getStatusName($user->status_id)}}</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"

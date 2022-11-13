@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::group([ MIDDLEWARE =>['admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);
         Route::get('user-management', [UserController::class,'index'])->name('userList');
+        Route::get('chat', [ChatController::class,'index'])->name('chatList');
     });    
 });
