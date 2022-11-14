@@ -15,19 +15,19 @@
                             <div class="location"></div>
                             <div class="phoneno"></div>
                             <div class="email"></div>
+                            <div class="user-profile-details">
+                            <div class="profile-desc" id="age"></div>
+                            <div class="profile-desc" id="height"></div>
+                            <div class="profile-desc" id="weight"></div>
+                            <div class="profile-desc" id="occupation"></div>
+                            <div class="profile-desc" id="race"></div>
+                            <div class="profile-desc" id="hair-colour"></div>
+                            <div class="profile-desc" id="eye-colour"></div>
+                        </div>
                         </div>
                         <div class="user-profile-right">
                             <img src="/assets/images/people3.jpeg" alt="Profile-logo">
                         </div>
-                    </div>
-                    <div class="user-profile-details">
-                        <div class="profile-desc" id="age"></div>
-                        <div class="profile-desc" id="height"></div>
-                        <div class="profile-desc" id="weight"></div>
-                        <div class="profile-desc" id="occupation"></div>
-                        <div class="profile-desc" id="race"></div>
-                        <div class="profile-desc" id="hair-colour"></div>
-                        <div class="profile-desc" id="eye-colour"></div>
                     </div>
                     <div class="user-profile-desc" id="bio"></div>
                     <div class="img-wrapper">
@@ -41,7 +41,9 @@
                         </video>
                     </div>
                     <div id="modal-deactivate" class="deactivate-user modal-deactivate" data-id="" data-name="" data-status=""></div>
-                    <div id="modal-delete" class="delete-user modal-delete" data-id="">Delete this User</div>
+                    <div class="deactivate-para para-margin">This option will temporarily deactivate the account.</div>
+                    <div id="modal-delete" class="deactivate-user modal-delete" data-id="">Delete this User</div>
+                    <div class="deactivate-para">This option will permanently delete the account.</div>
                 </div>
             </div>
         </div>
