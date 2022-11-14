@@ -17,4 +17,9 @@ class Status extends Model
     protected $fillable = [
         NAME
     ];
+
+    public static function getStatusById($id) {
+        $status = self::where(ID, $id)->first();
+        return isset($status) ? $status->name : NULL;
+    }
 }

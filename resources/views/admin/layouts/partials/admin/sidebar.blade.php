@@ -6,18 +6,18 @@
     </a>
     <div class="left-nav">
         <ul>
-            <li class="active">
-                <a href="#" title="All Users">
+            <li class="@if (isset($title) && $title=='All Users') active @endif">
+                <a href="{{ route('userList') }}" title="All Users">
                     <span class="nav-text">All Users</span>
                  </a>
             </li>
             <li>
-                <a href="#" title="Inquiries">
+                <a href="" title="Inquiries">
                     <span class="nav-text">Inquiries</span>
                 </a>
             </li>               
-            <li>
-                <a href="#" title="Chat">
+            <li class="@if (isset($title) && $title=='Chat') active @endif">
+                <a href="{{ route('chatList') }}" title="Chat">
                     <span class="nav-text">Chat</span>
                 </a>
             </li>
