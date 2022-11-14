@@ -22,9 +22,15 @@ $(document).ready(function () {
                     $('#modal-deactivate').html(status_text + ' this user.')
                     $('#modal-delete').attr('data-id' , msg.id)
                     $('#modal-delete').attr('data-name' , msg.first_name)
+                    $('#modal-deactivate').addClass('d-block')
+                    $('#modal-delete').addClass('d-block')
+                    $('#modal-deactivate').removeClass('d-none')
+                    $('#modal-delete').removeClass('d-none')
                 }else{
                     $('#modal-deactivate').addClass('d-none')
                     $('#modal-delete').addClass('d-none')
+                    $('#modal-deactivate').removeClass('d-block')
+                    $('#modal-delete').removeClass('d-block')
                 }
                 $('.date').html('Joined on: ' +new Date(msg.created_at).toLocaleString('en-US', {
                     month: 'short',
