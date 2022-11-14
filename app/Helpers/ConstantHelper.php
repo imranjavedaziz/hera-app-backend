@@ -118,6 +118,7 @@ define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved 
 define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
 define('FEEDBACK_LIKE_COMMENT', '0=>thumbs up, 1=>thumbs down');
 define('FEEDBACK_SKIP_COMMENT', '0=>not skip, 1=>skip');
+define('DEACTIVATED_BY_COMMENT', '0 => Activated, 1 => deactivated by admin, 2 => deactivated by user');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -154,6 +155,7 @@ define('SUBSCRIPTION_STATUS', 'subscription_status');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
 define('REASON_ID', 'reason_id');
+define('DEACTIVATED_BY', 'deactivated_by');
 
 //define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');
