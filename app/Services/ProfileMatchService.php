@@ -47,7 +47,7 @@ class ProfileMatchService
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $name]);
                 dispatch(new SendProfileMatchJob($to_user, $profile_match_id, $description, $title));
-                /**dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));**/
+                dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
             case 2:
                 $title = 'Profile Match Request Approved.';
@@ -61,11 +61,11 @@ class ProfileMatchService
                 }
                 $message = __('messages.profile_match.request_approved');
                 dispatch(new SendProfileMatchJob($from_user, $profile_match_id, $description, $title));
-                /**dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));**/
+                dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
             default:
                 $message = __('messages.profile_match.request_rejected');
-                /**dispatch(new FirebaseChatFriend($from_user, $to_user, REJECTED_REQUEST));**/
+                dispatch(new FirebaseChatFriend($from_user, $to_user, REJECTED_REQUEST));
                 break;
         }
         return $message;
