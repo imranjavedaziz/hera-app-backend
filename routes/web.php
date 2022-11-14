@@ -28,6 +28,9 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::group([ MIDDLEWARE =>['admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);
         Route::get('user-management', [UserController::class,'index'])->name('userList');
+        Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+        Route::put('/user/change-status/{id}', [UserController::class, 'changeStatus'])->name('user.status');
+        Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
         Route::get('chat', [ChatController::class,'index'])->name('chatList');
     });    
 });
