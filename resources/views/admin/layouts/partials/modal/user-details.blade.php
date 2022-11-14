@@ -17,7 +17,7 @@
                             <div class="email"></div>
                         </div>
                         <div class="user-profile-right">
-                            <img src="./assets/images/people3.jpeg" alt="Profile-logo">
+                            <img src="/assets/images/people3.jpeg" alt="Profile-logo">
                         </div>
                     </div>
                     <div class="user-profile-details">
