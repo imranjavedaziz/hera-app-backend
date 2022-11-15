@@ -1,5 +1,5 @@
 <div class="left-nav-wrapper left-nav-inner-wrapper scrollbar">
-    <a href="dashboard.html" class="logo-container">
+    <a href="{{ route('userList') }}" class="logo-container">
         <div class="logo-box">
             <img src="{{ asset('assets/images/logo.png')}}" alt="sidebar-logo">
         </div>

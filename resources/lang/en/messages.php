@@ -96,7 +96,10 @@ return [
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
     'admin' => [
-        'invalid_credentail' => 'Please login with valid credentials.'
+        'invalid_credentail' => 'Please login with valid credentials.',
+        'account_deactive' => 'User has been De-activated.',
+        'account_active' => 'User has been Activated Successfully.',
+        'account_delete' => 'User has been Deleted Successfully.',
     ],
     'change_password' => [
         'invalid_authentication' => 'Invalid authentication.',
