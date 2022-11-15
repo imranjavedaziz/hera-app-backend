@@ -1,0 +1,18 @@
+.btn-red{
+  background-color: #f18d93;
+}
+
+.btn-red:hover{
+  background-color: #f18d93;
+}
+
+.page-link {
+  margin-right: 10px;
+}
+
+.btn-dropdown-after .dropdown-toggle::after{
+  display: none;
+}
+.inactive-span span{
+  font-weight: bold;
+}
