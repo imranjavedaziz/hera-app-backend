@@ -1063,7 +1063,7 @@ input[type=number]::-webkit-outer-spin-button {
   position: relative; }
   .signin-container .app-logo {
     position: absolute;
-    top: 61px;
+    top: 27px;
     left: 100px; }
     .signin-container .app-logo img {
       width: 123px; }
@@ -1273,7 +1273,10 @@ input[type=number]::-webkit-outer-spin-button {
       background-color: #98c8c2; }
   .pagination .page-item.active .page-link {
     padding: 6px 11px;
-    background-color: #98c8c2; }
+    background-color: #98c8c2; 
+    border-radius: 6px;
+    color: #353a3a;
+  }
   .pagination .page-item:first-child .page-link {
     border-radius: 6px; }
   .pagination .page-item:last-child .page-link {
@@ -1879,6 +1882,10 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 .btn-red:hover{
   background-color: #f18d93;
+}
+
+.page-link {
+  margin-right: 10px;
 }
 
 .btn-dropdown-after .dropdown-toggle::after{

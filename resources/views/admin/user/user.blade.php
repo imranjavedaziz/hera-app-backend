@@ -68,7 +68,9 @@
                             <div class="td">{{$user->country_code}} {{$user->phone_no}}</div>
                             <div class="td">{{$user->email}}</div>
                             <div class="td">{{CustomHelper::getLocation($user->id)}}</div>
-                            <div class="td">{{CustomHelper::getRoleName($user->role_id)}}</div>
+                            <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
+                                <span class="sm-code">{{$user->username}}</span>
+                            </div>
                             <div class="td">
                                     <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
                                         Active
