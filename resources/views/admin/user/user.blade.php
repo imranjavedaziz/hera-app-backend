@@ -312,10 +312,9 @@
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {
-                                $("#deactivate-msg-box").hide()
-                            }, 5000);
-                            $(".modal-deactivate"+id).hide();
-                            $(".modal-delete"+id).hide();
+                                $("#deactivate-msg-box").hide();
+                                location.reload()
+                            }, 1000);
                         }
                     },
                     error: function (xhr, textStatus, errorThrown) {
