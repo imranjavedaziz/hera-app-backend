@@ -31,16 +31,20 @@
             @endif
         </div>
         <!--  Table start from here  -->
-        <div class="table-container table-container-user">
+        <div class="table-container table-container-user-modal">
             <div class="table-head table-head-user">
                 <div class="table-row table-row-user">
-                    <div class="th">Name</div>
-                    <div class="th">Phone</div>
-                    <div class="th">Email Address</div>
-                    <div class="th">Location</div>
-                    <div class="th">User Type</div>
-                    <div class="th">Status</div>
-                    <div class="th">Action</div>
+                    <div class="td-user-left">
+                        <div class="th">Name</div>
+                        <div class="th">Phone</div>
+                        <div class="th">Email Address</div>
+                        <div class="th">Location</div>
+                        <div class="th">User Type</div>
+                        <div class="th">Status</div>
+                    </div>
+                    <div class="td-user-right">
+                        <div class="th">Action</div>
+                    </div>
                 </div>
             </div>
             <div class="table-body table-body-user">
@@ -52,34 +56,36 @@
                         @endphp
                         <!--  repeat this div  -->
                         <div class="table-row">
-                            <div class="td" id="open-detail-modal" data-id="{{$user->id}}">
-                                <div class="user-title">
-                                    <div class="user-img">
-                                        <div>
-                                            <img src="{{$img}}" alt="user image" />
+                            <div class="td-user-left" id="open-detail-modal" data-id="{{$user->id}}">
+                                <div class="td">
+                                    <div class="user-title">
+                                        <div class="user-img">
+                                            <div>
+                                                <img src="{{$img}}" alt="user image" />
+                                            </div>
+                                        </div>
+                                        <div class="user-title-info">
+                                            <h5>{{CustomHelper::fullName($user)}}</h5>
+                                            <p>Joined: {{$joinDate}}</p>
                                         </div>
                                     </div>
-                                    <div class="user-title-info">
-                                        <h5>{{CustomHelper::fullName($user)}}</h5>
-                                        <p>Joined: {{$joinDate}}</p>
-                                    </div>
+                                </div>
+                                <div class="td">{{$user->country_code}} {{$user->phone_no}}</div>
+                                <div class="td">{{$user->email}}</div>
+                                <div class="td">{{CustomHelper::getLocation($user->id)}}</div>
+                                <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
+                                    <span class="sm-code">{{$user->username}}</span>
+                                </div>
+                                <div class="td">
+                                        <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
+                                            Active
+                                        </span>
+                                        <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
+                                            Inactive <br><span>@if($user->deactivated_by == 1) (By Admin) @elseif($user->deactivated_by == 2) (By User) @endif</span>
+                                        </span>
                                 </div>
                             </div>
-                            <div class="td">{{$user->country_code}} {{$user->phone_no}}</div>
-                            <div class="td">{{$user->email}}</div>
-                            <div class="td">{{CustomHelper::getLocation($user->id)}}</div>
-                            <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
-                                <span class="sm-code">{{$user->username}}</span>
-                            </div>
-                            <div class="td">
-                                    <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
-                                        Active
-                                    </span>
-                                    <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
-                                        Inactive <br><span>@if($user->deactivated_by == 1) (By Admin) @elseif($user->deactivated_by == 2) (By User) @endif</span>
-                                    </span>
-                            </div>
-                            <div class="td btn-dropdown-after">
+                            <div class="td-user-right">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
                                         id="inactive-icon">
@@ -314,10 +320,9 @@
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {
-                                $("#deactivate-msg-box").hide()
-                            }, 5000);
-                            $(".modal-deactivate"+id).hide();
-                            $(".modal-delete"+id).hide();
+                                $("#deactivate-msg-box").hide();
+                                location.reload()
+                            }, 1000);
                         }
                     },
                     error: function (xhr, textStatus, errorThrown) {
