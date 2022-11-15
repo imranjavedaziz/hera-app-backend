@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>MBC | All Users</title>
+    <title>MBC | @if (isset($title)){{$title}} @endif</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="icon" href="{{ asset('assets/images/favicon.ico')}}" sizes="32x32">
     <!-- Font -->
