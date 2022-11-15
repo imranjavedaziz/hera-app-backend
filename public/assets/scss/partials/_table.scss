@@ -261,3 +261,50 @@
 .btn-dropdown-after .dropdown-toggle::after{
   display: none;
 }
+
+.table-container-user-modal {
+    .td-user-left{
+        flex: 0 0 95%;
+        max-width: 95%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .th,
+        .td {
+                &:nth-child(1) {
+                    flex: 0 0 20%;
+                    max-width: 20%;
+                }
+                &:nth-child(2) {
+                    flex: 0 0 20%;
+                    max-width: 20%;
+                }
+                &:nth-child(3) {
+                    flex: 0 0 20%;
+                    max-width: 20%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                &:nth-child(4) {
+                    flex: 0 0 15%;
+                    max-width: 15%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                &:nth-child(5) {
+                    flex: 0 0 13%;
+                    max-width: 13%;
+                }
+                &:nth-child(6) {
+                    flex: 0 0 7%;
+                    max-width: 7%;
+                }
+            }
+        .td-user-right{
+            flex: 0 0 5%;
+            max-width: 5%;
+        }
+    }
+}
