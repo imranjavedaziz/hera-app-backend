@@ -51,7 +51,6 @@
                 @if (!empty($userData) && $userData->count() > 0)
                     @foreach($userData as $user)
                         @php
-                            $joinDate = \Carbon\Carbon::parse($user->created_at)->format('M d, Y');
                             $img = $user->profile_pic;
                         @endphp
                         <!--  repeat this div  -->
@@ -66,7 +65,7 @@
                                         </div>
                                         <div class="user-title-info">
                                             <h5>{{CustomHelper::fullName($user)}}</h5>
-                                            <p>Joined: {{$joinDate}}</p>
+                                            <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -116,6 +115,8 @@
 @endsection
 
 @push('after-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.39/moment-timezone-with-data-10-year-range.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $(document).on('click', '#open-detail-modal', function(e){
@@ -128,11 +129,12 @@
                     type: 'get',
                     dataType: 'json',
                     success: function (msg) {
+                        console.log(moment.utc(msg.created_at).local().format())
                         console.log(msg);
                         var middle_name = (msg.middle_name != null) ? msg.middle_name : '';
-                        console.log(middle_name);
                         var status = (msg.status_id == 1) ? 2 : 1
                         var status_text = (status == 2) ? 'Deactivate' : 'Activate';
+                        var date = moment.utc(msg.created_at).local().format();
                         console.log(status_text);
                         if(msg.deleted_at == null){
                             $('#modal-deactivate').attr('data-id' , msg.id)
@@ -155,7 +157,7 @@
                             $('.deactivate-para').addClass('d-none')
                             $('.deactivate-para').removeClass('d-block')
                         }
-                        $('.date').html('Joined on: ' +new Date(msg.created_at).toLocaleString('en-US', {
+                        $('.date').html('Joined on: ' +new Date(date).toLocaleString('en-US', {
                             month: 'short',
                             day: 'numeric',
                             year: 'numeric'
