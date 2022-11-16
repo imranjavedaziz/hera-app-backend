@@ -60,10 +60,10 @@ class CustomHelper
         return date_format(date_create($date), $format);
     }
 
-    public static function dateTimeZoneConversion($dateTime,$fromTimeZone,$toTimeZone) {
-        $dt = new DateTime($dateTime, new DateTimeZone($fromTimeZone));
+    public static function dateTimeZoneConversion($dateTime,$toTimeZone) {
+        $dt = new DateTime($dateTime, new DateTimeZone(UTC));
         $dt->setTimezone(new DateTimeZone($toTimeZone));
-        return $dt->format('Y-m-d H:i:s');
+        return $dt->format('M d, Y');
     }
 
     public static function fullName($user) {

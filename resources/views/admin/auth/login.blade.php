@@ -56,6 +56,8 @@
     </div>
 </div>
 <script src="{{ asset('assets/js/jquery-3.6.1.min.js') }} "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.39/moment-timezone-with-data-10-year-range.js"></script>
     <!-- end main wrapper -->
     <script type="text/javascript">
     $(".eye-img").click(function() {
@@ -74,5 +76,20 @@
     $(".text-end").click(function() {
         $('.alert').hide();
     });
+    $(document).ready(function() {
+        var timezone = moment.tz.guess();
+        $.ajax({
+              url: 'admin/update-timezone',
+              type: 'post',
+              data: {
+                "_token": "{{ csrf_token() }}",
+                  "timezone": timezone,
+                },
+              statusCode: {200: function (data) {}
+              },
+              error: function (xhr, textStatus, errorThrown) {
+              }
+              });
+            });
     </script>
 @endsection
