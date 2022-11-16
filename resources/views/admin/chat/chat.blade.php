@@ -119,7 +119,7 @@
         $(document).on('click', '.user-chat-sec', function(){
             console.log('chat section');
             $('.msg-wrapper').html('');
-            $(".active").removeClass("active");
+            $(".user-chat-sec").removeClass("active");
             $(this).addClass("active");
             var userId = $(this).attr("userId");
             var name = $(this).attr("userFullName");
@@ -257,6 +257,7 @@
                     var userId = localStorage.getItem('userId');
                     database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                         message: msg,
+                        read: 0,
                         time: new Date().getTime()
                     });
                 }
