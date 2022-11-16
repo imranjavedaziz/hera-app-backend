@@ -102,11 +102,12 @@ class AuthController extends Controller
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
-                if ($user->status_id === ACTIVE || $user->status_id === INACTIVE) {
+                if (($user->status_id === ACTIVE || $user->status_id === INACTIVE ) && $user->deactivated_by != ONE) {
                     $user->access_token = $oauth_token;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
-                    $response = response()->Error(trans('messages.user_account_deleted'));
+                    $message = $this->getDeleteInactiveMsg($user);
+                    $response = response()->Error($message);
                 }
             } else {
                 $response = response()->Error(trans('messages.invalid_user_pass'));
@@ -116,6 +117,18 @@ class AuthController extends Controller
         }
     
         return $response;
+    }
+
+    private function getDeleteInactiveMsg($user){
+        switch ($user) {
+            case ($user->deactivated_by == 1):
+                $message = trans('messages.user_account_deactivated_by_admin');
+                break;
+            default:
+                $message = trans('messages.user_account_deleted');
+                break;
+        }
+        return $message;
     }
 
     /**

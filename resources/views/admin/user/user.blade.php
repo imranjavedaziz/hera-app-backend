@@ -203,6 +203,9 @@
                         if(msg.doner_video_gallery != null){
                             var video = document.getElementsByTagName('video')[0];
                             var sources = video.getElementsByTagName('source');
+                            $('.vedio-title').show();
+                            $('.vedio-sec').show();
+                            $('#user-role').html(msg.role)
                             sources[0].src = msg.doner_video_gallery.file_url;
                             sources[1].src = msg.doner_video_gallery.file_url;
                             video.load();

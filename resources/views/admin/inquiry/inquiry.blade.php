@@ -53,7 +53,7 @@
                     @foreach($inquiries as $inquiry)
                         @php
                             $joinDate = \Carbon\Carbon::parse($inquiry->created_at)->format('M d, Y');
-                            $message = strlen($inquiry->message) > 80 ? substr($inquiry->message,0,80)."..." : $inquiry->message;
+                            $message = strlen($inquiry->message) > 70 ? substr($inquiry->message,0,70)."..." : $inquiry->message;
                             $issue_id = 'HR00'.$inquiry->id;
                             if($inquiry->user){
                                 $img = $inquiry->user->profile_pic;
