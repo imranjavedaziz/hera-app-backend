@@ -429,3 +429,4 @@ define('ADMIN_PHONE', '1111111111');
 // Admin inquiry
 define('INQUIRY', 'inquiry');
 define('INQUIRIES', 'inquiries');
+define('UTC', "UTC");

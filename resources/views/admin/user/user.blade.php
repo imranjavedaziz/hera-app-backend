@@ -51,7 +51,6 @@
                 @if (!empty($userData) && $userData->count() > 0)
                     @foreach($userData as $user)
                         @php
-                            $joinDate = \Carbon\Carbon::parse($user->created_at)->format('M d, Y');
                             $img = $user->profile_pic;
                         @endphp
                         <!--  repeat this div  -->
@@ -66,7 +65,7 @@
                                         </div>
                                         <div class="user-title-info">
                                             <h5>{{CustomHelper::fullName($user)}}</h5>
-                                            <p>Joined: {{$joinDate}}</p>
+                                            <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p>
                                         </div>
                                     </div>
                                 </div>
