@@ -120,7 +120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.39/moment-timezone-with-data-10-year-range.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var tz = moment.tz.guess();
             $(document).on('click', '#open-detail-modal', function(e){
                 console.log('hello');
                 e.preventDefault();
