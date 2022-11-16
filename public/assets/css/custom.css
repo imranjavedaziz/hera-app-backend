@@ -16,3 +16,6 @@
 .inactive-span span{
   font-weight: bold;
 }
+.deactivate-user, .td-user-left{
+	cursor: pointer;
+}

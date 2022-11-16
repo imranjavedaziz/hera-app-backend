@@ -12,7 +12,7 @@
                  </a>
             </li>
             <li class="@if (isset($title) && $title=='Inquiry') active @endif">
-                <a href="{{ route('inquiryList') }}" title="Inquiries">
+                <a href="{{ route('inquiryList') }}" title="Inquiry">
                     <span class="nav-text">Inquiries</span>
                 </a>
             </li>               
