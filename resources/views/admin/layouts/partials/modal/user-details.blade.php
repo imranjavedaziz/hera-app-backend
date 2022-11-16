@@ -32,7 +32,7 @@
                     <div class="user-profile-desc" id="bio"></div>
                     <div class="img-wrapper">
                     </div>
-                    <div class="vedio-title">Donor has uploaded a short clip</div>
+                    <div class="vedio-title"><span id="user-role"></span> has uploaded a short clip</div>
                     <div class="vedio-sec">
                         <video width="245" height="138" controls>
                             <source src="" type="video/mp4">
