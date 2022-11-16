@@ -108,6 +108,6 @@ return [
         'change_password_success' => 'Password changed successfully.',
     ],
     'enquiry' => [
-        'success' => 'Enquiry Submitted Successfully!',
+        'success' => 'Inquiry Submitted Successfully!',
     ],
 ];
