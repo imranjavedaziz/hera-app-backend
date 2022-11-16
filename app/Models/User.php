@@ -139,6 +139,6 @@ class User extends Authenticatable implements JWTSubject
      * @param $id
      */
     public static function deleteUser($id){
-        return User::where('id',$id)->update([DELETED_AT => Carbon::now()]);
+        return User::where('id',$id)->update([DELETED_AT => Carbon::now(), STATUS_ID => DELETED]);
     }
 }
