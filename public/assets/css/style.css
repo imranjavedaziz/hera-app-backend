@@ -619,8 +619,6 @@ input[type=number]::-webkit-outer-spin-button {
       margin-bottom: 15px; }
     .modal-userdetails .users-wrapper .vedio-sec {
       margin-bottom: 46px; }
-      .modal-userdetails .users-wrapper .vedio-sec video {
-        object-fit: fill; }
     .modal-userdetails .users-wrapper .deactivate-user {
       font-family: 'Open Sans', sans-serif;
       font-weight: 700;

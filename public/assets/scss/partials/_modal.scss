@@ -204,9 +204,6 @@
         }
         .vedio-sec{
             margin-bottom: 46px;
-            video {
-                object-fit: fill;
-            }
         }
         .deactivate-user{
             @include font-bold(16px, normal);
