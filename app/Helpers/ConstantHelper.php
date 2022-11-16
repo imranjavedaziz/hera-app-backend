@@ -422,3 +422,7 @@ define('ENQUIRING_AS', 'enquiring_as');
 //Admin 
 define('ADMIN_NAME', 'Admin');
 define('ADMIN_PHONE', '1111111111');
+
+// Admin inquiry
+define('INQUIRY', 'inquiry');
+define('INQUIRIES', 'inquiries');
