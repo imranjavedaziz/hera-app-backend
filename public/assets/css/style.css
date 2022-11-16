@@ -1894,4 +1894,25 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .inactive-span span{
   font-weight: bold;
 }
+
+input[type="search"]::-webkit-search-cancel-button{
+  visibility: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-close{
+  position: absolute;
+  top: 11px;
+  right: 18px;
+  background: #b3b3b3;
+  border-radius: 50%;
+  color: #fff;
+  width: 18px;
+  height: 18px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /*# sourceMappingURL=style.css.map */
