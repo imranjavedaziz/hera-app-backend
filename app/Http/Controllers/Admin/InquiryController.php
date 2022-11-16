@@ -13,7 +13,7 @@ class InquiryController extends Controller
      */
     public function index()
     {
-    	$inquiries = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
+    	$inquiries = EnquiryForm::with(USER)->select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
     	->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
     	->orderBy(ID, DESC)->paginate(ADMIN_PAGE_LIMIT);
         return view('admin.inquiry.inquiry')->with([TITLE => INQUIRY, INQUIRIES => $inquiries]);
