@@ -27,7 +27,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-	                    Your Enquiry Submitted Successfully!.
+	                    Your Inquiry Submitted Successfully!.
 	                </td>
 	            </tr>
 	            <tr>
