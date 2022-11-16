@@ -83,6 +83,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 
     Route::group([MIDDLEWARE => ['jwt.verify']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
+        Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
