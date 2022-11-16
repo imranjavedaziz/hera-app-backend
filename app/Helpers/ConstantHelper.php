@@ -419,6 +419,13 @@ define('EMAIL_VERIFICATIONS', 'email_verifications');
 define('ENQUIRY_FORMS', 'enquiry_forms');
 define('ENQUIRING_AS', 'enquiring_as');
 
+// define enquiry form relationship and function constants
+define('USER', 'user');
+
 //Admin 
 define('ADMIN_NAME', 'Admin');
 define('ADMIN_PHONE', '1111111111');
+
+// Admin inquiry
+define('INQUIRY', 'inquiry');
+define('INQUIRIES', 'inquiries');

@@ -57,7 +57,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     });
 
     /*******Test Route*****/
-    
+    Route::get('update-firebase-chat', [StateController::class, 'updateFirebaseChat']);
     
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);

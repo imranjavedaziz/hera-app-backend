@@ -15,5 +15,6 @@
         </div>
         <!-- end container fluid -->
         @include('admin.layouts.partials.admin.footer')
+        @yield('script' )
     </body>
 </html>

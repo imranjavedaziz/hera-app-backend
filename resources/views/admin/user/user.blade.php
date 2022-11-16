@@ -91,7 +91,9 @@
                                         id="inactive-icon">
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Send Message</a></li>
+                                    @if($user->role_id != 2)
+                                        <li><a class="dropdown-item" href="#">Send Message</a></li>
+                                    @endif
                                     @if($user->deleted_at == null)
                                         <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{$user->first_name}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
                                         <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{$user->first_name}}" data-id="{{$user->id}}">Delete User</a></li>
@@ -208,13 +210,13 @@
                             $('.vedio-title').hide();
                             $('.vedio-sec').hide();
                         }
+                        $('#modalUserDetails').modal('show');
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
                 });
-                $('#modalUserDetails').modal('show');
             });
 
             $(document).on('click', '.modal-deactivate', function(e){
