@@ -62,7 +62,7 @@
                             }
                         @endphp
                         <!--  repeat this div  -->
-                        <div class="table-row" id="open-detail-modal" data-id="{{$inquiry->id}}">
+                        <div class="table-row table-row-data" id="open-detail-modal" data-id="{{$inquiry->id}}">
                             <div class="td">
                                 <div class="user-title">
                                     <div class="user-img">
