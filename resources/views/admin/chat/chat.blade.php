@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.admin_base')
 @section('content')
   <!-- start main wrapper -->
@@ -26,146 +27,6 @@
                                 </form>
                             </div>
                             <div class="chat-left-containt">
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Jane Gregory</div>
-                                            <div class="user-msg">OK.</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Today</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You.</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec active">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Evan Ball</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Oct 28</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Cecelia Lowe</div>
-                                            <div class="user-msg">Can we connect in sometime Can we connect in sometime</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src="{{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
-                                <div class="user-chat-sec">
-                                    <div class="user-chat-left">
-                                        <div class="user-logo">
-                                            <img src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
-                                        </div>
-                                        <div class="user-detail">
-                                            <div class="user-name">Lloyd Baldwin</div>
-                                            <div class="user-msg">Thank You so much</div>
-                                        </div>
-                                    </div>
-                                    <div class="user-chat-right">
-                                        <div class="chat-date">Yesterday</div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="chat-wrapper-right">
@@ -185,34 +46,6 @@
                                 <div class="empty-msg ">No Messages Yet</div>
                                 <!-- For chat section -->
                                 <div class="msg-wrapper">
-                                   <div class="msg-wrapper-left">
-                                       <div class="massage">Hey! I hope it worked</div>
-                                       <div class="time">10:16 am</div>
-                                   </div>
-                                   <div class="msg-wrapper-right">
-                                        <div class="massage">Be that person that is always willing to help others. Most of us could have used someone to talk to...to help us get through problems!</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
-                                    <div class="msg-wrapper-right">
-                                        <div class="massage">Be that person that is always willing to help others. Most of us could have used someone to talk to...to help us get through problems!</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
-                                    <div class="msg-wrapper-left">
-                                        <div class="massage">Hey! I hope it worked</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
-                                     <div class="msg-wrapper-right">
-                                        <div class="massage">Be that person that is always willing to help others. Most of us could have used someone to talk to...to help us get through problems!</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
-                                    <div class="msg-wrapper-left">
-                                        <div class="massage">Hey! I hope it worked</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
-                                    <div class="msg-wrapper-right">
-                                        <div class="massage">Be that person that is always willing to help others.</div>
-                                        <div class="time">10:16 am</div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="chat-footer">
@@ -245,14 +78,16 @@
         var messageCollection = database.ref(env+'/Messages/'+chatNode);
         chatList(userCollection);
         function chatList() {
+            var chatUser = [];
             userCollection.on("value", function(snapshot) {
-                console.log(snapshot.val());
+            var count = 0;
             snapshot.forEach(function(childSnapshot) {
+                count++;
                 var childData = childSnapshot.val();
                 localStorage.setItem('userId', childData.recieverId);
                 var time = childData.time;
                 var date = getChatDate(time);
-                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'">'
+                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+childData.recieverImage+' alt="user-logo">'
@@ -266,38 +101,46 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
-                })
-                $('.user-chat-sec').click(function(){
-                    console.log('chat section');
-                    $('.msg-wrapper').html('');
-                    $(".active").removeClass("active");
-                    $(this).addClass("active");
-                    var userId = $(this).attr("userId");
-                    var name = $(this).attr("userFullName");
-                    var image = $(this).attr("userImage");
-                    var roleId = $(this).attr("userRole");
-                    console.log('userRole'+roleId);
-                    var username = $(this).attr("username");
-                    var roleData = getRoleData(roleId);
-                    $("#receiverImage").attr("src",image);
-                    $("#receiverRole").html(roleData);
-                    $("#receiverName").html(name+', <span>'+username+'</span>');
-                    localStorage.setItem('userId', userId);
-                    getMessageList();
-                })
-
-                $('.search-close').click(function(){
-                    $('#search').val('');
-                    $('.search-close').addClass("d-none");
-                    $('.chat-left-containt').html('');
-                    chatList(userCollection);
+                if (count == 1) {
+                    var roleData = getRoleData(childData.currentRole);
+                    updateUserChatProfile(childData.recieverImage, roleData, childData.recieverName, childData.recieverUserName, childData.recieverId);
+                }
                 })
             });
         }
 
+        $('.search-close').click(function(){
+            $('#search').val('');
+            $('.search-close').addClass("d-none");
+            $('.chat-left-containt').html('');
+            chatList(userCollection);
+        })
+
+        $(document).on('click', '.user-chat-sec', function(){
+            console.log('chat section');
+            $('.msg-wrapper').html('');
+            $(".active").removeClass("active");
+            $(this).addClass("active");
+            var userId = $(this).attr("userId");
+            var name = $(this).attr("userFullName");
+            var image = $(this).attr("userImage");
+            var roleId = $(this).attr("userRole");
+            console.log('userRole'+roleId);
+            var username = $(this).attr("username");
+            var roleData = getRoleData(roleId);
+            updateUserChatProfile(image, roleData, name, username, userId);
+        });
+
+        function updateUserChatProfile(image, roleData, name, username, userId) {
+            $("#receiverImage").attr("src",image);
+            $("#receiverRole").html(roleData);
+            $("#receiverName").html(name+', <span>'+username+'</span>');
+            localStorage.setItem('userId', userId);
+            getMessageList();
+        }
+
         function getMessageCollectionObject() {
             var chatNode = adminId+'-'+localStorage.getItem('userId');
-            console.log('ff'+chatNode);
             var messageCollection = database.ref(env+'/Messages/'+chatNode);
             return messageCollection;
         }
@@ -333,6 +176,9 @@
         function checkMessage(msg) {
             var time = msg.time;
             var date = DisplayTime(time);
+            if (typeof msg.text == 'undefined'){
+                return;
+            }
             if (msg.from == adminId) {
                 return `<div class="msg-wrapper-left">
                             <div class="massage">${msg.text}</div>
@@ -363,7 +209,7 @@
                         var message = childData.message;
                         var time = childData.time;
                         var date = getChatDate(time);
-                        $('.chat-left-containt').append('<div class="user-chat-sec">'
+                        $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+recieverName+'" userImage="'+profileImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+profileImage+' alt="user-logo">'
@@ -463,13 +309,12 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = moment(unixTimeStamp).format('Y-m-d');
+                    day = moment(unixTimeStamp).format('MMM DD');
             }
             return day;
         };
 
         function getRoleData(roleId) {
-            console.log('role'+roleId);
             switch (true) {
                 case (roleId == '2'): 
                     role = 'PARENTS TO BE';

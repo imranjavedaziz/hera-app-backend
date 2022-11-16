@@ -11,8 +11,8 @@
                     <span class="nav-text">All Users</span>
                  </a>
             </li>
-            <li>
-                <a href="" title="Inquiries">
+            <li class="@if (isset($title) && $title=='Inquiry') active @endif">
+                <a href="{{ route('inquiryList') }}" title="Inquiries">
                     <span class="nav-text">Inquiries</span>
                 </a>
             </li>               

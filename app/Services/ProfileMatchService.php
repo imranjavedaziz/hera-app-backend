@@ -42,10 +42,11 @@ class ProfileMatchService
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
         switch ($input[STATUS]) {
             case 1:
+                $to_name = ( $to_user->role_id == 2 ) ? $to_user->first_name : $to_user->username;
                 $name = ( $from_user->role_id == 2 ) ? $from_user->first_name : $from_user->username;
                 $title = 'Profile Match Request.';
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
-                $message = __('messages.profile_match.request_sent', [NAME => $name]);
+                $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
                 dispatch(new SendProfileMatchJob($to_user, $profile_match_id, $description, $title));
                 dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
