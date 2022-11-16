@@ -17,4 +17,8 @@ class EnquiryForm extends Model
     protected $fillable = [
         NAME, EMAIL, COUNTRY_CODE, PHONE_NO, ENQUIRING_AS, MESSAGE
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class,EMAIL,EMAIL);
+    }
 }
