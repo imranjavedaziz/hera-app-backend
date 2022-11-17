@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EnquirySuccessMail extends Mailable
+class EmailDeactivatedByAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $enquiry;
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($enquiry)
+    public function __construct($user)
     {
-        $this->enquiry = $enquiry;
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +28,6 @@ class EnquirySuccessMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Inquiry send Successfully")->view('emails.enquiry_success');
+        return $this->subject("HERA Account Deactivated")->view('emails.email-deactivated-by-admin');
     }
 }

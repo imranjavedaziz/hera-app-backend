@@ -96,6 +96,7 @@ return [
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
     'user_account_deactivated_by_admin' => 'Your account has been deactivated by Admin. Please contact Admin to get it re-activated.',
+    'user_account_deleted_by_admin' => 'Your account has been deleted by Admin and no longer available.',
     'admin' => [
         'invalid_credentail' => 'Please login with valid credentials.',
         'account_deactive' => 'User has been De-activated.',
@@ -111,4 +112,5 @@ return [
     'enquiry' => [
         'success' => 'Inquiry Submitted Successfully!',
     ],
+    'sent_push_notification' => 'Notification sent Successfully.',
 ];
