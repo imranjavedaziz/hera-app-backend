@@ -35,6 +35,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
         Route::get('chat', [ChatController::class,'index'])->name('chatList');
         Route::get('inquiry', [InquiryController::class,'index'])->name('inquiryList');
+        Route::get('userchat/{id}', [ChatController::class,'index'])->name('user.chat');
         Route::get('/inquiry/{id}', [InquiryController::class, 'show'])->name('inquiry.show');
         Route::put('inquiry/reply/{id}', [InquiryController::class, 'reply'])->name('inquiry.reply');
         Route::post('inquiry/export/', [InquiryController::class, 'export'])->name('inquiry.export');

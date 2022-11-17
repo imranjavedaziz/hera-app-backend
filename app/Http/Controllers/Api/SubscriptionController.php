@@ -120,7 +120,7 @@ class SubscriptionController extends Controller
             DB::commit();
             $response = response()->Success(trans('messages.subscription_created'));
             if(!empty($subscription[CODE])) {
-                $response = response()->Error(trans('messages.common_msg.something_went_wrong'));
+                $response = response()->Error($subscription[MESSAGE]);
             }
         } catch (\Exception $e) {
             DB::rollback($e->getMessage());
