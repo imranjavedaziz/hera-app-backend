@@ -121,13 +121,13 @@ class AuthController extends Controller
 
     private function getDeleteInactiveMsg($user){
         switch ($user) {
-            case ($user->deleted_by == 1 && $user->deleted_at != null):
+            case ($user->deleted_by == ONE && $user->deleted_at != null):
                 $message = trans('messages.user_account_deleted_by_admin');
                 break;
-            case ($user->deleted_by == 2 && $user->deleted_at != null):
+            case ($user->deleted_by == TWO && $user->deleted_at != null):
                 $message = trans('messages.user_account_deleted');
                 break;
-            case ($user->deactivated_by == 1):
+            case ($user->deactivated_by == ONE):
                 $message = trans('messages.user_account_deactivated_by_admin');
                 break;
             default:
