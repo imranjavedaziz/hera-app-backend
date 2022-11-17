@@ -35,5 +35,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
         Route::get('chat', [ChatController::class,'index'])->name('chatList');
         Route::get('inquiry', [InquiryController::class,'index'])->name('inquiryList');
+        Route::get('userchat/{id}', [ChatController::class,'index'])->name('user.chat');
     });    
 });

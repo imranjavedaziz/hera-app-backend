@@ -91,7 +91,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     @if($user->role_id != 2)
-                                        <li><a class="dropdown-item" href="{{ route('chatList') }}">Send Message</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
                                     @endif
                                     @if($user->deleted_at == null)
                                         <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{$user->first_name}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
