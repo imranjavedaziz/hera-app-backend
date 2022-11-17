@@ -102,6 +102,7 @@ return [
         'account_deactive' => 'User has been De-activated.',
         'account_active' => 'User has been Activated Successfully.',
         'account_delete' => 'User has been Deleted Successfully.',
+        'reply_sent' => 'You have successfully replied to this inquiry.',
     ],
     'change_password' => [
         'invalid_authentication' => 'Invalid authentication.',
