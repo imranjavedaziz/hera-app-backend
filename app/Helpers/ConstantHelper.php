@@ -48,6 +48,9 @@ define('DONAR', '2');
 define('LIKE', 'like');
 define('MATCH_REQUEST', 'match_request');
 
+//request status code
+define('HTTP_DELETED_ACCOUNT', 402);
+
 //request validation variables
 define('REQUIRED', 'required');
 define('SOMETIMES', 'sometimes');
@@ -420,6 +423,9 @@ define('EMAIL_VERIFICATIONS', 'email_verifications');
 //define enquiry form table column
 define('ENQUIRY_FORMS', 'enquiry_forms');
 define('ENQUIRING_AS', 'enquiring_as');
+define('ADMIN_REPLY', 'admin_reply');
+define('REPLIED_AT', 'replied_at');
+define('USER_TIMEZONE', 'user_timezone');
 
 // define enquiry form relationship and function constants
 define('USER', 'user');
