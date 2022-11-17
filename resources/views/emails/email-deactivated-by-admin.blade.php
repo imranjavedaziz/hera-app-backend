@@ -17,12 +17,12 @@
                 </tr>
                 <tr>
                     <td style="text-align: center; padding-top: 45px; padding-bottom: 41px;">
-                        <img src="./assets/images/logo.png" alt="Logo" width="155" height="auto">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" width="155" height="auto">
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                        Hello Erica!
+                        Hello {{$user['first_name']}}!
                     </td>
                 </tr>
                 <tr>
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                     <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 1.42;">
-                        <img src="./assets/images/logo-gray.png" alt="Logo" width="43" height="auto" style="margin-bottom: 5px;"><br />
+                        <img src="{{ asset('assets/images/logo-gray.png') }}" alt="Logo" width="43" height="auto" style="margin-bottom: 5px;"><br />
                         You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
                     </td>
                 </tr>
