@@ -197,6 +197,11 @@
                     $('.required_error').html('Please Enter message.');
                     return false;
                 }
+                if(admin_reply &&  admin_reply.length > 1000){
+                    $('.required_error').show();
+                    $('.required_error').html('You can send reply in maximum 1000 character');
+                    return false;
+                }
                 $.ajax({
                     url: 'inquiry/reply/'+id,
                     type: 'put',
@@ -277,7 +282,7 @@
                                     email: item.email,
                                     issue_id: "HR00"+item.id,
                                     user_type: item.role,
-                                    issue: item.message,
+                                    issue: item.message.replace(/,/g, ''),
                                     date: new Date(date_export).toLocaleString('en-US', {
                                         month: 'short',
                                         day: 'numeric',

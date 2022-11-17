@@ -27,7 +27,7 @@
                 </div>
                 <div class="inquiries-search-sec">
                     <form class="mb-1">
-                        <input type="text" class="form-control reply-input" placeholder="Write a message" value="" required>
+                        <textarea class="form-control reply-input" placeholder="Write a message" value="" required></textarea>
                         <button type="submit" class="btn-primary btn-logout reply-btn"></button>
                     </form>
                     <span class="text-danger required_error" style="font-size: 12px;"></span>
