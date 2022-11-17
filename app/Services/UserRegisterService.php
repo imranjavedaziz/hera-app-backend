@@ -39,7 +39,9 @@ class UserRegisterService
             $user->profile_pic = $file[FILE_URL];
             $user->save();
             /** $this->sendEmailVerification($user); **/
-            dispatch(new createAdminChatFreiend($user));
+            if ($input[ROLE_ID] !== PARENTS_TO_BE) {
+                dispatch(new createAdminChatFreiend($user));
+            }
         }
         return $user;
     }
