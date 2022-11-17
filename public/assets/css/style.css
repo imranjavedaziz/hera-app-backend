@@ -464,7 +464,8 @@ input[type=number]::-webkit-outer-spin-button {
       font-style: normal;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      word-break: break-all; }
   .modal-inquiries .inquiries-wrapper .inquiries-search-sec {
     position: relative;
     margin-bottom: 14px; }
@@ -490,6 +491,20 @@ input[type=number]::-webkit-outer-spin-button {
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
+  .modal-inquiries .inquiries-wrapper .inquiries-search-sec textarea {
+      background-color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: normal;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 23px 115px 23px 19px;
+      height: 65px;
+      overflow: hidden;
+      resize: none;
+      word-break: break-all; }
 
 .modal-userdetails {
   max-width: 650px; }
