@@ -74,8 +74,6 @@ class InquiryController extends AdminController
     public function export(Request $request)
     {
         try{
-            // return $request->month;
-
             $enquiry = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
             ->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
             ->whereMonth('created_at', $request->month)->get();
