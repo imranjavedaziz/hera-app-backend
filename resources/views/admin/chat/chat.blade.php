@@ -141,10 +141,6 @@
             var name = $(this).attr("userFullName");
             var image = $(this).attr("userImage");
             var roleId = $(this).attr("userRole");
-            console.log('userRole'+roleId);
-            console.log('name'+name);
-            console.log('image'+image);
-            console.log('roleId'+roleId);
             var username = $(this).attr("username");
             var roleData = getRoleData(roleId);
             updateUserChatProfile(image, roleData, name, username, userId);
@@ -225,8 +221,8 @@
                     chatList();
                 } else {
                     $(".search-close").removeClass("d-none");
+                    userCollection.off("child_added");
                 userCollection.orderByChild('recieverName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
-                    console.log(snapshot.val());
                     snapshot.forEach(function(childSnapshot) {
                         var childData = childSnapshot.val();
                         var profileImage = childData.recieverImage;
@@ -254,10 +250,7 @@
                 });
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
-                    console.log('on reply profile user id'+userId);
-                    console.log('send message');
                     var msg = $('#message').val();
-                    console.log('This msg sending '+msg);
                     sendMessage(msg, userId);
                     $('#message').val("");
                 })
