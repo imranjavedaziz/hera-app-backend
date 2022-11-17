@@ -125,7 +125,6 @@
                 }
             });
         }
-        
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
@@ -163,13 +162,14 @@
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode);
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
             return messageCollection;
         }
 
-        function sendMessage(msg, userId) {
+        function sendMessage(msg,userId) {
             /** Save message */
-            var msgObj = getMessageCollectionObject(userId);
+            var chatNode = userId+'-'+adminId;
+            var msgObj = database.ref(env+'/Messages/'+chatNode)
             var message = {
                 from : adminId,
                 text: msg,
