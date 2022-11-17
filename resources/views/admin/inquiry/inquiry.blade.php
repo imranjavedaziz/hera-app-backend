@@ -127,7 +127,7 @@
             const currentYear = new Date().getFullYear(); // 2020
             const previousYear =  currentYear-1;
             const currentMonth = new Date().getMonth(); // 2020
-            $("#month_select").val(currentMonth).change();
+            $("#month_select").val(currentMonth+1).change();
             $('#year_select').append('<option value=' + previousYear + '>' +previousYear+ '</option><option selected value=' + currentYear + '>' +currentYear+ '</option>')
             $(document).on('click', '.open-detail-modal', function(e){
                 console.log('hello');
@@ -240,14 +240,113 @@
                 var month_value = $('#month_select').find(":selected").val();
                 var month = $('#month_select').find(":selected").text();
                 var year = $('#year_select').find(":selected").text();
-                var last_date = new Date(year, parseInt(month_value) + 1, 0);
-                var first_date = new Date(year, parseInt(month_value));
-                console.log(last_date); // last day in Month
-                console.log(first_date); // last day in Month
-                console.log('yesr' + year)
-                console.log('month' + month)
-                console.log('month' + month_value)
+
+                $.ajax({
+                    url: 'inquiry/export',
+                    type: 'post',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "month": month_value,
+                        "year": year,
+                    },
+                    beforeSend: function () {
+                        $('.loader').show();
+                    },
+                    complete:function () {
+                        $('.loader').hide();
+                    },
+                    statusCode: {
+                        200: function (msg) {
+                            console.log(msg);
+                            var headers = {
+                                name: 'Name',
+                                email: "Email",
+                                issue_id: "Issue Id",
+                                user_type: "User Type",
+                                issue: "Issue",
+                                date: "Date",
+                            };
+
+                            var itemsFormatted = [];
+
+                            // format the data
+                            msg.data.forEach((item) => {
+                                var date_export = moment.utc(item.created_at).local().format();
+                                itemsFormatted.push({
+                                    name: item.name,
+                                    email: item.email,
+                                    issue_id: "HR00"+item.id,
+                                    user_type: item.role,
+                                    issue: item.message,
+                                    date: new Date(date_export).toLocaleString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric'
+                                    }).replace(/,/g, ''),
+                                });
+                            });
+
+                            var fileTitle = 'inquiry_data'; // or 'my-unique-title'
+
+                            exportCSVFile(headers, itemsFormatted, fileTitle);
+                            
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(JSON.stringify(jqXHR));
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+
             });
+
+            function convertToCSV(objArray) {
+                var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+                var str = '';
+
+                for (var i = 0; i < array.length; i++) {
+                    var line = '';
+                    for (var index in array[i]) {
+                        if (line != '') line += ','
+
+                        line += array[i][index];
+                    }
+
+                    str += line + '\r\n';
+                }
+
+                return str;
+            }
+
+            function exportCSVFile(headers, items, fileTitle) {
+                if (headers) {
+                    items.unshift(headers);
+                }
+
+                // Convert Object to JSON
+                var jsonObject = JSON.stringify(items);
+
+                var csv = convertToCSV(jsonObject);
+
+                var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, exportedFilenmae);
+                } else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", exportedFilenmae);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            }
 
         });
     </script>

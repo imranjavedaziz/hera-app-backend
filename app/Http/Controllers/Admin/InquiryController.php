@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\EnquiryForm;
 use App\Models\User;
 use App\Jobs\SendInquiryReplyJob;
+use App\Helpers\CustomHelper;
+use DateTime;
+use Carbon\Carbon;
 
 class InquiryController extends AdminController
 {
@@ -68,16 +71,14 @@ class InquiryController extends AdminController
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function export(Request $request, $id)
+    public function export(Request $request)
     {
         try{
-            $msg = __('messages.admin.reply_sent');
-            EnquiryForm::inquiryReply($id, $request->all());
-            $enquiry = EnquiryForm::where(ID, $id)->first();
-            dispatch(new SendInquiryReplyJob($enquiry));
+            $enquiry = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
+            ->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
+            ->whereMonth('created_at', $request->month)->get();
             return response()->json([
                 STATUS => true,
-                MESSAGE => $msg,
                 DATA => $enquiry,
             ]);
         } catch (\Exception $e) {
