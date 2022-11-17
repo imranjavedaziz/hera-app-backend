@@ -146,7 +146,7 @@
         }
 
         function getMessageCollectionObject(userId) {
-            var chatNode = adminId+'-'+userId;
+            var chatNode = userId+'-'+adminId;
             var messageCollection = database.ref(env+'/Messages/'+chatNode);
             return messageCollection;
         }
@@ -188,20 +188,17 @@
         function checkMessage(msg) {
             var time = msg.time;
             var date = DisplayTime(time);
+            var wrapperClass = 'msg-wrapper-left';
             if (typeof msg.text == 'undefined'){
                 return;
             }
             if (msg.from == adminId) {
-                return `<div class="msg-wrapper-left">
-                            <div class="massage">${msg.text}</div>
-                            <div class="time">${date}</div>
-                        </div>`
-            } else {
-                return ` <div class="msg-wrapper-right">
-                            <div class="massage">${msg.text}</div>
-                            <div class="time">${date}</div>
-                        </div>`
+                var wrapperClass = 'msg-wrapper-right';
             }
+            return ` <div class="${wrapperClass}">
+                            <div class="massage">${msg.text}</div>
+                            <div class="time">${date}</div>
+                        </div>`
         }
 
             $("#search").keyup(function() {
