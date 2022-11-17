@@ -124,6 +124,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var id;
+            const currentYear = new Date().getFullYear(); // 2020
+            const previousYear =  currentYear-1;
+            const currentMonth = new Date().getMonth(); // 2020
+            $("#month_select").val(currentMonth).change();
+            $('#year_select').append('<option value=' + previousYear + '>' +previousYear+ '</option><option selected value=' + currentYear + '>' +currentYear+ '</option>')
             $(document).on('click', '.open-detail-modal', function(e){
                 console.log('hello');
                 e.preventDefault();
@@ -173,6 +178,7 @@
                             $('.reply-btn').html('REPLY');
                         }
                         $('.reply-input').val('')
+                        $('.required_error').hide();
                         $('#modalInquiriesDetails').modal('show');
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -185,7 +191,10 @@
             $(document).on('click', '.reply-btn', function(e){
                 e.preventDefault();
                 var admin_reply = $('.reply-input').val();
-                if(admin_reply == null){
+                console.log(admin_reply)
+                if(!admin_reply){
+                    $('.required_error').show();
+                    $('.required_error').html('Please Enter message.');
                     return false;
                 }
                 $.ajax({
@@ -224,6 +233,20 @@
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
                 });
+            });
+
+            $(document).on('click', '#generate_csv', function(e){
+                e.preventDefault();
+                var month_value = $('#month_select').find(":selected").val();
+                var month = $('#month_select').find(":selected").text();
+                var year = $('#year_select').find(":selected").text();
+                var last_date = new Date(year, parseInt(month_value) + 1, 0);
+                var first_date = new Date(year, parseInt(month_value));
+                console.log(last_date); // last day in Month
+                console.log(first_date); // last day in Month
+                console.log('yesr' + year)
+                console.log('month' + month)
+                console.log('month' + month_value)
             });
 
         });

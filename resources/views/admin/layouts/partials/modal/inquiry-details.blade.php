@@ -26,10 +26,11 @@
                     <div class="note replied_note"><span class="text-danger">*</span><em>Reply sent to user's email address</em></div>
                 </div>
                 <div class="inquiries-search-sec">
-                    <form>
+                    <form class="mb-1">
                         <input type="text" class="form-control reply-input" placeholder="Write a message" value="" required>
                         <button type="submit" class="btn-primary btn-logout reply-btn"></button>
                     </form>
+                    <span class="text-danger required_error" style="font-size: 12px;"></span>
                 </div>
                 <div class="note reply_note"><span class="text-danger">*</span><em>Your reply will be sent to user's email address</em></div>
             </div>

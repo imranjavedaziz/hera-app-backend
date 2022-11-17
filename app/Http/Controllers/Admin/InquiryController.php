@@ -61,4 +61,29 @@ class InquiryController extends AdminController
         }
 
     }
+
+    /**
+     * Reply Inquiry.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request, $id)
+    {
+        try{
+            $msg = __('messages.admin.reply_sent');
+            EnquiryForm::inquiryReply($id, $request->all());
+            $enquiry = EnquiryForm::where(ID, $id)->first();
+            dispatch(new SendInquiryReplyJob($enquiry));
+            return response()->json([
+                STATUS => true,
+                MESSAGE => $msg,
+                DATA => $enquiry,
+            ]);
+        } catch (\Exception $e) {
+            $message = trans(LANG_SOMETHING_WRONG);
+            return $this->sendError($message, $e->getMessage());
+        }
+
+    }
 }
