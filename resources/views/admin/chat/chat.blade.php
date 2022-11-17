@@ -68,6 +68,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        var user_data = '<?php echo $user; ?>';
         $('.chat-left-containt').html('');
         $('.msg-wrapper').html('');
         var database = firebase.database();
@@ -106,7 +107,19 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
-                if (count == 1) {
+                if(user_data){
+                    var user = JSON.parse(user_data);
+                    var middle_name = (user.middle_name != null) ? user.middle_name : '';
+                    console.log(user.first_name);
+                    // $(this).addClass("active");
+                    var userId = user.id;
+                    var name = user.first_name + ' ' + middle_name + ' ' + user.last_name;
+                    var image = user.profile_pic;
+                    var roleId = user.role_id;
+                    var username = user.username;
+                    var roleData = getRoleData(roleId);
+                    updateUserChatProfile(image, roleData, name, username, userId);
+                }else if (count == 1) {
                     var roleData = getRoleData(childData.currentRole);
                     updateUserChatProfile(childData.recieverImage, roleData, childData.recieverName, childData.recieverUserName, childData.recieverId);
                 }
@@ -129,6 +142,9 @@
             var image = $(this).attr("userImage");
             var roleId = $(this).attr("userRole");
             console.log('userRole'+roleId);
+            console.log('name'+name);
+            console.log('image'+image);
+            console.log('roleId'+roleId);
             var username = $(this).attr("username");
             var roleData = getRoleData(roleId);
             updateUserChatProfile(image, roleData, name, username, userId);
