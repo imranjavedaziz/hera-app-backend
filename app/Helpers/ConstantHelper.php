@@ -48,6 +48,9 @@ define('DONAR', '2');
 define('LIKE', 'like');
 define('MATCH_REQUEST', 'match_request');
 
+//request status code
+define('HTTP_DELETED_ACCOUNT', 402);
+
 //request validation variables
 define('REQUIRED', 'required');
 define('SOMETIMES', 'sometimes');
@@ -119,6 +122,7 @@ define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
 define('FEEDBACK_LIKE_COMMENT', '0=>thumbs up, 1=>thumbs down');
 define('FEEDBACK_SKIP_COMMENT', '0=>not skip, 1=>skip');
 define('DEACTIVATED_BY_COMMENT', '0 => Activated, 1 => deactivated by admin, 2 => deactivated by user');
+define('DELETED_BY_COMMENT', '0 => Nt deleted, 1 => deleted by admin, 2 => deleted by user');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -156,6 +160,7 @@ define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
 define('REASON_ID', 'reason_id');
 define('DEACTIVATED_BY', 'deactivated_by');
+define('DELETED_BY', 'deleted_by');
 
 //define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');
@@ -418,6 +423,9 @@ define('EMAIL_VERIFICATIONS', 'email_verifications');
 //define enquiry form table column
 define('ENQUIRY_FORMS', 'enquiry_forms');
 define('ENQUIRING_AS', 'enquiring_as');
+define('ADMIN_REPLY', 'admin_reply');
+define('REPLIED_AT', 'replied_at');
+define('USER_TIMEZONE', 'user_timezone');
 
 // define enquiry form relationship and function constants
 define('USER', 'user');

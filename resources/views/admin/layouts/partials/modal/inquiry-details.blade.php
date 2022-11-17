@@ -7,28 +7,32 @@
                 <img src="/assets/images/svg/cross-big.svg" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
             </div>
             <div class="inquiries-wrapper">
-                <h2>Issue ID: HR0585943</h2>
+                <h2>Issue ID: <span id="enquiry_id"></span></h2>
                 <div class="inquiries-profile">
                     <div class="profile-logo">
-                        <img src="/assets/images/people3.jpeg" alt="Profile-logo">
+                        <img src="" alt="Profile-logo">
                     </div>
                     <div class="profile-detail">
-                        <div class="profile-title">Jeff Gregory, <span>Parent To Be</span></div>
-                        <div class="profile-email">jeffgregory@gmail.com</div>
-                        <div class="profile-email">+1 049-948 (0383)</div>
+                        <div class="profile-title"></div>
+                        <div class="profile-email profile-mail"></div>
+                        <div class="profile-email profile-phone"></div>
                     </div>
                 </div>
                 <div class="profile-content">
-                    <div class="title">Sent on: Sep 2, 2021</div>
-                    <div class="desc">Be that person that is always willing to help others. Most of us could have used someone to talk to...to help us get through various problems!</div>
-                    <div class="replies"><img src="/assets/images/small-logo.png" alt="logo"> You replied on: Sep 2, 2021</div>
-                    <div class="thanks">Sure, Thanks.</div>
+                    <div class="title">Sent on: <span id="inquiry_date"></span></div>
+                    <div class="desc"></div>
+                    <div class="replies"><img src="/assets/images/small-logo.png" alt="logo"> You replied on: <span></span></div>
+                    <div class="thanks"></div>
+                    <div class="note replied_note"><span class="text-danger">*</span><em>Reply sent to user's email address</em></div>
                 </div>
                 <div class="inquiries-search-sec">
-                    <input type="text" class="form-control" placeholder="Write a message">
-                    <button type="button" class="btn-primary btn-logout reply-btn">REPLY</button>
+                    <form class="mb-1">
+                        <input type="text" class="form-control reply-input" placeholder="Write a message" value="" required>
+                        <button type="submit" class="btn-primary btn-logout reply-btn"></button>
+                    </form>
+                    <span class="text-danger required_error" style="font-size: 12px;"></span>
                 </div>
-                <div class="note"><span class="text-danger">*</span><em>Your reply will be sent to user's email address</em></div>
+                <div class="note reply_note"><span class="text-danger">*</span><em>Your reply will be sent to user's email address</em></div>
             </div>
         </div>
       </div>

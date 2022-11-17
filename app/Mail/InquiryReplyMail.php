@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EnquirySuccessMail extends Mailable
+class InquiryReplyMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $enquiry;
@@ -28,6 +28,6 @@ class EnquirySuccessMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Inquiry send Successfully")->view('emails.enquiry_success');
+        return $this->subject("Inquiry Reply")->view('emails.enquiry-reply');
     }
 }
