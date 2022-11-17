@@ -150,9 +150,10 @@
             return messageCollection;
         }
 
-        function sendMessage(msg, userId) {
+        function sendMessage(msg,userId) {
             /** Save message */
-            var msgObj = getMessageCollectionObject(userId);
+            var chatNode = userId+'-'+adminId;
+            var msgObj = database.ref(env+'/Messages/'+chatNode)
             var message = {
                 from : adminId,
                 text: msg,
