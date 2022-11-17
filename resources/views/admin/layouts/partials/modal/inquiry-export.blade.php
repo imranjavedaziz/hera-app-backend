@@ -14,32 +14,33 @@
                             <div class="select-label">Month</div>
                             <div class="custom-select">
                                 <!-- default bootstrap select use plz use plugin -->
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>October</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                  </select>
-
-
-
+                                <select class="form-select" aria-label="Default select example" id="month_select">
+                                    <option value="0" selected>January</option>
+                                    <option value="1">February</option>
+                                    <option value="2">March</option>
+                                    <option value="3">April</option>
+                                    <option value="4">May</option>
+                                    <option value="5">June</option>
+                                    <option value="6">July</option>
+                                    <option value="7">August</option>
+                                    <option value="8">September</option>
+                                    <option value="9">October</option>
+                                    <option value="10">November</option>
+                                    <option value="11">December</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="select-label">Year</div>
                             <div class="custom-select">
                                 <!-- default bootstrap select use plz use plugin -->
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>2023</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                  </select>
+                                <select class="form-select" aria-label="Default select example" id="year_select">
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="export-footer">
-                        <button type="button" class="btn-primary btn-logout">GENERATE CSV</button>
+                        <button type="button" class="btn-primary btn-logout" id="generate_csv">GENERATE CSV</button>
                     </div>
                 </div>
             </div>
