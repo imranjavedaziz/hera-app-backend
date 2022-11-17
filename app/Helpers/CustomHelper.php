@@ -68,7 +68,7 @@ class CustomHelper
 
     public static function fullName($user) {
         $fullName = $user->first_name.' '. $user->last_name;
-        if(!empty($user->middle_name) && $user->middle_nam !== 'undefined') {
+        if(!empty($user->middle_name)) {
             $fullName = $user->first_name.' '.$user->middle_name.' '. $user->last_name;
         }
 
