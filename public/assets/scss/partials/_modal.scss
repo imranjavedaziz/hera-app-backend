@@ -96,6 +96,7 @@
             .thanks{
                 @include font-light(18px, normal);
                 margin-bottom: 72px;
+                word-break: break-all;
             }
         }
         .inquiries-search-sec{
@@ -110,6 +111,15 @@
                 padding: 23px 115px 23px 19px;
                 @include font-regular(14px, normal);
                 color: #353a3a;
+            }
+            textarea{
+                background-color: #fff;
+                @include font-regular(14px, normal);
+                padding: 23px 115px 23px 19px;
+                height: 65px;
+                overflow: hidden;
+                resize: none;
+                word-break: break-all;
             }
         }
         .note{
