@@ -101,16 +101,16 @@ class AuthController extends Controller
             if (empty($user)) {
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
+            $message = $this->getDeleteInactiveMsg($user);
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
                 if (($user->status_id === ACTIVE || $user->status_id === INACTIVE ) && $user->deactivated_by != ONE) {
                     $user->access_token = $oauth_token;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
-                    $message = $this->getDeleteInactiveMsg($user);
                     $response = response()->Error($message);
                 }
             } else {
-                $response = response()->Error(trans('messages.invalid_user_pass'));
+                $response = response()->Error($message);
             }
         } catch (JWTException $e) {
             $response = response()->Error($e->getMessage());
@@ -121,11 +121,17 @@ class AuthController extends Controller
 
     private function getDeleteInactiveMsg($user){
         switch ($user) {
+            case ($user->deleted_by == 1 && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted_by_admin');
+                break;
+            case ($user->deleted_by == 2 && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted');
+                break;
             case ($user->deactivated_by == 1):
                 $message = trans('messages.user_account_deactivated_by_admin');
                 break;
             default:
-                $message = trans('messages.user_account_deleted');
+                $message = trans('messages.invalid_user_pass');
                 break;
         }
         return $message;
@@ -683,6 +689,7 @@ class AuthController extends Controller
             if (Hash::check($input[PASSWORD], $user->password)) {
                 $user->deleted_at = Carbon::now();
                 $user->status_id = DELETED;
+                $user->deleted_by = TWO;
                 $user->save();
                 dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
                 $response = response()->Success(__('messages.account_delete_success'));

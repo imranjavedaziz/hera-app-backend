@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Url;
 use App\Helpers\Helper;
 use Validator;
+use App\Jobs\SendActiveDeactiveUserJob;
 
 class UserController extends AdminController
 {
@@ -75,6 +76,7 @@ class UserController extends AdminController
                 $msg = __('messages.admin.account_active');
             }
             User::changeStatus($id,$request->all());
+            dispatch(new SendActiveDeactiveUserJob($id));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
         	$message = trans(LANG_SOMETHING_WRONG);
@@ -94,6 +96,7 @@ class UserController extends AdminController
         try{
             $msg = __('messages.admin.account_delete');
             User::deleteUser($id);
+            dispatch(new SendActiveDeactiveUserJob($id));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
         	$message = trans(LANG_SOMETHING_WRONG);
