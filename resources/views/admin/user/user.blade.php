@@ -55,7 +55,7 @@
                         @endphp
                         <!--  repeat this div  -->
                         <div class="table-row">
-                            <div class="td-user-left" id="open-detail-modal" data-id="{{$user->id}}">
+                            <div class="td-user-left open-detail-modal" data-id="{{$user->id}}">
                                 <div class="td">
                                     <div class="user-title">
                                         <div class="user-img">
@@ -115,27 +115,20 @@
 @endsection
 
 @push('after-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.39/moment-timezone-with-data-10-year-range.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $(document).on('click', '#open-detail-modal', function(e){
-                console.log('hello');
+            $(document).on('click', '.open-detail-modal', function(e){
                 e.preventDefault();
                 var id = $(this).attr("data-id");
-                console.log(id);
                 $.ajax({
                     url: 'user/'+ id,
                     type: 'get',
                     dataType: 'json',
                     success: function (msg) {
-                        console.log(moment.utc(msg.created_at).local().format())
-                        console.log(msg);
                         var middle_name = (msg.middle_name != null) ? msg.middle_name : '';
                         var status = (msg.status_id == 1) ? 2 : 1
                         var status_text = (status == 2) ? 'Deactivate' : 'Activate';
                         var date = moment.utc(msg.created_at).local().format();
-                        console.log(status_text);
                         if(msg.deleted_at == null){
                             $('#modal-deactivate').attr('data-id' , msg.id)
                             $('#modal-deactivate').attr('data-name' , msg.first_name)
@@ -225,7 +218,6 @@
             });
 
             $(document).on('click', '.modal-deactivate', function(e){
-                console.log('hello');
                 e.preventDefault();
                 var id = $(this).attr("data-id");
                 var name = $(this).attr("data-name");
@@ -243,8 +235,6 @@
             $(document).on('click', '#deactivate-btn-text', function(event){
                 var id = $(this).attr("data-id");
                 var status = $(this).attr("data-status");
-                console.log(id);
-                console.log(status);
                 let deactivated_by = 0;
                 if((status == 2)){
                     deactivated_by = 1;
@@ -297,7 +287,6 @@
             });
 
             $(document).on('click', '.modal-delete', function(e){
-                console.log('hello');
                 e.preventDefault();
                 var id = $(this).attr("data-id");
                 var name = $(this).attr("data-name");
