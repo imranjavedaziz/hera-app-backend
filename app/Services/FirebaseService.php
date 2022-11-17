@@ -39,6 +39,7 @@ class FirebaseService
             "message" => $msg,
             "msgId" => $msgId."-".time(),
             "read" => ZERO,
+            "feedback_status" => ZERO,
             "recieverId" => $reciever->id,
             "recieverImage" => $reciever->profile_pic,
             "recieverName" => CustomHelper::fullName($reciever),
