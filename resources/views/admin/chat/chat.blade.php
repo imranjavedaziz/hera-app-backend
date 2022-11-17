@@ -112,7 +112,6 @@
                 }
             });
         }
-        
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
@@ -147,7 +146,7 @@
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode);
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
             return messageCollection;
         }
 
