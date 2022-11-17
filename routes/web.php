@@ -25,6 +25,7 @@ Route::get('/', function () {
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/', [AuthController::class, 'getlogin']);
     Route::post('/', [AuthController::class, 'postLogin'])->name('login');
+    Route::post('/update-timezone', [UserController::class, 'updateAdminTimezone']);
 
     Route::group([ MIDDLEWARE =>['admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);

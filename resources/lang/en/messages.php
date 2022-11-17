@@ -112,4 +112,5 @@ return [
     'enquiry' => [
         'success' => 'Inquiry Submitted Successfully!',
     ],
+    'sent_push_notification' => 'Notification sent Successfully.',
 ];
