@@ -221,7 +221,6 @@
                     chatList();
                 } else {
                     $(".search-close").removeClass("d-none");
-                    userCollection.off("child_added");
                 userCollection.orderByChild('recieverName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
                         var childData = childSnapshot.val();
@@ -258,6 +257,7 @@
                 $('#message').keypress(function(event){
                     var key = event.which;
                     if(key == '13') {
+                        userCollection.off("value");
                         console.log('enter press');
                         $('.reply-btn').click();
                         return false;
