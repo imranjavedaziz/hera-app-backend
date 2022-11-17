@@ -146,7 +146,7 @@
         }
 
         function getMessageCollectionObject(userId) {
-            var chatNode = adminId+'-'+userId;
+            var chatNode = userId+'-'+adminId;
             var messageCollection = database.ref(env+'/Messages/'+chatNode);
             return messageCollection;
         }
