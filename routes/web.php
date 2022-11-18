@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\SubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +40,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         Route::get('/inquiry/{id}', [InquiryController::class, 'show'])->name('inquiry.show');
         Route::put('inquiry/reply/{id}', [InquiryController::class, 'reply'])->name('inquiry.reply');
         Route::post('inquiry/export/', [InquiryController::class, 'export'])->name('inquiry.export');
+        Route::get('/subscription', [SubscriptionController::class,'index'])->name('subscriptionList');
+        Route::get('/subscription/{id}', [SubscriptionController::class, 'show'])->name('userSubscriptionList');
+        Route::get('/invoice/{id}/{userId}', [SubscriptionController::class, 'showInvoice'])->name('showInvoice');
     });    
 });
