@@ -17,11 +17,11 @@
                     <div class="subscription-wrapper">
                         <div class="sub-profile-wrapper">
                             <div class="profile-logo">
-                                <img src="{{$user->profile_pic}}" alt="Profile-logo">
+                                <img src="{{$users->profile_pic}}" alt="Profile-logo">
                             </div>
                             <div class="profile-detail">
-                                <div class="profile-title">{{CustomHelper::fullName($user)}}, <span>{{CustomHelper::getRoleName($user->role_id)}}</span></div>
-                                <div class="profile-email">{{$user->email}}</div>
+                                <div class="profile-title">{{CustomHelper::fullName($users)}}, <span>{{CustomHelper::getRoleName($users->role_id)}}</span></div>
+                                <div class="profile-email">{{$users->email}}</div>
                             </div>
                         </div>
                         <div class="next-purchased">
@@ -64,7 +64,7 @@
                                             id="inactive-icon">
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="{{ route('showInvoice', ['id' => $subscription->id, 'userId' => $user->id]) }}">See Invoice</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('showInvoice', ['id' => $subscription->id, 'userId' => $users->id]) }}">See Invoice</a></li>
                                         <li><a class="dropdown-item" href="#">Download Invoice</a></li>
                                     </ul>
                                 </div>
