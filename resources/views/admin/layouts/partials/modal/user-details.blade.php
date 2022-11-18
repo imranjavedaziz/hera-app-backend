@@ -37,7 +37,7 @@
                         <video width="245" height="138" controls>
                             <source src="" type="video/mp4">
                             <source src="" type="video/ogg">
-                            Your browser does not support the video tag.
+                            <track label="English" kind="captions" srclang="en" src="" default>
                         </video>
                     </div>
                     <div id="modal-deactivate" class="deactivate-user modal-deactivate" data-id="" data-name="" data-status=""></div>

@@ -134,7 +134,7 @@
         }
         .chat-container{
             padding: 85px 0 100px 76px;
-            height: calc(100vh - 185px);
+            height: 100%;
             overflow: hidden;
             .empty-msg{
                 height: 100%;
@@ -144,7 +144,7 @@
                 align-items: center;
             }
             .msg-wrapper{
-                height: 530px;
+                height: 100%;
                 overflow: auto;
                 padding-right: 45px;
                 .msg-wrapper-left{
