@@ -95,8 +95,14 @@ return [
     'password_matched' => 'Password matched successfully.',
     'account_delete_success' => 'Your Account has been Deleted Successfully!',
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
+    'user_account_deactivated_by_admin' => 'Your account has been deactivated by Admin. Please contact Admin to get it re-activated.',
+    'user_account_deleted_by_admin' => 'Your account has been deleted by Admin and no longer available.',
     'admin' => [
-        'invalid_credentail' => 'Please login with valid credentials.'
+        'invalid_credentail' => 'Please login with valid credentials.',
+        'account_deactive' => 'User has been De-activated.',
+        'account_active' => 'User has been Activated Successfully.',
+        'account_delete' => 'User has been Deleted Successfully.',
+        'reply_sent' => 'You have successfully replied to this inquiry.',
     ],
     'change_password' => [
         'invalid_authentication' => 'Invalid authentication.',
@@ -105,6 +111,7 @@ return [
         'change_password_success' => 'Password changed successfully.',
     ],
     'enquiry' => [
-        'success' => 'Enquiry Submitted Successfully!',
+        'success' => 'Inquiry Submitted Successfully!',
     ],
+    'sent_push_notification' => 'Notification sent Successfully.',
 ];

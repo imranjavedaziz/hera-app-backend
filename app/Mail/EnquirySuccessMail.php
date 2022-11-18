@@ -28,6 +28,6 @@ class EnquirySuccessMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Verify your HERA Account")->view('emails.enquiry_success');
+        return $this->subject("Inquiry send Successfully")->view('emails.enquiry_success');
     }
 }

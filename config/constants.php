@@ -26,4 +26,5 @@ return [
     ],
     'ADMIN_URL'=>'admin',
     'ADMIN_EMAIL' => env('ADMIN_EMAIL', 'admin-mbc@yopmail.com'),
+    'ITUNES_SHARED_SECRET' => '6816a9ed194a4f31bdad4ec95f88ed0b',
 ];

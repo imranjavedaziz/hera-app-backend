@@ -60,10 +60,10 @@ class CustomHelper
         return date_format(date_create($date), $format);
     }
 
-    public static function dateTimeZoneConversion($dateTime,$fromTimeZone,$toTimeZone) {
-        $dt = new DateTime($dateTime, new DateTimeZone($fromTimeZone));
+    public static function dateTimeZoneConversion($dateTime,$toTimeZone) {
+        $dt = new DateTime($dateTime, new DateTimeZone(UTC));
         $dt->setTimezone(new DateTimeZone($toTimeZone));
-        return $dt->format('Y-m-d H:i:s');
+        return $dt->format('M d, Y');
     }
 
     public static function fullName($user) {
@@ -82,5 +82,17 @@ class CustomHelper
 
     public static function getRoleName($roleId) {
         return Role::getRoleById($roleId);
+    }
+
+    public static function getStatusName($id) {
+        return Status::getStatusById($id);
+    }
+
+    public static function get_local_time(){
+        $ip = file_get_contents("http://ipecho.net/plain");
+        $url = 'http://ip-api.com/json/'.$ip;
+        $tz = file_get_contents($url);
+        $tz = json_decode($tz,true)['timezone'];
+        return $tz;
     }
 }

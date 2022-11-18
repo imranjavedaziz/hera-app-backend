@@ -26,7 +26,7 @@ class AuthController extends AdminController
 		if (Auth::check()) {
 			return redirect($this->ADMIN_URL.'/user-management');
 		}
-		return view('admin.auth.login')->with(['title' => 'Login']);
+		return view('admin.auth.login')->with(['title' => 'Log In']);
 	}
 	/**
      * function used for login

@@ -1,9 +1,10 @@
 .chat-wrapper{
+    height: calc(100vh - 136px);
     display: flex;
     color: #353a3a;
     .chat-wrapper-left{
-        width: 35%;
-        height: 700px;
+        width: 30%;
+        height: calc(100% - 41px);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         background-color: #e5e2d9;
@@ -90,8 +91,7 @@
         }
     }
     .chat-wrapper-right{
-        width: 65%;
-        height: 700px;
+        width: 70%;
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         background-color: #fff;
@@ -134,7 +134,7 @@
         }
         .chat-container{
             padding: 85px 0 100px 76px;
-            height: calc(100vh - 185px);
+            height: 100%;
             overflow: hidden;
             .empty-msg{
                 height: 100%;
@@ -144,7 +144,7 @@
                 align-items: center;
             }
             .msg-wrapper{
-                height: 530px;
+                height: 100%;
                 overflow: auto;
                 padding-right: 45px;
                 .msg-wrapper-left{

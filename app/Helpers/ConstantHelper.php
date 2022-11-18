@@ -42,10 +42,14 @@ define('AUTHORIZATION', 'Authorization');
 define('RESULTS', 'results');
 define('BASIC', 'basic');
 define('DASHBOARD_PAGE_LIMIT', '10');
+define('ADMIN_PAGE_LIMIT', '10');
 define('PTB', '1');
 define('DONAR', '2');
 define('LIKE', 'like');
 define('MATCH_REQUEST', 'match_request');
+
+//request status code
+define('HTTP_DELETED_ACCOUNT', 402);
 
 //request validation variables
 define('REQUIRED', 'required');
@@ -117,6 +121,8 @@ define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved 
 define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');
 define('FEEDBACK_LIKE_COMMENT', '0=>thumbs up, 1=>thumbs down');
 define('FEEDBACK_SKIP_COMMENT', '0=>not skip, 1=>skip');
+define('DEACTIVATED_BY_COMMENT', '0 => Activated, 1 => deactivated by admin, 2 => deactivated by user');
+define('DELETED_BY_COMMENT', '0 => Nt deleted, 1 => deleted by admin, 2 => deleted by user');
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
@@ -153,6 +159,8 @@ define('SUBSCRIPTION_STATUS', 'subscription_status');
 define('RECENT_ACTIVITY', 'recent_activity');
 define('REMEMBER_TOKEN', 'remember_token');
 define('REASON_ID', 'reason_id');
+define('DEACTIVATED_BY', 'deactivated_by');
+define('DELETED_BY', 'deleted_by');
 
 //define password_resets table column
 define('PASSWORD_RESETS', 'password_resets');
@@ -415,7 +423,25 @@ define('EMAIL_VERIFICATIONS', 'email_verifications');
 //define enquiry form table column
 define('ENQUIRY_FORMS', 'enquiry_forms');
 define('ENQUIRING_AS', 'enquiring_as');
+define('ADMIN_REPLY', 'admin_reply');
+define('REPLIED_AT', 'replied_at');
+define('USER_TIMEZONE', 'user_timezone');
+define('TIMEZONE', 'timezone');
+
+// define enquiry form relationship and function constants
+define('USER', 'user');
 
 //Admin 
 define('ADMIN_NAME', 'Admin');
 define('ADMIN_PHONE', '1111111111');
+
+// Admin inquiry
+define('INQUIRY', 'inquiry');
+define('INQUIRIES', 'inquiries');
+define('UTC', "UTC");
+
+// ios receipt data
+define('LATEST_RECEIPT_INFO', "latest_receipt_info");
+define('TRANSACTION_ID', "transaction_id");
+define('PURCHASE_DATE', "purchase_date");
+define('EXPIRES_DATE', "expires_date");
