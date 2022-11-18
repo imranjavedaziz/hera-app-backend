@@ -76,7 +76,8 @@ class InquiryController extends AdminController
         try{
             $enquiry = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
             ->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
-            ->whereMonth('created_at', $request->month)->get();
+            ->whereMonth(CREATED_AT, $request->month)
+            ->whereYear(CREATED_AT, $request->year)->get();
             return response()->json([
                 STATUS => true,
                 DATA => $enquiry,
