@@ -26,6 +26,7 @@ input[type="search"]::-webkit-search-cancel-button{
   appearance: none;
 }
 .search-close{
+  cursor: pointer;
   position: absolute;
   top: 11px;
   right: 18px;
