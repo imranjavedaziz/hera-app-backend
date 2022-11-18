@@ -61,8 +61,8 @@ class ReceiptService
             $fields[PRODUCT_ID] = isset($json[LATEST_RECEIPT_INFO][0]['product_id']) ? $json[LATEST_RECEIPT_INFO][0]['product_id'] : NULL;
             $fields[TRANSACTION_ID] = isset($json[LATEST_RECEIPT_INFO][0]['transaction_id']) ? $json[LATEST_RECEIPT_INFO][0]['transaction_id'] : NULL;
             $fields[ORIGINAL_TRANSACTION_ID] = isset($json['receipt']['in_app'][0]['original_transaction_id']) ? $json['receipt']['in_app'][0]['original_transaction_id']:NULL;
-            $fields[PURCHASE_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['purchase_date']) ? date(DB_DATE_FORMATE,strtotime($json[LATEST_RECEIPT_INFO][0]['purchase_date'])) : NULL;
-            $fields[EXPIRES_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['expires_date']) ? date(DB_DATE_FORMATE,strtotime($json[LATEST_RECEIPT_INFO][0]['expires_date'])) : NULL;
+            $fields[PURCHASE_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['purchase_date']) ? date(DATE_TIME,strtotime($json[LATEST_RECEIPT_INFO][0]['purchase_date'])) : NULL;
+            $fields[EXPIRES_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['expires_date']) ? date(DATE_TIME,strtotime($json[LATEST_RECEIPT_INFO][0]['expires_date'])) : NULL;
         }
         return $fields;
     }
