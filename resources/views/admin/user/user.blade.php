@@ -248,6 +248,7 @@
                         "deactivated_by": deactivated_by,
                     },
                     beforeSend: function () {
+                        $('#modalDeactivated').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -255,7 +256,6 @@
                     },
                     statusCode: {
                         200: function (data) {
-                            $('#modalDeactivated').modal('hide');
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {
@@ -305,6 +305,7 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     beforeSend: function () {
+                        $('#modalDeleted').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -312,7 +313,6 @@
                     },
                     statusCode: {
                         200: function (data) {
-                            $('#modalDeleted').modal('hide');
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {

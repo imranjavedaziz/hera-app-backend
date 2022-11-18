@@ -426,6 +426,7 @@ define('ENQUIRING_AS', 'enquiring_as');
 define('ADMIN_REPLY', 'admin_reply');
 define('REPLIED_AT', 'replied_at');
 define('USER_TIMEZONE', 'user_timezone');
+define('TIMEZONE', 'timezone');
 
 // define enquiry form relationship and function constants
 define('USER', 'user');
