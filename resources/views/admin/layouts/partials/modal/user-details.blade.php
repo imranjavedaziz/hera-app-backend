@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-userdetails">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="close-btn">
+                <div class="close-btn close-btn-details">
                     <img src="{{ asset('assets/images/svg/cross-big.svg')}}" alt="Close Icon" data-bs-dismiss="modal" aria-label="Close">
                 </div>
                 <div class="users-wrapper">
@@ -34,14 +34,14 @@
                     </div>
                     <div class="vedio-title"><span id="user-role"></span> has uploaded a short clip</div>
                     <div class="vedio-sec">
-                        <video width="245" height="138" controls>
+                        <video id="user-video-gallery" width="245" height="138" controls>
                             <source src="" type="video/mp4">
                             <source src="" type="video/ogg">
                             <track label="English" kind="captions" srclang="en" src="" default>
                         </video>
                     </div>
                     <div id="modal-deactivate" class="deactivate-user modal-deactivate" data-id="" data-name="" data-status=""></div>
-                    <div class="deactivate-para para-margin">This option will temporarily deactivate the account.</div>
+                    <div class="deactivate-para para-margin">This option will temporarily <span id="deactivate-para-text"></span> the account.</div>
                     <div id="modal-delete" class="deactivate-user modal-delete" data-id="">Delete this User</div>
                     <div class="deactivate-para">This option will permanently delete the account.</div>
                 </div>
