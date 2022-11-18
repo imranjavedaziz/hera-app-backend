@@ -245,7 +245,8 @@
                 var month_value = $('#month_select').find(":selected").val();
                 var month = $('#month_select').find(":selected").text();
                 var year = $('#year_select').find(":selected").text();
-
+                const date_month_short = new Date();
+                date_month_short.setMonth(month_value - 1);
                 $.ajax({
                     url: 'inquiry/export',
                     type: 'post',
@@ -255,6 +256,7 @@
                         "year": year,
                     },
                     beforeSend: function () {
+                        $('#modalExportCsv').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -264,20 +266,23 @@
                         200: function (msg) {
                             console.log(msg);
                             var headers = {
+                                sno: 'S.No.',
                                 name: 'Name',
                                 email: "Email",
                                 issue_id: "Issue Id",
                                 user_type: "User Type",
                                 issue: "Issue",
                                 date: "Date",
+                                adminrply: "Admin's Reply",
                             };
 
                             var itemsFormatted = [];
 
                             // format the data
-                            msg.data.forEach((item) => {
+                            msg.data.forEach((item, i) => {
                                 var date_export = moment.utc(item.created_at).local().format();
                                 itemsFormatted.push({
+                                    sno: i+1,
                                     name: item.name,
                                     email: item.email,
                                     issue_id: "HR00"+item.id,
@@ -288,10 +293,11 @@
                                         day: 'numeric',
                                         year: 'numeric'
                                     }).replace(/,/g, ''),
+                                    adminrply: (item.admin_reply) ? item.admin_reply.replace(/,/g, '') : '',
                                 });
                             });
 
-                            var fileTitle = 'inquiry_data'; // or 'my-unique-title'
+                            var fileTitle = 'inquiry_data_'+date_month_short.toLocaleString('en-US', { month: 'short' })+'-'+year.toString().substr(-2); // or 'my-unique-title'
 
                             exportCSVFile(headers, itemsFormatted, fileTitle);
                             
