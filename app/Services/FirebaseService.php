@@ -36,7 +36,7 @@ class FirebaseService
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
         $read = ZERO;
         $status = ONE;
-        if ($reciever->role_id == ONE) {
+        if ($reciever->role_id == ADMIN) {
             $read = ONE;
             $status = TWO;
         }
