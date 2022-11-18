@@ -202,7 +202,6 @@
             $(document).on('click', '.reply-btn', function(e){
                 e.preventDefault();
                 var admin_reply = $('.reply-input').val();
-                console.log(admin_reply)
                 if(!admin_reply){
                     $('.required_error').show();
                     $('.required_error').html('Please Enter message.');
