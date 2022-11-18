@@ -125,7 +125,6 @@
                 }
             });
         }
-        
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
@@ -142,10 +141,6 @@
             var name = $(this).attr("userFullName");
             var image = $(this).attr("userImage");
             var roleId = $(this).attr("userRole");
-            console.log('userRole'+roleId);
-            console.log('name'+name);
-            console.log('image'+image);
-            console.log('roleId'+roleId);
             var username = $(this).attr("username");
             var roleData = getRoleData(roleId);
             updateUserChatProfile(image, roleData, name, username, userId);
@@ -163,13 +158,14 @@
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode);
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
             return messageCollection;
         }
 
-        function sendMessage(msg, userId) {
+        function sendMessage(msg,userId) {
             /** Save message */
-            var msgObj = getMessageCollectionObject(userId);
+            var chatNode = userId+'-'+adminId;
+            var msgObj = database.ref(env+'/Messages/'+chatNode)
             var message = {
                 from : adminId,
                 text: msg,
@@ -226,7 +222,6 @@
                 } else {
                     $(".search-close").removeClass("d-none");
                 userCollection.orderByChild('recieverName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
-                    console.log(snapshot.val());
                     snapshot.forEach(function(childSnapshot) {
                         var childData = childSnapshot.val();
                         var profileImage = childData.recieverImage;
@@ -254,10 +249,7 @@
                 });
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
-                    console.log('on reply profile user id'+userId);
-                    console.log('send message');
                     var msg = $('#message').val();
-                    console.log('This msg sending '+msg);
                     sendMessage(msg, userId);
                     $('#message').val("");
                 })
@@ -265,6 +257,7 @@
                 $('#message').keypress(function(event){
                     var key = event.which;
                     if(key == '13') {
+                        userCollection.off("value");
                         console.log('enter press');
                         $('.reply-btn').click();
                         return false;
