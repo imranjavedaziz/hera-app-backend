@@ -21,8 +21,8 @@
                     <span class="nav-text">Chat</span>
                 </a>
             </li>
-            <li>
-                <a href="#" title="Chat">
+            <li class="@if (isset($title) && $title=='Subscription') active @endif">
+                <a href="{{ route('subscriptionList') }}" title="Subscription">
                     <span class="nav-text">Subscription</span>
                 </a>
             </li>
