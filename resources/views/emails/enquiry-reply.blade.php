@@ -10,7 +10,7 @@
 	<tr>
 	    <td>
 	        <table
-	            style="background-color: white; border: 0; width: 100%; max-width: 840px; margin-right:auto; margin-left: auto; font-family: 'Open Sans', sans-serif;border:1px solid #e4e8eb;padding: 0px; color: #353a3a;" aria-describedby="Recieved your query">
+	            style="background-color: white; width: 100%; max-width: 840px; margin-right:auto; margin-left: auto; font-family: 'Open Sans', sans-serif;border:1px solid #e4e8eb;padding: 0px; color: #353a3a;" aria-describedby="Recieved your query">
 	            <tr>
 	                <th scope="col">
 	                </th>
