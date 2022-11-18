@@ -222,7 +222,7 @@ class FirebaseService
      * Used To Create Dummy Data
      */
     public function createAdminFirebaseChatUser() {
-        $users = User::whereIn('role_id',[2,3,4,5])->get();
+        $users = User::whereIn('role_id',[3,4,5])->get();
         if(!empty($users)) {
             foreach($users as $user) {
                 $this->createAdminFriends($user);
