@@ -438,3 +438,9 @@ define('ADMIN_PHONE', '1111111111');
 define('INQUIRY', 'inquiry');
 define('INQUIRIES', 'inquiries');
 define('UTC', "UTC");
+
+// ios receipt data
+define('LATEST_RECEIPT_INFO', "latest_receipt_info");
+define('TRANSACTION_ID', "transaction_id");
+define('PURCHASE_DATE', "purchase_date");
+define('EXPIRES_DATE', "expires_date");
