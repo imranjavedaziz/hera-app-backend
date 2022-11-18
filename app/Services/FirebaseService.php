@@ -34,11 +34,17 @@ class FirebaseService
 
     public function createFriend($sender,$reciever, $msg = '') {
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
+        $read = ZERO;
+        $status = ONE;
+        if ($reciever->role_id == ADMIN) {
+            $read = ONE;
+            $status = TWO;
+        }
         return [
             "deviceToken" => "devicetoken",
             "message" => $msg,
             "msgId" => $msgId."-".time(),
-            "read" => ZERO,
+            "read" => $read,
             "feedback_status" => ZERO,
             "recieverId" => $reciever->id,
             "recieverImage" => $reciever->profile_pic,
@@ -52,7 +58,7 @@ class FirebaseService
             "senderUserName" => $reciever->username,
             "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
-            MATCH_REQUEST => [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => ONE],
+            MATCH_REQUEST => [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => $status],
             "time" => time(),
             "type" => "Text"
         ];
