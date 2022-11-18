@@ -188,6 +188,17 @@
                 });
             });
 
+            $(".reply-input").on("keydown", function(e){
+                console.log('hello input')
+                var admin_reply = $('.reply-input').val();
+                if(admin_reply &&  admin_reply.length > 1000){
+                    $('.required_error').show();
+                    $('.required_error').html('You can send reply in maximum 1000 character');
+                }else{
+                    $('.required_error').hide();
+                }
+            });
+
             $(document).on('click', '.reply-btn', function(e){
                 e.preventDefault();
                 var admin_reply = $('.reply-input').val();
@@ -202,6 +213,7 @@
                     $('.required_error').html('You can send reply in maximum 1000 character');
                     return false;
                 }
+
                 $.ajax({
                     url: 'inquiry/reply/'+id,
                     type: 'put',
