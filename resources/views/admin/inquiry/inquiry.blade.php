@@ -291,7 +291,7 @@
                                 });
                             });
 
-                            var fileTitle = 'inquiry_data'; // or 'my-unique-title'
+                            var fileTitle = 'inquiry_data_'+month+'-'+year; // or 'my-unique-title'
 
                             exportCSVFile(headers, itemsFormatted, fileTitle);
                             
