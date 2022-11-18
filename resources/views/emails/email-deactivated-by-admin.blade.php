@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been deactivated by Admin. You cannot access your account until it gets reactivated by admin. Until then, your profile will be shown as "Inactive User" to your existing connections & your profile will not appear in searches.
+                        Your HERA account has been deactivated by admin. You cannot access your account until it gets reactivated by admin. Until then, your profile will be shown as "Inactive User" to your existing connections & your profile will not appear in searches.
                     </td>
                 </tr>
                 <tr>
