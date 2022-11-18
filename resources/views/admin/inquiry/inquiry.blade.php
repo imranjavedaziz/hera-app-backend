@@ -202,7 +202,7 @@
             $(document).on('click', '.reply-btn', function(e){
                 e.preventDefault();
                 var admin_reply = $('.reply-input').val();
-                if(!admin_reply){
+                    if(!admin_reply){
                     $('.required_error').show();
                     $('.required_error').html('Please Enter message.');
                     return false;
@@ -292,19 +292,20 @@
                             // format the data
                             msg.data.forEach((item, i) => {
                                 var date_export = moment.utc(item.created_at).local().format();
+                                var date = new Date(date_export).toLocaleString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                })
                                 itemsFormatted.push({
                                     sno: i+1,
                                     name: item.name,
                                     email: item.email,
                                     issue_id: "HR00"+item.id,
                                     user_type: item.role,
-                                    issue: item.message.replace(/,/g, ''),
-                                    date: new Date(date_export).toLocaleString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric'
-                                    }).replace(/,/g, ''),
-                                    adminrply: (item.admin_reply) ? item.admin_reply.replace(/,/g, '') : '',
+                                    issue: '"'+item.message+'"',
+                                    date: '"'+date+'"',
+                                    adminrply: (item.admin_reply) ? '"'+item.admin_reply+'"' : '',
                                 });
                             });
 

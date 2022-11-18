@@ -1781,6 +1781,7 @@ input[type=number]::-webkit-outer-spin-button {
           margin-bottom: 20px;
           clear: both; }
           .chat-wrapper .chat-wrapper-right .chat-container .msg-wrapper .msg-wrapper-left .massage {
+            word-break: break-all;
             font-family: 'Open Sans', sans-serif;
             font-weight: 700;
             font-size: 16px;
@@ -1807,6 +1808,7 @@ input[type=number]::-webkit-outer-spin-button {
           float: right;
           clear: both; }
           .chat-wrapper .chat-wrapper-right .chat-container .msg-wrapper .msg-wrapper-right .massage {
+            word-break: break-all;
             font-family: 'Open Sans', sans-serif;
             font-weight: 700;
             font-size: 16px;
@@ -1948,5 +1950,11 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 .user-btn-group .dropdown-toggle::after {
   display: inline-block; }
+
+.table-row-user .th{
+  font-size: 14px;
+  font-weight: bold;
+  color: #353a3a !important;
+}
 /*# sourceMappingURL=style.css.map */
   

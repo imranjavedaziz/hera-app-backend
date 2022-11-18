@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been successfully re-activated. Explore, Match & Chat with potential Parents To be.
+                        Your HERA account has been successfully reactivated. Explore, Match & Chat with potential Parents To be.
                     </td>
                 </tr>
                 <tr>

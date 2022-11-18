@@ -94,8 +94,8 @@
                                         <li><a class="dropdown-item" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
                                     @endif
                                     @if($user->deleted_at == null)
-                                        <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{$user->first_name}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
-                                        <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{$user->first_name}}" data-id="{{$user->id}}">Delete User</a></li>
+                                        <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
+                                        <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{CustomHelper::fullName($user)}}" data-id="{{$user->id}}">Delete User</a></li>
                                     @endif
                                 </ul>
                             </div>
@@ -131,15 +131,16 @@
                         var date = moment.utc(msg.created_at).local().format();
                         if(msg.deleted_at == null){
                             $('#modal-deactivate').attr('data-id' , msg.id)
-                            $('#modal-deactivate').attr('data-name' , msg.first_name)
+                            $('#modal-deactivate').attr('data-name' , msg.first_name+' '+middle_name+' '+msg.last_name)
                             $('#modal-deactivate').attr('data-status' , status)
                             $('#modal-deactivate').html(status_text + ' this user.')
                             $('#modal-delete').attr('data-id' , msg.id)
-                            $('#modal-delete').attr('data-name' , msg.first_name)
+                            $('#modal-delete').attr('data-name' , msg.first_name+' '+middle_name+' '+msg.last_name)
                             $('#modal-deactivate').addClass('d-block')
                             $('#modal-delete').addClass('d-block')
                             $('#modal-deactivate').removeClass('d-none')
                             $('#modal-delete').removeClass('d-none')
+                            $('#deactivate-para-text').html(status_text.toLowerCase())
                             $('.deactivate-para').addClass('d-block')
                             $('.deactivate-para').removeClass('d-none')
                         }else{
@@ -225,7 +226,7 @@
                 var status_text = (status == 2) ? 'deactivate' : 'activate';
                 $('#deactivate-btn-text').attr('data-id' , id)
                 $('#deactivate-btn-text').attr('data-status' , status)
-                $('#deactive-name').html(status_text.charAt(0).toUpperCase() + status_text.slice(1) + ' ' + name);
+                $('#deactive-name').html(status_text.charAt(0).toUpperCase() + status_text.slice(1) + '<br> ' + name);
                 $('#deactivate-btn-text').html(status_text.toUpperCase());
                 $('#status-text').html(status_text);
                 $('#modalUserDetails').modal('hide');
@@ -291,7 +292,7 @@
                 var id = $(this).attr("data-id");
                 var name = $(this).attr("data-name");
                 $('#delete-btn-text').attr('data-id' , id)
-                $('#delete-name').html('Delete ' + name);
+                $('#delete-name').html('Delete <br>' + name);
                 $('#modalUserDetails').modal('hide');
                 $('#modalDeleted').modal('show');
             });
@@ -326,6 +327,10 @@
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
                 });
+            });
+
+            $('.close-btn-details').click(function() {
+                $('#user-video-gallery')[0].pause();
             });
         });
 
