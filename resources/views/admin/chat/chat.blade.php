@@ -43,7 +43,7 @@
                             </div>
                             <div class="chat-container">
                                 <!-- For empty chat section-->
-                                <div class="empty-msg ">No Messages Yet</div>
+                                <div class="empty-msg">No Messages Yet</div>
                                 <!-- For chat section -->
                                 <div class="msg-wrapper">
                                 </div>
@@ -181,6 +181,7 @@
         }
 
         function getMessageList(msgObj, userId) {
+            $('.empty-msg').removeClass("d-none");
             msgObj.off("child_added");
             $('.msg-wrapper').html('');
             msgObj.on("child_added", (snapshot) => {
@@ -250,6 +251,9 @@
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
                     var msg = $('#message').val();
+                    if(msg === "") {
+                        return false;
+                    }
                     sendMessage(msg, userId);
                     $('#message').val("");
                 })
