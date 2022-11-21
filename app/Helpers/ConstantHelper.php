@@ -450,4 +450,6 @@ define('EXPIRES_DATE', "expires_date");
 define('PROFILE', "profile");
 define('CHAT', "chat");
 define('SUBSCRIBE', "subscribe");
+define('SENDER_USER', "sender_user");
+define('RECEIVER_USER', "receiver_user");
 
