@@ -4,14 +4,25 @@ namespace App\Services;
 
 use App\Models\User;
 use DB;
+use App\Helpers\AuthHelper;
+use App\Models\ProfileMatch;
 
 class DonarDashboardService
 {
     public function getPtbProfileCard($input)
     {
+        $donerSentRequest = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id])->get()->pluck(TO_USER_ID)->toArray();
+        $donerRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id])
+        ->whereIn(STATUS, [APPROVED_AND_MATCHED, REJECTED_BY_DONAR])
+        ->get()
+        ->pluck(FROM_USER_ID)
+        ->toArray();
+        $excludePtb = array_merge($donerSentRequest, $donerRejecteRequest);
+
         $user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, ROLE_ID, RECENT_ACTIVITY)
         ->whereHas(USERPROFILE)
-        ->whereHas(PARENTSPREFERENCE);
+        ->whereHas(PARENTSPREFERENCE)
+        ->whereNotIn(ID, $excludePtb);
 
         if(!empty($input[KEYWORD])){
             $user = $user->where(FIRST_NAME, LIKE, '%'.$input[KEYWORD].'%');
@@ -25,6 +36,6 @@ class DonarDashboardService
             $user = $user->whereHas(LOCATION);
         }
 
-        return $user->with(LOCATION)->where(ROLE_ID, PARENTS_TO_BE)->where(STATUS_ID, ONE)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
+        return $user->with(LOCATION)->where(ROLE_ID, PARENTS_TO_BE)->where(STATUS_ID, ONE)->where(REGISTRATION_STEP, THREE)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
     }
 }
