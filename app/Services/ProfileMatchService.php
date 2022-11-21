@@ -74,7 +74,8 @@ class ProfileMatchService
     public function profileMatchRequestResponse($user_id, $input)
     {
         $profile_match = ProfileMatch::where(ID, $input[ID])->first();
-        if($profile_match->update([STATUS => $input[STATUS]])){
+        $profile_match->status = $input[STATUS];
+        if($profile_match->save()){
             $input[FROM_USER_ID] = $user_id;
             $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
             $message = $this->getMatchRequestMsg($input, $input[ID]);
