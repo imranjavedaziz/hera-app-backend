@@ -50,7 +50,7 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray[NOTIFY_TYPE] = PROFILE;
         if ($deviceRegistrations) {
             foreach ($deviceRegistrations as $deviceRegistration) {
-                $this->sendPush($deviceRegistration->deviceToken,$this->title,$this->description,$profileMatchArray);
+                $this->sendPush($deviceRegistration->device_token,$this->title,$this->description,$profileMatchArray);
             }
         }
     }
