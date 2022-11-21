@@ -45,6 +45,7 @@ class SendProfileMatchJob implements ShouldQueue
     {
         $deviceRegistrations = DeviceRegistration::where([USER_ID => $this->user->id, STATUS_ID => ACTIVE])->get();
         $this->saveProfileMatchNotification();
+        $profileMatchArray[USER] = $this->user;
         $profileMatchArray[USER_ID] = $this->user->id;
         $profileMatchArray[PROFILE_MATCH_ID] = $this->profile_match_id;
         $profileMatchArray[NOTIFY_TYPE] = PROFILE;
