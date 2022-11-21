@@ -12,6 +12,7 @@ use App\Helpers\CustomHelper;
 use App\Traits\FcmTrait;
 use App\Models\Notification;
 use App\Constants\NotificationType;
+use App\Models\DeviceRegistration;
 
 class SendProfileMatchJob implements ShouldQueue
 {
