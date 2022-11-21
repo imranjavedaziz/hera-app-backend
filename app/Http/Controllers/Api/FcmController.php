@@ -158,7 +158,8 @@ class FcmController extends Controller {
         try {
             $userDevice = DeviceRegistration::where([USER_ID => $request->user_id, STATUS_ID => ONE])->first();
             if(!empty($userDevice)) {
-                $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,[]);
+                $chatArray[NOTIFY_TYPE] = CHAT;
+                $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
                 $response = response()->Success(trans('messages.sent_push_notification'));
             } else {
                 $response = response()->Success('No device found!');
