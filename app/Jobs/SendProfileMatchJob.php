@@ -42,10 +42,11 @@ class SendProfileMatchJob implements ShouldQueue
      */
     public function handle()
     {
-        $deviceRegistrations = $this->user->deviceRegistration;
+        $deviceRegistrations = DeviceRegistration::where([USER_ID => $this->user->id, STATUS_ID => ACTIVE])->get();
         $this->saveProfileMatchNotification();
         $profileMatchArray[USER_ID] = $this->user->id;
         $profileMatchArray[PROFILE_MATCH_ID] = $this->profile_match_id;
+        $profileMatchArray[NOTIFY_TYPE] = PROFILE;
         if ($deviceRegistrations) {
             foreach ($deviceRegistrations as $deviceRegistration) {
                 $this->sendPush($deviceRegistration->deviceToken,$this->title,$this->description,$profileMatchArray);
