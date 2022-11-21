@@ -161,7 +161,7 @@ class FcmController extends Controller {
      */
     public function sendPushNotification(Request $request) {
         try {
-            $userDevice = DeviceRegistration::where([USER_ID => $request->sender_id, STATUS_ID => ONE])->first();
+            $userDevice = DeviceRegistration::where([USER_ID => $request->receiver_id, STATUS_ID => ONE])->first();
             $sender_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
             ->where(ID, $request->sender_id)->first();
             $receiver_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
