@@ -64,6 +64,5 @@ class UserProfileService
             $query->where(TO_USER_ID, $from_user_id);  
         })
         ->first();
-        // ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS)->where(FROM_USER_ID, $from_user_id)->where(TO_USER_ID, $to_user_id)->first();
     }
 }
