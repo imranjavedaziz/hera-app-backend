@@ -72,7 +72,7 @@
                                     <span class="sm-code">{{$user->username}}</span>
                                 </div>
                                 <div class="td">{{$user->email}}</div>
-                                <div class="td">@if (!empty($subscriptionPlan)) {{$subscriptionPlan->name}}  @else N/A @endif</div>
+                                <div class="td">{{$subscriptionPlan->name}}</div>
                                 <div class="td">$ {{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
                                 <div class="td">{{CustomHelper::getSubscriptionStatus($subscription->status_id)}}</div>
@@ -99,6 +99,8 @@
                 </div>
     @endsection
     @include('admin.layouts.partials.modal.user-details')
+    @include('admin.layouts.partials.modal.user-deactivate')
+    @include('admin.layouts.partials.modal.user-delete')
     @push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -201,6 +203,118 @@
                     }
                 });
             });
+
+            $(document).on('click', '.modal-deactivate', function(e){
+                e.preventDefault();
+                var id = $(this).attr("data-id");
+                var name = $(this).attr("data-name");
+                var status = $(this).attr("data-status");
+                var status_text = (status == 2) ? 'deactivate' : 'activate';
+                $('#deactivate-btn-text').attr('data-id' , id)
+                $('#deactivate-btn-text').attr('data-status' , status)
+                $('#deactive-name').html(status_text.charAt(0).toUpperCase() + status_text.slice(1) + ' ' + name);
+                $('#deactivate-btn-text').html(status_text.toUpperCase());
+                $('#status-text').html(status_text);
+                $('#modalUserDetails').modal('hide');
+                $('#modalDeactivated').modal('show');
+            });
+
+            $(document).on('click', '#deactivate-btn-text', function(event){
+                var id = $(this).attr("data-id");
+                var status = $(this).attr("data-status");
+                let deactivated_by = 0;
+                if((status == 2)){
+                    deactivated_by = 1;
+                }
+                $.ajax({
+                    url: 'user/change-status/'+id,
+                    type: 'put',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "status_id": status,
+                        "deactivated_by": deactivated_by,
+                    },
+                    beforeSend: function () {
+                        $('.loader').show();
+                    },
+                    complete:function () {
+                        $('.loader').hide();
+                    },
+                    statusCode: {
+                        200: function (data) {
+                            $('#modalDeactivated').modal('hide');
+                            $('#deactivate-msg').html(data.message);
+                            $("#deactivate-msg-box").show();
+                            setTimeout(function() {
+                                $("#deactivate-msg-box").hide()
+                            }, 5000);
+                            if(status == 2){
+                                $("#inactive-user"+id).html('Inactive<br><span>(By Admin)</span>');
+                                $("#inactive-user"+id).removeClass("d-none");
+                                $("#inactive-user"+id).addClass("d-block");
+                                $("#active-user"+id).removeClass("d-block");
+                                $("#active-user"+id).addClass("d-none");
+                                $(".modal-deactivate"+id).html("Activate User");
+                            }else{
+                                $("#active-user"+id).removeClass("d-none");
+                                $("#active-user"+id).addClass("d-block");
+                                $("#inactive-user"+id).removeClass("d-block");
+                                $("#inactive-user"+id).addClass("d-none");
+                                $(".modal-deactivate"+id).html("Deactivate User");
+                            }
+                            var status_replace = (status == 2) ? "1" : "2"
+                            $('.modal-deactivate'+id).attr('data-status' , status_replace)
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(JSON.stringify(jqXHR));
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+            });
+
+            $(document).on('click', '.modal-delete', function(e){
+                e.preventDefault();
+                var id = $(this).attr("data-id");
+                var name = $(this).attr("data-name");
+                $('#delete-btn-text').attr('data-id' , id)
+                $('#delete-name').html('Delete ' + name);
+                $('#modalUserDetails').modal('hide');
+                $('#modalDeleted').modal('show');
+            });
+
+            $(document).on('click', '#delete-btn-text', function(event){
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    url: 'user/delete/'+id,
+                    type: 'delete',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    beforeSend: function () {
+                        $('.loader').show();
+                    },
+                    complete:function () {
+                        $('.loader').hide();
+                    },
+                    statusCode: {
+                        200: function (data) {
+                            $('#modalDeleted').modal('hide');
+                            $('#deactivate-msg').html(data.message);
+                            $("#deactivate-msg-box").show();
+                            setTimeout(function() {
+                                $("#deactivate-msg-box").hide();
+                                location.reload()
+                            }, 1000);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(JSON.stringify(jqXHR));
+                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    }
+                });
+            });
         });
+
     </script>
 @endpush
