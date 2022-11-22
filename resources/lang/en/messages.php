@@ -111,7 +111,7 @@ return [
         'change_password_success' => 'Password changed successfully.',
     ],
     'enquiry' => [
-        'success' => 'Inquiry submitted successfully!',
+        'success' => 'We have registered your query and will reach out to you shortly.',
     ],
     'sent_push_notification' => 'Notification sent successfully.',
 ];
