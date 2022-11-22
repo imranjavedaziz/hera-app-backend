@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\User;
+use App\Models\ProfileMatch;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Kreait\Firebase\Database\Transaction;
@@ -36,10 +37,22 @@ class FirebaseService
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
         $read = ZERO;
         $status = ONE;
+        $sender_id = $sender->id;
+        $reciever_id = $reciever->id;
+        $profileMatch = ProfileMatch::where(function ($query) use ($input, $sender_id, $reciever_id ) {
+            $query->where(FROM_USER_ID, $sender_id);
+            $query->where(TO_USER_ID, $reciever_id );  
+        })
+        ->orWhere(function ($query) use ($input, $sender_id) {
+            $query->where(FROM_USER_ID, $reciever_id );
+            $query->where(TO_USER_ID, $sender_id);  
+        })->first();
         if ($reciever->role_id == ADMIN) {
             $read = ONE;
             $status = TWO;
+            $profileMatch = [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => $status];
         }
+        
         return [
             "deviceToken" => "devicetoken",
             "message" => !empty($msg) ? $msg : "",
@@ -58,7 +71,7 @@ class FirebaseService
             "senderUserName" => $reciever->username,
             "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
-            MATCH_REQUEST => [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => $status],
+            MATCH_REQUEST => $profileMatch,
             "chat_start" => ZERO,
             "time" => time(),
             "type" => "Text"
