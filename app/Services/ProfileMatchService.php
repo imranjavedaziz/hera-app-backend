@@ -47,7 +47,9 @@ class ProfileMatchService
                 $title = 'Profile Match Request.';
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
-                dispatch(new SendProfileMatchJob($to_user, $profile_match_id, $description, $title));
+                if($from_user->role_id == 2){
+                    dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match_id, $description, $title));
+                }
                 dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
             case 2:
@@ -61,7 +63,7 @@ class ProfileMatchService
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                 }
                 $message = __('messages.profile_match.request_approved');
-                dispatch(new SendProfileMatchJob($from_user, $profile_match_id, $description, $title));
+                dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match_id, $description, $title));
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
             default:
@@ -74,7 +76,8 @@ class ProfileMatchService
     public function profileMatchRequestResponse($user_id, $input)
     {
         $profile_match = ProfileMatch::where(ID, $input[ID])->first();
-        if($profile_match->update([STATUS => $input[STATUS]])){
+        $profile_match->status = $input[STATUS];
+        if($profile_match->save()){
             $input[FROM_USER_ID] = $user_id;
             $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
             $message = $this->getMatchRequestMsg($input, $input[ID]);

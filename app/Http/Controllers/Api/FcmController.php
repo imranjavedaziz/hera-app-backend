@@ -108,7 +108,12 @@ class FcmController extends Controller {
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                property="user_id",
+     *                property="sender_id",
+     *                type="integer",
+     *                example="1"
+     *             ),
+     *             @OA\Property(
+     *                property="receiver_id",
      *                type="integer",
      *                example="1"
      *             ),
@@ -156,9 +161,16 @@ class FcmController extends Controller {
      */
     public function sendPushNotification(Request $request) {
         try {
-            $userDevice = DeviceRegistration::where([USER_ID => $request->user_id, STATUS_ID => ONE])->first();
+            $userDevice = DeviceRegistration::where([USER_ID => $request->receiver_id, STATUS_ID => ONE])->first();
+            $sender_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            ->where(ID, $request->sender_id)->first();
+            $receiver_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            ->where(ID, $request->receiver_id)->first();
             if(!empty($userDevice)) {
-                $this->sendPush($userDevice->device_token,$request->title,$request->message,[]);
+                $chatArray[NOTIFY_TYPE] = CHAT;
+                $chatArray[SENDER_USER] = $sender_user;
+                $chatArray[RECEIVER_USER] = $receiver_user;
+                $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
                 $response = response()->Success(trans('messages.sent_push_notification'));
             } else {
                 $response = response()->Success('No device found!');

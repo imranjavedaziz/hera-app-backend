@@ -188,11 +188,21 @@
                 });
             });
 
+            $(".reply-input").on("keydown", function(e){
+                console.log('hello input')
+                var admin_reply = $('.reply-input').val();
+                if(admin_reply &&  admin_reply.length > 1000){
+                    $('.required_error').show();
+                    $('.required_error').html('You can send reply in maximum 1000 character');
+                }else{
+                    $('.required_error').hide();
+                }
+            });
+
             $(document).on('click', '.reply-btn', function(e){
                 e.preventDefault();
                 var admin_reply = $('.reply-input').val();
-                console.log(admin_reply)
-                if(!admin_reply){
+                    if(!admin_reply){
                     $('.required_error').show();
                     $('.required_error').html('Please Enter message.');
                     return false;
@@ -202,6 +212,7 @@
                     $('.required_error').html('You can send reply in maximum 1000 character');
                     return false;
                 }
+
                 $.ajax({
                     url: 'inquiry/reply/'+id,
                     type: 'put',
@@ -245,7 +256,8 @@
                 var month_value = $('#month_select').find(":selected").val();
                 var month = $('#month_select').find(":selected").text();
                 var year = $('#year_select').find(":selected").text();
-
+                const date_month_short = new Date();
+                date_month_short.setMonth(month_value - 1);
                 $.ajax({
                     url: 'inquiry/export',
                     type: 'post',
@@ -255,6 +267,7 @@
                         "year": year,
                     },
                     beforeSend: function () {
+                        $('#modalExportCsv').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -264,34 +277,39 @@
                         200: function (msg) {
                             console.log(msg);
                             var headers = {
+                                sno: 'S.No.',
                                 name: 'Name',
                                 email: "Email",
                                 issue_id: "Issue Id",
                                 user_type: "User Type",
                                 issue: "Issue",
                                 date: "Date",
+                                adminrply: "Admin's Reply",
                             };
 
                             var itemsFormatted = [];
 
                             // format the data
-                            msg.data.forEach((item) => {
+                            msg.data.forEach((item, i) => {
                                 var date_export = moment.utc(item.created_at).local().format();
+                                var date = new Date(date_export).toLocaleString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                })
                                 itemsFormatted.push({
+                                    sno: i+1,
                                     name: item.name,
                                     email: item.email,
                                     issue_id: "HR00"+item.id,
                                     user_type: item.role,
-                                    issue: item.message.replace(/,/g, ''),
-                                    date: new Date(date_export).toLocaleString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric'
-                                    }).replace(/,/g, ''),
+                                    issue: '"'+item.message+'"',
+                                    date: '"'+date+'"',
+                                    adminrply: (item.admin_reply) ? '"'+item.admin_reply+'"' : '',
                                 });
                             });
 
-                            var fileTitle = 'inquiry_data'; // or 'my-unique-title'
+                            var fileTitle = 'inquiry_data_'+date_month_short.toLocaleString('en-US', { month: 'short' })+'-'+year.toString().substr(-2); // or 'my-unique-title'
 
                             exportCSVFile(headers, itemsFormatted, fileTitle);
                             

@@ -19,11 +19,11 @@ class InquiryController extends AdminController
      */
     public function index()
     {
-        $admin = User::where('role_id',ADMIN)->first();
+        $admin = User::where(ROLE_ID,ADMIN)->first();
     	$inquiries = EnquiryForm::with(USER)->select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
     	->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
     	->orderBy(ID, DESC)->paginate(ADMIN_PAGE_LIMIT);
-        return view('admin.inquiry.inquiry')->with(['title' => 'Inquiry', INQUIRIES => $inquiries,'timezone'=> $admin->timezone]);
+        return view('admin.inquiry.inquiry')->with([TITLE => 'Inquiry', INQUIRIES => $inquiries, TIMEZONE => $admin->timezone]);
     }
 
     /**
@@ -74,9 +74,10 @@ class InquiryController extends AdminController
     public function export(Request $request)
     {
         try{
-            $enquiry = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
+            $enquiry = EnquiryForm::select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, ADMIN_REPLY, CREATED_AT)
             ->selectRaw('(select name from roles where id='.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
-            ->whereMonth('created_at', $request->month)->get();
+            ->whereMonth(CREATED_AT, $request->month)
+            ->whereYear(CREATED_AT, $request->year)->get();
             return response()->json([
                 STATUS => true,
                 DATA => $enquiry,

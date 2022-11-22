@@ -426,6 +426,7 @@ define('ENQUIRING_AS', 'enquiring_as');
 define('ADMIN_REPLY', 'admin_reply');
 define('REPLIED_AT', 'replied_at');
 define('USER_TIMEZONE', 'user_timezone');
+define('TIMEZONE', 'timezone');
 
 // define enquiry form relationship and function constants
 define('USER', 'user');
@@ -444,3 +445,11 @@ define('LATEST_RECEIPT_INFO', "latest_receipt_info");
 define('TRANSACTION_ID', "transaction_id");
 define('PURCHASE_DATE', "purchase_date");
 define('EXPIRES_DATE', "expires_date");
+
+//Notification type variables for notification
+define('PROFILE', "profile");
+define('CHAT', "chat");
+define('SUBSCRIBE', "subscribe");
+define('SENDER_USER', "sender_user");
+define('RECEIVER_USER', "receiver_user");
+
