@@ -13,6 +13,8 @@ use App\Helpers\AuthHelper;
 use DB;
 use Log;
 use App\Models\User;
+use App\Models\ProfileMatch;
+use App\Models\Feedback;
 use App\Traits\FcmTrait;
 use App\Models\DeviceRegistration;
 
@@ -108,11 +110,6 @@ class FcmController extends Controller {
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                property="sender_id",
-     *                type="integer",
-     *                example="1"
-     *             ),
-     *             @OA\Property(
      *                property="receiver_id",
      *                type="integer",
      *                example="1"
@@ -161,15 +158,30 @@ class FcmController extends Controller {
      */
     public function sendPushNotification(Request $request) {
         try {
-            $userDevice = DeviceRegistration::where([USER_ID => $request->receiver_id, STATUS_ID => ONE])->first();
-            $sender_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
-            ->where(ID, $request->sender_id)->first();
-            $receiver_user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
-            ->where(ID, $request->receiver_id)->first();
+            $input = $request->all();
+            $sender_id = AuthHelper::authenticatedUser()->id;
+
+            $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
+            $sender_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            ->where(ID, $sender_id)->first();
+            $receiver_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            ->where(ID, $input[RECEIVER_ID])->first();
+            $profile_match = ProfileMatch::where(function ($query) use ($input, $sender_id) {
+                $query->where(FROM_USER_ID, $sender_id);
+                $query->where(TO_USER_ID, $input[RECEIVER_ID]);  
+            })
+            ->orWhere(function ($query) use ($input, $sender_id) {
+                $query->where(FROM_USER_ID, $input[RECEIVER_ID]);
+                $query->where(TO_USER_ID, $sender_id);  
+            })
+            ->first();
+            $feedback = Feedback::where(SENDER_ID, $sender_id)->where(RECIPIENT_ID, $input[RECEIVER_ID])->first();
             if(!empty($userDevice)) {
                 $chatArray[NOTIFY_TYPE] = CHAT;
                 $chatArray[SENDER_USER] = $sender_user;
                 $chatArray[RECEIVER_USER] = $receiver_user;
+                $chatArray[PROFILE_MATCH] = $profile_match;
+                $chatArray[FEEDBACK] = $feedback;
                 $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
                 $response = response()->Success(trans('messages.sent_push_notification'));
             } else {
