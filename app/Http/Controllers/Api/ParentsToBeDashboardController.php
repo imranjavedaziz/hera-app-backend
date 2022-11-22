@@ -52,15 +52,23 @@ class ParentsToBeDashboardController extends Controller
     {
         try {
             $subscriptionStatus = SubscriptionService::getSubscriptionStatus(AuthHelper::authenticatedUser()->id);
-            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $limit = $limit_cards = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $page = isset($request->page) && ($request->page > ZERO) ? $request->page : ONE;
+            $data = $this->myMatchedDonars();
             if ($subscriptionStatus == SUBSCRIPTION_TRIAL) {
-                $limit = SubscriptionService::getDailiyTrailCardLimit(AuthHelper::authenticatedUser()->id);
+                $limit_cards = SubscriptionService::getDailiyTrailCardLimit(AuthHelper::authenticatedUser()->id);
                 $page = ONE;
             }
-            $collection = collect($this->myMatchedDonars());
+            if ($limit_cards == ZERO) {
+                $data = [];
+                $data = array_slice($data, ZERO, $limit_cards);
+            }else{
+                $limit = $limit_cards;
+                $data = array_slice($data, ZERO, $limit);
+            }
+            $collection = collect($data);
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
-            $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit , $page, []);
+            $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit, $page, []);
             $response = response()->Success(trans('messages.common_msg.data_found'), $matchedDonars);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
