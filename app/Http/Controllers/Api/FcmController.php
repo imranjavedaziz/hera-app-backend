@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Facades\{
-    App\Services\FcmService
+    App\Services\FcmService,
+    App\Services\SubscriptionService
 };
 use App\Http\Requests\RegisterDeviceRequest;
 use App\Helpers\AuthHelper;
@@ -17,6 +18,7 @@ use App\Models\ProfileMatch;
 use App\Models\Feedback;
 use App\Traits\FcmTrait;
 use App\Models\DeviceRegistration;
+use App\Helpers\CustomHelper;
 
 class FcmController extends Controller {
     use FcmTrait;
@@ -160,7 +162,7 @@ class FcmController extends Controller {
         try {
             $input = $request->all();
             $sender_id = AuthHelper::authenticatedUser()->id;
-
+            $msgId = ($input[RECEIVER_ID] > $sender_id) ? $input[RECEIVER_ID] : $sender_id;
             $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
             $sender_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
             ->where(ID, $sender_id)->first();
@@ -178,10 +180,25 @@ class FcmController extends Controller {
             $feedback = Feedback::where(SENDER_ID, $sender_id)->where(RECIPIENT_ID, $input[RECEIVER_ID])->first();
             if(!empty($userDevice)) {
                 $chatArray[NOTIFY_TYPE] = CHAT;
-                $chatArray[SENDER_USER] = $sender_user;
-                $chatArray[RECEIVER_USER] = $receiver_user;
-                $chatArray[PROFILE_MATCH] = $profile_match;
-                $chatArray[FEEDBACK] = $feedback;
+                $chatArray["currentRole"] = $receiver_user->role_id;
+                $chatArray["deviceToken"] = "deviceToken";
+                $chatArray["message"] = $input[MESSAGE];
+                $chatArray["read"] = ZERO;
+                $chatArray["feedback_status"] = !empty($feedback) ? $feedback->like : NULL;
+                $chatArray["recieverId"] = $sender_id;
+                $chatArray["recieverImage"] = $sender_user->profile_pic;
+                $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
+                $chatArray["recieverUserName"] = $sender_user->username;
+                $chatArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($sender_user->id);
+                $chatArray["senderId"] = $receiver_user->id;
+                $chatArray["senderImage"] = $receiver_user->profile_pic;
+                $chatArray["senderName"] = CustomHelper::fullName($receiver_user);
+                $chatArray["senderUserName"] = $receiver_user->username;
+                $chatArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($receiver_user->id);
+                $chatArray["status_id"] = ACTIVE;
+                $chatArray[MATCH_REQUEST] = $profile_match;
+                $chatArray["time"] = time();
+                $chatArray["type"] = "Text";
                 $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
                 $response = response()->Success(trans('messages.sent_push_notification'));
             } else {
