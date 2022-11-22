@@ -82,7 +82,11 @@ trait ParentsToBeMatchedDonerTrait
     {
         $parents = AuthHelper::authenticatedUser();
         $ptbSentRequest = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id])->get()->pluck(TO_USER_ID)->toArray();
-        $ptbRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, STATUS => REJECTED_BY_PTB])->get()->pluck(FROM_USER_ID)->toArray();
+        $ptbRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id])
+        ->whereIn(STATUS, [APPROVED_AND_MATCHED, REJECTED_BY_PTB])
+        ->get()
+        ->pluck(FROM_USER_ID)
+        ->toArray();
         $excludeDonar = array_merge($ptbSentRequest, $ptbRejecteRequest);
         $srch = User::with(['userProfile','location','donerAttribute']);
         $srch->where($donarBaseCondition);
