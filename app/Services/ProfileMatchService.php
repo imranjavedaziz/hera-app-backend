@@ -51,8 +51,8 @@ class ProfileMatchService
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
                 if($from_user->role_id == 2){
                     dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
+                    dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 }
-                dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
             case 2:
                 $title = 'Profile Match Request Approved.';
