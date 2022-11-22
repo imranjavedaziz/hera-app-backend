@@ -452,4 +452,5 @@ define('CHAT', "chat");
 define('SUBSCRIBE', "subscribe");
 define('SENDER_USER', "sender_user");
 define('RECEIVER_USER', "receiver_user");
-
+define('RECEIVER_ID', "receiver_id");
+define('PROFILE_MATCH', "profile_match");

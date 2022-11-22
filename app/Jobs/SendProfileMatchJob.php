@@ -20,22 +20,24 @@ class SendProfileMatchJob implements ShouldQueue
 
     protected $user;
     protected $receiver_user;
-    protected $profile_match_id;
+    protected $profile_match;
     protected $description;
     protected $title;
+    protected $feedback;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $receiver_user, $profile_match_id, $description, $title)
+    public function __construct($user, $receiver_user, $profile_match, $description, $title, $feedback)
     {
         $this->user = $user;
         $this->receiver_user = $receiver_user;
-        $this->profile_match_id = $profile_match_id;
+        $this->profile_match = $profile_match;
         $this->description = $description;
         $this->title = $title;
+        $this->feedback = $feedback;
     }
 
     /**
@@ -50,7 +52,8 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray[USER] = $this->user;
         $profileMatchArray[RECEIVER_USER] = $this->receiver_user;
         $profileMatchArray[USER_ID] = $this->user->id;
-        $profileMatchArray[PROFILE_MATCH_ID] = $this->profile_match_id;
+        $profileMatchArray[PROFILE_MATCH] = $this->profile_match;
+        $profileMatchArray[FEEDBACK] = $this->feedback;
         $profileMatchArray[NOTIFY_TYPE] = PROFILE;
         if ($deviceRegistrations) {
             foreach ($deviceRegistrations as $deviceRegistration) {

@@ -25,8 +25,12 @@
                             </div>
                         </div>
                         <div class="next-purchased">
-                            <div class="purchase">Purchased on: <span>April 12, 2022</span></div>
-                            <div class="next-due text-danger">Next Due On: <span>Nov 3, 2022</span></div>
+                        <?php
+                            $purchasedDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_start)->format('M d, Y') : 'N/A';
+                            $lastDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_end)->format('M d, Y') : 'N/A';
+                        ?>
+                            <div class="purchase">Purchased On: <span> {{$purchasedDate}}</span></div>
+                            <div class="next-due text-danger">Next Due On: <span>{{$lastDate}}</span></div>
                         </div>
                     </div>
                     <!--  Table start from here  -->
@@ -52,12 +56,12 @@
                             ?>
                             <!--  repeat this div  -->
                             <div class="table-row">
-                                <div class="td text-bold">@if (!empty($subscriptionPlan)) {{$subscriptionPlan->name}}  @else N/A @endif</div>
+                                <div class="td text-bold">{{$subscriptionPlan->name}}</div>
                                 <div class="td">$ {{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
                                 <div class="td"># {{$subscription->original_transaction_id}}</div>
-                                <div class="td">N/A</div>
-                                <div class="td">Paid</div>
+                                <div class="td">$ {{$subscription->price}}</div>
+                                <div class="td">@if ($subscription->status_id == 2) Free @else Paid @endif</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src=" {{ asset('assets/images/svg/icon-dark-more.svg')}}" alt="" class="3-dots-icon"
@@ -65,7 +69,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="dropdown-item" href="{{ route('showInvoice', ['id' => $subscription->id, 'userId' => $users->id]) }}">See Invoice</a></li>
-                                        <li><a class="dropdown-item" href="#">Download Invoice</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('downloadInvoice', ['id' => $subscription->id, 'userId' => $users->id]) }}">Download Invoice</a></li>
                                     </ul>
                                 </div>
                             </div>

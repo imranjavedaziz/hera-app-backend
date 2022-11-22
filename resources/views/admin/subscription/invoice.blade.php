@@ -24,27 +24,31 @@
                             <div class="bill-title bill-weight">Billing Details</div>
                         </div>
                         <div class="cell bill-border">
+                        <?php
+                            $purchasedDate = \Carbon\Carbon::parse($subscriptionDetail->current_period_start)->format('M d, Y');
+                            $billedDate = \Carbon\Carbon::parse($subscriptionDetail->current_period_end)->format('M d, Y');
+                            ?>
                             <div class="bill-title">Subscription Purchased</div>
-                            <div class="bill-amount">6 Month Commitment (PREMIUM)</div>
+                            <div class="bill-amount">{{$purchasedDate}}</div>
                         </div>
                         <div class="cell bill-border">
                             <div class="bill-title">Transaction ID</div>
-                            <div class="bill-amount">HERA084749</div>
+                            <div class="bill-amount">{{$subscriptionDetail->original_transaction_id}}</div>
                         </div>
                         <div class="cell bill-border">
                             <div class="bill-title">Billed on</div>
-                            <div class="bill-amount">8 May 2020</div>
+                            <div class="bill-amount">{{$billedDate}}</div>
                         </div>
                         <div class="cell">
                             <div class="bill-title">Invoice Period</div>
-                            <div class="bill-amount">9 Apr 2020 - 8 May 2020</div>
+                            <div class="bill-amount">{{$purchasedDate}} - {{$billedDate}}</div>
                         </div>
                         <div class="cell bill-bg">
                             <div class="bill-title">Amount Paid</div>
-                            <div class="bill-amount">$299.00</div>
+                            <div class="bill-amount">${{$subscriptionDetail->price}}</div>
                         </div>
                         <div class="cell">
-                            <div class="bill-title bill-weight mb-25">The payment is made via Apple Subscription. Subscription will renew automatically on 9 May 2020 at the current rate of US$299.00 a month.</div>
+                            <div class="bill-title bill-weight mb-25">The payment is made via Apple Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a {{$subscriptionDetail->subscriptionPlan->interval}}.</div>
                         </div>
                         <div class="cell-bottom">
                             <div class="logo-bill">
