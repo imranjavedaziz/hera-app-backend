@@ -240,7 +240,7 @@ class FirebaseService
             }
             /***Update User 2 Friends ***/
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true){
-                $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => "It's a Match!"]);
+                $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => "It's a Match!", $user1->id.'/time'=> time()]);
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id, STATUS => TWO]);
             }
        } catch (ApiException $e) {
