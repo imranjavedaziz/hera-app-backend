@@ -68,7 +68,7 @@ class FirebaseService
             "status_id" => ACTIVE,
             "senderImage" => $sender->profile_pic,
             "senderName"  => CustomHelper::fullName($sender),
-            "senderUserName" => $reciever->username,
+            "senderUserName" => $sender->username,
             "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
             MATCH_REQUEST => $profileMatch,
