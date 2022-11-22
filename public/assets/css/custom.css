@@ -26,6 +26,7 @@ input[type="search"]::-webkit-search-cancel-button{
   appearance: none;
 }
 .search-close{
+  line-height: 15px;
   cursor: pointer;
   position: absolute;
   top: 11px;
@@ -39,5 +40,4 @@ input[type="search"]::-webkit-search-cancel-button{
   font-weight: bold;
   display: flex;
   justify-content: center;
-  align-items: center;
 }

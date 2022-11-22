@@ -50,7 +50,6 @@
                             </div>
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
-                                    <!-- <input type="text" class="form-control" placeholder="Write a message"> -->
                                     <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
                                     <button type="button" class="btn-primary btn-send reply-btn" style="top:18px;">SEND</button>
                                 </div>
@@ -125,6 +124,8 @@
                 }
             });
         }
+
+
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
