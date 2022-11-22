@@ -183,8 +183,8 @@ class FcmController extends Controller {
                 $chatArray["currentRole"] = $receiver_user->role_id;
                 $chatArray["deviceToken"] = "deviceToken";
                 $chatArray["message"] = $input[MESSAGE];
-                $chatArray["read"] = $input[ZERO];
-                $chatArray["feedback_status"] = $feedback->like;
+                $chatArray["read"] = ZERO;
+                $chatArray["feedback_status"] = !empty($feedback) ? $feedback->like : NULL;
                 $chatArray["recieverId"] = $sender_id;
                 $chatArray["recieverImage"] = $sender_user->profile_pic;
                 $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
