@@ -238,11 +238,15 @@ class FirebaseService
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true){
                 $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey)->update([$user2->id.'/message' => "",$user2->id.'/chat_start' => ONE]);
                 $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey.'/'.$user2->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id,STATUS => TWO]);
+            } else {
+                $chatUser1FriendData = $this->createFriend($user1,$user2);
             }
             /***Update User 2 Friends ***/
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true){
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => "It's a Match!", $user1->id.'/time'=> time(),$user1->id.'/chat_start' => ONE]);
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id, STATUS => TWO]);
+            } else {
+                $chatUser2FriendData = $this->createFriend($user2,$user1);
             }
        } catch (ApiException $e) {
             $request = $e->getRequest();
