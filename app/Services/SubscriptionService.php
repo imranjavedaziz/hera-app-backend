@@ -233,7 +233,7 @@ class SubscriptionService
     }
 
     public function getDailiyTrailCardLimit($userId) {
-        $maxRequest = FIVE;
+        $maxRequest = THIRTY;
         $sentRequest = ProfileMatch::where([FROM_USER_ID => $userId])->whereDate(CREATED_AT, date(YMD_FORMAT))->get()->count();
         $limit = 0;
         if ($sentRequest < $maxRequest) {
