@@ -201,7 +201,7 @@ class FcmController extends Controller {
                 $chatArray[MATCH_REQUEST] = $profile_match;
                 $chatArray["time"] = time();
                 $chatArray["type"] = "Text";
-                $result = $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
+                $this->sendPush($userDevice->device_token,$request->title,$request->message,$chatArray);
                 $response = response()->Success(trans('messages.sent_push_notification'));
             } else {
                 $response = response()->Success('No device found!');
