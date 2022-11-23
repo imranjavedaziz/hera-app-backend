@@ -164,9 +164,9 @@ class FcmController extends Controller {
             $sender_id = AuthHelper::authenticatedUser()->id;
             $msgId = ($input[RECEIVER_ID] > $sender_id) ? $input[RECEIVER_ID] : $sender_id;
             $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
-            $sender_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            $sender_user = User::select(ID, USERNAME, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
             ->where(ID, $sender_id)->first();
-            $receiver_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
+            $receiver_user = User::select(ID, USERNAME, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
             ->where(ID, $input[RECEIVER_ID])->first();
             $profile_match = ProfileMatch::where(function ($query) use ($input, $sender_id) {
                 $query->where(FROM_USER_ID, $sender_id);
