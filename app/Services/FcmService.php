@@ -84,5 +84,6 @@ class FcmService
         } else {
             $response = response()->Success('No device found!');
         }
+        return $response;
     }
 }
