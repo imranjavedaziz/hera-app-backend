@@ -320,6 +320,7 @@ define('CONFIRM_NEW_PASSWORD', 'confirm_new_password');
 define('MOTHER_ETHNICITY', 'mother_ethnicity');
 define('FATHER_ETHNICITY', 'father_ethnicity');
 define('AS_CONNECT', ') AS ');
+define('SELECT_NAME_ROLES', '(select name from roles where id=');
 
 //define user profile relationship and function constants
 define('SEXUAL_ORIENTATION', 'sexual_orientation');
