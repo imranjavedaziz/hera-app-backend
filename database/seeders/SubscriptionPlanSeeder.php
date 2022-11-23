@@ -20,24 +20,24 @@ class SubscriptionPlanSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $subscriptionPlan = [
             [
-                NAME  => 'monthly',
-                PRICE  => 9.9,
+                NAME  => MONTHLY_PLAN_NAME,
+                PRICE  => MONTHLY_PLAN_PRICE,
                 INTERVAL  => 'month',
-                INTERVAL_COUNT  => 1,
-                DESCRIPTION  => 'monthly',
-                IOS_PRODUCT  => 'monthly',
-                ANDROID_PRODUCT  => 'monthly',
+                INTERVAL_COUNT  => ONE,
+                DESCRIPTION  => MONTHLY_PLAN_DESCRIPTION,
+                IOS_PRODUCT  => MONTHLY_IOS_PRODUCT,
+                ANDROID_PRODUCT  => MONTHLY_ANDROID_PRODUCT,
                 FOR_WHOM  => ONE,
                 STATUS_ID   => ACTIVE     
             ],
             [
-                NAME  => 'yearly',
-                PRICE  => 50.0,
+                NAME  => YEARLY_PLAN_NAME,
+                PRICE  => YEARLY_PLAN_PRICE,
                 INTERVAL  => 'year',
-                INTERVAL_COUNT  => 1,
-                DESCRIPTION  => 'yearly',
-                IOS_PRODUCT  => 'yearly',
-                ANDROID_PRODUCT  => 'monthly',
+                INTERVAL_COUNT  => ONE,
+                DESCRIPTION  => YEARLY_PLAN_DESCRIPTION,
+                IOS_PRODUCT  => YEARLY_IOS_PRODUCT,
+                ANDROID_PRODUCT  => YEARLY_ANDROID_PRODUCT,
                 FOR_WHOM  => ONE,
                 STATUS_ID   => ACTIVE
             ],

@@ -433,7 +433,7 @@ define('TIMEZONE', 'timezone');
 define('USER', 'user');
 
 //Admin 
-define('ADMIN_NAME', 'Admin');
+define('ADMIN_NAME', 'HERA Support');
 define('ADMIN_PHONE', '1111111111');
 
 // Admin inquiry
@@ -455,3 +455,17 @@ define('SENDER_USER', "sender_user");
 define('RECEIVER_USER', "receiver_user");
 define('RECEIVER_ID', "receiver_id");
 define('PROFILE_MATCH', "profile_match");
+
+
+//Subscription Plan details
+define('MONTHLY_PLAN_NAME', "HereDev-Monthly");
+define('MONTHLY_PLAN_PRICE', "99.99");
+define('MONTHLY_PLAN_DESCRIPTION', "6 Month Commitment");
+define('MONTHLY_IOS_PRODUCT', "com.HeraDev.Monthly");
+define('MONTHLY_ANDROID_PRODUCT', "");
+
+define('YEARLY_PLAN_NAME', "HereDev-Yearly");
+define('YEARLY_PLAN_PRICE', "199.99");
+define('YEARLY_PLAN_DESCRIPTION', "12 Month Commitment");
+define('YEARLY_IOS_PRODUCT', "com.HeraDev.Yearly");
+define('YEARLY_ANDROID_PRODUCT', "");
