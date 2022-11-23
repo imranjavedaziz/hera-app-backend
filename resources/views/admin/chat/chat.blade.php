@@ -173,8 +173,15 @@
                 time: new Date().getTime()
             }
             msgObj.push().set(message);
-            /** Update user message in chat list */
+            /** Update user message in admin chat list */
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
+                message: msg,
+                read: 0,
+                time: new Date().getTime()
+            });
+
+            /** Update user message in user chat list */
+            database.ref(env+'/Users/'+userId+'/Friends/'+adminId).update({
                 message: msg,
                 read: 0,
                 time: new Date().getTime()
