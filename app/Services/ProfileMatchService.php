@@ -41,7 +41,6 @@ class ProfileMatchService
     private function getMatchRequestMsg($input, $profile_match){
         $to_user = User::where(ID, $input[TO_USER_ID])->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
-        $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
         switch ($input[STATUS]) {
             case 1:
                 $to_name = ( $to_user->role_id == 2 ) ? $to_user->first_name : $to_user->username;
@@ -49,6 +48,7 @@ class ProfileMatchService
                 $title = 'Profile Match Request.';
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
+                $feedback = Feedback::where(SENDER_ID, $input[TO_USER_ID])->where(RECIPIENT_ID, $input[FROM_USER_ID])->first();
                 if($from_user->role_id == 2){
                     dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
                 }
@@ -65,6 +65,7 @@ class ProfileMatchService
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                 }
                 $message = __('messages.profile_match.request_approved');
+                $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
                 dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
