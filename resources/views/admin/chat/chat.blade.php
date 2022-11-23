@@ -73,7 +73,6 @@
         var database = firebase.database();
         var adminId = '<?php echo $adminId; ?>';
         var env = '<?php echo $env; ?>';
-        var url = '<?php echo config('app.url') ?>';
         var userCollection = database.ref(env+'/Users/'+adminId+'/Friends');
         chatList();
         var userList = [];
@@ -282,9 +281,8 @@
                 })
 
                 function sendPushNotification(userId, message) {
-                    console.log('url'+ url);
                     $.ajax({
-                        url: url+'/api/v1/send-push-notification',
+                        url: '/admin/chat/send-push-notification',
                         type: 'post',
                         data: {
                             "_token": "{{ csrf_token() }}",
