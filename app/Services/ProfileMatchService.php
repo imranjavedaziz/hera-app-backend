@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ProfileMatch;
 use App\Models\User;
+use App\Models\Feedback;
 use App\Jobs\SendProfileMatchJob;
 use App\Jobs\FirebaseChatFriend;
 
@@ -12,7 +13,7 @@ class ProfileMatchService
     public function profileMatchRequest($user_id, $input)
     {
         $input[FROM_USER_ID] = $user_id;
-         $profile_match = ProfileMatch::where(function ($query) use ($input) {
+        $profile_match = ProfileMatch::where(function ($query) use ($input) {
             $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
             $query->where(TO_USER_ID, $input[TO_USER_ID]);  
         })
@@ -31,13 +32,13 @@ class ProfileMatchService
             $profile_match->to_user_id = $input[TO_USER_ID];
         }
         if($profile_match->save()){
-            $message = $this->getMatchRequestMsg($input, $profile_match->id);
+            $message = $this->getMatchRequestMsg($input, $profile_match);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
     }
 
-    private function getMatchRequestMsg($input, $profile_match_id){
+    private function getMatchRequestMsg($input, $profile_match){
         $to_user = User::where(ID, $input[TO_USER_ID])->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
         switch ($input[STATUS]) {
@@ -47,10 +48,11 @@ class ProfileMatchService
                 $title = 'Profile Match Request.';
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
+                $feedback = Feedback::where(SENDER_ID, $input[TO_USER_ID])->where(RECIPIENT_ID, $input[FROM_USER_ID])->first();
                 if($from_user->role_id == 2){
-                    dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match_id, $description, $title));
+                    dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
+                    dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 }
-                dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
                 break;
             case 2:
                 $title = 'Profile Match Request Approved.';
@@ -63,7 +65,8 @@ class ProfileMatchService
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                 }
                 $message = __('messages.profile_match.request_approved');
-                dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match_id, $description, $title));
+                $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
+                dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
             default:

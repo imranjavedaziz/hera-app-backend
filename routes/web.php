@@ -43,5 +43,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         Route::get('/subscription', [SubscriptionController::class,'index'])->name('subscriptionList');
         Route::get('/subscription/{id}', [SubscriptionController::class, 'show'])->name('userSubscriptionList');
         Route::get('/invoice/{id}/{userId}', [SubscriptionController::class, 'showInvoice'])->name('showInvoice');
+        Route::get('/downloadInvoice/{id}/{userId}', [SubscriptionController::class, 'downloadInvoice'])->name('downloadInvoice');
+        Route::post('/chat/send-push-notification', [ChatController::class, 'sendPushNotification'])->name('sendPushNotification');
     });    
 });

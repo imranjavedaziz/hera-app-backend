@@ -13,29 +13,34 @@ use App\Traits\FcmTrait;
 use App\Models\Notification;
 use App\Constants\NotificationType;
 use App\Models\DeviceRegistration;
+use Facades\{
+    App\Services\SubscriptionService
+};
 
 class SendProfileMatchJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, FcmTrait;
 
     protected $user;
-    protected $receiver_user;
-    protected $profile_match_id;
+    protected $sender_user;
+    protected $profile_match;
     protected $description;
     protected $title;
+    protected $feedback;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $receiver_user, $profile_match_id, $description, $title)
+    public function __construct($user, $sender_user, $profile_match, $description, $title, $feedback)
     {
         $this->user = $user;
-        $this->receiver_user = $receiver_user;
-        $this->profile_match_id = $profile_match_id;
+        $this->sender_user = $sender_user;
+        $this->profile_match = $profile_match;
         $this->description = $description;
         $this->title = $title;
+        $this->feedback = $feedback;
     }
 
     /**
@@ -45,13 +50,32 @@ class SendProfileMatchJob implements ShouldQueue
      */
     public function handle()
     {
+        $msgId = ($this->user->id > $this->sender_user->id) ? $this->user->id : $this->sender_user->id;
         $deviceRegistrations = DeviceRegistration::where([USER_ID => $this->user->id, STATUS_ID => ACTIVE])->get();
         $this->saveProfileMatchNotification();
-        $profileMatchArray[USER] = $this->user;
-        $profileMatchArray[RECEIVER_USER] = $this->receiver_user;
-        $profileMatchArray[USER_ID] = $this->user->id;
-        $profileMatchArray[PROFILE_MATCH_ID] = $this->profile_match_id;
         $profileMatchArray[NOTIFY_TYPE] = PROFILE;
+        $profileMatchArray[USER] = $this->user;
+        $profileMatchArray["chat_start"] = ZERO;
+        $profileMatchArray["currentRole"] = $this->sender_user->role_id;
+        $profileMatchArray["deviceToken"] = "deviceToken";
+        $profileMatchArray["message"] = NULL;
+        $profileMatchArray["msgId"] = $msgId."-".time();
+        $profileMatchArray["read"] = ZERO;
+        $profileMatchArray["feedback_status"] = !empty($this->feedback) ? $this->feedback->like : NULL;
+        $profileMatchArray["recieverId"] = $this->sender_user->id;
+        $profileMatchArray["recieverImage"] = $this->sender_user->profile_pic;
+        $profileMatchArray["recieverName"] = CustomHelper::fullName($this->sender_user);
+        $profileMatchArray["recieverUserName"] = $this->sender_user->username;
+        $profileMatchArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($this->sender_user->id);
+        $profileMatchArray["senderId"] = $this->user->id;
+        $profileMatchArray["senderImage"] = $this->user->profile_pic;
+        $profileMatchArray["senderName"] = CustomHelper::fullName($this->user);
+        $profileMatchArray["senderUserName"] = $this->user->username;
+        $profileMatchArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($this->user->id);
+        $profileMatchArray["status_id"] = ACTIVE;
+        $profileMatchArray[MATCH_REQUEST] = $this->profile_match;
+        $profileMatchArray["time"] = time();
+        $profileMatchArray["type"] = "Text";
         if ($deviceRegistrations) {
             foreach ($deviceRegistrations as $deviceRegistration) {
                 $this->sendPush($deviceRegistration->device_token,$this->title,$this->description,$profileMatchArray);

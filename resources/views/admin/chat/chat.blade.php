@@ -50,7 +50,6 @@
                             </div>
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
-                                    <!-- <input type="text" class="form-control" placeholder="Write a message"> -->
                                     <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
                                     <button type="button" class="btn-primary btn-send reply-btn" style="top:18px;">SEND</button>
                                 </div>
@@ -81,6 +80,7 @@
             var chatUser = [];
             var count = 0;
             userCollection.on("child_added", function(snapshot) {
+                console.log('listing call');
                 count++;
                 var childData = snapshot.val();
                 var time = childData.time;
@@ -125,6 +125,8 @@
                 }
             });
         }
+
+
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
@@ -172,8 +174,15 @@
                 time: new Date().getTime()
             }
             msgObj.push().set(message);
-            /** Update user message in chat list */
+            /** Update user message in admin chat list */
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
+                message: msg,
+                read: 0,
+                time: new Date().getTime()
+            });
+
+            /** Update user message in user chat list */
+            database.ref(env+'/Users/'+userId+'/Friends/'+adminId).update({
                 message: msg,
                 read: 0,
                 time: new Date().getTime()
@@ -243,11 +252,13 @@
                                     +'<div class="user-chat-right">'
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
-                                +'</div>');
-                            })
-                        });
-                    }
+                                +'</div>'
+                        );
+                    })
                 });
+                }
+                });
+                userCollection.off('value');
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
                     var msg = $('#message').val();
@@ -256,6 +267,7 @@
                     }
                     sendMessage(msg, userId);
                     $('#message').val("");
+                    sendPushNotification(userId, msg);
                 })
 
                 $('#message').keypress(function(event){
@@ -267,6 +279,27 @@
                         return false;
                     }
                 })
+
+                function sendPushNotification(userId, message) {
+                    $.ajax({
+                        url: '/admin/chat/send-push-notification',
+                        type: 'post',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "receiver_id": userId,
+                            "message": message,
+                            "title" : 'HERA Support sent you a message'
+                        },
+                        dataType: 'json',
+                        success: function (msg) {
+
+                        },
+                         error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(JSON.stringify(jqXHR));
+                            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                        }
+                    });
+                }
         });
 
         function getChatDate(unixTimeStamp) {
