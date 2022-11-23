@@ -74,7 +74,7 @@ class FirebaseService
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
             MATCH_REQUEST => $profileMatch,
             "chat_start" => ZERO,
-            "time" => time(),
+            "time" => time() * 1000,
             "type" => "Text"
         ];
     }
@@ -262,7 +262,7 @@ class FirebaseService
             }
             /***Update User 2 Friends ***/
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true){
-                $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => "Hey, It's a Match!", $user1->id.'/time'=> time()]);
+                $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => "Hey, It's a Match!", $user1->id.'/time'=> time() * 1000]);
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id, STATUS => TWO]);
             } else {
                 $chatUser2FriendData = $this->createFriend($user2,$user1);
