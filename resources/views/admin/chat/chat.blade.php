@@ -80,6 +80,7 @@
             var chatUser = [];
             var count = 0;
             userCollection.on("child_added", function(snapshot) {
+                console.log('listing call');
                 count++;
                 var childData = snapshot.val();
                 var time = childData.time;
@@ -251,11 +252,13 @@
                                     +'<div class="user-chat-right">'
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
-                                +'</div>');
-                            })
-                        });
-                    }
+                                +'</div>'
+                        );
+                    })
                 });
+                }
+                });
+                userCollection.off('value');
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
                     var msg = $('#message').val();
@@ -264,6 +267,7 @@
                     }
                     sendMessage(msg, userId);
                     $('#message').val("");
+                    sendPushNotification(userId, msg);
                 })
 
                 $('#message').keypress(function(event){
@@ -275,6 +279,27 @@
                         return false;
                     }
                 })
+
+                function sendPushNotification(userId, message) {
+                    $.ajax({
+                        url: '/admin/chat/send-push-notification',
+                        type: 'post',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "receiver_id": userId,
+                            "message": message,
+                            "title" : 'HERA Support sent you a message'
+                        },
+                        dataType: 'json',
+                        success: function (msg) {
+
+                        },
+                         error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(JSON.stringify(jqXHR));
+                            console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                        }
+                    });
+                }
         });
 
         function getChatDate(unixTimeStamp) {
