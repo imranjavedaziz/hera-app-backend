@@ -162,7 +162,7 @@ class FcmController extends Controller {
         try {
             $input = $request->all();
             $sender_id = AuthHelper::authenticatedUser()->id;
-            $msgId = ($sender_id > $input[RECEIVER_ID]) ? $sender_id : $input[RECEIVER_ID];
+            $msgId = ($input[RECEIVER_ID] > $sender_id) ? $input[RECEIVER_ID] : $sender_id;
             $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
             $sender_user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
             ->where(ID, $sender_id)->first();
@@ -177,24 +177,26 @@ class FcmController extends Controller {
                 $query->where(TO_USER_ID, $sender_id);  
             })
             ->first();
-            $feedback = Feedback::where(SENDER_ID, $sender_id)->where(RECIPIENT_ID, $input[RECEIVER_ID])->first();
+            $feedback = Feedback::where(SENDER_ID, $input[RECEIVER_ID])->where(RECIPIENT_ID, $sender_id)->first();
             if(!empty($userDevice)) {
                 $chatArray[NOTIFY_TYPE] = CHAT;
-                $chatArray["currentRole"] = $sender_user->role_id;
+                $chatArray["chat_start"] = ONE;
+                $chatArray["currentRole"] = $receiver_user->role_id;
                 $chatArray["deviceToken"] = "deviceToken";
                 $chatArray["message"] = $input[MESSAGE];
+                $chatArray["msgId"] = $msgId."-".time();
                 $chatArray["read"] = ZERO;
                 $chatArray["feedback_status"] = !empty($feedback) ? $feedback->like : NULL;
-                $chatArray["recieverId"] = $receiver_user->id;
-                $chatArray["recieverImage"] = $receiver_user->profile_pic;
-                $chatArray["recieverName"] = CustomHelper::fullName($receiver_user);
-                $chatArray["recieverUserName"] = $receiver_user->username;
-                $chatArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($receiver_user->id);
-                $chatArray["senderId"] = $sender_id;
-                $chatArray["senderImage"] = $sender_user->profile_pic;
-                $chatArray["senderName"] = CustomHelper::fullName($sender_user);
-                $chatArray["senderUserName"] = $sender_user->username;
-                $chatArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($sender_user->id);
+                $chatArray["recieverId"] = $sender_id;
+                $chatArray["recieverImage"] = $sender_user->profile_pic;
+                $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
+                $chatArray["recieverUserName"] = $sender_user->username;
+                $chatArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($sender_user->id);
+                $chatArray["senderId"] = $receiver_user->id;
+                $chatArray["senderImage"] = $receiver_user->profile_pic;
+                $chatArray["senderName"] = CustomHelper::fullName($receiver_user);
+                $chatArray["senderUserName"] = $receiver_user->username;
+                $chatArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($receiver_user->id);
                 $chatArray["status_id"] = ACTIVE;
                 $chatArray[MATCH_REQUEST] = $profile_match;
                 $chatArray["time"] = time();
