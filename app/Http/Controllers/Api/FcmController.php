@@ -181,7 +181,7 @@ class FcmController extends Controller {
             if(!empty($userDevice)) {
                 $chatArray[NOTIFY_TYPE] = CHAT;
                 $chatArray["chat_start"] = ONE;
-                $chatArray["currentRole"] = $receiver_user->role_id;
+                $chatArray["currentRole"] = $sender_user->role_id;
                 $chatArray["deviceToken"] = "deviceToken";
                 $chatArray["message"] = $input[MESSAGE];
                 $chatArray["msgId"] = $msgId."-".time();
