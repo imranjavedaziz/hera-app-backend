@@ -79,7 +79,7 @@
         function chatList() {
             var chatUser = [];
             var count = 0;
-            userCollection.on("child_added", function(snapshot) {
+            userCollection.orderByChild('adminChatTime').on("child_added", function(snapshot) {
                 console.log('listing call');
                 count++;
                 var childData = snapshot.val();
@@ -118,6 +118,7 @@
                     var roleId = user.role_id;
                     var username = user.username;
                     var roleData = getRoleData(roleId);
+                    $(".user-chat-sec[userid='" + userId + "']").addClass("active");
                     updateUserChatProfile(image, roleData, name, username, userId);
                 }else if (count == 1) {
                     var roleData = getRoleData(childData.currentRole);
@@ -178,7 +179,8 @@
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                 message: msg,
                 read: 0,
-                time: new Date().getTime()
+                time: new Date().getTime(),
+                adminChatTime: new Date().getTime()
             });
 
             /** Update user message in user chat list */
@@ -187,6 +189,7 @@
                 read: 0,
                 time: new Date().getTime()
             });
+            $(".user-chat-sec[userid='" + userId + "']").find(".user-msg").html(msg);
         }
 
         function getMessageList(msgObj, userId) {
@@ -225,13 +228,13 @@
 
             $("#search").keyup(function() {
                 $('.chat-left-containt').html('');
-                var name = $(this).val();
+                var name = $(this).val().toLowerCase();
                 if (name == '') {
                     $('.search-close').addClass("d-none");
                     chatList();
                 } else {
                     $(".search-close").removeClass("d-none");
-                userCollection.orderByChild('recieverName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
+                userCollection.orderByChild('receiverSearchName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
                         var childData = childSnapshot.val();
                         var profileImage = childData.recieverImage;
@@ -257,8 +260,8 @@
                     })
                 });
                 }
-                });
                 userCollection.off('value');
+                });
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
                     var msg = $('#message').val();
