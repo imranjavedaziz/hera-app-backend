@@ -95,18 +95,4 @@ class CustomHelper
         $tz = json_decode($tz,true)['timezone'];
         return $tz;
     }
-
-    public static function getSubscriptionStatus($statusId) {
-        switch ($statusId) {
-            case SUBSCRIPTION_DISABLED:
-              $status = 'In Active';
-              break;
-            case SUBSCRIPTION_ENABLED:
-                $status = 'Active';
-              break;
-            default:
-            $status = 'Trial';
-          }
-          return $status;
-     }
 }

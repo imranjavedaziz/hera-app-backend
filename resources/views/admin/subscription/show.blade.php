@@ -57,11 +57,11 @@
                             <!--  repeat this div  -->
                             <div class="table-row">
                                 <div class="td text-bold">{{$subscriptionPlan->name}}</div>
-                                <div class="td">$ {{$subscription->price}}</div>
+                                <div class="td">${{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
-                                <div class="td"># {{$subscription->original_transaction_id}}</div>
-                                <div class="td">$ {{$subscription->price}}</div>
-                                <div class="td">@if ($subscription->status_id == 2) Free @else Paid @endif</div>
+                                <div class="td">#{{$subscription->original_transaction_id}}</div>
+                                <div class="td">${{$subscription->price}}</div>
+                                <div class="td">Paid</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src=" {{ asset('assets/images/svg/icon-dark-more.svg')}}" alt="" class="3-dots-icon"

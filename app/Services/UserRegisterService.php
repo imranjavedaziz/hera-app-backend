@@ -303,7 +303,7 @@ class UserRegisterService
 
     public function sentOtpForFogotPassword($request) {
         $user = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->first();
-        if (!empty($user)) { echo
+        if (!empty($user)) {
             $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
             if($result[STATUS]) {
                 $response = response()->Success($result[MESSAGE], $user);
