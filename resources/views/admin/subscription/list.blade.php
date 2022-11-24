@@ -53,6 +53,7 @@
                             $subscriptionPlan = $subscription->subscriptionPlan;
                             $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
                             $img = $subscription->profile_pic;
+                            $type = ($subscriptionPlan->interval == 'month') ? 'mo' : 'yr';
                             ?>
                             <!--  repeat this div  -->
                             <div class="table-row">
@@ -73,9 +74,9 @@
                                 </div>
                                 <div class="td">{{$user->email}}</div>
                                 <div class="td">{{$subscriptionPlan->name}}</div>
-                                <div class="td">$ {{$subscription->price}}</div>
+                                <div class="td">${{$subscription->price}}/{{$type}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
-                                <div class="td">{{CustomHelper::getSubscriptionStatus($subscription->status_id)}}</div>
+                                <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="{{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
