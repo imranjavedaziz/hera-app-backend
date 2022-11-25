@@ -75,11 +75,9 @@
         var env = '<?php echo $env; ?>';
         var userCollection = database.ref(env+'/Users/'+adminId+'/Friends');
         chatList();
-        var userList = [];
         function chatList() {
             var chatUser = [];
             userCollection.orderByChild('adminChatTime').on("child_added", function(snapshot) {
-                console.log('listing call');
                 var childData = snapshot.val();
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
@@ -105,8 +103,6 @@
                 if(user_data){
                     var user = JSON.parse(user_data);
                     var middle_name = (user.middle_name != null) ? user.middle_name : '';
-                    console.log(user.first_name);
-                    // $(this).addClass("active");
                     var userId = user.id;
                     var name = user.first_name + ' ' + middle_name + ' ' + user.last_name;
                     var image = user.profile_pic;
@@ -150,7 +146,6 @@
         })
 
         $(document).on('click', '.user-chat-sec', function(){
-            console.log('chat section');
             $('.msg-wrapper').html('');
             $(".user-chat-sec").removeClass("active");
             $(this).addClass("active");
@@ -164,7 +159,6 @@
         });
 
         function updateUserChatProfile(image, roleData, name, username, userId) {
-            console.log('last'+userId);
             $("#receiverImage").attr("src",image);
             $("#receiverRole").html(roleData);
             $("#receiverName").html(name+', <span>'+username+'</span>');
