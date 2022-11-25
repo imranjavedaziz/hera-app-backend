@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use App\Http\Middleware\CheckUserAccountStatus;
 use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
 use App\Http\Middleware\EnsureDonarTokenIsValid;
 use App\Http\Controllers\Api\AuthController;
@@ -81,7 +82,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
-    Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+    Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
         Route::get('logout', [AuthController::class, 'logout']);

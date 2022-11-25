@@ -28,6 +28,7 @@ use App\Jobs\UpdateStatusOnFirebaseJob;
 use App\Constants\MobileVerificationType;
 use DB;
 use Carbon\Carbon;
+use App\Helpers\CustomHelper;
 
 class AuthController extends Controller
 {
@@ -101,7 +102,7 @@ class AuthController extends Controller
             if (empty($user)) {
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
-            $message = $this->getDeleteInactiveMsg($user);
+            $message = CustomHelper::getDeleteInactiveMsg($user);
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
                 if (($user->status_id === ACTIVE || $user->status_id === INACTIVE ) && $user->deactivated_by != ONE) {
                     $user->access_token = $oauth_token;
@@ -117,24 +118,6 @@ class AuthController extends Controller
         }
     
         return $response;
-    }
-
-    private function getDeleteInactiveMsg($user){
-        switch ($user) {
-            case ($user->deleted_by == ONE && $user->deleted_at != null):
-                $message = trans('messages.user_account_deleted_by_admin');
-                break;
-            case ($user->deleted_by == TWO && $user->deleted_at != null):
-                $message = trans('messages.user_account_deleted');
-                break;
-            case ($user->deactivated_by == ONE):
-                $message = trans('messages.user_account_deactivated_by_admin');
-                break;
-            default:
-                $message = trans('messages.invalid_user_pass');
-                break;
-        }
-        return $message;
     }
 
     /**
