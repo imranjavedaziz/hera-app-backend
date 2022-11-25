@@ -470,3 +470,5 @@ define('YEARLY_PLAN_PRICE', "199.99");
 define('YEARLY_PLAN_DESCRIPTION', "12 Month Commitment");
 define('YEARLY_IOS_PRODUCT', "com.HeraDev.Yearly");
 define('YEARLY_ANDROID_PRODUCT', "");
+define('APPLE_CHARGES', "30");
+define('GOOGLE_CHARGES', "15");
