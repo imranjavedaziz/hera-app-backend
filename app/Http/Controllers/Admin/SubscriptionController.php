@@ -48,7 +48,7 @@ class SubscriptionController extends Controller
     public function showInvoice($subscriptionId, $userId)
     { 
         $user = User::where('id',$userId)->first();
-        $subscriptionDetail = Subscription::with('user','subscriptionPlan')->select('price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id')
+        $subscriptionDetail = Subscription::with('user','subscriptionPlan')->select('price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id','device_type')
         ->where(ID, $subscriptionId)->first();
         return view('admin.subscription.invoice')->with(['title' => 'Invoice','subscriptionDetail'=>$subscriptionDetail, 'user' => $user]);
     }
@@ -64,7 +64,7 @@ class SubscriptionController extends Controller
     {
         try {
             $user = User::where('id',$userId)->first();
-            $subscriptionDetail = Subscription::with('user','subscriptionPlan')->select('price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id')
+            $subscriptionDetail = Subscription::with('user','subscriptionPlan')->select('price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id','device_type')
             ->where(ID, $subscriptionId)->first();
             $pdf = PDF::loadView('admin.pdf.invoice', ['subscriptionDetail' => $subscriptionDetail , 'user'=> $user]);
             return $pdf->download('invoice.pdf');
