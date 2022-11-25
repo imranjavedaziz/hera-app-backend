@@ -78,22 +78,13 @@
         var userList = [];
         function chatList() {
             var chatUser = [];
-            var count = 0;
             userCollection.orderByChild('adminChatTime').on("child_added", function(snapshot) {
                 console.log('listing call');
-                count++;
                 var childData = snapshot.val();
                 var time = childData.time;
+                var adminChatTime = childData.adminChatTime;
                 var date = getChatDate(time);
-                obj = {};
-                obj.userId = childData.recieverId;
-                obj.userFullName = childData.recieverName;
-                obj.userImage= childData.recieverImage;
-                obj.userRole = childData.currentRole;
-                obj.username = childData.recieverUserName;
-                obj.date = time;
-                userList.push(obj);
-                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'">'
+                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+childData.recieverImage+' alt="user-logo">'
@@ -107,6 +98,10 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
+                $('.chat-left-containt .user-chat-sec').sort(SortByChatTime).appendTo('.chat-left-containt');
+                function SortByChatTime(a, b){
+                    return ($(b).data('date')) < ($(a).data('date')) ? -1 : 1;
+                }
                 if(user_data){
                     var user = JSON.parse(user_data);
                     var middle_name = (user.middle_name != null) ? user.middle_name : '';
@@ -120,14 +115,33 @@
                     var roleData = getRoleData(roleId);
                     $(".user-chat-sec[userid='" + userId + "']").addClass("active");
                     updateUserChatProfile(image, roleData, name, username, userId);
-                }else if (count == 1) {
-                    var roleData = getRoleData(childData.currentRole);
-                    updateUserChatProfile(childData.recieverImage, roleData, childData.recieverName, childData.recieverUserName, childData.recieverId);
+                }else {
+                    $('.chat-left-containt').children().first().click();
                 }
             });
         }
-
-
+        userCollection.on("child_changed", function(snapshot) {
+                var childData = snapshot.val();
+                var time = childData.time;
+                var adminChatTime = childData.adminChatTime;
+                var date = getChatDate(time);
+                $(".user-chat-sec[userid='" + childData.recieverId + "']").remove();
+                $('.chat-left-containt').prepend('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'">'
+                                    +'<div class="user-chat-left">'
+                                        +'<div class="user-logo">'
+                                            +'<img src='+childData.recieverImage+' alt="user-logo">'
+                                        +'</div>'
+                                        +'<div class="user-detail">'
+                                            +'<div class="user-name">'+childData.recieverName+'</div>'
+                                            +'<div class="user-msg">'+childData.message+'</div>'
+                                        +'</div>'
+                                    +'</div>'
+                                    +'<div class="user-chat-right">'
+                                        +'<div class="chat-date">'+date+'</div>'
+                                    +'</div>'
+                                +'</div>');
+            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active");
+            });
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
