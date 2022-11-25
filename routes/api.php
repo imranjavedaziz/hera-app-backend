@@ -72,7 +72,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('register', [UserController::class, 'register']);
 });
 
-Route::group(['prefix' => 'v1', 'namespace' => 'Api', MIDDLEWARE => ['CheckUserAccountStatus']], function () {
+Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
@@ -82,7 +82,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api', MIDDLEWARE => ['CheckUserA
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
-    Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+    Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
         Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
         Route::get('logout', [AuthController::class, 'logout']);

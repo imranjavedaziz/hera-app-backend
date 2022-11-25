@@ -96,11 +96,11 @@ class CustomHelper
         return $tz;
     }
 
-<<<<<<< Updated upstream
     public static function totalSubscriptionAmountDeduct($deviceType, $amount) {
         $totalAmount = ($deviceType == 'ios') ? $amount - ($amount  * APPLE_CHARGES /100) : $amount - ($amount  * GOOGLE_CHARGES /100);
         return number_format($totalAmount, 2, '.', '');
-=======
+    }
+    
     public function getDeleteInactiveMsg($user){
         switch ($user) {
             case ($user->deleted_by == ONE && $user->deleted_at != null):
@@ -117,6 +117,5 @@ class CustomHelper
                 break;
         }
         return $message;
->>>>>>> Stashed changes
     }
 }
