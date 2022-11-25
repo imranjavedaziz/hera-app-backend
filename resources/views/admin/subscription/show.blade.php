@@ -60,7 +60,7 @@
                                 <div class="td">${{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
                                 <div class="td">#{{$subscription->original_transaction_id}}</div>
-                                <div class="td">${{$subscription->price}}</div>
+                                <div class="td"> @if ($subscription->device_type == 'ios') ${{CustomHelper::totalSubscriptionAmountDeduct($subscription->device_type, $subscription->price)}} <br/><em>({{APPLE_CHARGES}}% Apple Charges Deducted)</em> @else   ${{CustomHelper::totalSubscriptionAmountDeduct($subscription->device_type, $subscription->price)}} <br /><em>({{GOOGLE_CHARGES}}% Google Play Charges Deducted)</em> @endif</div>
                                 <div class="td">Paid</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

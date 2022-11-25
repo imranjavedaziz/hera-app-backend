@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
     public function show($userId)
     {
         $user = User::where('id',$userId)->first();
-        $subscriptionDetails = Subscription::with('user','subscriptionPlan')->select('id','price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id')
+        $subscriptionDetails = Subscription::with('user','subscriptionPlan')->select('id','price','current_period_start','current_period_end','status_id','original_transaction_id','user_id','subscription_plan_id','device_type')
         ->where(USER_ID, $userId)->orderBy('id','desc')->paginate(ADMIN_PAGE_LIMIT);
         $activeSubscription = SubscriptionService::getSubscriptionByUserId($userId);
         return view('admin.subscription.show')->with(['title' => 'Subscription Detail','subscriptionData'=>$subscriptionDetails, 'users' => $user, 'activeSubscription'=> $activeSubscription]);
