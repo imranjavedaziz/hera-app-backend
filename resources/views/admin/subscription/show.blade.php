@@ -26,8 +26,8 @@
                         </div>
                         <div class="next-purchased">
                         <?php
-                            $purchasedDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_start)->format('M d, Y') : 'N/A';
-                            $lastDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_end)->format('M d, Y') : 'N/A';
+                            $purchasedDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_start)->format(MDY_FORMAT) : 'N/A';
+                            $lastDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_end)->format(MDY_FORMAT) : 'N/A';
                         ?>
                             <div class="purchase">Purchased On: <span> {{$purchasedDate}}</span></div>
                             <div class="next-due text-danger">Next Due On: <span>{{$lastDate}}</span></div>
@@ -52,7 +52,7 @@
                             <?php
                             $user = $subscription->user;
                             $subscriptionPlan = $subscription->subscriptionPlan;
-                            $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
+                            $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format(MDY_FORMAT);
                             ?>
                             <!--  repeat this div  -->
                             <div class="table-row">

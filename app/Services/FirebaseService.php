@@ -36,7 +36,6 @@ class FirebaseService
     public function createFriend($sender,$reciever, $msg = '') {
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
         $read = ZERO;
-        $status = ONE;
         $sender_id = $sender->id;
         $reciever_id = $reciever->id;
         $profileMatch = ProfileMatch::where(function ($query) use ($sender_id, $reciever_id ) {

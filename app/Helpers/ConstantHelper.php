@@ -269,6 +269,7 @@ define('FILE_TYPE', 'file_type');
 // date formats
 define('YMD_FORMAT', 'Y-m-d');
 define('DATE_TIME', "Y-m-d H:i:s");
+define('MDY_FORMAT', "M d, Y");
 
 //lang messages constant
 define('LANG_SOMETHING_WRONG', 'messages.common_msg.something_went_wrong');
