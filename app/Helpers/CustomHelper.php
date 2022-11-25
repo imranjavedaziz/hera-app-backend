@@ -97,12 +97,7 @@ class CustomHelper
     }
 
     public function totalSubscriptionAmountDeduct($deviceType, $amount) {
-        $totalAmount = 0;
-        if ($deviceType == 'ios') {
-            $totalAmount = $amount + ($amount  * APPLE_CHARGES /100);
-        } else {
-            $totalAmount = $amount + ($amount  * GOOGLE_CHARGES /100);
-        }
+        $totalAmount = ($deviceType == 'ios') ? $amount + ($amount  * APPLE_CHARGES /100) : $amount + ($amount  * GOOGLE_CHARGES /100);
         return number_format($totalAmount, 2, '.', '');
     }
 }
