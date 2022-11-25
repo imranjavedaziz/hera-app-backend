@@ -76,7 +76,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Billed on</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}}</td></tr>
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Invoice Period</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}} - {{$billedDate}}</td></tr>
                         <tr style="background-color: #f7f5f0;border: 1px solid #ededed;"><td style="padding: 18px 30px;">Amount Paid</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">${{$subscriptionDetail->price}}</td></tr>
-                        <tr style="border: 1px solid #ededed; font-weight: bold;"><td colspan="2" style="padding: 18px 30px;">The payment is made via Apple Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a {{$subscriptionDetail->subscriptionPlan->interval}}.</td></tr>
+                        <tr style="border: 1px solid #ededed; font-weight: bold;"><td colspan="2" style="padding: 18px 30px;">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a {{$subscriptionDetail->subscriptionPlan->interval}}.</td></tr>
                         <tr>
                             <td colspan="2">
                                 <table style="border-spacing: 0;" aria-describedby="Payment Invoice">
