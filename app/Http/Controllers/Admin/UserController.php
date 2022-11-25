@@ -15,6 +15,7 @@ use App\Url;
 use App\Helpers\Helper;
 use Validator;
 use App\Jobs\SendActiveDeactiveUserJob;
+use App\Jobs\UpdateStatusOnFirebaseJob;
 
 class UserController extends AdminController
 {
@@ -76,8 +77,10 @@ class UserController extends AdminController
             if ($request->status_id == ACTIVE) {
                 $msg = __('messages.admin.account_active');
             }
+            $user = User::where(ID, $id)->first();
             User::changeStatus($id,$request->all());
             dispatch(new SendActiveDeactiveUserJob($id));
+            dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
         	$message = trans(LANG_SOMETHING_WRONG);
@@ -96,8 +99,10 @@ class UserController extends AdminController
     {
         try{
             $msg = __('messages.admin.account_delete');
+            $user = User::where(ID, $id)->first();
             User::deleteUser($id);
             dispatch(new SendActiveDeactiveUserJob($id));
+            dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
         	$message = trans(LANG_SOMETHING_WRONG);
