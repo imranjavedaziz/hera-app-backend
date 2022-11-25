@@ -96,8 +96,27 @@ class CustomHelper
         return $tz;
     }
 
+<<<<<<< Updated upstream
     public static function totalSubscriptionAmountDeduct($deviceType, $amount) {
         $totalAmount = ($deviceType == 'ios') ? $amount - ($amount  * APPLE_CHARGES /100) : $amount - ($amount  * GOOGLE_CHARGES /100);
         return number_format($totalAmount, 2, '.', '');
+=======
+    public function getDeleteInactiveMsg($user){
+        switch ($user) {
+            case ($user->deleted_by == ONE && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted_by_admin');
+                break;
+            case ($user->deleted_by == TWO && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted');
+                break;
+            case ($user->deactivated_by == ONE):
+                $message = trans('messages.user_account_deactivated_by_admin');
+                break;
+            default:
+                $message = trans('messages.invalid_user_pass');
+                break;
+        }
+        return $message;
+>>>>>>> Stashed changes
     }
 }

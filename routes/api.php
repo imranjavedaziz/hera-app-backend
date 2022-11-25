@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use App\Http\Middleware\CheckUserAccountStatus;
 use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
 use App\Http\Middleware\EnsureDonarTokenIsValid;
 use App\Http\Controllers\Api\AuthController;
@@ -71,7 +72,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('register', [UserController::class, 'register']);
 });
 
-Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
+Route::group(['prefix' => 'v1', 'namespace' => 'Api', MIDDLEWARE => ['CheckUserAccountStatus']], function () {
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
