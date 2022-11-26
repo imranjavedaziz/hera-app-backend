@@ -12,11 +12,11 @@ use Facades\{
     App\Services\FirebaseService
 };
 
-class createAdminChatFreiend implements ShouldQueue
+class UpdateUserDetailOnFirebase implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $user;
+    protected $user;
 
     /**
      * Create a new job instance.
@@ -35,6 +35,6 @@ class createAdminChatFreiend implements ShouldQueue
      */
     public function handle()
     {
-        FirebaseService::createAdminFriends($this->user);
+        FirebaseService::updateChatFriends($this->user);
     }
 }

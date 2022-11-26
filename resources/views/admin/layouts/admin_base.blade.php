@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+	<title>MBC | @if (isset($title)){{$title}} @endif</title>
     @include('admin.layouts.partials.admin.head')
+</head>
     <body>
         <!-- start main wrapper -->
         <div class="container-fluid">
