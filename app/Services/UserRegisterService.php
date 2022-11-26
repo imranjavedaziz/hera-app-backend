@@ -20,7 +20,8 @@ use App\Helpers\TwilioOtp;
 use Facades\{
     App\Services\FirebaseService
 };
-use App\Jobs\createAdminChatFreiend;
+use App\Jobs\CreateAdminChatFreiend;
+use App\Jobs\UpdateUserDetailOnFirebase;
 
 class UserRegisterService
 {
@@ -40,7 +41,7 @@ class UserRegisterService
             $user->save();
             /** $this->sendEmailVerification($user); **/
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
-                dispatch(new createAdminChatFreiend($user));
+                dispatch(new CreateAdminChatFreiend($user));
             }
         }
         return $user;
@@ -222,6 +223,9 @@ class UserRegisterService
         $user->profile_pic = $file[FILE_URL];
         if($user->save()){
             Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
+            $reciver = $user;
+            $reciver->profile_pic = $file[FILE_URL];
+            dispatch(new UpdateUserDetailOnFirebase($reciver));
             return $user->profile_pic;
         }
         return false;
@@ -247,6 +251,7 @@ class UserRegisterService
         if($user->update($input)){
             $user->userProfile->update($input);
             $user->location->update($input);
+            dispatch(new UpdateUserDetailOnFirebase($user));
             return true;
         }
         return false;

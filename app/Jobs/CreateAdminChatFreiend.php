@@ -12,7 +12,7 @@ use Facades\{
     App\Services\FirebaseService
 };
 
-class createAdminChatFreiend implements ShouldQueue
+class CreateAdminChatFreiend implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
