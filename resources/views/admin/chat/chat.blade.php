@@ -112,7 +112,9 @@
                     $(".user-chat-sec[userid='" + userId + "']").addClass("active");
                     updateUserChatProfile(image, roleData, name, username, userId);
                 }else {
+                    setTimeout(function() {
                     $('.chat-left-containt').children().first().click();
+                }, 1000);
                 }
             });
         }
@@ -175,14 +177,16 @@
 
         function sendMessage(msg,userId) {
             /** Save message */
+            var timestampRow = Date.now();
             var chatNode = userId+'-'+adminId;
-            var msgObj = database.ref(env+'/Messages/'+chatNode)
+            var msgObj = database.ref(env+'/Messages/'+chatNode+ '/' + timestampRow)
             var message = {
                 from : adminId,
                 text: msg,
                 time: new Date().getTime()
             }
-            msgObj.push().set(message);
+            msgObj.set(message);
+
             /** Update user message in admin chat list */
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                 message: msg,
