@@ -11,6 +11,7 @@ use App\Services\ReceiptService;
 use Log;
 use Carbon\Carbon;
 use App\Traits\StoreReceiptTrait;
+use App\Jobs\UpdateStatusOnFirebaseJob;
 
 class SubscriptionService
 {
@@ -86,6 +87,7 @@ class SubscriptionService
         Payment::create($paymenFields);
         $user = User::find($subscriptionFields[USER_ID]);
         $user->update([SUBSCRIPTION_STATUS=>SUBSCRIPTION_ENABLED,]);
+        dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
         return $this->getSubscriptionByUserId($subscriptionFields[USER_ID]);
     }
 
@@ -153,6 +155,7 @@ class SubscriptionService
             $user->update([
                 SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
             ]);
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -170,6 +173,7 @@ class SubscriptionService
             $user->update([
                 SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
             ]);
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -213,6 +217,11 @@ class SubscriptionService
             ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
             ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
             ->get();
+    }
+
+    public function getTrialSubscriptionEndBeforeTenDay() {
+        $twentyDaytoday = Carbon::now()->addDays(-20)->format(YMD_FORMAT);
+        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->get();
     }
 
     public function getSubscriptionStatus($userId) {
