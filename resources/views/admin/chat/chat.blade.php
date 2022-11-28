@@ -149,6 +149,7 @@
 
         $(document).on('click', '.user-chat-sec', function(){
             $('.msg-wrapper').html('');
+            $('.empty-msg').html("No Messages Yet");
             $(".user-chat-sec").removeClass("active");
             $(this).addClass("active");
             var userId = $(this).attr("userId");
@@ -171,7 +172,7 @@
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time').limitToLast(10);
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time').limitToLast(20);
             return messageCollection;
         }
 
@@ -326,7 +327,7 @@
                         var userId = $('#receiverName').attr('data-recevierId');
                         var timeKey = $('#receiverName').attr('data-timeKey');
                         var chatNode = userId+'-'+adminId;
-                        var limit = 10;
+                        var limit = 20;
                         var count = 0;
                         var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByKey().endAt(timeKey).limitToFirst(limit);
                         messageCollection.on("value", (snapshot) => {
@@ -345,6 +346,7 @@
                                 }
                                 if(lastData == 1) {
                                     $('.empty-msg').removeClass("d-none");
+                                    $('.empty-msg').html("No More Old Messages");
                                     $('.msg-wrapper').addClass("d-none");
                                 }
                             })
