@@ -2,17 +2,10 @@
 @section('content')
             <div class="main-right-wrapper">
                 <div class="dashboard-container">
-                    <div class="user-management-header">
-                        <div class="btn-group user-btn-group ms-auto">
-                            <span><img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="user-management-header ">
+                        @include('admin.layouts.partials.modal.login-user-dropdown')
                     </div>
-                        <div class="back-sec"><button type="submit" class="btn-hidden"><img src="{{ asset('assets/images/svg/left-arrow.svg')}}" alt="Left arrow" /> Back</button></div>
+                    <div class="back-sec"><button type="submit" class="btn-hidden"><img src="{{ asset('assets/images/svg/left-arrow.svg')}}" alt="Left arrow" /> Back</button></div>
                 </div>
                     <div class="subscription-wrapper">
                         <div class="sub-profile-wrapper">

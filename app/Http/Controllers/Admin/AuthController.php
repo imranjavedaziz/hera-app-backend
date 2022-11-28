@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Url;
 use App\Helpers\Helper;
 use Validator;
+use App\Http\Requests\ChangePasswordRequest;
 
 class AuthController extends AdminController
 {
@@ -62,4 +63,25 @@ class AuthController extends AdminController
 		Auth::logout();
 		return redirect('/'.$this->ADMIN_URL);
 	}
+
+	/**
+     * function used for get
+     * view of change password
+     */
+    public function changePassword()
+	{
+		return view('admin.auth.change-password')->with(['title' => 'Change Password']);
+	}
+
+    /**
+     * @param ChangePasswordRequest $request
+     *
+     * @return array
+     * @throws \Throwable
+     */
+    public function updatePassword(ChangePasswordRequest $request)
+    {
+        return $request->all();
+    }
+
 }

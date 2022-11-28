@@ -1,108 +1,100 @@
 @extends('admin.layouts.admin_base')
 @section('content')
-<div class="main-right-wrapper">
-    <div class="dashboard-container">
+    <div class="main-right-wrapper">
+        <div class="dashboard-container">
             <div class="user-management-header">
-                            <div class="alert alert-success" role="alert" style="display:none;">
-                                <div class="alert-text">
-                                    <span>
-                                        <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
-                                    </span> User has been Deactivated.
-                                </div>
-                                <div class="text-end">
-                                    <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
-                                </div>
-                            </div>
-                            <div class="btn-group user-btn-group ms-auto">
-                                <span>
-                                    <img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                                    </li>
-                                </ul>
-                            </div>
-            </div>
-                        @if ($subscriptionData->count() > 0)
-                        <h1 class="section-title">Subscription (<span>{{$subscriptionData->total()}}</span>)</h1>
-                        @else
-                        <!-- For no Users found -->
-                        <div class="no-users">No Subscribed Users Yet</div>
-                        @endif
+                <div class="alert alert-success" role="alert" style="display:none;">
+                    <div class="alert-text">
+                        <span>
+                            <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
+                        </span> User has been Deactivated.
                     </div>
-                    @if ($subscriptionData->count() > 0)
-                    <!--  Table start from here  -->
-                    <div class="table-container table-container-subscription">
-                        <div class="table-head table-head-user">
-                            <div class="table-row table-row-user">
-                                <div class="th">Name</div>
-                                <div class="th">User Type</div>
-                                <div class="th">Email Address</div>
-                                <div class="th">Subscription Type</div>
-                                <div class="th">Amount</div>
-                                <div class="th">Purchased on</div>
-                                <div class="th">Status</div>
-                                <div class="th">Action</div>
-                            </div>
-                        </div>
-                        <div class="table-body table-body-user">
-                            @if (!empty($subscriptionData) && $subscriptionData->count() > 0)
-                            @foreach($subscriptionData as $subscription)
-                            <?php
-                            $user = $subscription->user;
-                            $subscriptionPlan = $subscription->subscriptionPlan;
-                            $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
-                            $img = $subscription->profile_pic;
-                            $type = ($subscriptionPlan->interval == 'month') ? 'mo' : 'yr';
-                            ?>
-                            <!--  repeat this div  -->
-                            <div class="table-row">
-                                <div class="td">
-                                    <div class="user-title">
-                                        <div class="user-img">
-                                            <div>
-                                                <img src="{{$user->profile_pic}}" alt="user image" />
-                                            </div>
-                                        </div>
-                                        <div class="user-title-info">
-                                            <h5>{{CustomHelper::fullName($user)}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
-                                    <span class="sm-code">{{$user->username}}</span>
-                                </div>
-                                <div class="td">{{$user->email}}</div>
-                                <div class="td">{{$subscriptionPlan->name}}</div>
-                                <div class="td">${{$subscription->price}}/{{$type}}</div>
-                                <div class="td">{{$purchasedDate}}</div>
-                                <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
-                                <div class="td">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
-                                            id="inactive-icon">
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item user-detail" data-id="{{$user->id}}">See Profile</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('userSubscriptionList', ['id' => $user->id]) }}">Payment History</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            @endforeach
-                            @endif
-                        </div>
-                    </div>
-                    @endif
-                    <!-- end table  -->
-                    <div class="pagination-section">
-                       {{ $subscriptionData->links() }}
+                    <div class="text-end">
+                        <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
                     </div>
                 </div>
-    @endsection
-    @include('admin.layouts.partials.modal.user-details')
-    @include('admin.layouts.partials.modal.user-deactivate')
-    @include('admin.layouts.partials.modal.user-delete')
-    @push('after-scripts')
+                @include('admin.layouts.partials.modal.login-user-dropdown')
+            </div>
+            @if ($subscriptionData->count() > 0)
+            <h1 class="section-title">Subscription (<span>{{$subscriptionData->total()}}</span>)</h1>
+            @else
+            <!-- For no Users found -->
+            <div class="no-users">No Subscribed Users Yet</div>
+            @endif
+        </div>
+        @if ($subscriptionData->count() > 0)
+            <!--  Table start from here  -->
+            <div class="table-container table-container-subscription">
+                <div class="table-head table-head-user">
+                    <div class="table-row table-row-user">
+                        <div class="th">Name</div>
+                        <div class="th">User Type</div>
+                        <div class="th">Email Address</div>
+                        <div class="th">Subscription Type</div>
+                        <div class="th">Amount</div>
+                        <div class="th">Purchased on</div>
+                        <div class="th">Status</div>
+                        <div class="th">Action</div>
+                    </div>
+                </div>
+                <div class="table-body table-body-user">
+                    @if (!empty($subscriptionData) && $subscriptionData->count() > 0)
+                    @foreach($subscriptionData as $subscription)
+                    <?php
+                    $user = $subscription->user;
+                    $subscriptionPlan = $subscription->subscriptionPlan;
+                    $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
+                    $img = $subscription->profile_pic;
+                    $type = ($subscriptionPlan->interval == 'month') ? 'mo' : 'yr';
+                    ?>
+                    <!--  repeat this div  -->
+                    <div class="table-row">
+                        <div class="td">
+                            <div class="user-title">
+                                <div class="user-img">
+                                    <div>
+                                        <img src="{{$user->profile_pic}}" alt="user image" />
+                                    </div>
+                                </div>
+                                <div class="user-title-info">
+                                    <h5>{{CustomHelper::fullName($user)}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
+                            <span class="sm-code">{{$user->username}}</span>
+                        </div>
+                        <div class="td">{{$user->email}}</div>
+                        <div class="td">{{$subscriptionPlan->name}}</div>
+                        <div class="td">${{$subscription->price}}/{{$type}}</div>
+                        <div class="td">{{$purchasedDate}}</div>
+                        <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
+                        <div class="td">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
+                                    id="inactive-icon">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item user-detail" data-id="{{$user->id}}">See Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('userSubscriptionList', ['id' => $user->id]) }}">Payment History</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    @endforeach
+                    @endif
+                </div>
+            </div>
+        @endif
+        <!-- end table  -->
+        <div class="pagination-section">
+           {{ $subscriptionData->links() }}
+        </div>
+    </div>
+@endsection
+@include('admin.layouts.partials.modal.user-details')
+@include('admin.layouts.partials.modal.user-deactivate')
+@include('admin.layouts.partials.modal.user-delete')
+@push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function () {
             $(document).on('click', '.user-detail', function(e){

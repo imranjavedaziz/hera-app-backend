@@ -12,30 +12,36 @@
                     <div class="row select-wrapper">
                         <div class="col-6">
                             <div class="select-label">Month</div>
-                            <div class="custom-select">
-                                <!-- default bootstrap select use plz use plugin -->
-                                <select class="form-select" aria-label="Default select example" id="month_select">
-                                    <option value="1" selected>January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
+                            <div class="custome-select-year">
+                                <div class="select">
+                                    <div class="selectBtn active" id="month_select" data-type="{{idate('m')}}">{{date('F')}}</div>
+                                    <div class="selectDropdown">
+                                        <div class="option option1" data-type="1">January</div>
+                                        <div class="option option2" data-type="2">February</div>
+                                        <div class="option option3" data-type="3">March</div>
+                                        <div class="option option4" data-type="4">April</div>
+                                        <div class="option option5" data-type="5">May</div>
+                                        <div class="option option6" data-type="6">June</div>
+                                        <div class="option option7" data-type="7">July</div>
+                                        <div class="option option8" data-type="8">August</div>
+                                        <div class="option option9" data-type="9">September</div>
+                                        <div class="option option10" data-type="10">October</div>
+                                        <div class="option option11" data-type="11">November</div>
+                                        <div class="option option12" data-type="12">December</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="select-label">Year</div>
-                            <div class="custom-select">
-                                <!-- default bootstrap select use plz use plugin -->
-                                <select class="form-select" aria-label="Default select example" id="year_select">
-                                </select>
+                            <div class="custome-select-year">
+                                <div class="select">
+                                    <div class="selectBtn active" id="year_select" data-type="{{date('Y')}}">{{date("Y")}}</div>
+                                    <div class="selectDropdown">
+                                        <div class="option" data-type="{{date('Y')}}">{{date("Y")}}</div>
+                                        <div class="option" data-type="{{date('Y',strtotime('-1 year'))}}">{{date("Y",strtotime("-1 year"))}}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
