@@ -112,7 +112,9 @@
                     $(".user-chat-sec[userid='" + userId + "']").addClass("active");
                     updateUserChatProfile(image, roleData, name, username, userId);
                 }else {
+                    setTimeout(function() {
                     $('.chat-left-containt').children().first().click();
+                }, 1000);
                 }
             });
         }
@@ -169,20 +171,22 @@
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time').limitToLast(10);
             return messageCollection;
         }
 
         function sendMessage(msg,userId) {
             /** Save message */
+            var timestampRow = Date.now();
             var chatNode = userId+'-'+adminId;
-            var msgObj = database.ref(env+'/Messages/'+chatNode)
+            var msgObj = database.ref(env+'/Messages/'+chatNode+ '/' + timestampRow)
             var message = {
                 from : adminId,
                 text: msg,
                 time: new Date().getTime()
             }
-            msgObj.push().set(message);
+            msgObj.set(message);
+
             /** Update user message in admin chat list */
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                 message: msg,
@@ -204,8 +208,12 @@
             $('.empty-msg').removeClass("d-none");
             msgObj.off("child_added");
             $('.msg-wrapper').html('');
+            $('#receiverName').attr('data-timeKey', '')
             msgObj.on("child_added", (snapshot) => {
                 var msgData = snapshot.val();
+                if ($('#receiverName').attr('data-timeKey') == '') {
+                    $('#receiverName').attr('data-timeKey', snapshot.key);
+                }
                 if (msgData) {
                     $('.empty-msg').addClass("d-none");
                     $('.msg-wrapper').removeClass("d-none");
@@ -311,6 +319,38 @@
                         }
                     });
                 }
+
+                $(".msg-wrapper").scroll(function(){
+                    if($(".msg-wrapper").scrollTop() == 0) {
+                        $('.msg-wrapper').html('');
+                        var userId = $('#receiverName').attr('data-recevierId');
+                        var timeKey = $('#receiverName').attr('data-timeKey');
+                        var chatNode = userId+'-'+adminId;
+                        var limit = 10;
+                        var count = 0;
+                        var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByKey().endAt(timeKey).limitToFirst(limit);
+                        messageCollection.on("value", (snapshot) => {
+                            var lastData = snapshot.numChildren();
+                            snapshot.forEach(function(childSnapshot) {
+                                count ++;
+                                var msgData = childSnapshot.val();
+                                if (count == 1) {
+                                    $('#receiverName').attr('data-timeKey', childSnapshot.key);
+                                }
+                                if (msgData && count != limit && (childSnapshot.key != timeKey)) {
+                                    $('.empty-msg').addClass("d-none");
+                                    $('.msg-wrapper').removeClass("d-none");
+                                    $('.msg-wrapper').append(checkMessage(msgData));
+                                    $(".msg-wrapper").animate({ scrollTop: $('.msg-wrapper').prop("scrollHeight")}, 100);
+                                }
+                                if(lastData == 1) {
+                                    $('.empty-msg').removeClass("d-none");
+                                    $('.msg-wrapper').addClass("d-none");
+                                }
+                            })
+                        })
+                    }
+                });
         });
 
         function getChatDate(unixTimeStamp) {
