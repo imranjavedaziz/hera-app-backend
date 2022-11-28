@@ -101,7 +101,7 @@ class CustomHelper
         return number_format($totalAmount, 2, '.', '');
     }
     
-    public function getDeleteInactiveMsg($user){
+    public static function getDeleteInactiveMsg($user){
         switch ($user) {
             case ($user->deleted_by == ONE && $user->deleted_at != null):
                 $message = trans('messages.user_account_deleted_by_admin');

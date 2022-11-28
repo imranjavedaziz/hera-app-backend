@@ -11,6 +11,7 @@ use DB;
 use App\Helpers\AuthHelper;
 use Log;
 use App\Http\Requests\SubscriptionRequest;
+use App\Models\Subscription;
 
 class SubscriptionController extends Controller
 {
@@ -165,7 +166,11 @@ class SubscriptionController extends Controller
     public function getSubscriptionStatus(Request $request)
     {
         try {
-            $response = response()->Success(trans('messages.common_msg.data_found'), SubscriptionService::getSubscriptionStatus(AuthHelper::authenticatedUser()->id));
+            $userId = AuthHelper::authenticatedUser()->id;
+            $status = SubscriptionService::getSubscriptionStatus($userId);
+            $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
+            $isTrial = !empty($subscription) ? false : true;
+            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $status, 'is_trial' => $isTrial]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
