@@ -433,7 +433,7 @@ class AuthController extends Controller
             $user->save();
             dispatch(new PasswordResetJob($user));
             DB::commit();
-            $response = response()->Success(__('messages.reset_password_success'));
+            $response = response()->Success(__('messages.change_password.change_password_success'));
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
