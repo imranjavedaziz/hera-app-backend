@@ -120,6 +120,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
             Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
             Route::post('set-preferences', [UserController::class, 'setPreferences']);
+            Route::get('get-preferences', [UserController::class, 'getPreferences']);
             Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
             Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);

@@ -931,7 +931,7 @@ class UserController extends Controller
     public function getAttributes()
     {
         try {
-            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->donerAttribute());
+            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->donerAttribute);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -970,7 +970,7 @@ class UserController extends Controller
     public function getPreferences()
     {
         try {
-            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->parentsPreference());
+            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->parentsPreference);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
