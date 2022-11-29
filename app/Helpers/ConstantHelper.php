@@ -473,3 +473,5 @@ define('YEARLY_IOS_PRODUCT', "com.HeraDev.Yearly");
 define('YEARLY_ANDROID_PRODUCT', "");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
+
+define('RECIEVER_SUBSCRIPTION', "recieverSubscription");
