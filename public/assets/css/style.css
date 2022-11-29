@@ -2043,5 +2043,11 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     position: absolute;
     top: 80px;
     right: 100px; }
+span.invalid-field.text-right.floatingPassword.invalid-instruction {
+    bottom: -62px;
+}
+.form-floating.mb-5.position-relative.mb-span {
+    margin-bottom: 4rem !important;
+}
 /*# sourceMappingURL=style.css.map */
   

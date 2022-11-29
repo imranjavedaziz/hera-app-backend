@@ -21,29 +21,28 @@
                   <form class="login-container" id="changePassword" action="{{  route('update-password')}}" method="POST" >
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-floating mb-5 position-relative">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Current Password" maxlength="10" name="current_password">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Current Password" maxlength="10" name="current_password" value="{{ old('current_password') }}">
                         <label for="floatingPassword">Current Password</label>
-                        <span class="invalid-field text-right">Required</span>
+                        @if($errors->has('current_password'))
+                          <span class="invalid-field text-right floatingPassword invalid-instruction">dhfgdfsa</span>
+                        @endif
                         <img src="{{ asset('/assets/images/svg/eye-open.svg')}}" class="eye-img" alt="Image">
                     </div>
                     <div class="form-floating mb-5 position-relative">
-                      <input type="password" class="form-control" id="floatingPassword2" placeholder="New Password" name="new_password">
+                      <input type="password" class="form-control" id="floatingNewPassword" placeholder="New Password" name="new_password" value="{{ old('new_password') }}">
                       <label for="floatingPassword">New Password</label>
-                      <span class="invalid-field text-right">Required</span>
-                  </div>
-                  <div class="form-floating position-relative">
-                    <input type="password" class="form-control" id="floatingPassword3" placeholder="Confirm Password" name="confirm_password">
-                    <label for="floatingPassword">Confirm Password</label>
-                    <span class="invalid-field text-right">Required</span>
-                </div>
-
-
+                      <span class="invalid-field text-right floatingNewPassword invalid-instruction"></span>
+                    </div>
+                    <div class="form-floating position-relative">
+                      <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password" name="confirm_password" value="{{ old('confirm_password') }}">
+                      <label for="floatingPassword">Confirm Password</label>
+                      <span class="invalid-field text-right floatingConfirmPassword invalid-instruction"></span>
+                    </div>
                     <div class="login-button">
                       <button class="btn-primary btn-login" type="submit">
                         SAVE
                       </button>
                     </div>
-
                   </form>
                 </div>
               </div>
