@@ -316,6 +316,7 @@ define('CURRENT_PASSWORD', 'current_password');
 define('NEW_PASSWORD', 'new_password');
 define('CONFIRM_PASSWORD', 'confirm_password');
 define('CONFIRM_NEW_PASSWORD', 'confirm_new_password');
+define('SUBSCRIPTION', 'subscription');
 
 //define doner attributes relationship and function constants
 define('MOTHER_ETHNICITY', 'mother_ethnicity');

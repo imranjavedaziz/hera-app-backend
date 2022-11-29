@@ -311,3 +311,88 @@
       display: none;
     }
   }
+.custome-select-year{
+    .select {
+        position: relative;
+        margin-bottom: 15px;
+        width: 170px;
+        // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .select .selectBtn {
+        background-color: #f7f5f0;
+        padding-left: 0;
+        border-radius: 0;
+        @include font-bold(16px, normal);
+        color: #353a3a;
+        border-bottom: solid 2px #e4e2d8;
+        padding: 15px 0;
+        box-sizing: border-box;
+        width: 100%;
+        cursor: pointer;
+        position: relative;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+        &.active{
+            border-bottom: solid 2px #5abcec;
+        }
+      }
+      .select .selectBtn:after {
+        content: "";
+        position: absolute;
+        top: 45%;
+        right: 5px;
+        width: 10px;
+        height: 10px;
+        -webkit-transform: translateY(-50%) rotate(45deg);
+                transform: translateY(-50%) rotate(45deg);
+        border-right: 2px solid #666;
+        border-bottom: 2px solid #666;
+        transition: 0.2s ease;
+      }
+      .select .selectBtn.toggle {
+        border-radius: 3px 3px 0 0;
+      }
+      .select .selectBtn.toggle:after {
+        -webkit-transform: translateY(-50%) rotate(-135deg);
+                transform: translateY(-50%) rotate(-135deg);
+      }
+      .select .selectDropdown {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        border-radius: 0 0 3px 3px;
+        overflow: hidden;
+        // background: var(--bg1);
+        border-top: 1px solid #eee;
+        z-index: 1;
+        background: #fff;
+        -webkit-transform: scale(1, 0);
+                transform: scale(1, 0);
+        -webkit-transform-origin: top center;
+                transform-origin: top center;
+        visibility: hidden;
+        transition: 0.2s ease;
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+        height: 138px;
+        overflow: auto;
+        padding: 10px 0;
+      }
+      .select .selectDropdown .option {
+        padding: 11px 20px;
+        box-sizing: border-box;
+        cursor: pointer;
+        @include font-regular(14px, normal);
+        color: #353a3a;
+      }
+      .select .selectDropdown .option:hover {
+        background: #f8f8f8;
+      }
+      .select .selectDropdown.toggle {
+        visibility: visible;
+        -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+      }
+      
+  }

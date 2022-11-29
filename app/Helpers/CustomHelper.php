@@ -88,14 +88,6 @@ class CustomHelper
         return Status::getStatusById($id);
     }
 
-    public static function get_local_time(){
-        $ip = file_get_contents("http://ipecho.net/plain");
-        $url = 'http://ip-api.com/json/'.$ip;
-        $tz = file_get_contents($url);
-        $tz = json_decode($tz,true)['timezone'];
-        return $tz;
-    }
-
     public static function totalSubscriptionAmountDeduct($deviceType, $amount) {
         $totalAmount = ($deviceType == 'ios') ? $amount - ($amount  * APPLE_CHARGES /100) : $amount - ($amount  * GOOGLE_CHARGES /100);
         return number_format($totalAmount, 2, '.', '');
