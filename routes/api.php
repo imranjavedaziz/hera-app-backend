@@ -73,16 +73,16 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
-    Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
-    Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
-    Route::post('match-password', [AuthController::class, 'matchPassword']);
-    Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
+        Route::get('refresh-token', [AuthController::class, 'refreshToken']);
+        Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
+        Route::post('match-password', [AuthController::class, 'matchPassword']);
+        Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
         Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
         Route::get('logout', [AuthController::class, 'logout']);

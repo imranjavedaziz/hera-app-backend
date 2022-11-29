@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Url;
 use App\Helpers\Helper;
 use Validator;
+use App\Http\Requests\ChangePasswordRequest;
 
 class AuthController extends AdminController
 {
@@ -62,4 +63,51 @@ class AuthController extends AdminController
 		Auth::logout();
 		return redirect('/'.$this->ADMIN_URL);
 	}
+
+	/**
+     * function used for get
+     * view of change password
+     */
+    public function changePassword()
+	{
+		return view('admin.auth.change-password')->with(['title' => 'Change Password']);
+	}
+
+    /**
+     * @param ChangePasswordRequest $request
+     *
+     * @return array
+     * @throws \Throwable
+     */
+    public function updatePassword(ChangePasswordRequest $request)
+    {
+        return $request->all();
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+            $user = AuthHelper::authenticatedUser();
+            if (!empty($user)) {
+                if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
+                    if(!Hash::check($input[NEW_PASSWORD], $user->password)){
+                        $user->password = bcrypt($input[NEW_PASSWORD]);
+                        $user->save();
+                        DB::commit();
+                        $response = response()->Success(trans('messages.change_password.change_password_success'));
+                    }else{
+                        $response = response()->Error(trans('messages.change_password.new_password_can_not_be_old_password'));
+                    }
+                } else {
+                    $response = response()->Error(trans('messages.change_password.old_password_does_not_match'));
+                }
+            }else{
+                $response = response()->Error(trans('messages.change_password.invalid_authentication'));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = $this->response->array([SUCCESS => false, MESSAGE => $e->getMessage()]);
+        }
+
+        return $response;
+    }
+
 }
