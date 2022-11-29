@@ -235,7 +235,7 @@ class SubscriptionService
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
-            if ($subscription !== null && $subscription->status == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
+            if ($subscription !== null && $subscription->status_id == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
                 $status = SUBSCRIPTION_ENABLED;
             }
         }
