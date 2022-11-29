@@ -86,7 +86,8 @@ class SubscriptionService
         $paymenFields = $this->setSubPaymentFields($newSubscription);
         Payment::create($paymenFields);
         $user = User::find($subscriptionFields[USER_ID]);
-        $user->update([SUBSCRIPTION_STATUS=>SUBSCRIPTION_ENABLED,]);
+        $user->subscription_status = SUBSCRIPTION_ENABLED;
+        $user->save();
         dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
         return $this->getSubscriptionByUserId($subscriptionFields[USER_ID]);
     }

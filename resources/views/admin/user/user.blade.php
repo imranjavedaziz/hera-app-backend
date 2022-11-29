@@ -13,15 +13,7 @@
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
                     </div>
                 </div>
-                <div class="btn-group user-btn-group ms-auto">
-                    <span>
-                        <img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                        </li>
-                    </ul>
-                </div>
+                @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             @if ($userData->count() > 0)
             <h1 class="section-title">All Users (<span>{{$userData->total()}}</span>)</h1>
@@ -280,7 +272,7 @@
                             $('.modal-deactivate'+id).attr('data-status' , status_replace)
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
@@ -322,7 +314,7 @@
                             }, 1000);
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
