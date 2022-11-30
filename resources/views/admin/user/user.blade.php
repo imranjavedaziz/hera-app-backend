@@ -3,11 +3,11 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" display: none">
+                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
                     <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
-                        </span> <span id="deactivate-msg"></span>
+                        </span> <span id="deactivate-msg">@if(session()->get('flash_success')) {{ session()->get('flash_success') }} @endif</span>
                     </div>
                     <div class="text-end">
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
@@ -109,6 +109,9 @@
 @push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function () {
+            @if(session()->get('flash_success'))
+                $("#deactivate-msg-box").delay(3000).fadeOut(800);
+            @endif
             $(document).on('click', '.open-detail-modal', function(e){
                 e.preventDefault();
                 var id = $(this).attr("data-id");
@@ -251,9 +254,7 @@
                         200: function (data) {
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
-                            setTimeout(function() {
-                                $("#deactivate-msg-box").hide()
-                            }, 5000);
+                            $("#deactivate-msg-box").delay(3000).fadeOut(800);
                             if(status == 2){
                                 $("#inactive-user"+id).html('Inactive<br><span>(By Admin)</span>');
                                 $("#inactive-user"+id).removeClass("d-none");
@@ -309,9 +310,9 @@
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {
-                                $("#deactivate-msg-box").hide();
+                                $("#deactivate-msg-box").fadeOut();
                                 location.reload()
-                            }, 1000);
+                            }, 2000);
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {

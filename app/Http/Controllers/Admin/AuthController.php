@@ -14,7 +14,9 @@ use App\Models\User;
 use App\Url;
 use App\Helpers\Helper;
 use Validator;
-use App\Http\Requests\ChangePasswordRequest;
+use DB;
+use Hash;
+use App\Jobs\PasswordChangeJob;
 
 class AuthController extends AdminController
 {
@@ -74,37 +76,42 @@ class AuthController extends AdminController
 	}
 
     /**
-     * @param ChangePasswordRequest $request
+     * @param Request $request
      *
      * @return array
      * @throws \Throwable
      */
-    public function updatePassword(ChangePasswordRequest $request)
+    public function updatePassword(Request $request)
     {
-        return $request->all();
         try {
             DB::beginTransaction();
-            $input = $request->all();
-            $user = AuthHelper::authenticatedUser();
-            if (!empty($user)) {
-                if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
-                    if(!Hash::check($input[NEW_PASSWORD], $user->password)){
-                        $user->password = bcrypt($input[NEW_PASSWORD]);
-                        $user->save();
-                        DB::commit();
-                        $response = response()->Success(trans('messages.change_password.change_password_success'));
-                    }else{
-                        $response = response()->Error(trans('messages.change_password.new_password_can_not_be_old_password'));
-                    }
-                } else {
-                    $response = response()->Error(trans('messages.change_password.old_password_does_not_match'));
-                }
-            }else{
-                $response = response()->Error(trans('messages.change_password.invalid_authentication'));
-            }
+            # Validation
+	        $validate = Validator::make($request->all(), [
+	            CURRENT_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+	            NEW_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+	            CONFIRM_PASSWORD => 'bail|required|same:new_password',
+	        ]);    
+			if($validate->fails())
+			{
+				return back()->withInput()->withErrors($validate);
+			}
+
+	        $user = auth()->user();
+	        if(!Hash::check($request->current_password, $user->password)){
+	        	$response = back()->withInput()->withErrors([ERROR =>__('messages.change_password.old_password_does_not_match')]);
+	        }elseif(Hash::check($request->new_password, $user->password)) {
+	        	$response = back()->withInput()->withErrors([ERROR =>__('messages.change_password.new_password_can_not_be_old_password')]);
+	        }else{
+	        	#Update the new Password
+		        $user->password = bcrypt($request->new_password);
+                $user->save();
+                DB::commit();
+            	dispatch(new PasswordChangeJob($user));
+		        $response = redirect($this->ADMIN_URL.'/user-management')->withFlashSuccess(trans('messages.change_password.change_password_success'));
+	        }
         } catch (\Exception $e) {
             DB::rollback();
-            $response = $this->response->array([SUCCESS => false, MESSAGE => $e->getMessage()]);
+        	$response = back()->withInput()->withErrors([ERROR => $e->getMessage()]);
         }
 
         return $response;
