@@ -29,6 +29,7 @@ use App\Constants\MobileVerificationType;
 use DB;
 use Carbon\Carbon;
 use App\Helpers\CustomHelper;
+use App\Jobs\SendDeactiveDeleteUserJob;
 
 class AuthController extends Controller
 {
@@ -547,6 +548,7 @@ class AuthController extends Controller
             $user = AuthHelper::authenticatedUser();
             UserRegisterService::updateUserAccountStatus($user->id, $request->all());
             DB::commit();
+            dispatch(new SendDeactiveDeleteUserJob($user->id, $request->status_id));
             dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
             $response = response()->Success($msg);
         } catch (\Exception $e) {
@@ -674,6 +676,7 @@ class AuthController extends Controller
                 $user->status_id = DELETED;
                 $user->deleted_by = TWO;
                 $user->save();
+                dispatch(new SendDeactiveDeleteUserJob($user->id, DELETED));
                 dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
                 $response = response()->Success(__('messages.account_delete_success'));
             } else {
