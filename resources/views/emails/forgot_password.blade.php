@@ -27,17 +27,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-					You have changed your password successfully.
-	            </tr>
-	            <tr>
-	                <td style="font-size: 13px; padding: 0 40px 30px 40px; color: #ff4544;">
-					If you did change password, no further action is required.
-	                </td>
-	            </tr>
-	            <tr>
-	                <td style="font-size: 16px; padding: 0 40px 27px 40px; font-weight: bold; line-height: 25px;">
-					If you did not change password, protect your account.
-	                </td>
+					Your HERA account's password has been changed successfully. Incase, this was not you, please contact admin for support.
 	            </tr>
 	            <tr>
 	                <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 17px;">
