@@ -48,6 +48,7 @@ define('PTB', '1');
 define('DONAR', '2');
 define('LIKE', 'like');
 define('MATCH_REQUEST', 'match_request');
+define('ERROR', 'error');
 
 //request status code
 define('HTTP_DELETED_ACCOUNT', 402);

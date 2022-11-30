@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been permanently deleted by Admin & can never be restored. We hope you enjoyed you time on HERA and are looking forward to welcoming you back.
+                        Your HERA account has been successfully deactivated. Your account will get reactivated when you login again, using the same credentials. Until then, your profile will be shown as "Inactive User" to your existing connections & your profile will not appear in searches.
                     </td>
                 </tr>
                 <tr>

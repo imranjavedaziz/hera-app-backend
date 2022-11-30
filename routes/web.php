@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\SubscriptionController;
-use App\Http\Controllers\Api\UserController as ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +31,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::group([ MIDDLEWARE =>['admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);
         Route::get('change-password', [AuthController::class,'changePassword'])->name('change-password');
-        Route::post('update-password', [ChangePasswordController::class, 'changePassword'])->name('update-password');
+        Route::post('update-password', [AuthController::class, 'updatePassword'])->name('update-password');
         Route::get('user-management', [UserController::class,'index'])->name('userList');
         Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
         Route::put('/user/change-status/{id}', [UserController::class, 'changeStatus'])->name('user.status');
