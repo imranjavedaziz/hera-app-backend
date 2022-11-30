@@ -32,6 +32,7 @@ $(document).ready(function () {
     $(document).on('focus','input', function (e) {
         var id = $(this).attr('id')
         $("."+id).hide();
+        $('#'+id).removeClass('error')
     });
 });
 
@@ -43,11 +44,14 @@ function password_check(id) {
   console.log(lable_text);
   if(pass.length == 0) {
     $("."+id).show();
+    $("#"+id).addClass('error')
     $("."+id).text("Please enter "+ lable_text.toLowerCase());
   } else if(regex.exec(pass.charAt(0)) == null) {
     $("."+id).show();
+    $("#"+id).addClass('error')
     $("."+id).text(lable_text + " should start with an alphabet");
   } else {
     $("."+id).hide();
+    $('#modal-deactivate').removeClass('error')
   }
 }
