@@ -230,6 +230,7 @@
                         "admin_reply": admin_reply,
                     },
                     beforeSend: function () {
+                        $('#modalInquiriesDetails').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -237,20 +238,11 @@
                     },
                     statusCode: {
                         200: function (msg) {
-                            var reply_date = moment.utc(msg.data.replied_at).local().format();
-                            console.log(msg.data.admin_reply);
-                            $('.replies').show()
-                            $('.replies span').html(new Date(reply_date).toLocaleString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric'
-                            }))
-                            $('.thanks').show()
-                            $('.thanks').html(msg.data.admin_reply)
-                            $('.replied_note').show();
-                            $('.inquiries-search-sec').hide();
-                            $('.reply_note').hide();
-                            $('.reply-btn').html('REPLIED');
+                            $('#deactivate-msg').html(msg.message);
+                            $("#deactivate-msg-box").show();
+                            setTimeout(function() {
+                                $("#deactivate-msg-box").fadeOut();
+                            }, 2000);
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
