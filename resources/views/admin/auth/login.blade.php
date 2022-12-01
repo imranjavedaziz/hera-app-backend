@@ -23,16 +23,16 @@
 
             <div class="login-form" >
               <div class="signin-section">
-                <h1 class="signin-title">Sign In</h1>
+                <h1 class="signin-title mb-5">Sign In</h1>
                 <div class="login-form-wrapper">
                   <form class="login-container" method="post"  action="{{ route('login') }}">
                   {{ csrf_field() }}
-                    <div class="form-floating mb-4 position-relative">
+                    <div class="form-floating input-height">
                         <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">Email Address</label>
                         <span class="invalid-field text-right">@if ($errors->has('email')){{ $errors->first('email') }}@endif </span>
                     </div>
-                    <div class="form-floating position-relative">
+                    <div class="form-floating input-height">
                         <input type="password" name="password" value="{{ old('password') }}" class="form-control" id="floatingPassword" placeholder="Password">
                         <label for="floatingPassword">Password</label>
                         <span class="invalid-field text-right">@if ($errors->has('password')){{ $errors->first('password') }}@endif</span>

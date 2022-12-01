@@ -121,7 +121,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             @if(session()->get('flash_success'))
-                $("#deactivate-msg-box").delay(3000).fadeOut(800);
+                $("#deactivate-msg-box").delay(3000);
             @endif
             $(document).on('click', '.open-detail-modal', function(e){
                 e.preventDefault();

@@ -11,14 +11,16 @@ class EmailActivatedByAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
+    public $isAdmin;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $isAdmin = false)
     {
         $this->user = $user;
+        $this->isAdmin = $isAdmin;
     }
 
     /**
@@ -28,6 +30,7 @@ class EmailActivatedByAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Account reactivated")->view('emails.email-activated-by-admin');
+        $title = ($this->isAdmin) ? 'Account reactivated' : 'Account reactivated successfully!' ;
+        return $this->subject("HERA | ".$title)->view('emails.email-activated-by-admin');
     }
 }

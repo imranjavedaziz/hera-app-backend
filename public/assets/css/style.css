@@ -1133,9 +1133,6 @@ input[type=number]::-webkit-outer-spin-button {
       padding: 9px 0;
       margin-left: -2px; }
     .signin-container .login-form .login-form-wrapper .invalid-field {
-      position: absolute;
-      bottom: -25px;
-      right: 0;
       color: #ff4544;
       font-family: 'Open Sans', sans-serif;
       font-weight: 400;
@@ -1145,12 +1142,13 @@ input[type=number]::-webkit-outer-spin-button {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale; }
     .signin-container .login-form .login-form-wrapper .eye-img {
+      cursor: pointer;
       position: absolute;
-      bottom: 13px;
+      top: 15px;
       right: 0; }
     .signin-container .login-form .login-form-wrapper .login-button {
       text-align: center;
-      margin-top: 50px; }
+      margin-top: 10px; }
 
 .form-control {
   border: unset;
@@ -1720,10 +1718,7 @@ input[type=number]::-webkit-outer-spin-button {
     .chat-wrapper .chat-wrapper-right .chat-header {
       border-bottom: 1px solid rgba(228, 226, 216, 0.34);
       padding: 16px 42px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0; }
+      }
       .chat-wrapper .chat-wrapper-right .chat-header .user-chat-profile {
         display: flex; }
         .chat-wrapper .chat-wrapper-right .chat-header .user-chat-profile .profile-logo {
@@ -1759,8 +1754,8 @@ input[type=number]::-webkit-outer-spin-button {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale; }
     .chat-wrapper .chat-wrapper-right .chat-container {
-      padding: 85px 0 100px 76px;
-      height: 100%;
+      padding: 17px 0 0 76px;
+      height: calc(100% - 207px);
       overflow: hidden; }
       .chat-wrapper .chat-wrapper-right .chat-container .empty-msg {
         height: 100%;
@@ -1835,10 +1830,6 @@ input[type=number]::-webkit-outer-spin-button {
             color: #ada99f;
             text-align: end; }
     .chat-wrapper .chat-wrapper-right .chat-footer {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
       background-color: #fff;
       height: 92px;
       padding: 10px 45px 37px 34px; }
@@ -2048,6 +2039,22 @@ span.invalid-field.text-right.floatingPassword.invalid-instruction {
 }
 .form-floating.mb-5.position-relative.mb-span {
     margin-bottom: 4rem !important;
+}
+
+.signin-container .login-form .login-form-wrapper .input-height {
+  position: relative;
+  min-height: 97px; }
+
+.signin-container .login-form .login-form-wrapper .input-height input {
+  margin-bottom: 3px; }
+input::-webkit-textfield-decoration-container {
+  display: none;
+}
+
+input::-webkit-search-cancel-button{
+  visibility: hidden;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .table-row.delete-user-opacity {
     opacity: 0.5;
