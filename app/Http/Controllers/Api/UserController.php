@@ -1185,7 +1185,10 @@ class UserController extends Controller
             }
             DB::beginTransaction();
             $user = UserRegisterService::sendEmailVerification(AuthHelper::authenticatedUser());
-            $response = response()->Success( __('messages.verify_email_send_success'), $user);
+            if(!$user[STATUS]){
+                return $user;
+            }
+            $response = response()->Success( __('messages.verify_email_send_success'), $user[STATUS]);
             DB::commit();
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
