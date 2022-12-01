@@ -88,25 +88,26 @@ class CustomHelper
         return Status::getStatusById($id);
     }
 
-    public static function get_local_time(){
-        $ip = file_get_contents("http://ipecho.net/plain");
-        $url = 'http://ip-api.com/json/'.$ip;
-        $tz = file_get_contents($url);
-        $tz = json_decode($tz,true)['timezone'];
-        return $tz;
+    public static function totalSubscriptionAmountDeduct($deviceType, $amount) {
+        $totalAmount = ($deviceType == 'ios') ? $amount - ($amount  * APPLE_CHARGES /100) : $amount - ($amount  * GOOGLE_CHARGES /100);
+        return number_format($totalAmount, 2, '.', '');
     }
-
-    public static function getSubscriptionStatus($statusId) {
-        switch ($statusId) {
-            case SUBSCRIPTION_DISABLED:
-              $status = 'In Active';
-              break;
-            case SUBSCRIPTION_ENABLED:
-                $status = 'Active';
-              break;
+    
+    public static function getDeleteInactiveMsg($user){
+        switch ($user) {
+            case ($user->deleted_by == ONE && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted_by_admin');
+                break;
+            case ($user->deleted_by == TWO && $user->deleted_at != null):
+                $message = trans('messages.user_account_deleted');
+                break;
+            case ($user->deactivated_by == ONE):
+                $message = trans('messages.user_account_deactivated_by_admin');
+                break;
             default:
-            $status = 'Trial';
-          }
-          return $status;
-     }
+                $message = trans('messages.invalid_user_pass');
+                break;
+        }
+        return $message;
+    }
 }

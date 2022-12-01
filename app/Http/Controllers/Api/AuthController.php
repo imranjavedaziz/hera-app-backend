@@ -28,6 +28,8 @@ use App\Jobs\UpdateStatusOnFirebaseJob;
 use App\Constants\MobileVerificationType;
 use DB;
 use Carbon\Carbon;
+use App\Helpers\CustomHelper;
+use App\Jobs\SendDeactiveDeleteUserJob;
 
 class AuthController extends Controller
 {
@@ -96,14 +98,19 @@ class AuthController extends Controller
                 PHONE_NO => $request->phone_no,
                 PASSWORD => $request->password,
                 ROLE_ID => [PARENTS_TO_BE, SURROGATE_MOTHER, EGG_DONER, SPERM_DONER],
+                DELETED_AT => NULL
             ];
-            $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->first();
+            $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->whereNull(DELETED_AT)->first();
             if (empty($user)) {
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
-            $message = $this->getDeleteInactiveMsg($user);
+            $message = CustomHelper::getDeleteInactiveMsg($user);
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
                 if (($user->status_id === ACTIVE || $user->status_id === INACTIVE ) && $user->deactivated_by != ONE) {
+                    if ($user->status_id === INACTIVE) {
+                        User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
+                        dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
+                    }
                     $user->access_token = $oauth_token;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
@@ -117,24 +124,6 @@ class AuthController extends Controller
         }
     
         return $response;
-    }
-
-    private function getDeleteInactiveMsg($user){
-        switch ($user) {
-            case ($user->deleted_by == ONE && $user->deleted_at != null):
-                $message = trans('messages.user_account_deleted_by_admin');
-                break;
-            case ($user->deleted_by == TWO && $user->deleted_at != null):
-                $message = trans('messages.user_account_deleted');
-                break;
-            case ($user->deactivated_by == ONE):
-                $message = trans('messages.user_account_deactivated_by_admin');
-                break;
-            default:
-                $message = trans('messages.invalid_user_pass');
-                break;
-        }
-        return $message;
     }
 
     /**
@@ -450,7 +439,7 @@ class AuthController extends Controller
             $user->save();
             dispatch(new PasswordResetJob($user));
             DB::commit();
-            $response = response()->Success(__('messages.reset_password_success'));
+            $response = response()->Success(__('messages.change_password.change_password_success'));
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
@@ -564,6 +553,7 @@ class AuthController extends Controller
             $user = AuthHelper::authenticatedUser();
             UserRegisterService::updateUserAccountStatus($user->id, $request->all());
             DB::commit();
+            dispatch(new SendDeactiveDeleteUserJob($user->id, $request->status_id));
             dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
             $response = response()->Success($msg);
         } catch (\Exception $e) {
@@ -691,6 +681,7 @@ class AuthController extends Controller
                 $user->status_id = DELETED;
                 $user->deleted_by = TWO;
                 $user->save();
+                dispatch(new SendDeactiveDeleteUserJob($user->id, DELETED));
                 dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
                 $response = response()->Success(__('messages.account_delete_success'));
             } else {

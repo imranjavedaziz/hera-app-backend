@@ -137,7 +137,7 @@ class UserController extends Controller
             $user = UserRegisterService::register($request->all());
             if ($user) {
                 DB::commit();
-                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password]);
+                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password, DELETED_AT => NULL]);
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
@@ -940,6 +940,45 @@ class UserController extends Controller
     
     /**
      * @OA\Get(
+     *      path="/v1/get-preferences",
+     *      operationId="get-preferences",
+     *      tags={"User"},
+     *      summary="get-preferences",
+     *      description="get-preferences",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getPreferences()
+    {
+        try {
+            $response = response()->Success(trans(LANG_DATA_FOUND), AuthHelper::authenticatedUser()->parentsPreference);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * @OA\Get(
      *      path="/v1/get-user-profile",
      *      operationId="get-user-profile",
      *      tags={"User"},
@@ -1146,7 +1185,10 @@ class UserController extends Controller
             }
             DB::beginTransaction();
             $user = UserRegisterService::sendEmailVerification(AuthHelper::authenticatedUser());
-            $response = response()->Success( __('messages.verify_email_send_success'), $user);
+            if(!$user[STATUS]){
+                return $user;
+            }
+            $response = response()->Success( __('messages.verify_email_send_success'), $user[STATUS]);
             DB::commit();
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());

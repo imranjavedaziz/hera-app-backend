@@ -3,25 +3,17 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" display: none">
+                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
                     <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
-                        </span> <span id="deactivate-msg"></span>
+                        </span> <span id="deactivate-msg">@if(session()->get('flash_success')) {{ session()->get('flash_success') }} @endif</span>
                     </div>
                     <div class="text-end">
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
                     </div>
                 </div>
-                <div class="btn-group user-btn-group ms-auto">
-                    <span>
-                        <img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                        </li>
-                    </ul>
-                </div>
+                @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             @if ($userData->count() > 0)
             <h1 class="section-title">All Users (<span>{{$userData->total()}}</span>)</h1>
@@ -90,8 +82,8 @@
                                         id="inactive-icon">
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    @if($user->role_id != 2)
-                                        <li><a class="dropdown-item" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
+                                    @if($user->role_id != 2 && $user->status_id == 1)
+                                        <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
                                     @endif
                                     @if($user->deleted_at == null)
                                         <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
@@ -115,8 +107,13 @@
 @endsection
 
 @push('after-scripts')
+
+    <script src="{{ asset('assets/lightbox/lightboxed.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            @if(session()->get('flash_success'))
+                $("#deactivate-msg-box").delay(3000).fadeOut(800);
+            @endif
             $(document).on('click', '.open-detail-modal', function(e){
                 e.preventDefault();
                 var id = $(this).attr("data-id");
@@ -190,7 +187,7 @@
                             var img = '';
                             msg.doner_photo_gallery.forEach(function(doner_photo_gallery) {
                                 var path = doner_photo_gallery.file_url;
-                                img = img.concat('<img src="'+path+'" alt="Image">');
+                                img = img.concat('<img class="lightboxed" rel="group1" src="'+path+'" alt="Image" data-link="'+path+'" data-width="560" data-height="315" >');
                             });
                             $('.img-wrapper').html(img)
                         }else{
@@ -259,9 +256,7 @@
                         200: function (data) {
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
-                            setTimeout(function() {
-                                $("#deactivate-msg-box").hide()
-                            }, 5000);
+                            $("#deactivate-msg-box").delay(3000).fadeOut(800);
                             if(status == 2){
                                 $("#inactive-user"+id).html('Inactive<br><span>(By Admin)</span>');
                                 $("#inactive-user"+id).removeClass("d-none");
@@ -269,18 +264,20 @@
                                 $("#active-user"+id).removeClass("d-block");
                                 $("#active-user"+id).addClass("d-none");
                                 $(".modal-deactivate"+id).html("Activate User");
+                                $(".send-message").addClass("d-none");
                             }else{
                                 $("#active-user"+id).removeClass("d-none");
                                 $("#active-user"+id).addClass("d-block");
                                 $("#inactive-user"+id).removeClass("d-block");
                                 $("#inactive-user"+id).addClass("d-none");
                                 $(".modal-deactivate"+id).html("Deactivate User");
+                                $(".send-message").removeClass("d-none");
                             }
                             var status_replace = (status == 2) ? "1" : "2"
                             $('.modal-deactivate'+id).attr('data-status' , status_replace)
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
@@ -317,12 +314,12 @@
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
                             setTimeout(function() {
-                                $("#deactivate-msg-box").hide();
+                                $("#deactivate-msg-box").fadeOut();
                                 location.reload()
-                            }, 1000);
+                            }, 2000);
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }

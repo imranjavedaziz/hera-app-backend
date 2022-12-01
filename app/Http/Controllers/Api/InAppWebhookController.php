@@ -15,8 +15,8 @@ class InAppWebhookController extends Controller
     public function iosSubscriptionEvent(Request $request)
     {
         try {
+            Log::info("Ios web hook calling :". json_encode($request->all()));
             SubscriptionService::updateIosSubscription($request->all());
-
         } catch(\Exception $e) {
             Log::error("In-App Exception : " . json_encode($e->getMessage()));
             http_response_code(400);

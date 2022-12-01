@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been permanently deleted by Admin & can never be restored. We hope you enjoyed you time on HERA and are looking forward to welcoming you back.
+                        Your HERA account has been permanently deleted & cannot be restored. We hope you enjoyed you time on HERA and are looking forward to welcoming you back.
                     </td>
                 </tr>
                 <tr>

@@ -7,10 +7,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailDeactivatedByAdminMail extends Mailable
+class PasswordChangeMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+
+    protected $user;
+
     /**
      * Create a new message instance.
      *
@@ -28,6 +30,8 @@ class EmailDeactivatedByAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Account deactivated")->view('emails.email-deactivated-by-admin');
+        return $this->subject("Password changed successfully")->view('emails.password_change_success', [
+            'user' => $this->user,
+        ]);
     }
 }

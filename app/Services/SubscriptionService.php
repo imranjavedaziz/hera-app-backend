@@ -11,6 +11,7 @@ use App\Services\ReceiptService;
 use Log;
 use Carbon\Carbon;
 use App\Traits\StoreReceiptTrait;
+use App\Jobs\UpdateStatusOnFirebaseJob;
 
 class SubscriptionService
 {
@@ -85,7 +86,9 @@ class SubscriptionService
         $paymenFields = $this->setSubPaymentFields($newSubscription);
         Payment::create($paymenFields);
         $user = User::find($subscriptionFields[USER_ID]);
-        $user->update([SUBSCRIPTION_STATUS=>SUBSCRIPTION_ENABLED,]);
+        $user->subscription_status = SUBSCRIPTION_ENABLED;
+        $user->save();
+        dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
         return $this->getSubscriptionByUserId($subscriptionFields[USER_ID]);
     }
 
@@ -153,6 +156,7 @@ class SubscriptionService
             $user->update([
                 SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
             ]);
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -170,6 +174,7 @@ class SubscriptionService
             $user->update([
                 SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
             ]);
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -215,6 +220,11 @@ class SubscriptionService
             ->get();
     }
 
+    public function getTrialSubscriptionEndBeforeTenDay() {
+        $twentyDaytoday = Carbon::now()->addDays(-20)->format(YMD_FORMAT);
+        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->get();
+    }
+
     public function getSubscriptionStatus($userId) {
         $user = User::where([ID => $userId])->first();
         $joinningDate = strtotime($user->created_at);
@@ -225,7 +235,7 @@ class SubscriptionService
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
-            if ($subscription !== null && $subscription->status == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
+            if ($subscription !== null && $subscription->status_id == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
                 $status = SUBSCRIPTION_ENABLED;
             }
         }

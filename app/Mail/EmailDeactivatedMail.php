@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailDeactivatedByAdminMail extends Mailable
+class EmailDeactivatedMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
@@ -28,6 +28,6 @@ class EmailDeactivatedByAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Account deactivated")->view('emails.email-deactivated-by-admin');
+        return $this->subject("HERA | Account deactivated successfully!")->view('emails.email-deactivated');
     }
 }

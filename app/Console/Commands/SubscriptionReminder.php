@@ -22,7 +22,7 @@ class SubscriptionReminder extends Command
      *
      * @var string
      */
-    protected $description = 'Subscription end notification on before one day.';
+    protected $description = 'Subscription end notification on before ten day.';
 
     /**
      * Execute the console command.
@@ -31,9 +31,14 @@ class SubscriptionReminder extends Command
      */
     public function handle()
     {
+        $trialSubscription = SubscriptionService::getTrialSubscriptionEndBeforeTenDay();
         $subscription = SubscriptionService::getSubcriptionEndBeforeTenDay();
         foreach($subscription as $sub) {
-            SubscriptionWillEnd::dispatch($sub);
+            SubscriptionWillEnd::dispatch($sub, false);
+        }
+
+        foreach($trialSubscription as $trialSub) {
+            SubscriptionWillEnd::dispatch($trialSub, true);
         }
     }
 }

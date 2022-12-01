@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use App\Http\Middleware\CheckUserAccountStatus;
 use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
 use App\Http\Middleware\EnsureDonarTokenIsValid;
 use App\Http\Controllers\Api\AuthController;
@@ -72,16 +73,16 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
-    Route::get('refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('states', [StateController::class, 'getStates']);
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
-    Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
-    Route::post('match-password', [AuthController::class, 'matchPassword']);
-    Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
 
-    Route::group([MIDDLEWARE => ['jwt.verify']], function() {
+    Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
+        Route::get('refresh-token', [AuthController::class, 'refreshToken']);
+        Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
+        Route::post('match-password', [AuthController::class, 'matchPassword']);
+        Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
         Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
         Route::get('logout', [AuthController::class, 'logout']);
@@ -119,6 +120,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
             Route::get('preferences-setter-data', [UserController::class, 'getPreferencesSetterData']);
             Route::post('set-preferences', [UserController::class, 'setPreferences']);
+            Route::get('get-preferences', [UserController::class, 'getPreferences']);
             Route::get('parents-matched-doner', [ParentsToBeDashboardController::class, 'matchedDonars']);
             Route::get('doner-profile-details',[UserProfileController::class, 'getDonerProfileDetails']);
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);

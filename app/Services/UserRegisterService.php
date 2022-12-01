@@ -20,7 +20,9 @@ use App\Helpers\TwilioOtp;
 use Facades\{
     App\Services\FirebaseService
 };
-use App\Jobs\createAdminChatFreiend;
+use App\Jobs\CreateAdminChatFreiend;
+use App\Jobs\UpdateUserDetailOnFirebase;
+use DB;
 
 class UserRegisterService
 {
@@ -34,13 +36,12 @@ class UserRegisterService
         $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
         $user = User::create($input);
         if($user){
-            $user->username = $this->setUserName($input[ROLE_ID], $user->id);
+            $username = $this->setUserName($input[ROLE_ID], $user->id);
             $file = $this->uploadFile($input, 'images/user_profile_images');
-            $user->profile_pic = $file[FILE_URL];
-            $user->save();
-            /** $this->sendEmailVerification($user); **/
+            User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
+            $this->sendEmailVerification($user);
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
-                dispatch(new createAdminChatFreiend($user));
+                dispatch(new CreateAdminChatFreiend($user));
             }
         }
         return $user;
@@ -69,8 +70,7 @@ class UserRegisterService
         $user_profile->occupation = !empty($input[OCCUPATION]) ? $input[OCCUPATION]: NULL;
         $user_profile->bio = $input[BIO];
         if($user_profile->save()){
-            $user->registration_step = TWO;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>TWO]);
             dispatch(new SetLocationJob($input));
         }
         return $user_profile;
@@ -106,8 +106,7 @@ class UserRegisterService
         $parents_preference->education = $input[EDUCATION];
         $parents_preference->state = $input[STATE];
         if($parents_preference->save()){
-            $user->registration_step = THREE;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
         }
         return $parents_preference;
     }
@@ -142,8 +141,7 @@ class UserRegisterService
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
         $doner_attribute->education_id = $input[EDUCATION_ID];
         if($doner_attribute->save()){
-            $user->registration_step = THREE;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
         }
         return $doner_attribute;
     }
@@ -222,6 +220,7 @@ class UserRegisterService
         $user->profile_pic = $file[FILE_URL];
         if($user->save()){
             Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
+            dispatch(new UpdateUserDetailOnFirebase($user));
             return $user->profile_pic;
         }
         return false;
@@ -235,7 +234,12 @@ class UserRegisterService
             },
             LOCATION => function($q) {
                 return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
-            }
+            },
+            SUBSCRIPTION => function($q) {
+                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE)
+                ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
+                ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
+            },
         ])
         ->where(ID, $user_id)
         ->first();
@@ -247,6 +251,7 @@ class UserRegisterService
         if($user->update($input)){
             $user->userProfile->update($input);
             $user->location->update($input);
+            dispatch(new UpdateUserDetailOnFirebase($user));
             return true;
         }
         return false;
@@ -259,11 +264,24 @@ class UserRegisterService
 
     public function sendEmailVerification($user) {
         $code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
+
         $emailVerify = EmailVerification::firstOrNew([EMAIL => $user->email]);
+        $otpBlockedTime = $emailVerify->otp_block_time - Carbon::now()->getTimestamp();
+        if ($otpBlockedTime >= ONE) {
+            EmailVerification::where([EMAIL => $user->email])->update([MAX_ATTEMPT => ZERO]);
+            return [MESSAGE => __('messages.MOBILE_OTP_EXCEEDED_ATTEMPT'), STATUS => false];
+        }
+        $emailVerify->otp_block_time = null;
+        $attempt = $emailVerify->max_attempt;
+        $attempt++; 
+        if($attempt == 5){
+            $emailVerify->otp_block_time = Carbon::now()->getTimestamp() + (60 * 60 * 24);              
+        }
         $emailVerify->otp = $code;
+        $emailVerify->max_attempt = $attempt;
         $emailVerify->save();
         dispatch(new SendEmailVerificationJob($user, $code));
-        return true;
+        return [STATUS => true];
     }
 
     public static function verifyEmail($user, $input){
@@ -303,7 +321,7 @@ class UserRegisterService
 
     public function sentOtpForFogotPassword($request) {
         $user = User::where([COUNTRY_CODE => $request->country_code, PHONE_NO => $request->phone_no, STATUS_ID => ONE])->first();
-        if (!empty($user)) { echo
+        if (!empty($user)) {
             $result = TwilioOtp::sendOTPOnPhone($request->country_code, $request->phone_no);
             if($result[STATUS]) {
                 $response = response()->Success($result[MESSAGE], $user);

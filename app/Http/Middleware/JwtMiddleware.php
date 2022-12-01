@@ -22,13 +22,10 @@ class JwtMiddleware extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         try {
+            $headers = apache_request_headers();
+            $request->headers->set('Authorization', $headers['Authorization']);
             if (JWTAuth::parseToken()->authenticate()==NULL) {
                 return response()->json([MESSAGE => 'Token is Expired, Please login again.'], Response::HTTP_FORBIDDEN);
-            }
-            $user = JWTAuth::parseToken()->authenticate();
-            if($user->status_id == DELETED || $user->deactivated_by == 1){
-                JWTAuth::invalidate(JWTAuth::parseToken());
-                return response()->json([MESSAGE => 'Your account has been deactivated/deleted by Admin. Please contact Admin to get it re-activated.'], HTTP_DELETED_ACCOUNT);
             }
             User::where([ID => JWTAuth::parseToken()->authenticate()->id])->update([RECENT_ACTIVITY => Date(DATE_TIME)]);
         } catch (Exception $e) {

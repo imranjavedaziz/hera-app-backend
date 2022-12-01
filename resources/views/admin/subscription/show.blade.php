@@ -2,17 +2,10 @@
 @section('content')
             <div class="main-right-wrapper">
                 <div class="dashboard-container">
-                    <div class="user-management-header">
-                        <div class="btn-group user-btn-group ms-auto">
-                            <span><img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="user-management-header ">
+                        @include('admin.layouts.partials.modal.login-user-dropdown')
                     </div>
-                        <div class="back-sec"><button type="submit" class="btn-hidden"><img src="{{ asset('assets/images/svg/left-arrow.svg')}}" alt="Left arrow" /> Back</button></div>
+                    <div class="back-sec"><button type="submit" class="btn-hidden"><img src="{{ asset('assets/images/svg/left-arrow.svg')}}" alt="Left arrow" /> Back</button></div>
                 </div>
                     <div class="subscription-wrapper">
                         <div class="sub-profile-wrapper">
@@ -26,8 +19,8 @@
                         </div>
                         <div class="next-purchased">
                         <?php
-                            $purchasedDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_start)->format('M d, Y') : 'N/A';
-                            $lastDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_end)->format('M d, Y') : 'N/A';
+                            $purchasedDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_start)->format(MDY_FORMAT) : 'N/A';
+                            $lastDate = !empty($activeSubscription) ? \Carbon\Carbon::parse($activeSubscription->current_period_end)->format(MDY_FORMAT) : 'N/A';
                         ?>
                             <div class="purchase">Purchased On: <span> {{$purchasedDate}}</span></div>
                             <div class="next-due text-danger">Next Due On: <span>{{$lastDate}}</span></div>
@@ -52,16 +45,16 @@
                             <?php
                             $user = $subscription->user;
                             $subscriptionPlan = $subscription->subscriptionPlan;
-                            $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
+                            $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format(MDY_FORMAT);
                             ?>
                             <!--  repeat this div  -->
                             <div class="table-row">
                                 <div class="td text-bold">{{$subscriptionPlan->name}}</div>
-                                <div class="td">$ {{$subscription->price}}</div>
+                                <div class="td">${{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
-                                <div class="td"># {{$subscription->original_transaction_id}}</div>
-                                <div class="td">$ {{$subscription->price}}</div>
-                                <div class="td">@if ($subscription->status_id == 2) Free @else Paid @endif</div>
+                                <div class="td">#{{$subscription->original_transaction_id}}</div>
+                                <div class="td"> @if ($subscription->device_type == 'ios') ${{CustomHelper::totalSubscriptionAmountDeduct($subscription->device_type, $subscription->price)}} <br/><em>({{APPLE_CHARGES}}% Apple Charges Deducted)</em> @else   ${{CustomHelper::totalSubscriptionAmountDeduct($subscription->device_type, $subscription->price)}} <br /><em>({{GOOGLE_CHARGES}}% Google Play Charges Deducted)</em> @endif</div>
+                                <div class="td">Paid</div>
                                 <div class="td">
                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src=" {{ asset('assets/images/svg/icon-dark-more.svg')}}" alt="" class="3-dots-icon"

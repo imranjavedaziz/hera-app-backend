@@ -30,6 +30,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     Route::group([ MIDDLEWARE =>['admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);
+        Route::get('change-password', [AuthController::class,'changePassword'])->name('change-password');
+        Route::post('update-password', [AuthController::class, 'updatePassword'])->name('update-password');
         Route::get('user-management', [UserController::class,'index'])->name('userList');
         Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
         Route::put('/user/change-status/{id}', [UserController::class, 'changeStatus'])->name('user.status');

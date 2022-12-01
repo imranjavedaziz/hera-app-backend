@@ -8,13 +8,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Facades\{
-    App\Services\FirebaseService
-};
+use Mail;
+use App\Mail\PasswordChangeMail;
 
-class adminChatFreiendList implements ShouldQueue
+class PasswordChangeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $user;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Execute the job.
@@ -23,6 +34,6 @@ class adminChatFreiendList implements ShouldQueue
      */
     public function handle()
     {
-        FirebaseService::createAdminFirebaseChatUser();
+        Mail::to($this->user->email)->send(new PasswordChangeMail($this->user));
     }
 }

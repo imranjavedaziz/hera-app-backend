@@ -5,15 +5,7 @@
                 <div class="main-right-wrapper">
                     <div class="dashboard-container">
                         <div class="user-management-header">
-                            <div class="btn-group user-btn-group ms-auto">
-                                <span>
-                                    <img src="{{ asset('assets/images/svg/user-icon.svg')}}" alt="user-logo" /></span>
-                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                                    </li>
-                                </ul>
-                            </div>
+                            @include('admin.layouts.partials.modal.login-user-dropdown')
                         </div>
                         <h1 class="section-title">Chat</h1>
                     </div>
@@ -75,25 +67,15 @@
         var env = '<?php echo $env; ?>';
         var userCollection = database.ref(env+'/Users/'+adminId+'/Friends');
         chatList();
-        var userList = [];
         function chatList() {
             var chatUser = [];
-            var count = 0;
-            userCollection.on("child_added", function(snapshot) {
-                console.log('listing call');
-                count++;
+            userCollection.orderByChild('adminChatTime').on("child_added", function(snapshot) {
                 var childData = snapshot.val();
                 var time = childData.time;
+                var adminChatTime = childData.adminChatTime;
                 var date = getChatDate(time);
-                obj = {};
-                obj.userId = childData.recieverId;
-                obj.userFullName = childData.recieverName;
-                obj.userImage= childData.recieverImage;
-                obj.userRole = childData.currentRole;
-                obj.username = childData.recieverUserName;
-                obj.date = time;
-                userList.push(obj);
-                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'">'
+                var statusId = childData.status_id;
+                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+childData.recieverImage+' alt="user-logo">'
@@ -107,26 +89,51 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
+                $('.chat-left-containt .user-chat-sec').sort(SortByChatTime).appendTo('.chat-left-containt');
+                function SortByChatTime(a, b){
+                    return ($(b).data('date')) < ($(a).data('date')) ? -1 : 1;
+                }
                 if(user_data){
                     var user = JSON.parse(user_data);
                     var middle_name = (user.middle_name != null) ? user.middle_name : '';
-                    console.log(user.first_name);
-                    // $(this).addClass("active");
                     var userId = user.id;
                     var name = user.first_name + ' ' + middle_name + ' ' + user.last_name;
                     var image = user.profile_pic;
                     var roleId = user.role_id;
                     var username = user.username;
+                    var statusId = user.status_id;
                     var roleData = getRoleData(roleId);
-                    updateUserChatProfile(image, roleData, name, username, userId);
-                }else if (count == 1) {
-                    var roleData = getRoleData(childData.currentRole);
-                    updateUserChatProfile(childData.recieverImage, roleData, childData.recieverName, childData.recieverUserName, childData.recieverId);
+                    $(".user-chat-sec[userid='" + userId + "']").addClass("active");
+                    updateUserChatProfile(image, roleData, name, username, userId, statusId);
+                }else {
+                    setTimeout(function() {
+                    $('.chat-left-containt').children().first().click();
+                }, 1000);
                 }
             });
         }
-
-
+        userCollection.on("child_changed", function(snapshot) {
+                var childData = snapshot.val();
+                var time = childData.time;
+                var adminChatTime = childData.adminChatTime;
+                var date = getChatDate(time);
+                $(".user-chat-sec[userid='" + childData.recieverId + "']").remove();
+                $('.chat-left-containt').prepend('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'">'
+                                    +'<div class="user-chat-left">'
+                                        +'<div class="user-logo">'
+                                            +'<img src='+childData.recieverImage+' alt="user-logo">'
+                                        +'</div>'
+                                        +'<div class="user-detail">'
+                                            +'<div class="user-name">'+childData.recieverName+'</div>'
+                                            +'<div class="user-msg">'+childData.message+'</div>'
+                                        +'</div>'
+                                    +'</div>'
+                                    +'<div class="user-chat-right">'
+                                        +'<div class="chat-date">'+date+'</div>'
+                                    +'</div>'
+                                +'</div>');
+            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active");
+            });
         $('.search-close').click(function(){
             $('#search').val('');
             $('.search-close').addClass("d-none");
@@ -135,7 +142,6 @@
         })
 
         $(document).on('click', '.user-chat-sec', function(){
-            console.log('chat section');
             $('.msg-wrapper').html('');
             $(".user-chat-sec").removeClass("active");
             $(this).addClass("active");
@@ -144,41 +150,45 @@
             var image = $(this).attr("userImage");
             var roleId = $(this).attr("userRole");
             var username = $(this).attr("username");
+            var statusId = $(this).attr("statusid");
             var roleData = getRoleData(roleId);
-            updateUserChatProfile(image, roleData, name, username, userId);
+            updateUserChatProfile(image, roleData, name, username, userId, statusId);
         });
 
-        function updateUserChatProfile(image, roleData, name, username, userId) {
-            console.log('last'+userId);
+        function updateUserChatProfile(image, roleData, name, username, userId, statusId) {
             $("#receiverImage").attr("src",image);
             $("#receiverRole").html(roleData);
             $("#receiverName").html(name+', <span>'+username+'</span>');
             $('#receiverName').attr('data-recevierId', userId);
+            $('#receiverName').attr('data-statusId', statusId);
             var msgObj = getMessageCollectionObject(userId);
             getMessageList(msgObj, userId);
         }
 
         function getMessageCollectionObject(userId) {
             var chatNode = userId+'-'+adminId;
-            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
+            var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time').limitToLast(10);
             return messageCollection;
         }
 
         function sendMessage(msg,userId) {
             /** Save message */
+            var timestampRow = Date.now();
             var chatNode = userId+'-'+adminId;
-            var msgObj = database.ref(env+'/Messages/'+chatNode)
+            var msgObj = database.ref(env+'/Messages/'+chatNode+ '/' + timestampRow)
             var message = {
                 from : adminId,
                 text: msg,
                 time: new Date().getTime()
             }
-            msgObj.push().set(message);
+            msgObj.set(message);
+
             /** Update user message in admin chat list */
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                 message: msg,
                 read: 0,
-                time: new Date().getTime()
+                time: new Date().getTime(),
+                adminChatTime: new Date().getTime()
             });
 
             /** Update user message in user chat list */
@@ -187,14 +197,24 @@
                 read: 0,
                 time: new Date().getTime()
             });
+            $(".user-chat-sec[userid='" + userId + "']").find(".user-msg").html(msg);
         }
 
         function getMessageList(msgObj, userId) {
             $('.empty-msg').removeClass("d-none");
             msgObj.off("child_added");
             $('.msg-wrapper').html('');
+            $('#receiverName').attr('data-timeKey', '')
+            var statusId = $('#receiverName').attr('data-statusId');
+            $("#message").removeAttr('disabled');
+            if (statusId !=1 ) {
+                $('#message').attr('disabled','disabled');
+            }
             msgObj.on("child_added", (snapshot) => {
                 var msgData = snapshot.val();
+                if ($('#receiverName').attr('data-timeKey') == '') {
+                    $('#receiverName').attr('data-timeKey', snapshot.key);
+                }
                 if (msgData) {
                     $('.empty-msg').addClass("d-none");
                     $('.msg-wrapper').removeClass("d-none");
@@ -225,21 +245,22 @@
 
             $("#search").keyup(function() {
                 $('.chat-left-containt').html('');
-                var name = $(this).val();
+                var name = $(this).val().toLowerCase();
                 if (name == '') {
                     $('.search-close').addClass("d-none");
                     chatList();
                 } else {
                     $(".search-close").removeClass("d-none");
-                userCollection.orderByChild('recieverName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
+                userCollection.orderByChild('receiverSearchName').startAt(name).endAt(name+"\uf8ff").on("value", function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
                         var childData = childSnapshot.val();
                         var profileImage = childData.recieverImage;
                         var recieverName = childData.recieverName;
                         var message = childData.message;
                         var time = childData.time;
+                        var statusId = childData.status_id;
                         var date = getChatDate(time);
-                        $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+recieverName+'" userImage="'+profileImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'">'
+                        $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+recieverName+'" userImage="'+profileImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+profileImage+' alt="user-logo">'
@@ -257,8 +278,8 @@
                     })
                 });
                 }
-                });
                 userCollection.off('value');
+                });
                 $('.reply-btn').click(function(){
                     var userId = $('#receiverName').attr('data-recevierId');
                     var msg = $('#message').val();
@@ -300,6 +321,38 @@
                         }
                     });
                 }
+
+                $(".msg-wrapper").scroll(function(){
+                    if($(".msg-wrapper").scrollTop() == 0) {
+                        $('.msg-wrapper').html('');
+                        var userId = $('#receiverName').attr('data-recevierId');
+                        var timeKey = $('#receiverName').attr('data-timeKey');
+                        var chatNode = userId+'-'+adminId;
+                        var limit = 10;
+                        var count = 0;
+                        var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByKey().endAt(timeKey).limitToFirst(limit);
+                        messageCollection.on("value", (snapshot) => {
+                            var lastData = snapshot.numChildren();
+                            snapshot.forEach(function(childSnapshot) {
+                                count ++;
+                                var msgData = childSnapshot.val();
+                                if (count == 1) {
+                                    $('#receiverName').attr('data-timeKey', childSnapshot.key);
+                                }
+                                if (msgData && count != limit && (childSnapshot.key != timeKey)) {
+                                    $('.empty-msg').addClass("d-none");
+                                    $('.msg-wrapper').removeClass("d-none");
+                                    $('.msg-wrapper').append(checkMessage(msgData));
+                                    $(".msg-wrapper").animate({ scrollTop: $('.msg-wrapper').prop("scrollHeight")}, 100);
+                                }
+                                if(lastData == 1) {
+                                    $('.empty-msg').removeClass("d-none");
+                                    $('.msg-wrapper').addClass("d-none");
+                                }
+                            })
+                        })
+                    }
+                });
         });
 
         function getChatDate(unixTimeStamp) {
