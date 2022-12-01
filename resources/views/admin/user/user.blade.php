@@ -107,6 +107,8 @@
 @endsection
 
 @push('after-scripts')
+
+    <script src="{{ asset('assets/lightbox/lightboxed.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             @if(session()->get('flash_success'))
@@ -185,7 +187,7 @@
                             var img = '';
                             msg.doner_photo_gallery.forEach(function(doner_photo_gallery) {
                                 var path = doner_photo_gallery.file_url;
-                                img = img.concat('<img src="'+path+'" alt="Image">');
+                                img = img.concat('<img class="lightboxed" rel="group1" src="'+path+'" alt="Image" data-link="'+path+'" data-width="560" data-height="315" >');
                             });
                             $('.img-wrapper').html(img)
                         }else{

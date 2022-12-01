@@ -28,6 +28,6 @@ class EmailActivatedByAdminMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA Account Activated")->view('emails.email-activated-by-admin');
+        return $this->subject("HERA | Account reactivated")->view('emails.email-activated-by-admin');
     }
 }
