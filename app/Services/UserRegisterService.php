@@ -40,9 +40,9 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
             $this->sendEmailVerification($user);
-            // if ($input[ROLE_ID] != PARENTS_TO_BE) {
-            //     dispatch(new CreateAdminChatFreiend($user));
-            // }
+            if ($input[ROLE_ID] != PARENTS_TO_BE) {
+                dispatch(new CreateAdminChatFreiend($user));
+            }
         }
         return $user;
     }
