@@ -46,8 +46,8 @@
                             $img = $user->profile_pic;
                         @endphp
                         <!--  repeat this div  -->
-                        <div class="table-row">
-                            <div class="td-user-left open-detail-modal" data-id="{{$user->id}}">
+                        <div class="table-row @if($user->status_id == 5) delete-user-opacity @endif delete-user-opacity{{$user->id}}" @if($user->status_id == 5) disabled @endif>
+                            <div class="td-user-left @if($user->status_id != 5) open-detail-modal @endif open-detail-modal{{$user->id}}" data-id="{{$user->id}}">
                                 <div class="td">
                                     <div class="user-title">
                                         <div class="user-img">
@@ -72,25 +72,34 @@
                                             Active
                                         </span>
                                         <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
-                                            Inactive <br><span>@if($user->deactivated_by == 1) (By Admin) @elseif($user->deactivated_by == 2) (By User) @endif</span>
+                                            @if($user->status_id == 5) Deleted @else Inactive @endif <br>
+                                            <span>
+                                                @if($user->deactivated_by == 1 || $user->deleted_by == 1) 
+                                                    (By Admin) 
+                                                @else
+                                                    (By User) 
+                                                @endif
+                                            </span>
                                         </span>
                                 </div>
                             </div>
-                            <div class="td-user-right">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
-                                        id="inactive-icon">
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    @if($user->role_id != 2 && $user->status_id == 1)
-                                        <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
-                                    @endif
-                                    @if($user->deleted_at == null)
-                                        <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
-                                        <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{CustomHelper::fullName($user)}}" data-id="{{$user->id}}">Delete User</a></li>
-                                    @endif
-                                </ul>
-                            </div>
+                            @if($user->status_id != 5)
+                                <div class="td-user-right delete-user{{$user->id}}">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
+                                            id="inactive-icon">
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        @if($user->role_id != 2 && $user->status_id == 1)
+                                            <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
+                                        @endif
+                                        @if($user->deleted_at == null)
+                                            <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
+                                            <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{CustomHelper::fullName($user)}}" data-id="{{$user->id}}">Delete User</a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 @endif
@@ -107,6 +116,8 @@
 @endsection
 
 @push('after-scripts')
+
+    <script src="{{ asset('assets/lightbox/lightboxed.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             @if(session()->get('flash_success'))
@@ -185,7 +196,7 @@
                             var img = '';
                             msg.doner_photo_gallery.forEach(function(doner_photo_gallery) {
                                 var path = doner_photo_gallery.file_url;
-                                img = img.concat('<img src="'+path+'" alt="Image">');
+                                img = img.concat('<img class="lightboxed" rel="group1" src="'+path+'" alt="Image" data-link="'+path+'" data-width="560" data-height="315" >');
                             });
                             $('.img-wrapper').html(img)
                         }else{
@@ -311,10 +322,15 @@
                         200: function (data) {
                             $('#deactivate-msg').html(data.message);
                             $("#deactivate-msg-box").show();
-                            setTimeout(function() {
-                                $("#deactivate-msg-box").fadeOut();
-                                location.reload()
-                            }, 2000);
+                            $("#deactivate-msg-box").delay(3000).fadeOut(800);
+                            $("#inactive-user"+id).html('Deleted<br><span>(By Admin)</span>');
+                            $("#inactive-user"+id).removeClass("d-none");
+                            $("#inactive-user"+id).addClass("d-block");
+                            $("#active-user"+id).removeClass("d-block");
+                            $("#active-user"+id).addClass("d-none");
+                            $(".delete-user"+id).addClass("d-none");
+                            $(".open-detail-modal"+id).removeClass("open-detail-modal");
+                            $(".delete-user-opacity"+id).addClass("delete-user-opacity");
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {

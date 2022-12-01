@@ -137,7 +137,7 @@ class UserController extends Controller
             $user = UserRegisterService::register($request->all());
             if ($user) {
                 DB::commit();
-                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password]);
+                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password, DELETED_AT => NULL]);
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
@@ -1185,7 +1185,10 @@ class UserController extends Controller
             }
             DB::beginTransaction();
             $user = UserRegisterService::sendEmailVerification(AuthHelper::authenticatedUser());
-            $response = response()->Success( __('messages.verify_email_send_success'), $user);
+            if(!$user[STATUS]){
+                return $user;
+            }
+            $response = response()->Success( __('messages.verify_email_send_success'), $user[STATUS]);
             DB::commit();
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());

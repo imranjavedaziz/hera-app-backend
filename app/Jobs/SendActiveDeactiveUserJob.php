@@ -42,7 +42,7 @@ class SendActiveDeactiveUserJob implements ShouldQueue
         Log::debug($this->id);
         Log::debug($user);
         if($this->status_id == ACTIVE){
-            Mail::to($user->email)->send(new EmailActivatedByAdminMail($user));
+            Mail::to($user->email)->send(new EmailActivatedByAdminMail($user, true));
         }elseif ($this->status_id == INACTIVE) {
             Mail::to($user->email)->send(new EmailDeactivatedByAdminMail($user));
         }elseif ($this->status_id == DELETED) {

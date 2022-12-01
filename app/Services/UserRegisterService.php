@@ -36,11 +36,10 @@ class UserRegisterService
         $input[DOB] = date(YMD_FORMAT,strtotime($input[DOB]));
         $user = User::create($input);
         if($user){
-            $user->username = $this->setUserName($input[ROLE_ID], $user->id);
+            $username = $this->setUserName($input[ROLE_ID], $user->id);
             $file = $this->uploadFile($input, 'images/user_profile_images');
-            $user->profile_pic = $file[FILE_URL];
-            $user->save();
-            /** $this->sendEmailVerification($user); **/
+            User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
+            $this->sendEmailVerification($user);
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
                 dispatch(new CreateAdminChatFreiend($user));
             }
@@ -71,8 +70,7 @@ class UserRegisterService
         $user_profile->occupation = !empty($input[OCCUPATION]) ? $input[OCCUPATION]: NULL;
         $user_profile->bio = $input[BIO];
         if($user_profile->save()){
-            $user->registration_step = TWO;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>TWO]);
             dispatch(new SetLocationJob($input));
         }
         return $user_profile;
@@ -108,8 +106,7 @@ class UserRegisterService
         $parents_preference->education = $input[EDUCATION];
         $parents_preference->state = $input[STATE];
         if($parents_preference->save()){
-            $user->registration_step = THREE;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
         }
         return $parents_preference;
     }
@@ -144,8 +141,7 @@ class UserRegisterService
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
         $doner_attribute->education_id = $input[EDUCATION_ID];
         if($doner_attribute->save()){
-            $user->registration_step = THREE;
-            $user->save();
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
         }
         return $doner_attribute;
     }
@@ -268,11 +264,24 @@ class UserRegisterService
 
     public function sendEmailVerification($user) {
         $code = mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
+
         $emailVerify = EmailVerification::firstOrNew([EMAIL => $user->email]);
+        $otpBlockedTime = $emailVerify->otp_block_time - Carbon::now()->getTimestamp();
+        if ($otpBlockedTime >= ONE) {
+            EmailVerification::where([EMAIL => $user->email])->update([MAX_ATTEMPT => ZERO]);
+            return [MESSAGE => __('messages.MOBILE_OTP_EXCEEDED_ATTEMPT'), STATUS => false];
+        }
+        $emailVerify->otp_block_time = null;
+        $attempt = $emailVerify->max_attempt;
+        $attempt++; 
+        if($attempt == 5){
+            $emailVerify->otp_block_time = Carbon::now()->getTimestamp() + (60 * 60 * 24);              
+        }
         $emailVerify->otp = $code;
+        $emailVerify->max_attempt = $attempt;
         $emailVerify->save();
         dispatch(new SendEmailVerificationJob($user, $code));
-        return true;
+        return [STATUS => true];
     }
 
     public static function verifyEmail($user, $input){

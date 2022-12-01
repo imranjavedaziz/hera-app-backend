@@ -103,6 +103,8 @@ define('REQUIRED_WITHOUT_IMAGE', 'required_without:image');
 //Request Validation Error Custom Messages Variables
 define('EMAIL_UNIQUE', 'email.unique');
 define('PASS_REGEX', 'password.regex');
+define('CURRENT_PASS_REGEX', 'current_password.regex');
+define('NEW_PASS_REGEX', 'new_password.regex');
 define('PRO_PIC_MAX', 'profile_pic.max');
 define('TO_USER_ID_UNIQUE', 'to_user_id.unique');
 define('STATE_IDS_ELEMENTS_EXISTS', 'state_ids.*.exists');

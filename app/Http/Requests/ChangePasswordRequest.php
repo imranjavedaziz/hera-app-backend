@@ -55,6 +55,8 @@ class ChangePasswordRequest extends ApiFormRequest
             CURRENT_PASSWORD_REQ => __('messages.request_validation.error_msgs.current_password_req'),
             NEW_PASSWORD_REQ => __('messages.request_validation.error_msgs.new_password_req'),
             CONFIRM_PASSWORD_REQ => __('messages.request_validation.error_msgs.confirm_password_req'),
+            CURRENT_PASS_REGEX => __('messages.request_validation.error_msgs.pass_regex'),
+            NEW_PASS_REGEX => __('messages.request_validation.error_msgs.pass_regex'),
         ];
     }
 }

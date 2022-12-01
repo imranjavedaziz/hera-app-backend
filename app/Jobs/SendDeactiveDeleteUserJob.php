@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Mail;
 use App\Models\User;
+use App\Mail\EmailActivatedByAdminMail;
 use App\Mail\EmailDeactivatedMail;
 use App\Mail\EmailDeletedMail;
 use Log;
@@ -40,7 +41,9 @@ class SendDeactiveDeleteUserJob implements ShouldQueue
         $user = User::where(ID, $this->id)->first();
         Log::debug($this->id);
         Log::debug($user);
-        if ($this->status_id == INACTIVE) {
+        if($this->status_id == ACTIVE){
+            Mail::to($user->email)->send(new EmailActivatedByAdminMail($user));
+        }elseif ($this->status_id == INACTIVE) {
             Mail::to($user->email)->send(new EmailDeactivatedMail($user));
         }elseif ($this->status_id == DELETED) {
             Mail::to($user->email)->send(new EmailDeletedMail($user));

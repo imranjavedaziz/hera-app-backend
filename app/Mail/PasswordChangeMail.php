@@ -30,7 +30,7 @@ class PasswordChangeMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Password updated successfully")->view('emails.password_change_success', [
+        return $this->subject("Password changed successfully")->view('emails.password_change_success', [
             'user' => $this->user,
         ]);
     }

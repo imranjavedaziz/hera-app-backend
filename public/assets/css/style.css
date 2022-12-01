@@ -2056,5 +2056,8 @@ input::-webkit-search-cancel-button{
   -webkit-appearance: none;
   appearance: none;
 }
+.table-row.delete-user-opacity {
+    opacity: 0.5;
+}
 /*# sourceMappingURL=style.css.map */
   
