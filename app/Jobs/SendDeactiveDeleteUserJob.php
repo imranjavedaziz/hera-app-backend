@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Mail;
 use App\Models\User;
+use App\Mail\EmailActivatedByAdminMail;
 use App\Mail\EmailDeactivatedMail;
 use App\Mail\EmailDeletedMail;
 use Log;
