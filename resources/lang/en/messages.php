@@ -96,7 +96,7 @@ return [
     'account_delete_success' => 'Your account has been deleted successfully!',
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
     'user_account_deactivated_by_admin' => 'Your account has been deactivated by admin. Please contact admin to get it reactivated.',
-    'user_account_deleted_by_admin' => 'Your account has been deleted by admin and no longer available.',
+    'user_account_deleted_by_admin' => 'Your account has been deleted by admin. Please contact HERA support',
     'admin' => [
         'invalid_credentail' => 'Please login with valid credentials.',
         'account_deactive' => 'User has been deactivated.',

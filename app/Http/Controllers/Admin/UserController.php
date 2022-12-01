@@ -79,7 +79,7 @@ class UserController extends AdminController
             }
             $user = User::where(ID, $id)->first();
             User::changeStatus($id,$request->all());
-            dispatch(new SendActiveDeactiveUserJob($id));
+            dispatch(new SendActiveDeactiveUserJob($id, $request->status_id));
             dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
@@ -101,7 +101,7 @@ class UserController extends AdminController
             $msg = __('messages.admin.account_delete');
             $user = User::where(ID, $id)->first();
             User::deleteUser($id);
-            dispatch(new SendActiveDeactiveUserJob($id));
+            dispatch(new SendActiveDeactiveUserJob($id, DELETED));
             dispatch(new UpdateStatusOnFirebaseJob($user, DELETED, STATUS_ID));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {

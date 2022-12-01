@@ -22,6 +22,7 @@ use Facades\{
 };
 use App\Jobs\CreateAdminChatFreiend;
 use App\Jobs\UpdateUserDetailOnFirebase;
+use DB;
 
 class UserRegisterService
 {
@@ -237,7 +238,12 @@ class UserRegisterService
             },
             LOCATION => function($q) {
                 return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
-            }
+            },
+            SUBSCRIPTION => function($q) {
+                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE)
+                ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
+                ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
+            },
         ])
         ->where(ID, $user_id)
         ->first();

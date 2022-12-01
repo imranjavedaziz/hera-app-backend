@@ -72,6 +72,11 @@ class EnquiryController extends Controller
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
+     *                property="user_timezone",
+     *                type="string",
+     *                example="Asia/Kolkata"
+     *             ),
+     *             @OA\Property(
      *                property="name",
      *                type="string",
      *                example="Xyz"

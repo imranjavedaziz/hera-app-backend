@@ -86,7 +86,8 @@ class SubscriptionService
         $paymenFields = $this->setSubPaymentFields($newSubscription);
         Payment::create($paymenFields);
         $user = User::find($subscriptionFields[USER_ID]);
-        $user->update([SUBSCRIPTION_STATUS=>SUBSCRIPTION_ENABLED,]);
+        $user->subscription_status = SUBSCRIPTION_ENABLED;
+        $user->save();
         dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
         return $this->getSubscriptionByUserId($subscriptionFields[USER_ID]);
     }
@@ -234,7 +235,7 @@ class SubscriptionService
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
-            if ($subscription !== null && $subscription->status == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
+            if ($subscription !== null && $subscription->status_id == ACTIVE && ($subscription->current_period_end  > Carbon::now())) {
                 $status = SUBSCRIPTION_ENABLED;
             }
         }

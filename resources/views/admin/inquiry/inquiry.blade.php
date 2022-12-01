@@ -17,15 +17,7 @@
                 <div class="export-csv">
                     <button type="button" class="btn-primary btn-logout" data-bs-toggle="modal" data-bs-target="#modalExportCsv" ><img src="/assets/images/svg/download.svg" alt="download icon" />EXPORT CSV</button>
                 </div>
-                <div class="btn-group user-btn-group ms-auto">
-                    <span>
-                        <img src="/assets/images/svg/user-icon.svg" alt="user-logo" /></span>
-                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-bg-none" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><button class="dropdown-item" type="button"  data-bs-toggle="modal" data-bs-target="#modalLogout">Log Out</button>
-                        </li>
-                    </ul>
-                </div>
+                @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             <h1 class="section-title">Inquiries 
                 (<span>{{$inquiries->total()}}</span>)
@@ -121,14 +113,31 @@
           $('.msg').html(msg + input + '</span>');
         }); 
     </script>
+    <script>
+        const select = document.querySelectorAll('.selectBtn');
+        const option = document.querySelectorAll('.option');
+        let index = 1;
+
+        select.forEach(a => {
+            a.addEventListener('click', b => {
+                const next = b.target.nextElementSibling;
+                next.classList.toggle('toggle');
+                next.style.zIndex = index++;
+            })
+        })
+        option.forEach(a => {
+            a.addEventListener('click', b => {
+                b.target.parentElement.classList.remove('toggle');
+                
+                const parent = b.target.closest('.select').children[0];
+                parent.setAttribute('data-type', b.target.getAttribute('data-type'));
+                parent.innerText = b.target.innerText;
+            })
+        })
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             var id;
-            const currentYear = new Date().getFullYear(); // 2020
-            const previousYear =  currentYear-1;
-            const currentMonth = new Date().getMonth(); // 2020
-            $("#month_select").val(currentMonth+1).change();
-            $('#year_select').append('<option value=' + previousYear + '>' +previousYear+ '</option><option selected value=' + currentYear + '>' +currentYear+ '</option>')
             $(document).on('click', '.open-detail-modal', function(e){
                 console.log('hello');
                 e.preventDefault();
@@ -221,6 +230,7 @@
                         "admin_reply": admin_reply,
                     },
                     beforeSend: function () {
+                        $('#modalInquiriesDetails').modal('hide');
                         $('.loader').show();
                     },
                     complete:function () {
@@ -228,23 +238,14 @@
                     },
                     statusCode: {
                         200: function (msg) {
-                            var reply_date = moment.utc(msg.data.replied_at).local().format();
-                            console.log(msg.data.admin_reply);
-                            $('.replies').show()
-                            $('.replies span').html(new Date(reply_date).toLocaleString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric'
-                            }))
-                            $('.thanks').show()
-                            $('.thanks').html(msg.data.admin_reply)
-                            $('.replied_note').show();
-                            $('.inquiries-search-sec').hide();
-                            $('.reply_note').hide();
-                            $('.reply-btn').html('REPLIED');
+                            $('#deactivate-msg').html(msg.message);
+                            $("#deactivate-msg-box").show();
+                            setTimeout(function() {
+                                $("#deactivate-msg-box").fadeOut();
+                            }, 2000);
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
@@ -253,9 +254,9 @@
 
             $(document).on('click', '#generate_csv', function(e){
                 e.preventDefault();
-                var month_value = $('#month_select').find(":selected").val();
-                var month = $('#month_select').find(":selected").text();
-                var year = $('#year_select').find(":selected").text();
+                var month_value = $('#month_select').attr("data-type");
+                var month = $('#month_select').html();
+                var year = $('#year_select').attr("data-type");
                 const date_month_short = new Date();
                 date_month_short.setMonth(month_value - 1);
                 $.ajax({
@@ -315,7 +316,7 @@
                             
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.log(JSON.stringify(jqXHR));
                         console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }

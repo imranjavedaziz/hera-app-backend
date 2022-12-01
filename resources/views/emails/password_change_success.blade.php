@@ -27,7 +27,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-					Your HERA account's password has been changed successfully. Incase, this was not you, please contact admin for support.
+					Your HERA account's password has been changed successfully.
 	            </tr>
 	            <tr>
 	                <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 17px;">
