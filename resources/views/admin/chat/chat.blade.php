@@ -409,19 +409,19 @@
         function getRoleData(roleId) {
             switch (true) {
                 case (roleId == '2'): 
-                    role = 'PARENTS TO BE';
+                    role = 'Parents To Be';
                     break;
                 case (roleId == '3'):
-                    role = 'SURROGATE MOTHER';
+                    role = 'Surrogate Mother';
                     break;
                 case (roleId == '4'):
-                    role = 'EGG DONER';
+                    role = 'Egg Doner';
                     break;
                 case (roleId == '5'):
-                    role = 'SPERM DONER';
+                    role = 'Sperm Doner';
                     break;
                 default:
-                role = 'PARENTS TO BE';
+                role = 'Parents To Be';
                 break;
             }
             return role;
