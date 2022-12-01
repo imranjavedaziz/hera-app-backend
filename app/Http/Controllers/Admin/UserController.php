@@ -26,8 +26,7 @@ class UserController extends AdminController
     public function index()
     {
         $admin = User::where('role_id',ADMIN)->first();
-        $users = User::select('users.id','users.username','users.first_name','users.middle_name','users.last_name','users.email','users.role_id','users.country_code','users.phone_no','users.profile_pic','users.status_id','users.deactivated_by','users.deleted_at','users.created_at','users.timezone')
-        ->where('deleted_at', NULL)
+        $users = User::select('users.id','users.username','users.first_name','users.middle_name','users.last_name','users.email','users.role_id','users.country_code','users.phone_no','users.profile_pic','users.status_id','users.deactivated_by', 'users.deleted_by', 'users.deleted_at','users.created_at','users.timezone')
         ->where('users.role_id','!=',ONE)->where('users.email', '!=', '')->orderBy('users.id','desc')->paginate(ADMIN_PAGE_LIMIT);
         return view('admin.user.user')->with(['title' => 'All Users','userData'=>$users ,'timezone'=> $admin->timezone]);  
     }
