@@ -7,22 +7,22 @@
     <div class="left-nav">
         <ul>
             <li class="@if (isset($title) && $title=='All Users') active @endif">
-                <a href="{{ route('userList') }}" title="All Users">
+                <a href="{{ route('userList') }}">
                     <span class="nav-text">All Users</span>
                  </a>
             </li>
             <li class="@if (isset($title) && $title=='Inquiry') active @endif">
-                <a href="{{ route('inquiryList') }}" title="Inquiry">
+                <a href="{{ route('inquiryList') }}">
                     <span class="nav-text">Inquiries</span>
                 </a>
             </li>               
             <li class="@if (isset($title) && $title=='Chat') active @endif">
-                <a href="{{ route('chatList') }}" title="Chat">
+                <a href="{{ route('chatList') }}">
                     <span class="nav-text">Chat</span>
                 </a>
             </li>
             <li class="@if (isset($title) && $title=='Subscription') active @endif">
-                <a href="{{ route('subscriptionList') }}" title="Subscription">
+                <a href="{{ route('subscriptionList') }}">
                     <span class="nav-text">Subscription</span>
                 </a>
             </li>
