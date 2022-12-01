@@ -13,6 +13,7 @@ use Facades\{
 use App\Helpers\CustomHelper;
 use App\Models\User;
 use Exception;
+use Hash;
 
 class CheckUserAccountStatus
 {

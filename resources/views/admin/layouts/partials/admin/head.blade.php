@@ -10,5 +10,7 @@
 
 <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- lightbox -->
+<link href="{{ asset('assets/lightbox/lightboxed.css')}}" rel="stylesheet" />
 <link href="{{ asset('assets/css/style.css')}}" rel="stylesheet">
 <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet">

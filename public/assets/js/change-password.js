@@ -34,6 +34,12 @@ $(document).ready(function () {
         $("."+id).hide();
         $('#'+id).removeClass('error')
     });
+
+    $('input').keypress(function( e ) { 
+        if(e.which === 32) {
+            return false;
+        }
+    })
 });
 
 function password_check(id) {

@@ -86,11 +86,7 @@ class AuthController extends AdminController
         try {
             DB::beginTransaction();
             # Validation
-	        $validate = Validator::make($request->all(), [
-	            CURRENT_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
-	            NEW_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
-	            CONFIRM_PASSWORD => 'bail|required|same:new_password',
-	        ]);    
+	        $validate = $this->changePasswordValidation($request);
 			if($validate->fails())
 			{
 				return back()->withInput()->withErrors($validate);
@@ -115,6 +111,20 @@ class AuthController extends AdminController
         }
 
         return $response;
+    }
+
+    private function changePasswordValidation($request){
+    	return Validator::make($request->all(), [
+            CURRENT_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+            NEW_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+            CONFIRM_PASSWORD => 'bail|required|same:new_password',
+        ], [
+            CURRENT_PASSWORD_REQ => __('messages.request_validation.error_msgs.current_password_req'),
+            NEW_PASSWORD_REQ => __('messages.request_validation.error_msgs.new_password_req'),
+            CONFIRM_PASSWORD_REQ => __('messages.request_validation.error_msgs.confirm_password_req'),
+            CURRENT_PASS_REGEX => __('messages.request_validation.error_msgs.pass_regex'),
+            NEW_PASS_REGEX => __('messages.request_validation.error_msgs.pass_regex'),
+        ]);
     }
 
 }
