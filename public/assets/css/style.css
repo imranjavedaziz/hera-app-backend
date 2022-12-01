@@ -2049,5 +2049,8 @@ span.invalid-field.text-right.floatingPassword.invalid-instruction {
 .form-floating.mb-5.position-relative.mb-span {
     margin-bottom: 4rem !important;
 }
+.table-row.delete-user-opacity {
+    opacity: 0.5;
+}
 /*# sourceMappingURL=style.css.map */
   
