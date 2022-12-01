@@ -137,7 +137,7 @@ class UserController extends Controller
             $user = UserRegisterService::register($request->all());
             if ($user) {
                 DB::commit();
-                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password]);
+                $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password, DELETED_AT => NULL]);
                 $user->access_token = $oauth_token;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
