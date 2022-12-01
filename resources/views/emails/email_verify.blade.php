@@ -27,7 +27,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-	                    You have successfully started your <span style="font-weight: bold;">{{ $user['role']['name'] }}</span> journey on HERA. Please use the below mentioned code to verify your email address. Match & Chat with the potential @if($user['role_id'] != 2) parents-to-be@else surrogate mothers/egg doners/sperm doners@endif.
+	                    You have successfully started your <span style="font-weight: bold;">{{ $user['role']['name'] }}</span> journey on HERA. Please use the below mentioned code to verify your email address. Match & Chat with the potential surrogate mothers/egg doners/sperm doners.
 	                </td>
 	            </tr>
 	            <tr>
