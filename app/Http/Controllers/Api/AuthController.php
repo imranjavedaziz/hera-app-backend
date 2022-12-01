@@ -98,8 +98,9 @@ class AuthController extends Controller
                 PHONE_NO => $request->phone_no,
                 PASSWORD => $request->password,
                 ROLE_ID => [PARENTS_TO_BE, SURROGATE_MOTHER, EGG_DONER, SPERM_DONER],
+                DELETED_AT => NULL
             ];
-            $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->first();
+            $user = User::where([PHONE_NO => $request->phone_no, COUNTRY_CODE => $request->country_code])->whereNull(DELETED_AT)->first();
             if (empty($user)) {
                 return response()->Error(trans('messages.invalid_user_phone'));
             }
