@@ -28,6 +28,6 @@ class EmailDeactivatedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA Account Deactivated")->view('emails.email-deactivated');
+        return $this->subject("HERA | Account deactivated successfully!")->view('emails.email-deactivated');
     }
 }

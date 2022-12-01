@@ -116,6 +116,7 @@ class SubscriptionController extends Controller
     public function createSubscription(SubscriptionRequest $request)
     {
         try {
+            Log::info("subscription api calling");
             DB::beginTransaction();
             $subscription = SubscriptionService::createSubscription($request->all(),AuthHelper::authenticatedUser()->id);
             DB::commit();
