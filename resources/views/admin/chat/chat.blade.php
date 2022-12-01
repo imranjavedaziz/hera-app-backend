@@ -74,6 +74,8 @@
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
                 var date = getChatDate(time);
+                var status_id = childData.status_id;
+                if (status_id == 1) {
                 $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
@@ -108,6 +110,7 @@
                     $('.chat-left-containt').children().first().click();
                 }, 1000);
                 }
+            }
             });
         }
         userCollection.on("child_changed", function(snapshot) {
