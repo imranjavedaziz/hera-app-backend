@@ -163,8 +163,8 @@
                         if (msg.doner_attribute != null) {
                             var inches = msg.doner_attribute.height;
                             var feet = Math.floor(inches / 12);
-                            inches %= 12;
-                            $('#height').html('Height: <span>' + feet + ' ft ' + inches + ' in </span>')
+                            var inch = inches % 12;
+                            $('#height').html('Height: <span>' + feet + ' ft ' + inch + ' in </span>')
                             $('#weight').html('Weight: <span>' + msg.doner_attribute.weight + ' pounds </span>')
                             $('#race').html('Race: <span>' + msg.doner_attribute.race + '</span>')
                             $('#eye-colour').html('Hair Color: <span>' + msg.doner_attribute.eye_colour + '</span>')
