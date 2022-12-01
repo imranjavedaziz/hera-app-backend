@@ -29,7 +29,7 @@
                 <div class="login-form-wrapper">
                   <form class="login-container" id="changePassword" action="{{  route('update-password')}}" method="POST" >
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-floating mb-5 position-relative">
+                    <div class="form-floating input-height">
                         <input type="password" class="form-control @error('current_password') error @enderror" id="floatingPassword" placeholder="Current Password" maxlength="20" name="current_password" value="{{ old('current_password') }}" onfocusout="password_check('floatingPassword')">
                         <label for="floatingPassword" class="floatingPasswordLabel">Current Password</label>
                         <span class="invalid-field text-right floatingPassword">
@@ -37,14 +37,14 @@
                         </span>
                         <img src="{{ asset('/assets/images/svg/eye-open.svg')}}" class="eye-img" alt="Image">
                     </div>
-                    <div class="form-floating mb-5 position-relative">
+                    <div class="form-floating input-height">
                       <input type="password" class="form-control @error('new_password') is-invalid @enderror" id="floatingNewPassword" placeholder="New Password" maxlength="20" name="new_password" value="{{ old('new_password') }}" onfocusout="password_check('floatingNewPassword')">
                       <label for="floatingNewPassword" class="floatingNewPasswordLabel">New Password</label>
                       <span class="invalid-field text-right floatingNewPassword">
                         @error('new_password') {{ $message }} @enderror
                       </span>
                     </div>
-                    <div class="form-floating position-relative">
+                    <div class="form-floating input-height">
                       <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password" maxlength="20" name="confirm_password" value="{{ old('confirm_password') }}" onfocusout="password_check('floatingConfirmPassword')">
                       <label for="floatingConfirmPassword" class="floatingConfirmPasswordLabel">Confirm Password</label>
                       <span class="invalid-field text-right floatingConfirmPassword">
