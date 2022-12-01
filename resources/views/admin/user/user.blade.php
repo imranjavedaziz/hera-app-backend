@@ -46,8 +46,8 @@
                             $img = $user->profile_pic;
                         @endphp
                         <!--  repeat this div  -->
-                        <div class="table-row @if($user->status_id == 5) delete-user-opacity @endif" @if($user->status_id == 5) disabled @endif>
-                            <div class="td-user-left @if($user->status_id != 5) open-detail-modal @endif" data-id="{{$user->id}}">
+                        <div class="table-row @if($user->status_id == 5) delete-user-opacity @endif delete-user-opacity{{$user->id}}" @if($user->status_id == 5) disabled @endif>
+                            <div class="td-user-left @if($user->status_id != 5) open-detail-modal @endif open-detail-modal{{$user->id}}" data-id="{{$user->id}}">
                                 <div class="td">
                                     <div class="user-title">
                                         <div class="user-img">
@@ -329,6 +329,8 @@
                             $("#active-user"+id).removeClass("d-block");
                             $("#active-user"+id).addClass("d-none");
                             $(".delete-user"+id).addClass("d-none");
+                            $(".open-detail-modal"+id).removeClass("open-detail-modal");
+                            $(".delete-user-opacity"+id).addClass("delete-user-opacity");
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
