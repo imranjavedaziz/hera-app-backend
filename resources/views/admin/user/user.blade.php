@@ -82,8 +82,8 @@
                                         id="inactive-icon">
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    @if($user->role_id != 2)
-                                        <li><a class="dropdown-item" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
+                                    @if($user->role_id != 2 && $user->status_id == 1)
+                                        <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
                                     @endif
                                     @if($user->deleted_at == null)
                                         <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
@@ -163,8 +163,8 @@
                         if (msg.doner_attribute != null) {
                             var inches = msg.doner_attribute.height;
                             var feet = Math.floor(inches / 12);
-                            inches %= 12;
-                            $('#height').html('Height: <span>' + feet + ' ft ' + inches + ' in </span>')
+                            var inch = inches % 12;
+                            $('#height').html('Height: <span>' + feet + ' ft ' + inch + ' in </span>')
                             $('#weight').html('Weight: <span>' + msg.doner_attribute.weight + ' pounds </span>')
                             $('#race').html('Race: <span>' + msg.doner_attribute.race + '</span>')
                             $('#eye-colour').html('Hair Color: <span>' + msg.doner_attribute.eye_colour + '</span>')
@@ -264,12 +264,14 @@
                                 $("#active-user"+id).removeClass("d-block");
                                 $("#active-user"+id).addClass("d-none");
                                 $(".modal-deactivate"+id).html("Activate User");
+                                $(".send-message").addClass("d-none");
                             }else{
                                 $("#active-user"+id).removeClass("d-none");
                                 $("#active-user"+id).addClass("d-block");
                                 $("#inactive-user"+id).removeClass("d-block");
                                 $("#inactive-user"+id).addClass("d-none");
                                 $(".modal-deactivate"+id).html("Deactivate User");
+                                $(".send-message").removeClass("d-none");
                             }
                             var status_replace = (status == 2) ? "1" : "2"
                             $('.modal-deactivate'+id).attr('data-status' , status_replace)
