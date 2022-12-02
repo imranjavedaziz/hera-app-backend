@@ -26,6 +26,7 @@ use Facades\{
 };
 use App\Models\User;
 use Log;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -1335,6 +1336,7 @@ class UserController extends Controller
                 if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
                     if(!Hash::check($input[NEW_PASSWORD], $user->password)){
                         $user->password = bcrypt($input[NEW_PASSWORD]);
+                        $user->password_updated = Carbon::now();
                         $user->save();
                         DB::commit();
                         $response = response()->Success(trans('messages.change_password.change_password_success'));

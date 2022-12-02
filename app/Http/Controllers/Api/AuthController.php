@@ -436,6 +436,7 @@ class AuthController extends Controller
                 return response()->Error(__('messages.reset_password_invalid_user'));
             }
             $user->password = Hash::make($request->password);
+            $user->password_updated = Carbon::now();
             $user->save();
             dispatch(new PasswordResetJob($user));
             DB::commit();
