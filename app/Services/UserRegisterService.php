@@ -287,7 +287,7 @@ class UserRegisterService
     public static function verifyEmail($user, $input){
         $isVerifyOtp = EmailVerification::where([EMAIL => $user->email])->where(OTP,$input[CODE])->first();
         if($isVerifyOtp) {
-            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->addHours(24)->toDateTimeString());
+            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->addHours(TWENTY_ONE)->toDateTimeString());
             if ($otpExpired) {
                 return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
             }

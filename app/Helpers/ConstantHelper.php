@@ -483,3 +483,7 @@ define('CONSTANT_ADMIN_EMAIL', "constants.ADMIN_EMAIL");
 
 // Routes constants
 define('USER_MANAGEMENT_ROUTE', '/user-management');
+
+// hour constans
+
+define('TWENTY_ONE', '21')
