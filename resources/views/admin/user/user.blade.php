@@ -139,7 +139,7 @@
                             $('#modal-deactivate').attr('data-id' , msg.id)
                             $('#modal-deactivate').attr('data-name' , msg.first_name+' '+middle_name+' '+msg.last_name)
                             $('#modal-deactivate').attr('data-status' , status)
-                            $('#modal-deactivate').html(status_text + ' this user.')
+                            $('#modal-deactivate').html(status_text + ' this user')
                             $('#modal-delete').attr('data-id' , msg.id)
                             $('#modal-delete').attr('data-name' , msg.first_name+' '+middle_name+' '+msg.last_name)
                             $('#modal-deactivate').addClass('d-block')
@@ -186,7 +186,8 @@
                             $('#hair-colour').hide();
                         }
                         if (msg.user_profile != null) {
-                            $('#occupation').html('Occupation: <span>' + msg.user_profile.occupation + '</span>');
+                            var occupation = (msg.user_profile.occupation != null) ? msg.user_profile.occupation : 'N/A';
+                            $('#occupation').html('Occupation: <span>' + occupation + '</span>');
                             $('#bio').html( msg.user_profile.bio);
                         }else{
                             $('#occupation').hide();

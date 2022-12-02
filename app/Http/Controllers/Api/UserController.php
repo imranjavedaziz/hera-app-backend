@@ -27,6 +27,7 @@ use Facades\{
 use App\Models\User;
 use Log;
 use Carbon\Carbon;
+use App\Jobs\PasswordChangeJob;
 
 class UserController extends Controller
 {
@@ -1339,6 +1340,7 @@ class UserController extends Controller
                         $user->password_updated = Carbon::now();
                         $user->save();
                         DB::commit();
+                        dispatch(new PasswordChangeJob($user));
                         $response = response()->Success(trans('messages.change_password.change_password_success'));
                     }else{
                         $response = response()->Error(trans('messages.change_password.new_password_can_not_be_old_password'));
