@@ -75,19 +75,19 @@ trait setterDataTrait {
     private function setUserName($role_id, $user_id){
         switch ($role_id) {
             case 2:
-                $username = 'PTB'.rand(1000, 9999).$user_id;
+                $username = 'PTB'.random_int(1000, 9999).$user_id;
                 break;
             case 3:
-                $username = 'SM'.rand(1000, 9999).$user_id;
+                $username = 'SM'.random_int(1000, 9999).$user_id;
                 break;
             case 4:
-                $username = 'ED'.rand(1000, 9999).$user_id;
+                $username = 'ED'.random_int(1000, 9999).$user_id;
                 break;
             case 5:
-                $username = 'SD'.rand(1000, 9999).$user_id;
+                $username = 'SD'.random_int(1000, 9999).$user_id;
                 break;
             default:
-            $username = 'MBC'.rand(1000, 9999).$user_id;
+            $username = 'MBC'.random_int(1000, 9999).$user_id;
                 break;
         }
         return $username;
