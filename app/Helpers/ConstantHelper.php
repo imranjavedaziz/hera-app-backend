@@ -485,4 +485,4 @@ define('CONSTANT_ADMIN_EMAIL', "constants.ADMIN_EMAIL");
 define('USER_MANAGEMENT_ROUTE', '/user-management');
 
 // hour constans
-define('TWENTY_ONE', '21')
+define('TWENTY_ONE', '21');
