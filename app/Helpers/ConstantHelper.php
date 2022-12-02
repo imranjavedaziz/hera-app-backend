@@ -480,3 +480,6 @@ define('GOOGLE_CHARGES', "15");
 
 define('RECIEVER_SUBSCRIPTION', "recieverSubscription");
 define('CONSTANT_ADMIN_EMAIL', "constants.ADMIN_EMAIL");
+
+// Routes constants
+define('USER_MANAGEMENT_ROUTE', '/user-management');
