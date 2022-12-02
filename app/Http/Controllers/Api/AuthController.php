@@ -359,11 +359,11 @@ class AuthController extends Controller
             $response = response()->json(['token' => $newToken], Response::HTTP_OK);
         } catch (\Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                $response = response()->json([MESSAGE => 'Token is Invalid.'], Response::HTTP_UNAUTHORIZED);
+                $response = response()->json([MESSAGE => 'Token is Invalid.'], Response::HTTP_FORBIDDEN);
             } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                $response = response()->json([MESSAGE => 'Token is Expired.'], Response::HTTP_UNAUTHORIZED);
+                $response = response()->json([MESSAGE => 'Token is Expired.'], Response::HTTP_FORBIDDEN);
             } else {
-                $response = response()->json([MESSAGE => $e->getMessage()], Response::HTTP_UNAUTHORIZED);
+                $response = response()->json([MESSAGE => $e->getMessage()], Response::HTTP_FORBIDDEN);
             }
         }
 
