@@ -37,7 +37,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 13px; padding: 0 40px 30px 40px; color: #ff4544;">
-	                    <em>Note: This code will expire in 30 mins</em>
+	                    <em>Note: This code will expire in 21 hours</em>
 	                </td>
 	            </tr>
 	            <tr>
