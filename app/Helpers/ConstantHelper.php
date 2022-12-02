@@ -479,3 +479,4 @@ define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
 
 define('RECIEVER_SUBSCRIPTION', "recieverSubscription");
+define('CONSTANT_ADMIN_EMAIL', "constants.ADMIN_EMAIL");

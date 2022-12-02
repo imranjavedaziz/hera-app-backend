@@ -87,7 +87,7 @@ class FirebaseService
         try {
             $response = NULL;
             /***\Log::info(" createAdminFriends : " . json_encode($newUser));***/
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
+            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $adminFriendData = $this->createFriend($admin,$newUser);
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id) === false){
                 $this->database->getReference($this->tableName)->set($admin->id);
@@ -169,7 +169,7 @@ class FirebaseService
         try {
             $response = NULL;
             $receiverName = CustomHelper::fullName($receiver);
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
+            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $users = $this->database->getReference($this->tableName)->getValue();
             if(!empty($users)) {
                 foreach($users as $key => $user) {
@@ -213,7 +213,7 @@ class FirebaseService
     public function updateUserStatus($receiver, $accountStatus, $keyName) {
         try {
             $response = NULL;
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
+            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $users = $this->database->getReference($this->tableName)->getValue();
             if(!empty($users)) {
                 foreach($users as $key => $user) {
