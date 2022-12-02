@@ -28,7 +28,7 @@ class SubscriptionWillEnd implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $isTrial)
     {
         $this->data = $data;
         $this->isTrial = $isTrial;
