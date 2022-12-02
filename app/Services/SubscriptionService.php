@@ -145,12 +145,14 @@ class SubscriptionService
     public function updateIosSubscription($fields)
     {
         $data = $this->getSubscriptionDetails($fields);
+        $prevSubDetails = Subscription::where(ORIGINAL_TRANSACTION_ID,$data[ORIGINAL_TRANSACTION_ID])->orderBy(ID,DESC)->first();
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
-            $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first();  
-            $this->setAndCreateSubscriptionData($plan, $data);
+            if ($prevSubDetails == null) {
+                $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first(); 
+                $this->setAndCreateSubscriptionData($plan, $data);
+            }
         }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
-            $prevSubDetails = Subscription::where(ORIGINAL_TRANSACTION_ID,$fields[ORIGINAL_TRANSACTION_ID])->orderBy(ID,DESC)->first();
-            $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
+            $userId = $prevSubDetails[USER_ID];
             Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
             $user = User::find($userId);
             $user->update([
