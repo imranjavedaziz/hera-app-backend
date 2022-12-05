@@ -219,7 +219,7 @@
                     $('.empty-msg').addClass("d-none");
                     $('.msg-wrapper').removeClass("d-none");
                     $('.msg-wrapper').append(checkMessage(msgData));
-                    $(".msg-wrapper").animate({ scrollTop: $('.msg-wrapper').prop("scrollHeight")}, 100);
+                    $('.msg-wrapper').scrollTop($('.msg-wrapper')[0].scrollHeight);
                 } else {
                     $('.empty-msg').removeClass("d-none");
                     $('.msg-wrapper').addClass("d-none");
@@ -343,7 +343,7 @@
                                     $('.empty-msg').addClass("d-none");
                                     $('.msg-wrapper').removeClass("d-none");
                                     $('.msg-wrapper').append(checkMessage(msgData));
-                                    $(".msg-wrapper").animate({ scrollTop: $('.msg-wrapper').prop("scrollHeight")}, 100);
+                                    $('.msg-wrapper').scrollTop($('.msg-wrapper')[0].scrollHeight);
                                 }
                                 if(lastData == 1) {
                                     $('.empty-msg').removeClass("d-none");
