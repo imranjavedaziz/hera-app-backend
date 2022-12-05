@@ -157,7 +157,8 @@
 
         function updateUserChatProfile(image, roleData, name, username, userId, statusId) {
             $("#receiverImage").attr("src",image);
-            $("#receiverRole").html(roleData);
+            var userStatus = (statusId != 1) ? 'style="background-color: #ff5353;"' : '';
+            $("#receiverRole").html(roleData+' <span class="profile-status" '+userStatus+'>INACTIVE</span>');
             $("#receiverName").html(name+', <span>'+username+'</span>');
             $('#receiverName').attr('data-recevierId', userId);
             $('#receiverName').attr('data-statusId', statusId);
