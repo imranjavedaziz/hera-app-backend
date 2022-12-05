@@ -214,7 +214,8 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
+        /**$dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);**/
+        $dateAfterTenDay = Carbon::now()->addDay(3)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
@@ -223,17 +224,17 @@ class SubscriptionService
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->addDays(-20)->format(YMD_FORMAT);
-        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->get();
+        /**$twentyDaytoday = Carbon::now()->addDays(20)->format(YMD_FORMAT);**/
+        $twentyDaytoday = Carbon::now()->addHours(1)->format(DATE_TIME);
+        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {
         $user = User::where([ID => $userId])->first();
-        $joinningDate = strtotime($user->created_at);
-        $currentDate = strtotime(date(DATE_TIME));
-        $days = round(($joinningDate - $currentDate) / 3600,2);
+        $dateDiff = strtotime(date(DATE_TIME)) - strtotime($user->created_at->format(DATE_TIME));
+        $days = round(($dateDiff / 3600));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-        if ($subscription == null && $user->subscription_status == ZERO && $days < 30) {
+        if ($subscription == null && $user->subscription_status == ZERO && $days < 3) {
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
