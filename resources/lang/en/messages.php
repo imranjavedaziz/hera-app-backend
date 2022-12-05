@@ -114,4 +114,6 @@ return [
         'success' => 'We have registered your query and will reach out to you shortly.',
     ],
     'sent_push_notification' => 'Notification sent successfully.',
+    'user_report' => 'You have successfully report this user.',
+    'already_user_reported' => 'You have already reported this user.',
 ];

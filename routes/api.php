@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\FcmController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChatFeedbackController;
 use App\Http\Controllers\Api\EnquiryController;
+use App\Http\Controllers\Api\ReportUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +98,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('get-gallery', [UserController::class, 'getGalleryData']);
         Route::post('send-verification-mail', [UserController::class, 'sendVerificationMail']);
         Route::post('verify-email', [UserController::class, 'verifyEmail']);
+        Route::post('report-user', [ReportUserController::class, 'reportUser']);
 
         //Profile Routes
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
