@@ -27,7 +27,7 @@ class AuthController extends AdminController
     public function getLogin()
 	{ 
 		if (Auth::check()) {
-			return redirect($this->ADMIN_URL.'/user-management');
+			return redirect($this->ADMIN_URL.USER_MANAGEMENT_ROUTE);
 		}
 		return view('admin.auth.login')->with(['title' => 'Log In']);
 	}
@@ -51,7 +51,7 @@ class AuthController extends AdminController
 		$password = $request->input(PASSWORD);		
 		$credentials = array(EMAIL =>$email, PASSWORD =>$password, ROLE_ID => [ADMIN]);
 		if(Auth::attempt($credentials)){
-			return redirect($this->ADMIN_URL.'/user-management');
+			return redirect($this->ADMIN_URL.USER_MANAGEMENT_ROUTE);
 		}else{
 			return back()->withInput()->withErrors(['error'=>__('messages.admin.invalid_credentail')]);
 		}
@@ -103,7 +103,7 @@ class AuthController extends AdminController
                 $user->save();
                 DB::commit();
             	dispatch(new PasswordChangeJob($user));
-		        $response = redirect($this->ADMIN_URL.'/user-management')->withFlashSuccess(trans('messages.change_password.change_password_success'));
+		        $response = redirect($this->ADMIN_URL.USER_MANAGEMENT_ROUTE)->withFlashSuccess(trans('messages.change_password.change_password_success'));
 	        }
         } catch (\Exception $e) {
             DB::rollback();

@@ -200,6 +200,7 @@
                                 img = img.concat('<img class="lightboxed" rel="group1" src="'+path+'" alt="Image" data-link="'+path+'" data-width="560" data-height="315" >');
                             });
                             $('.img-wrapper').html(img)
+                            jQuery( '.lightboxed' ).lightboxed();
                         }else{
                             $('.img-wrapper').hide();
                         }
