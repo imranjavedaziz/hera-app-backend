@@ -88,7 +88,7 @@ return [
     'account_deactive' => 'Account deactivated successfully!.',
     'account_active' => 'Account activated successfully!.',
     'verify_email_send_success' => 'Verify mail has been sent successfully on your email.',
-    'invalid_email_otp' => 'Incorrect OTP. Please Try Again.',
+    'invalid_email_otp' => 'Invalid OTP. Please Try Again.',
     'email_verified_success' => 'Email verified sucessfully.',
     'email_already_verified' => 'Email already verified.',
     'password_does_not_match' => 'Please enter valid credentials.',
