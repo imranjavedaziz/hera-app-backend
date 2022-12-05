@@ -26,12 +26,13 @@ class CheckUserAccountStatus
      */
     public function handle(Request $request, Closure $next)
     {
+        $data = JWTAuth::decode(JWTAuth::getToken())->toArray();
         $user = User::where([ID => JWTAuth::parseToken()->authenticate()->id])->first();
-        if($user->status_id == FIVE || $user->deactivated_by == ONE){
+        if($user->status_id == DELETED || $user->status_id == INACTIVE || ($data['iat'] < strtotime($user->password_updated))){
             JWTAuth::invalidate(JWTAuth::parseToken());
             FcmService::deactivateRegisterDevice($user->id);
             $message = CustomHelper::getDeleteInactiveMsg($user);
-            return response()->json(['data'=>new \stdClass(), MESSAGE => $message], HTTP_DELETED_ACCOUNT);
+            return response()->json(['data'=>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
         }
         return $next($request);
     }

@@ -47,7 +47,7 @@ class TwilioOtp
     public static function otpVerification($data){
         $isVerifyeOtp = PhoneVerification::where([COUNTRY_CODE => $data[COUNTRY_CODE],PHONE_NO => $data[PHONE_NO]])->where(OTP,$data[OTP])->first();
         if($isVerifyeOtp) {
-            $otpExpired = $isVerifyeOtp[UPDATED_AT] <= (Carbon::now()->subMinutes(30)->toDateTimeString());
+            $otpExpired = $isVerifyeOtp[UPDATED_AT] <= (Carbon::now()->subHours(TWENTY_ONE)->toDateTimeString());
             if ($otpExpired) {
                 return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
             }
