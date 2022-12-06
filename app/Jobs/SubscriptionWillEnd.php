@@ -45,9 +45,9 @@ class SubscriptionWillEnd implements ShouldQueue
         $title = 'Renew Susbcription!';
         $trialDesc = "Your free trial period will get over in next 10 days. Please subscribe to continue the services.";
         $description  = (!$this->isTrial) ? 'Your subscription will end on '.$subscriptionEndDate.'. Please renew to get good matches.' : $trialDesc;
-        $userId = $this->data->user_id;
+        $userId = (!$this->isTrial) ? $this->data->user_id : $this->data->id;
         $membershipArrayPtb[USER_ID] = $userId;
-        $membershipArrayPtb[NAME] = $this->data->user->first_name.' '.$this->data->user->last_name;
+        $membershipArrayPtb[NAME] = (!$this->isTrial)  ? $this->data->user->first_name.' '.$this->data->user->last_name : $this->data->first_name.' '.$this->data->last_name;
         $membershipArrayPtb['membership_name'] = (!$this->isTrial) ? $this->data->subscriptionPlan->name : 'Trial';
         $membershipArrayPtb['membership_end'] = (!$this->isTrial) ? $subscriptionEndDate : '';
         $membershipArrayPtb['membership_id'] = (!$this->isTrial) ? $this->data->id : '';
