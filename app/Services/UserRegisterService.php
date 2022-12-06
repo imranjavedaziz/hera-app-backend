@@ -22,6 +22,7 @@ use Facades\{
 };
 use App\Jobs\CreateAdminChatFreiend;
 use App\Jobs\UpdateUserDetailOnFirebase;
+use App\Jobs\UpdateUserNotificationSetting;
 use DB;
 
 class UserRegisterService
@@ -43,6 +44,7 @@ class UserRegisterService
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
                 dispatch(new CreateAdminChatFreiend($user));
             }
+            dispatch(new UpdateUserNotificationSetting($user->id));
         }
         return $user;
     }
