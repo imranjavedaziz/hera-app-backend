@@ -10,6 +10,7 @@ use Facades\{
 use App\Helpers\CustomHelper;
 use App\Models\ProfileMatch;
 use App\Models\Feedback;
+use App\Models\NotificationSetting;
 use App\Traits\FcmTrait;
 
 class FcmService
@@ -79,7 +80,10 @@ class FcmService
             $chatArray[MATCH_REQUEST] = $profile_match;
             $chatArray["time"] = time();
             $chatArray["type"] = "Text";
-            $this->sendPush($userDevice->device_token,$input['title'],$input['message'],$chatArray);
+            $userNotify = NotificationSetting::where([USER_ID => $input[RECEIVER_ID], NOTIFY_STATUS => ONE])->first();
+            if (!empty($userNotify)){
+                $this->sendPush($userDevice->device_token,$input['title'],$input['message'],$chatArray);
+            }
             $response = response()->Success(trans('messages.sent_push_notification'));
         } else {
             $response = response()->Success('No device found!');
