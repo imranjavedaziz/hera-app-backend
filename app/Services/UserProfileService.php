@@ -54,7 +54,7 @@ class UserProfileService
     }
 
     private function profileMatchRequest($from_user_id, $to_user_id){
-        return ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS)
+        return ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS, UPDATED_AT, CREATED_AT)
         ->where(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $from_user_id);
             $query->where(TO_USER_ID, $to_user_id);  
