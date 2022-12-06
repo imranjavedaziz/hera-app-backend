@@ -11,7 +11,7 @@
                     <h5>All the data related to this account will be deleted permanently & cannot be restored. Do you still want to proceed?</h5>
                     <div class="logout-footer">
                         <button type="button" class="btn-hidden" data-bs-dismiss="modal">Not now</button>
-                        <button type="button" class="btn-primary btn-logout btn-red" id="delete-btn-text"  data-id="" data-name="">Delete</button>
+                        <button type="button" class="btn-primary btn-logout btn-red w-129" id="delete-btn-text"  data-id="" data-name="">Delete</button>
                     </div>
                 </div>
             </div>
