@@ -66,7 +66,7 @@ class FirebaseService
             "recieverName" => $receiverName,
             "receiverSearchName" => strtolower($receiverName),
             "recieverUserName" => $reciever->username,
-            "recieverSubscription" => SubscriptionService::getSubscriptionStatus($reciever->id),
+            "recieverSubscription" => ($reciever->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($reciever->id) : ONE,
             "senderId" => $sender->id,
             "status_id" => ACTIVE,
             "senderImage" => $sender->profile_pic,
