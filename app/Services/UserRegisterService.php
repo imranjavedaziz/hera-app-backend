@@ -240,6 +240,9 @@ class UserRegisterService
                 ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
                 ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
             },
+            'NotificationSetting' => function($q) {
+                return $q->select(ID, USER_ID, NOTIFY_STATUS);
+            },
         ])
         ->where(ID, $user_id)
         ->first();

@@ -486,3 +486,5 @@ define('USER_MANAGEMENT_ROUTE', '/user-management');
 
 // hour constans
 define('TWENTY_ONE', '21');
+
+define('NOTIFY_STATUS', 'notify_status');

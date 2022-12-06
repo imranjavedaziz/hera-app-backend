@@ -110,4 +110,12 @@ class CustomHelper
         }
         return $message;
     }
+
+    public static function getNotifyMessage($notifyType) {
+        $message = trans('messages.notify_status_in_active');
+        if ($notifyType) {
+            $message = trans('messages.notify_status_active');
+        }
+        return $message;
+    }
 }

@@ -99,6 +99,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('send-verification-mail', [UserController::class, 'sendVerificationMail']);
         Route::post('verify-email', [UserController::class, 'verifyEmail']);
         Route::post('report-user', [ReportUserController::class, 'reportUser']);
+        Route::post('update-notify-status', [NotificationController::class, 'notifyStatus']);
 
         //Profile Routes
         Route::post('/update-profile-pic', [UserController::class, 'updateProfilePic']);
