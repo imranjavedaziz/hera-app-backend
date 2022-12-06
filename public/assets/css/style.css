@@ -784,7 +784,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; }
   .table-body .table-row {
     color: #4d4d4d;
-    padding: 25px 0px;
+    padding: 20px 0px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 14px;
@@ -940,16 +940,16 @@ input[type=number]::-webkit-outer-spin-button {
   max-width: 20%; }
 .table-container-subdetail .th:nth-child(2),
 .table-container-subdetail .td:nth-child(2) {
-  flex: 0 0 13%;
-  max-width: 13%; }
+  flex: 0 0 10%;
+  max-width: 10%; }
 .table-container-subdetail .th:nth-child(3),
 .table-container-subdetail .td:nth-child(3) {
-  flex: 0 0 13%;
-  max-width: 13%; }
+  flex: 0 0 10%;
+  max-width: 10%; }
 .table-container-subdetail .th:nth-child(4),
 .table-container-subdetail .td:nth-child(4) {
-  flex: 0 0 13%;
-  max-width: 13%; }
+  flex: 0 0 19%;
+  max-width: 19%; }
 .table-container-subdetail .th:nth-child(5),
 .table-container-subdetail .td:nth-child(5) {
   flex: 0 0 23%;
@@ -1275,7 +1275,7 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
   .pagination .page-item .page-link {
-    padding: 6px 11px;
+    padding: 6px 11px !important;
     border: unset;
     background-color: transparent;
     color: #82828d; }
@@ -1486,6 +1486,8 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: space-between; }
   .subscription-wrapper .next-purchased {
     margin-right: 7%; }
+    .subscription-wrapper .next-purchased .purchase {
+      margin-bottom: 4px; }
     .subscription-wrapper .next-purchased span {
       font-weight: bold; }
 
@@ -2047,9 +2049,6 @@ span.invalid-field.text-right.floatingPassword.invalid-instruction {
 
 .signin-container .login-form .login-form-wrapper .input-height input {
   margin-bottom: 3px; }
-input::-webkit-textfield-decoration-container {
-  display: none;
-}
 
 input::-webkit-search-cancel-button{
   visibility: hidden;
@@ -2074,5 +2073,8 @@ input::-webkit-search-cancel-button{
   -moz-osx-font-smoothing: grayscale;
   line-height: 24px;
   margin-left: 7px; }
+  .w-129{
+    width: 129px;
+  }
 /*# sourceMappingURL=style.css.map */
   
