@@ -146,4 +146,9 @@ class User extends Authenticatable implements JWTSubject
     public static function deleteUser($id){
         return User::where('id',$id)->update([DELETED_AT => Carbon::now(), STATUS_ID => DELETED, DELETED_BY => ONE]);
     }
+
+    public function NotificationSetting()
+    {
+        return $this->hasOne(NotificationSetting::class, USER_ID, ID);
+    }
 }
