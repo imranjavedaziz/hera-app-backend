@@ -30,7 +30,7 @@ class JwtMiddleware extends BaseMiddleware
             User::where([ID => JWTAuth::parseToken()->authenticate()->id])->update([RECENT_ACTIVITY => Date(DATE_TIME)]);
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                $response = response()->json([MESSAGE => 'Token is Invalid.'], Response::HTTP_FORBIDDEN);
+                $response = response()->json([MESSAGE => 'Token is Invalid,  Please login again.'], Response::HTTP_FORBIDDEN);
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 $response = response()->json([MESSAGE => 'Token is Expired.'], Response::HTTP_UNAUTHORIZED);
             } else {
