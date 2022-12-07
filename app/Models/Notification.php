@@ -23,7 +23,7 @@ class Notification extends Model
         READ_AT,
     ];
 
-    public function getUnreadCount($userId, $notifyType) {
+    public static function getUnreadCount($userId, $notifyType) {
         $count = self::where(RECIPIENT_ID, $userId)
         ->where(NOTIFY_TYPE, $notifyType)
         ->whereNull(READ_AT)

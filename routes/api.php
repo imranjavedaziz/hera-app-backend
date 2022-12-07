@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Response as Responses;
 use App\Http\Middleware\CheckUserAccountStatus;
 use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
 use App\Http\Middleware\EnsureDonarTokenIsValid;
@@ -45,7 +46,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
                 'data' => null,
                 'message' => trans('messages.invalid_url')
             ],
-            200
+            Responses::HTTP_OK
         );
     });    
     Route::fallback(function () {
@@ -54,7 +55,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
                 'data' => null,
                 'message' => trans('messages.invalid_method')
             ],
-            405
+            Responses::HTTP_METHOD_NOT_ALLOWED
         );
     });
 
