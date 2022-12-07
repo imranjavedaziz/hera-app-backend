@@ -36,6 +36,6 @@ class DonarDashboardService
             $user = $user->whereHas(LOCATION);
         }
 
-        return $user->with(LOCATION)->where(ROLE_ID, PARENTS_TO_BE)->where(STATUS_ID, ONE)->where(REGISTRATION_STEP, THREE)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
+        return $user->with(LOCATION)->where([ROLE_ID => PARENTS_TO_BE, STATUS_ID => ONE, REGISTRATION_STEP => THREE])->where(SUBSCRIPTION_STATUS, '!=',ZERO)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
     }
 }
