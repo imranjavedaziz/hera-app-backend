@@ -26,6 +26,7 @@ use Facades\{
 };
 use App\Models\User;
 use Log;
+use Carbon\Carbon;
 use App\Jobs\PasswordChangeJob;
 
 class UserController extends Controller
@@ -1336,6 +1337,7 @@ class UserController extends Controller
                 if (Hash::check($input[CURRENT_PASSWORD], $user->password)) {
                     if(!Hash::check($input[NEW_PASSWORD], $user->password)){
                         $user->password = bcrypt($input[NEW_PASSWORD]);
+                        $user->password_updated = Carbon::now();
                         $user->save();
                         DB::commit();
                         dispatch(new PasswordChangeJob($user));

@@ -22,6 +22,7 @@ use Facades\{
 };
 use App\Jobs\CreateAdminChatFreiend;
 use App\Jobs\UpdateUserDetailOnFirebase;
+use App\Jobs\UpdateUserNotificationSetting;
 use DB;
 
 class UserRegisterService
@@ -43,6 +44,7 @@ class UserRegisterService
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
                 dispatch(new CreateAdminChatFreiend($user));
             }
+            dispatch(new UpdateUserNotificationSetting($user->id));
         }
         return $user;
     }
@@ -240,6 +242,9 @@ class UserRegisterService
                 ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
                 ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
             },
+            'NotificationSetting' => function($q) {
+                return $q->select(ID, USER_ID, NOTIFY_STATUS);
+            },
         ])
         ->where(ID, $user_id)
         ->first();
@@ -287,7 +292,7 @@ class UserRegisterService
     public static function verifyEmail($user, $input){
         $isVerifyOtp = EmailVerification::where([EMAIL => $user->email])->where(OTP,$input[CODE])->first();
         if($isVerifyOtp) {
-            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->subMinutes(30)->toDateTimeString());
+            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->addHours(TWENTY_ONE)->toDateTimeString());
             if ($otpExpired) {
                 return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
             }

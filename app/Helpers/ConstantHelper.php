@@ -479,3 +479,12 @@ define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
 
 define('RECIEVER_SUBSCRIPTION', "recieverSubscription");
+define('CONSTANT_ADMIN_EMAIL', "constants.ADMIN_EMAIL");
+
+// Routes constants
+define('USER_MANAGEMENT_ROUTE', '/user-management');
+
+// hour constans
+define('TWENTY_ONE', '21');
+
+define('NOTIFY_STATUS', 'notify_status');

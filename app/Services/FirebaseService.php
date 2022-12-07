@@ -66,7 +66,7 @@ class FirebaseService
             "recieverName" => $receiverName,
             "receiverSearchName" => strtolower($receiverName),
             "recieverUserName" => $reciever->username,
-            "recieverSubscription" => SubscriptionService::getSubscriptionStatus($reciever->id),
+            "recieverSubscription" => ($reciever->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($reciever->id) : ONE,
             "senderId" => $sender->id,
             "status_id" => ACTIVE,
             "senderImage" => $sender->profile_pic,
@@ -87,7 +87,7 @@ class FirebaseService
         try {
             $response = NULL;
             /***\Log::info(" createAdminFriends : " . json_encode($newUser));***/
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
+            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $adminFriendData = $this->createFriend($admin,$newUser);
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id) === false){
                 $this->database->getReference($this->tableName)->set($admin->id);
@@ -169,7 +169,7 @@ class FirebaseService
         try {
             $response = NULL;
             $receiverName = CustomHelper::fullName($receiver);
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
+            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $users = $this->database->getReference($this->tableName)->getValue();
             if(!empty($users)) {
                 foreach($users as $key => $user) {
@@ -213,17 +213,13 @@ class FirebaseService
     public function updateUserStatus($receiver, $accountStatus, $keyName) {
         try {
             $response = NULL;
-            $admin = User::where(EMAIL,config('constants.ADMIN_EMAIL'))->first();
             $users = $this->database->getReference($this->tableName)->getValue();
             if(!empty($users)) {
                 foreach($users as $key => $user) {
-                    /***Update As Admin Friend ***/
-                    if ($key == $admin->id && $this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id.'/'.$this->friendsKey.'/'.$receiver->id) === true){
-                        $response = $this->database->getReference($this->tableName)->update([$admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/'. $keyName => $accountStatus]);
+                    if ($key == $receiver->id || $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === false){
+                        continue;
                     }
-                    if ($key == $receiver->id){
-                        $this->updateChatUserAccountStatus($receiver, $accountStatus, $keyName);
-                    }
+                    $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([$receiver->id.'/'.$keyName => $accountStatus]);
                 }
             }
         } catch (ApiException $e) {
@@ -236,17 +232,6 @@ class FirebaseService
             $response = $e->getMessage();
         }
         return $response;
-    }
-
-    private function updateChatUserAccountStatus($receiver, $accountStatus, $keyName) {
-        $friends = $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->getValue();
-        if(!empty($friends)) {
-            foreach($friends as $key => $friend) {
-                if ($this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->getSnapshot()->hasChild($key) === true){
-                    $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->update([$key.'/'.$keyName => $accountStatus]);
-                }
-            }
-        }
     }
 
     /**

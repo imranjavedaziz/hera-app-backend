@@ -3,7 +3,7 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
+                <div id="deactivate-msg-box" class="alert alert-success d-flex" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
                     <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
@@ -200,6 +200,7 @@
                                 img = img.concat('<img class="lightboxed" rel="group1" src="'+path+'" alt="Image" data-link="'+path+'" data-width="560" data-height="315" >');
                             });
                             $('.img-wrapper').html(img)
+                            jQuery( '.lightboxed' ).lightboxed();
                         }else{
                             $('.img-wrapper').hide();
                         }
