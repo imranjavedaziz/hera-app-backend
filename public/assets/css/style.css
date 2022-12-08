@@ -1116,7 +1116,9 @@ input[type=number]::-webkit-outer-spin-button {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #353a3a;
-      height: 40px; }
+      height: 55px; 
+      padding-bottom: 13px;
+    }
       .signin-container .login-form .login-form-wrapper input:focus {
         border-bottom: 2px solid #1DBFF1; }
       .signin-container .login-form .login-form-wrapper input.error {
@@ -1414,7 +1416,8 @@ input[type=number]::-webkit-outer-spin-button {
     .user-title .user-img img {
       width: 36px;
       height: 36px;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: top;
       border-radius: 50% !important; }
     .user-title .user-img .checkmark-img-wrapper {
       position: absolute;
@@ -2050,11 +2053,14 @@ span.invalid-field.text-right.floatingPassword.invalid-instruction {
 .signin-container .login-form .login-form-wrapper .input-height input {
   margin-bottom: 3px; }
 
-input::-webkit-search-cancel-button{
-  visibility: hidden;
-  -webkit-appearance: none;
-  appearance: none;
-}
+  input::-webkit-contacts-auto-fill-button,
+  input::-webkit-credentials-auto-fill-button {
+      visibility: hidden;
+  }
+  
+  input::-webkit-search-cancel-button{
+      display: none !important;
+  }
 .table-row.delete-user-opacity {
     opacity: 0.5;
 }
@@ -2075,6 +2081,11 @@ input::-webkit-search-cancel-button{
   margin-left: 7px; }
   .w-129{
     width: 129px;
+  }
+  .alert-boxes {
+    display: flex!important;
+    width: 100%;
+    justify-content: space-between;
   }
 /*# sourceMappingURL=style.css.map */
   
