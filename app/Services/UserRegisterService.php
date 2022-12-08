@@ -108,7 +108,7 @@ class UserRegisterService
         $parents_preference->education = $input[EDUCATION];
         $parents_preference->state = $input[STATE];
         if($parents_preference->save()){
-            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE, SUBSCRIPTION_STATUS => SUBSCRIPTION_TRIAL]);
         }
         return $parents_preference;
     }
