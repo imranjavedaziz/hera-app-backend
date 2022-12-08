@@ -235,7 +235,7 @@ class SubscriptionService
         $dateDiff = strtotime(date(DATE_TIME)) - strtotime($user->created_at->format(DATE_TIME));
         $days = round(($dateDiff / 3600));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-        if ($subscription == null && $user->subscription_status == ZERO && $days < 3) {
+        if ($subscription == null && $user->subscription_status == TWO && $days < 3) {
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
