@@ -224,9 +224,10 @@ class SubscriptionService
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        /**$twentyDaytoday = Carbon::now()->addDays(20)->format(YMD_FORMAT);**/
-        $twentyDaytoday = Carbon::now()->addHours(1)->format(DATE_TIME);
-        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        /**$twentyDaytoday = Carbon::now()->subDays(20)->format(YMD_FORMAT);**/
+        /** User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get(); */
+        $twentyDaytoday = Carbon::now()->subHours(1)->format(DATE_TIME);
+        return User::where(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {
@@ -234,7 +235,7 @@ class SubscriptionService
         $dateDiff = strtotime(date(DATE_TIME)) - strtotime($user->created_at->format(DATE_TIME));
         $days = round(($dateDiff / 3600));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-        if ($subscription == null && $user->subscription_status == ZERO && $days < 3) {
+        if ($subscription == null && $user->subscription_status == TWO && $days < 3) {
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
@@ -274,5 +275,21 @@ class SubscriptionService
         }
 
         return true;
+    }
+
+    public function getTrialExpiredSubscription() {
+        /**$thirtyDaytoday = Carbon::now()->subDays(30)->format(YMD_FORMAT);
+         User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        **/
+        $thirtyDaytoday = Carbon::now()->subHours(3)->format(DATE_TIME);
+        return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+    }
+
+    public function getExpiredSubcription() {
+        return Subscription::with('user')
+            ->where(STATUS_ID,ACTIVE)
+            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
+            ->get();
     }
 }
