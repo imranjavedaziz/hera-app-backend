@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         /**$schedule->command('subscription:reminder')->dailyAt('1:00');**/
         $schedule->command('subscription:reminder')->everyMinute();
+        $schedule->command('subscription:expired')->everyMinute();
     }
 
     /**
