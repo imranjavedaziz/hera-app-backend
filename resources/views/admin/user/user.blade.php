@@ -3,8 +3,9 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success d-flex" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
-                    <div class="alert-text">
+                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
+                <div class ="alert-boxes">    
+                <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
                         </span> <span id="deactivate-msg">@if(session()->get('flash_success')) {{ session()->get('flash_success') }} @endif</span>
@@ -13,6 +14,7 @@
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
                     </div>
                 </div>
+            </div>
                 @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             @if ($userData->count() > 0)
