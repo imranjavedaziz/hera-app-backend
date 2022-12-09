@@ -179,7 +179,7 @@ class FirebaseService
                         $admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/receiverSearchName' => strtolower($receiverName)]);
                         $response = $this->database->getReference($this->tableName)->update([$admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/recieverImage' => $receiver->profile_pic]);
                     }
-                    if ($key == $receiver->id){
+                    if ($key != $receiver->id){
                         $this->updateFriendsAsSenderName($receiver);
                     }
                 }
