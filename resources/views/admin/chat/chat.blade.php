@@ -188,6 +188,7 @@
             database.ref(env+'/Users/'+adminId+'/Friends/'+userId).update({
                 message: msg,
                 read: 0,
+                chat_start: 1,
                 time: new Date().getTime(),
                 adminChatTime: new Date().getTime()
             });
@@ -196,6 +197,7 @@
             database.ref(env+'/Users/'+userId+'/Friends/'+adminId).update({
                 message: msg,
                 read: 0,
+                chat_start: 1,
                 time: new Date().getTime()
             });
             $(".user-chat-sec[userid='" + userId + "']").find(".user-msg").html(msg);
