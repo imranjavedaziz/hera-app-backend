@@ -40,6 +40,7 @@ class ProfileMatchService
     }
 
     private function getMatchRequestMsg($input, $profile_match, $user_id){
+        $currentUser = User::where(ID, $user_id)->first();
         $to_user = User::where(ID, $input[TO_USER_ID])->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
@@ -63,23 +64,17 @@ class ProfileMatchService
                 $title = 'Profile Match Request Approved.';
                 $message = __('messages.profile_match.request_approved');
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
-                if ($input[FROM_USER_ID] != $user_id){
-                    $to_user1 = $from_user;
-                    $from_user = $to_user; 
-                    $to_user = $to_user1;
-                }
-
-                if($to_user->role_id == 2){
+                if($to_user->role_id == 2 && $currentUser->role_id != 2){
                     $name = $to_user->first_name;
                     $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
                     if (!empty($fromUserNotify)) {
-                        dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
+                        dispatch(new SendProfileMatchJob($currentUser, $to_user, $profile_match, $description, $title, $feedback));
                     }
-                }else{
+                }elseif ($from_user->role_id != 2 && $currentUser->role_id == 2){
                     $name = $to_user->username;
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                     if (!empty($toUserNotify)) {
-                        dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
+                        dispatch(new SendProfileMatchJob($currentUser, $from_user, $profile_match, $description, $title, $feedback));
                     }
                 }
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
