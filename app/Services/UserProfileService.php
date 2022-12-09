@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Models\ProfileMatch;
 use App\Helpers\AuthHelper;
 use DB;
+use Facades\{
+    App\Services\FcmService,
+};
 
 class UserProfileService
 {
@@ -30,8 +33,9 @@ class UserProfileService
                 ->selectRaw('(select name from education where id='.EDUCATION_ID.AS_CONNECT.EDUCATION.' ');
             }, LOCATION, DONERPHOTOGALLERY, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
-        $user->profile_match_request = $this->profileMatchRequest(AuthHelper::authenticatedUser()->id, $input[USER_ID]);
-
+        $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id;
+        $input[MESSAGE] = "";
+        $user->profile_match_request = FcmService::sendPushNotification($input, $input[USER_ID],false);
         return $user;
     }
 
@@ -49,7 +53,9 @@ class UserProfileService
             }, LOCATION, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
 
-        $user->profile_match_request = $this->profileMatchRequest(AuthHelper::authenticatedUser()->id, $input[USER_ID]);
+        $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id;
+        $input[MESSAGE] = "";
+        $user->profile_match_request = FcmService::sendPushNotification($input, $input[USER_ID],false);
         return $user;
     }
 

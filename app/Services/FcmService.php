@@ -39,7 +39,7 @@ class FcmService
         return DeviceRegistration::where(USER_ID, $user_id)->update([STATUS_ID=>2]);
     }
 
-    public function sendPushNotification($input, $sender_id)
+    public function sendPushNotification($input, $sender_id, $chatNotification = true)
     {
         $msgId = ($input[RECEIVER_ID] > $sender_id) ? $input[RECEIVER_ID] : $sender_id;
         $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
@@ -57,7 +57,7 @@ class FcmService
         })
         ->first();
         $feedback = Feedback::where(SENDER_ID, $input[RECEIVER_ID])->where(RECIPIENT_ID, $sender_id)->first();
-        if(!empty($userDevice)) {
+        if(!empty($userDevice) || !$chatNotification) {
             $chatArray[NOTIFY_TYPE] = CHAT;
             $chatArray["chat_start"] = ONE;
             $chatArray["currentRole"] = $sender_user->role_id;
@@ -80,6 +80,9 @@ class FcmService
             $chatArray[MATCH_REQUEST] = $profile_match;
             $chatArray["time"] = time();
             $chatArray["type"] = "Text";
+            if(!$chatNotification){
+                return $chatArray;
+            }
             $userNotify = NotificationSetting::where([USER_ID => $input[RECEIVER_ID], NOTIFY_STATUS => ONE])->first();
             if (!empty($userNotify)){
                 $this->sendPush($userDevice->device_token,$input['title'],$input['message'],$chatArray);
