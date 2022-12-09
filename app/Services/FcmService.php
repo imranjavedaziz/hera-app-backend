@@ -70,7 +70,7 @@ class FcmService
             $chatArray["recieverImage"] = $sender_user->profile_pic;
             $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
             $chatArray["recieverUserName"] = $sender_user->username;
-            $chatArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($sender_user->id);
+            $chatArray["recieverSubscription"] = ($receiver_user->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($reciever->id) : ONE;
             $chatArray["senderId"] = $receiver_user->id;
             $chatArray["senderImage"] = $receiver_user->profile_pic;
             $chatArray["senderName"] = CustomHelper::fullName($receiver_user);
