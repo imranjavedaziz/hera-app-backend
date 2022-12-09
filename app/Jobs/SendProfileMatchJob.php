@@ -66,7 +66,7 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray["recieverImage"] = $this->sender_user->profile_pic;
         $profileMatchArray["recieverName"] = CustomHelper::fullName($this->sender_user);
         $profileMatchArray["recieverUserName"] = $this->sender_user->username;
-        $profileMatchArray["recieverSubscription"] = SubscriptionService::getSubscriptionStatus($this->sender_user->id);
+        $profileMatchArray["recieverSubscription"] = ($this->sender_user->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($this->sender_user->id) : ONE;
         $profileMatchArray["senderId"] = $this->user->id;
         $profileMatchArray["senderImage"] = $this->user->profile_pic;
         $profileMatchArray["senderName"] = CustomHelper::fullName($this->user);
