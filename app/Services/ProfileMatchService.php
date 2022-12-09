@@ -64,17 +64,17 @@ class ProfileMatchService
                 $title = 'Profile Match Request Approved.';
                 $message = __('messages.profile_match.request_approved');
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
-                if($to_user->role_id == 2 && $currentUser->role_id != 2){
-                    $name = $to_user->first_name;
-                    $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
-                    if (!empty($fromUserNotify)) {
-                        dispatch(new SendProfileMatchJob($currentUser, $to_user, $profile_match, $description, $title, $feedback));
-                    }
-                }elseif ($from_user->role_id != 2 && $currentUser->role_id == 2){
+                if($to_user->role_id == 2){
                     $name = $to_user->username;
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                     if (!empty($toUserNotify)) {
-                        dispatch(new SendProfileMatchJob($currentUser, $from_user, $profile_match, $description, $title, $feedback));
+                        dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
+                    }
+                }else{
+                    $name = $to_user->first_name;
+                    $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
+                    if (!empty($fromUserNotify)) {
+                        dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
                     }
                 }
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
@@ -93,7 +93,7 @@ class ProfileMatchService
         if($profile_match->save()){
             $input[FROM_USER_ID] = $user_id;
             $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
-            $message = $this->getMatchRequestMsg($input, $input[ID], $user_id);
+            $message = $this->getMatchRequestMsg($input, $profile_match, $user_id);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
