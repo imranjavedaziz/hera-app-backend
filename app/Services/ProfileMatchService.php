@@ -42,8 +42,8 @@ class ProfileMatchService
     private function getMatchRequestMsg($input, $profile_match){
         $to_user = User::where(ID, $input[TO_USER_ID])->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
-        $toUserNotify = NotificationSetting::where([USER_ID => $to_user, NOTIFY_STATUS => ONE])->first();
-        $fromUserNotify = NotificationSetting::where([USER_ID => $from_user, NOTIFY_STATUS => ONE ])->first();
+        $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
+        $fromUserNotify = NotificationSetting::where([USER_ID => $input[FROM_USER_ID], NOTIFY_STATUS => ONE ])->first();
         switch ($input[STATUS]) {
             case 1:
                 $to_name = ( $to_user->role_id == 2 ) ? $to_user->first_name : $to_user->username;
