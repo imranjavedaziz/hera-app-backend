@@ -33,13 +33,14 @@ class ProfileMatchService
             $profile_match->to_user_id = $input[TO_USER_ID];
         }
         if($profile_match->save()){
-            $message = $this->getMatchRequestMsg($input, $profile_match);
+            $message = $this->getMatchRequestMsg($input, $profile_match, $user_id);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
     }
 
-    private function getMatchRequestMsg($input, $profile_match){
+    private function getMatchRequestMsg($input, $profile_match, $user_id){
+        $currentUser = User::where(ID, $user_id)->first();
         $to_user = User::where(ID, $input[TO_USER_ID])->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->first();
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
@@ -64,16 +65,16 @@ class ProfileMatchService
                 $message = __('messages.profile_match.request_approved');
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
                 if($to_user->role_id == 2){
-                    $name = $to_user->first_name;
-                    $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
-                    if (!empty($fromUserNotify)) {
-                        dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
-                    }
-                }else{
                     $name = $to_user->username;
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                     if (!empty($toUserNotify)) {
                         dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
+                    }
+                }else{
+                    $name = $to_user->first_name;
+                    $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
+                    if (!empty($fromUserNotify)) {
+                        dispatch(new SendProfileMatchJob($from_user, $to_user, $profile_match, $description, $title, $feedback));
                     }
                 }
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
@@ -92,7 +93,7 @@ class ProfileMatchService
         if($profile_match->save()){
             $input[FROM_USER_ID] = $user_id;
             $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
-            $message = $this->getMatchRequestMsg($input, $input[ID]);
+            $message = $this->getMatchRequestMsg($input, $profile_match, $user_id);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
