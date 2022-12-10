@@ -49,7 +49,7 @@
                             ?>
                             <!--  repeat this div  -->
                             <div class="table-row">
-                                <div class="td text-bold">{{$subscriptionPlan->name}}</div>
+                                <div class="td text-bold">{{$subscriptionPlan->description}}</div>
                                 <div class="td">${{$subscription->price}}</div>
                                 <div class="td">{{$purchasedDate}}</div>
                                 <div class="td">#{{$subscription->original_transaction_id}}</div>
