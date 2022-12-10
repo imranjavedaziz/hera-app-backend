@@ -84,7 +84,7 @@ class DonarDashboardController extends Controller
             $profileCards = $donarProfileCard->paginate($limit);
             $dataCount = $donarProfileCard->count();
             $status = ($dataCount == ZERO) ? THREE : ONE;
-            if(!empty($input[KEYWORD]) && $dataCount->count() == ZERO){
+            if(!empty($input[KEYWORD]) && $dataCount == ZERO){
                 $status = TWO;
             }
             $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $profileCards, STATUS => $status],Response::HTTP_OK);

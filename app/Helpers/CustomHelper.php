@@ -92,7 +92,7 @@ class CustomHelper
         $totalAmount = ($deviceType == 'ios') ? $amount - ($amount  * APPLE_CHARGES /100) : $amount - ($amount  * GOOGLE_CHARGES /100);
         return number_format($totalAmount, 2, '.', '');
     }
-    
+
     public static function getDeleteInactiveMsg($user){
         switch ($user) {
             case ($user->deleted_by == ONE && $user->deleted_at != null):
