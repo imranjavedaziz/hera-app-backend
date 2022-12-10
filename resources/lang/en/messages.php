@@ -30,7 +30,7 @@ return [
     'email_not_verify' => 'Your email address has been not verified, Please verify it.',
     'MOBILE_OTP_SENT_SUCCESS'=> 'OTP has been sent successfully.',
     'MOBILE_OTP_SUCCESS' => 'OTP verified sucessfully.',
-    'MOBILE_OTP_FAIL' => 'Incorrect OTP. Please try again.',
+    'MOBILE_OTP_FAIL' => 'Invalid OTP. Please try again.',
     'MOBILE_OTP_EXPIRED' => 'Sorry, verification OTP has been expired.',
     'MOBILE_OTP_EXCEEDED_ATTEMPT' => 'You have exceeded the maximum number of attempts. Please try after 24 hours.',
     'INVALID_MOBILE' => 'Please use a valid mobile number.',
