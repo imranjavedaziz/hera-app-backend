@@ -25,12 +25,12 @@ class JwtMiddleware extends BaseMiddleware
             $headers = apache_request_headers();
             $request->headers->set('Authorization', $headers['Authorization']);
             if (JWTAuth::parseToken()->authenticate()==NULL) {
-                return response()->json([MESSAGE => 'Token is Invalid, Please login again.'], Response::HTTP_FORBIDDEN);
+                return response()->json([MESSAGE => 'Your session has been expired. Please login again.'], Response::HTTP_FORBIDDEN);
             }
             User::where([ID => JWTAuth::parseToken()->authenticate()->id])->update([RECENT_ACTIVITY => Date(DATE_TIME)]);
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                $response = response()->json([MESSAGE => 'Token is Invalid,  Please login again.'], Response::HTTP_FORBIDDEN);
+                $response = response()->json([MESSAGE => 'Your session has been expired. Please login again.'], Response::HTTP_FORBIDDEN);
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 $response = response()->json([MESSAGE => 'Token is Expired.'], Response::HTTP_UNAUTHORIZED);
             } else {
