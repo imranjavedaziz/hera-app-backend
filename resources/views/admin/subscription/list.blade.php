@@ -65,7 +65,7 @@
                             <span class="sm-code">{{$user->username}}</span>
                         </div>
                         <div class="td">{{$user->email}}</div>
-                        <div class="td">{{$subscriptionPlan->name}}</div>
+                        <div class="td">{{$subscriptionPlan->description}}</div>
                         <div class="td">${{$subscription->price}}/{{$type}}</div>
                         <div class="td">{{$purchasedDate}}</div>
                         <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
