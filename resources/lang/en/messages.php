@@ -19,7 +19,7 @@ return [
     'phone_already_exists' => 'Phone number is already exists.',
     'phone_not_exists' => 'Mobile number not registered. Please try again.',
     'signup_success' => 'Sign up successful!',
-    'invalid_user_pass' => 'Wrong password. Please try again.',
+    'invalid_user_pass' => 'Your password has been changed. Please login again using the updated password.',
     'invalid_user_phone' => 'Entered mobile number is not registered. Please check again.',
     'invalid_access_token' => 'Invalid access token.',
     'refresh_token' => 'Refresh token generated successfully.',
