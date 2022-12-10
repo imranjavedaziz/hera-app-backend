@@ -82,8 +82,9 @@ class DonarDashboardController extends Controller
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $donarProfileCard = DonarDashboardService::getPtbProfileCard($input);
             $profileCards = $donarProfileCard->paginate($limit);
-            $status = ($donarProfileCard->count() == ZERO) ? THREE : ONE;
-            if(!empty($input[KEYWORD]) && $donarProfileCard->count() == ZERO){
+            $dataCount = $donarProfileCard->count();
+            $status = ($dataCount == ZERO) ? THREE : ONE;
+            if(!empty($input[KEYWORD]) && $dataCount->count() == ZERO){
                 $status = TWO;
             }
             $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $profileCards, STATUS => $status],Response::HTTP_OK);
