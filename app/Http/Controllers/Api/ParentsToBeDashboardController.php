@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Traits\ParentsToBeMatchedDonerTrait;
 use Facades\{
@@ -58,18 +59,21 @@ class ParentsToBeDashboardController extends Controller
             if ($subscriptionStatus == SUBSCRIPTION_TRIAL) {
                 $limit_cards = SubscriptionService::getDailiyTrailCardLimit(AuthHelper::authenticatedUser()->id);
                 $page = ONE;
+                $status = ONE;
             }
             if ($limit_cards == ZERO) {
                 $data = [];
                 $data = array_slice($data, ZERO, $limit_cards);
+                $status = TWO;
             }else{
                 $limit = $limit_cards;
                 $data = array_slice($data, ZERO, $limit);
+                $status = ($data == []) ? THREE: ONE;
             }
             $collection = collect($data);
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
             $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit, $page, []);
-            $response = response()->Success(trans('messages.common_msg.data_found'), $matchedDonars);
+            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $matchedDonars, STATUS => $status],Response::HTTP_OK);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
