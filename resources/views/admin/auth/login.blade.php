@@ -67,9 +67,11 @@
         }
         if (input.attr("type") == "password") {
             $(this).attr('src', "{{ asset('assets/images/svg/eye-close.svg') }}");
+            $(".eye-img").css("top", "30px");
             input.attr("type", "text");
         } else {
             $(this).attr('src', "{{ asset('assets/images/svg/eye-open.svg') }}");
+            $(".eye-img").css("top", "20px");
             input.attr("type", "password");
         }
     });
@@ -90,6 +92,11 @@
               error: function (xhr, textStatus, errorThrown) {
               }
               });
+            });
+
+            $(document).on('focus','input', function (e) {
+              var id = $(this).attr('id');
+              $('#'+id).siblings('span').addClass('d-none');
             });
     </script>
 @endsection

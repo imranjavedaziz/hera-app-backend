@@ -112,6 +112,7 @@ class AuthController extends Controller
                         dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
                     }
                     $user->access_token = $oauth_token;
+                    $user->trial_end = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->created_at))) : null;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
                     $response = response()->Error($message);
