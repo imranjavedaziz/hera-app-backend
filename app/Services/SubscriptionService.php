@@ -218,8 +218,10 @@ class SubscriptionService
         $dateAfterTenDay = Carbon::now()->addDay(1)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)**/
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->subMinutes(10)->format(DATE_TIME))
             ->get();
     }
 
@@ -288,8 +290,10 @@ class SubscriptionService
     public function getExpiredSubcription() {
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))**/
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->subMinutes(20)->format(DATE_TIME))
             ->get();
     }
 }

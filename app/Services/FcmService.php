@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Models\DeviceRegistration;
 use App\Models\User;
-use Facades\{
-    App\Services\SubscriptionService
-};
 use App\Helpers\CustomHelper;
 use App\Models\ProfileMatch;
 use App\Models\Feedback;
@@ -70,12 +67,12 @@ class FcmService
             $chatArray["recieverImage"] = $sender_user->profile_pic;
             $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
             $chatArray["recieverUserName"] = $sender_user->username;
-            $chatArray["recieverSubscription"] = ($sender_user->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($sender_user->id) : ONE;
+            $chatArray["recieverSubscription"] = ($sender_user->role_id == PARENTS_TO_BE) ? $sender_user->subscription_status: ONE;
             $chatArray["senderId"] = $receiver_user->id;
             $chatArray["senderImage"] = $receiver_user->profile_pic;
             $chatArray["senderName"] = CustomHelper::fullName($receiver_user);
             $chatArray["senderUserName"] = $receiver_user->username;
-            $chatArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($receiver_user->id);
+            $chatArray["senderSubscription"] = $receiver_user->subscription_status;
             $chatArray["status_id"] = ACTIVE;
             $chatArray[MATCH_REQUEST] = $profile_match;
             $chatArray["time"] = time();
