@@ -78,10 +78,16 @@ class DonarDashboardController extends Controller
     public function getPtbProfileCard(PtbProfileCardRequest $request)
     {
         try {
+            $input = $request->all();
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
-            $donarProfileCard = DonarDashboardService::getPtbProfileCard($request->all());
+            $donarProfileCard = DonarDashboardService::getPtbProfileCard($input);
             $profileCards = $donarProfileCard->paginate($limit);
-            $response = response()->Success(trans('messages.common_msg.data_found'), $profileCards);
+            $dataCount = $donarProfileCard->count();
+            $status = ($dataCount == ZERO) ? THREE : ONE;
+            if(!empty($input[KEYWORD]) && $dataCount == ZERO){
+                $status = TWO;
+            }
+            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $profileCards, STATUS => $status],Response::HTTP_OK);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

@@ -117,7 +117,7 @@ class SubscriptionService
             $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         } else if(!empty($plan) && $plan->interval == 'year') {
             $result[CURRENT_PERIOD_START] = $newstartDate;
-            $result[CURRENT_PERIOD_END]   = $startDate->addYear($plan->interval_count);
+            $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         }
         return $result;
     }
@@ -147,10 +147,8 @@ class SubscriptionService
         $data = $this->getSubscriptionDetails($fields);
         $prevSubDetails = Subscription::where(ORIGINAL_TRANSACTION_ID,$data[ORIGINAL_TRANSACTION_ID])->orderBy(ID,DESC)->first();
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
-            if ($prevSubDetails == null) {
                 $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first(); 
                 $this->setAndCreateSubscriptionData($plan, $data);
-            }
         }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
             $userId = $prevSubDetails[USER_ID];
             Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
@@ -218,8 +216,10 @@ class SubscriptionService
         $dateAfterTenDay = Carbon::now()->addDay(TWO)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)**/
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->subMinutes(10)->format(DATE_TIME))
             ->get();
     }
 
@@ -287,8 +287,10 @@ class SubscriptionService
     public function getExpiredSubcription() {
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))**/
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->subMinutes(20)->format(DATE_TIME))
             ->get();
     }
 }

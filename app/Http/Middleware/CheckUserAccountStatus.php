@@ -28,10 +28,11 @@ class CheckUserAccountStatus
     {
         $data = JWTAuth::decode(JWTAuth::getToken())->toArray();
         $user = User::where([ID => JWTAuth::parseToken()->authenticate()->id])->first();
-        if($user->status_id == DELETED || $user->status_id == INACTIVE || ($data['iat'] < strtotime($user->password_updated))){
+        $isPasswordUpdated = ($data['iat'] < strtotime($user->password_updated)) ? true :false;
+        if($user->status_id == DELETED || $user->status_id == INACTIVE || $isPasswordUpdated){
             JWTAuth::invalidate(JWTAuth::parseToken());
             FcmService::deactivateRegisterDevice($user->id);
-            $message = CustomHelper::getDeleteInactiveMsg($user);
+            $message = $isPasswordUpdated ? trans('messages.logout_from_other_device_on_pwd_change') : CustomHelper::getDeleteInactiveMsg($user);
             return response()->json(['data'=>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
         }
         return $next($request);

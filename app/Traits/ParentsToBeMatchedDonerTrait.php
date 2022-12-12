@@ -83,7 +83,7 @@ trait ParentsToBeMatchedDonerTrait
         $parents = AuthHelper::authenticatedUser();
         $ptbSentRequest = ProfileMatch::where([FROM_USER_ID => AuthHelper::authenticatedUser()->id])->get()->pluck(TO_USER_ID)->toArray();
         $ptbRejecteRequest = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id])
-        ->whereIn(STATUS, [APPROVED_AND_MATCHED, REJECTED_BY_PTB])
+        ->whereIn(STATUS, [PENDING_FOR_APPROVAL, APPROVED_AND_MATCHED, REJECTED_BY_PTB])
         ->get()
         ->pluck(FROM_USER_ID)
         ->toArray();

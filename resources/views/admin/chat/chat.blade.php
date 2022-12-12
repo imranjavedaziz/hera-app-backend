@@ -15,7 +15,7 @@
                                 <form class="search-input-wrapper">
                                     <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search" id="search">
                                     <img src="{{ asset('assets/images/svg/search.svg')}}" alt="Search" class="search-img">
-                                    <span class="search-close d-none">x</span>
+                                    <span class="search-close d-none"><img src="{{ asset('assets/images/icon-close-circled.svg')}}"></span>
                                 </form>
                             </div>
                             <div class="chat-left-containt">
@@ -43,7 +43,7 @@
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
                                     <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
-                                    <button type="button" class="btn-primary btn-send reply-btn" style="top:18px;">SEND</button>
+                                    <button type="button" class="btn-primary btn-send reply-btn">SEND</button>
                                 </div>
                             </div>
                         </div>
@@ -386,10 +386,10 @@
                     role = 'Surrogate Mother';
                     break;
                 case (roleId == '4'):
-                    role = 'Egg Doner';
+                    role = 'Egg Donor';
                     break;
                 case (roleId == '5'):
-                    role = 'Sperm Doner';
+                    role = 'Sperm Donor';
                     break;
                 default:
                 role = 'Parents To Be';
