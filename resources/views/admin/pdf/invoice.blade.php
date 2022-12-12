@@ -30,7 +30,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
             </tr>
             <tr>
                 <td style="padding:10px 0 33px 40px;">
-                    <img src="{{public_path('images/logo.png')}}" alt="Logo" width="100" height="auto">
+                    <img src="{{public_path('images/logo.svg')}}" alt="Logo" width="100" height="auto">
                 </td>
             </tr>
             <tr>
