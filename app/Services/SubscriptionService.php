@@ -117,7 +117,7 @@ class SubscriptionService
             $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         } else if(!empty($plan) && $plan->interval == 'year') {
             $result[CURRENT_PERIOD_START] = $newstartDate;
-            $result[CURRENT_PERIOD_END]   = $startDate->addYear($plan->interval_count);
+            $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         }
         return $result;
     }
@@ -225,7 +225,7 @@ class SubscriptionService
 
     public function getTrialSubscriptionEndBeforeTenDay() {
         /**$twentyDaytoday = Carbon::now()->subDays(20)->format(YMD_FORMAT);**/
-        /** User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get(); */
+        /** User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get(); **/
         $twentyDaytoday = Carbon::now()->subMinutes(10)->format(DATE_TIME);
         return User::where(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
@@ -278,9 +278,8 @@ class SubscriptionService
     }
 
     public function getTrialExpiredSubscription() {
-        /**$thirtyDaytoday = Carbon::now()->subDays(30)->format(YMD_FORMAT);
-         User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
-        **/
+        /**$thirtyDaytoday = Carbon::now()->subDays(30)->format(YMD_FORMAT);**/
+         /**User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();**/
         $thirtyDaytoday = Carbon::now()->subMinutes(20)->format(DATE_TIME);
         return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
