@@ -10,9 +10,6 @@ use Kreait\Firebase\Exception\Database\ReferenceHasNotBeenSnapshotted;
 use Kreait\Firebase\Exception\Database\TransactionFailed;
 use Kreait\Firebase\Exception\ApiException;
 use App\Helpers\CustomHelper;
-use Facades\{
-    App\Services\SubscriptionService,
-};
 
 /**
  * Class FirebaseService
@@ -66,14 +63,14 @@ class FirebaseService
             "recieverName" => $receiverName,
             "receiverSearchName" => strtolower($receiverName),
             "recieverUserName" => $reciever->username,
-            "recieverSubscription" => ($reciever->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($reciever->id) : ONE,
+            "recieverSubscription" => ($reciever->role_id == PARENTS_TO_BE) ? $reciever->subscription_status : ONE,
             "senderId" => $sender->id,
             "status_id" => ACTIVE,
             "senderImage" => $sender->profile_pic,
             "senderName"  => $senderName,
             "senderSearchName" => strtolower($senderName),
             "senderUserName" => $sender->username,
-            "senderSubscription" => SubscriptionService::getSubscriptionStatus($sender->id),
+            "senderSubscription" => $sender->subscription_status,
             "currentRole" => isset($reciever->role_id)?$reciever->role_id:ZERO,
             MATCH_REQUEST => $profileMatch,
             "chat_start" => ZERO,
@@ -168,19 +165,16 @@ class FirebaseService
     public function updateChatFriends($receiver) {
         try {
             $response = NULL;
-            $receiverName = CustomHelper::fullName($receiver);
-            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
             $users = $this->database->getReference($this->tableName)->getValue();
+            $receiverName = CustomHelper::fullName($receiver);
             if(!empty($users)) {
                 foreach($users as $key => $user) {
-                    /***Update As Admin Friend ***/
-                    if ($key == $admin->id && $this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id.'/'.$this->friendsKey.'/'.$receiver->id) === true){
-                        $this->database->getReference($this->tableName)->update([$admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/recieverName' => $receiverName, 
-                        $admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/receiverSearchName' => strtolower($receiverName)]);
-                        $response = $this->database->getReference($this->tableName)->update([$admin->id.'/'.$this->friendsKey.'/'.$receiver->id.'/recieverImage' => $receiver->profile_pic]);
-                    }
-                    if ($key != $receiver->id){
-                        $this->updateFriendsAsSenderName($receiver);
+                    if ($key != $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === true){
+                        $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([
+                        $receiver->id.'/recieverName' => $receiverName,
+                        $receiver->id.'/receiverSearchName' => strtolower($receiverName),
+                        $receiver->id.'/recieverImage' => $receiver->profile_pic
+                        ]);
                     }
                 }
             }
@@ -194,20 +188,6 @@ class FirebaseService
             $response = $e->getMessage();
         }
         return $response;
-    }
-
-    private function updateFriendsAsSenderName($receiver) {
-        $receiverName = CustomHelper::fullName($receiver);
-        $friends = $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->getValue();
-        if(!empty($friends)) {
-            foreach($friends as $key => $friend) {
-                if ($this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->getSnapshot()->hasChild($key) === true){
-                    $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->update([$key.'/senderName' => $receiver->full_name, 
-                    $key.'/recieverName' => strtolower($receiverName)]);
-                    $this->database->getReference($this->tableName.'/'.$receiver->id.'/'.$this->friendsKey)->update([$key.'/senderImage' => $receiver->profile_pic]);
-                }
-            }
-        }
     }
 
     public function updateUserStatus($receiver, $accountStatus, $keyName) {
