@@ -386,10 +386,10 @@
                     role = 'Surrogate Mother';
                     break;
                 case (roleId == '4'):
-                    role = 'Egg Doner';
+                    role = 'Egg Donor';
                     break;
                 case (roleId == '5'):
-                    role = 'Sperm Doner';
+                    role = 'Sperm Donor';
                     break;
                 default:
                 role = 'Parents To Be';

@@ -117,7 +117,7 @@ class SubscriptionService
             $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         } else if(!empty($plan) && $plan->interval == 'year') {
             $result[CURRENT_PERIOD_START] = $newstartDate;
-            $result[CURRENT_PERIOD_END]   = $startDate->addYear($plan->interval_count);
+            $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         }
         return $result;
     }
@@ -147,10 +147,8 @@ class SubscriptionService
         $data = $this->getSubscriptionDetails($fields);
         $prevSubDetails = Subscription::where(ORIGINAL_TRANSACTION_ID,$data[ORIGINAL_TRANSACTION_ID])->orderBy(ID,DESC)->first();
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
-            if ($prevSubDetails == null) {
                 $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first(); 
                 $this->setAndCreateSubscriptionData($plan, $data);
-            }
         }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
             $userId = $prevSubDetails[USER_ID];
             Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
@@ -227,7 +225,7 @@ class SubscriptionService
 
     public function getTrialSubscriptionEndBeforeTenDay() {
         /**$twentyDaytoday = Carbon::now()->subDays(20)->format(YMD_FORMAT);**/
-        /** User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get(); */
+        /** User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get(); **/
         $twentyDaytoday = Carbon::now()->subMinutes(10)->format(DATE_TIME);
         return User::where(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
@@ -280,9 +278,8 @@ class SubscriptionService
     }
 
     public function getTrialExpiredSubscription() {
-        /**$thirtyDaytoday = Carbon::now()->subDays(30)->format(YMD_FORMAT);
-         User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
-        **/
+        /**$thirtyDaytoday = Carbon::now()->subDays(30)->format(YMD_FORMAT);**/
+         /**User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();**/
         $thirtyDaytoday = Carbon::now()->subMinutes(20)->format(DATE_TIME);
         return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
