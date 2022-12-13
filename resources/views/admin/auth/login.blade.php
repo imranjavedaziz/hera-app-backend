@@ -18,7 +18,7 @@
         <div class="signin-container">
             <!-- sign in start here -->
             <div class="app-logo">
-              <img src=" {{ asset('assets/images/logo.png') }}" alt="app logo" />
+              <img src=" {{ asset('assets/images/logo.svg') }}" alt="app logo" />
             </div>
 
             <div class="login-form" >

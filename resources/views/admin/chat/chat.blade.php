@@ -25,17 +25,17 @@
                             <div class="chat-header">
                                 <div class="user-chat-profile">
                                     <div class="profile-logo">
-                                        <img id="receiverImage" src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
+                                        <img id="receiverImage" class="d-none" src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
                                     </div>
                                     <div class="profile-detail">
-                                        <div class="user-name" id="receiverRole">Lloyd Baldwin</div>
-                                        <div class="user-id" id="receiverName" data-recevierId="">Jane Gregory, <span>SM0283</span></div>
+                                        <div class="user-name" id="receiverRole"></div>
+                                        <div class="user-id" id="receiverName" data-recevierId=""></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="chat-container">
                                 <!-- For empty chat section-->
-                                <div class="empty-msg">No Messages Yet</div>
+                                <div class="empty-msg d-none">No Messages Yet</div>
                                 <!-- For chat section -->
                                 <div class="msg-wrapper">
                                 </div>
@@ -73,7 +73,7 @@
                 var childData = snapshot.val();
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
-                var date = getChatDate(time);
+                var date = (childData.message) ? getChatDate(time) : '';
                 var statusId = childData.status_id;
                 $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
@@ -156,8 +156,9 @@
         });
 
         function updateUserChatProfile(image, roleData, name, username, userId, statusId) {
+            $("#receiverImage").removeClass("d-none");
             $("#receiverImage").attr("src",image);
-            var userStatus = (statusId != 1) ? 'style="background-color: #ff5353;"' : '';
+            var userStatus = (statusId != 1) ? 'style="background-color: #ff5353;"' : 'style="display: none"';
             $("#receiverRole").html(roleData+' <span class="profile-status" '+userStatus+'>INACTIVE</span>');
             $("#receiverName").html(name+', <span>'+username+'</span>');
             $('#receiverName').attr('data-recevierId', userId);
