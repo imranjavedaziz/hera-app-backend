@@ -37,7 +37,7 @@
                         </div>
                         <div class="cell bill-border">
                             <div class="bill-title">Billed on</div>
-                            <div class="bill-amount">{{$billedDate}}</div>
+                            <div class="bill-amount">{{$purchasedDate}}</div>
                         </div>
                         <div class="cell">
                             <div class="bill-title">Invoice Period</div>
@@ -48,13 +48,13 @@
                             <div class="bill-amount">${{$subscriptionDetail->price}}</div>
                         </div>
                         <div class="cell">
-                            <div class="bill-title bill-weight mb-25">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a {{$subscriptionDetail->subscriptionPlan->interval}}.</div>
+                            <div class="bill-title bill-weight mb-25">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a month.</div>
                         </div>
                         <div class="cell-bottom">
                             <div class="logo-bill">
                                 <img src="{{ asset('assets/images/logo.png')}}" alt="Profile-logo">
                             </div>
-                            <div class="bill-desc">You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com">help@hera.com</a></div>
+                            <div class="bill-desc">You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:support@makingbabyconnection.com" target = "_blank">support@makingbabyconnection.com</a></div>
                         </div>
 
                     </div>

@@ -13,9 +13,6 @@ use App\Traits\FcmTrait;
 use App\Models\Notification;
 use App\Constants\NotificationType;
 use App\Models\DeviceRegistration;
-use Facades\{
-    App\Services\SubscriptionService
-};
 
 class SendProfileMatchJob implements ShouldQueue
 {
@@ -66,12 +63,12 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray["recieverImage"] = $this->sender_user->profile_pic;
         $profileMatchArray["recieverName"] = CustomHelper::fullName($this->sender_user);
         $profileMatchArray["recieverUserName"] = $this->sender_user->username;
-        $profileMatchArray["recieverSubscription"] = ($this->sender_user->role_id == PARENTS_TO_BE) ? SubscriptionService::getSubscriptionStatus($this->sender_user->id) : ONE;
+        $profileMatchArray["recieverSubscription"] = ($this->sender_user->role_id == PARENTS_TO_BE) ? $this->sender_user->subscription_status : ONE;
         $profileMatchArray["senderId"] = $this->user->id;
         $profileMatchArray["senderImage"] = $this->user->profile_pic;
         $profileMatchArray["senderName"] = CustomHelper::fullName($this->user);
         $profileMatchArray["senderUserName"] = $this->user->username;
-        $profileMatchArray["senderSubscription"] = SubscriptionService::getSubscriptionStatus($this->user->id);
+        $profileMatchArray["senderSubscription"] = $this->user->subscription_status;
         $profileMatchArray["status_id"] = ACTIVE;
         $profileMatchArray[MATCH_REQUEST] = $this->profile_match;
         $profileMatchArray["time"] = time();

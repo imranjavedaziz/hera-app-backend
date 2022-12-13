@@ -87,7 +87,7 @@ class DonarDashboardController extends Controller
             if(!empty($input[KEYWORD]) && $dataCount == ZERO){
                 $status = TWO;
             }
-            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => [], STATUS => THREE],Response::HTTP_OK);
+            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $profileCards, STATUS => $status],Response::HTTP_OK);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

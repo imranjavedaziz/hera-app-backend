@@ -12,6 +12,7 @@ use App\Helpers\AuthHelper;
 use Log;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Subscription;
+use App\Models\User;
 
 class SubscriptionController extends Controller
 {
@@ -168,10 +169,10 @@ class SubscriptionController extends Controller
     {
         try {
             $userId = AuthHelper::authenticatedUser()->id;
-            $status = SubscriptionService::getSubscriptionStatus($userId);
-            $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-            $isTrial = !empty($subscription) ? false : true;
-            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $status, 'is_trial' => $isTrial]);
+            $user = User::where(ID,$userId)->first();
+            $isTrial = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  true : false;
+            $trial_end = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->created_at))) : null;
+            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
