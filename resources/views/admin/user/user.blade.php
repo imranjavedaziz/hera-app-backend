@@ -178,8 +178,8 @@
                             $('#height').html('Height: <span>' + feet + ' ft ' + inch + ' in </span>')
                             $('#weight').html('Weight: <span>' + msg.doner_attribute.weight + ' pounds </span>')
                             $('#race').html('Race: <span>' + msg.doner_attribute.race + '</span>')
-                            $('#eye-colour').html('Hair Color: <span>' + msg.doner_attribute.eye_colour + '</span>')
-                            $('#hair-colour').html('Eye Color: <span>' + msg.doner_attribute.hair_colour + '</span>')
+                            $('#eye-colour').html('Eye Color: <span>' + msg.doner_attribute.eye_colour + '</span>')
+                            $('#hair-colour').html('Hair Color: <span>' + msg.doner_attribute.hair_colour + '</span>')
                         }else{
                             $('#height').hide();
                             $('#weight').hide();

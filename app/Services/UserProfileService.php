@@ -33,9 +33,10 @@ class UserProfileService
                 ->selectRaw('(select name from education where id='.EDUCATION_ID.AS_CONNECT.EDUCATION.' ');
             }, LOCATION, DONERPHOTOGALLERY, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
-        $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id;
+        $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id; /** use sender id  as reciver_id for matching chat section **/
         $input[MESSAGE] = "";
-        $user->profile_match_request = FcmService::sendPushNotification($input, $input[USER_ID],false);
+        $user->profile_match_request = $this->profileMatchRequest($input[RECEIVER_ID], $input[USER_ID]);
+        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID],false);
         return $user;
     }
 
@@ -55,7 +56,8 @@ class UserProfileService
 
         $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id;
         $input[MESSAGE] = "";
-        $user->profile_match_request = FcmService::sendPushNotification($input, $input[USER_ID],false);
+        $user->profile_match_request = $this->profileMatchRequest($input[RECEIVER_ID], $input[USER_ID]);
+        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID],false);
         return $user;
     }
 
