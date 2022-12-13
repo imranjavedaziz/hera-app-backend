@@ -21,7 +21,7 @@ use Facades\{
     App\Services\FirebaseService
 };
 use App\Jobs\CreateAdminChatFreiend;
-use App\Jobs\UpdateUserDetailOnFirebase;
+use App\Jobs\updateUserStatus;
 use App\Jobs\UpdateUserNotificationSetting;
 use DB;
 
@@ -143,7 +143,7 @@ class UserRegisterService
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
         $doner_attribute->education_id = $input[EDUCATION_ID];
         if($doner_attribute->save()){
-            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE , SUBSCRIPTION_STATUS => ONE]);
         }
         return $doner_attribute;
     }
@@ -222,7 +222,7 @@ class UserRegisterService
         $user->profile_pic = $file[FILE_URL];
         if($user->save()){
             Storage::disk('s3')->delete('images/user_profile_images/'.$fileName);
-            dispatch(new UpdateUserDetailOnFirebase($user));
+            dispatch(new updateUserStatus($user));
             return $user->profile_pic;
         }
         return false;
@@ -256,7 +256,7 @@ class UserRegisterService
         if($user->update($input)){
             $user->userProfile->update($input);
             $user->location->update($input);
-            dispatch(new UpdateUserDetailOnFirebase($user));
+            dispatch(new updateUserStatus($user,$fullName, ));
             return true;
         }
         return false;
@@ -292,7 +292,7 @@ class UserRegisterService
     public static function verifyEmail($user, $input){
         $isVerifyOtp = EmailVerification::where([EMAIL => $user->email])->where(OTP,$input[CODE])->first();
         if($isVerifyOtp) {
-            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->subHours(TWENTY_ONE)->toDateTimeString());
+            $otpExpired = $isVerifyOtp[UPDATED_AT] <= (Carbon::now()->addHours(TWENTY_ONE)->toDateTimeString());
             if ($otpExpired) {
                 return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
             }
