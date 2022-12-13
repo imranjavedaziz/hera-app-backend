@@ -28,7 +28,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::post('/', [AuthController::class, 'postLogin'])->name('login');
     Route::post('/update-timezone', [UserController::class, 'updateAdminTimezone']);
 
-    Route::group([ MIDDLEWARE =>['admin']], function(){
+    Route::group([ MIDDLEWARE =>['prevent-back-history', 'admin']], function(){
         Route::get('/logout', [AuthController::class,'logout']);
         Route::get('change-password', [AuthController::class,'changePassword'])->name('change-password');
         Route::post('update-password', [AuthController::class, 'updatePassword'])->name('update-password');
