@@ -273,6 +273,14 @@ class AuthController extends Controller
      *      tags={"Auth"},
      *      summary="User logout",
      *      description="User logout for MBC portal.",
+     *      @OA\Parameter(
+     *          name="device_id",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Success",
@@ -310,7 +318,7 @@ class AuthController extends Controller
             return response()->Error(__('messages.invalid_access_token'));
         }
         JWTAuth::invalidate(JWTAuth::parseToken());
-        FcmService::deactivateRegisterDevice($user->id);
+        FcmService::deactivateRegisterDevice($user->id, $request->device_id ?? null, false);
         return response()->Success(__('messages.logged_out'));
     }
 

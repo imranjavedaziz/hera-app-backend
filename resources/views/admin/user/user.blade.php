@@ -34,9 +34,9 @@
                         <div class="th">Email Address</div>
                         <div class="th">Location</div>
                         <div class="th">User Type</div>
-                        <div class="th">Status</div>
                     </div>
                     <div class="td-user-right">
+                        <div class="th">Status</div>
                         <div class="th">Action</div>
                     </div>
                 </div>
@@ -48,8 +48,8 @@
                             $img = $user->profile_pic;
                         @endphp
                         <!--  repeat this div  -->
-                        <div class="table-row @if($user->status_id == 5) delete-user-opacity @endif delete-user-opacity{{$user->id}}" @if($user->status_id == 5) disabled @endif>
-                            <div class="td-user-left @if($user->status_id != 5) open-detail-modal @endif open-detail-modal{{$user->id}}" data-id="{{$user->id}}">
+                        <div class="table-row" @if($user->status_id == 5) disabled @endif>
+                            <div class="td-user-left @if($user->status_id == 5) delete-user-opacity @else open-detail-modal @endif delete-user-opacity{{$user->id}} open-detail-modal{{$user->id}}" data-id="{{$user->id}}">
                                 <div class="td">
                                     <div class="user-title">
                                         <div class="user-img">
@@ -69,6 +69,8 @@
                                 <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
                                     <span class="sm-code">{{$user->username}}</span>
                                 </div>
+                            </div>
+                            <div class="td-user-right">
                                 <div class="td">
                                         <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
                                             Active
@@ -84,24 +86,24 @@
                                             </span>
                                         </span>
                                 </div>
+                                @if($user->status_id != 5)
+                                    <div class="td delete-user{{$user->id}}">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
+                                                id="inactive-icon">
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            @if($user->role_id != 2 && $user->status_id == 1)
+                                                <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
+                                            @endif
+                                            @if($user->deleted_at == null)
+                                                <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
+                                                <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{CustomHelper::fullName($user)}}" data-id="{{$user->id}}">Delete User</a></li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
-                            @if($user->status_id != 5)
-                                <div class="td-user-right delete-user{{$user->id}}">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src=" {{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
-                                            id="inactive-icon">
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        @if($user->role_id != 2 && $user->status_id == 1)
-                                            <li><a class="dropdown-item send-message" href="{{ route('user.chat', ['id' => $user->id]) }}">Send Message</a></li>
-                                        @endif
-                                        @if($user->deleted_at == null)
-                                            <li><a class="dropdown-item modal-deactivate modal-deactivate{{$user->id}}" href="#" type="button" data-id="{{$user->id}}" data-name="{{CustomHelper::fullName($user)}}" data-status="@if($user->status_id == 1) 2 @else 1 @endif">@if($user->status_id == 1) Deactivate @else Activate @endif User</a></li>
-                                            <li><a class="dropdown-item modal-delete modal-delete{{$user->id}}" href="#" type="button" data-name="{{CustomHelper::fullName($user)}}" data-id="{{$user->id}}">Delete User</a></li>
-                                        @endif
-                                    </ul>
-                                </div>
-                            @endif
                         </div>
                     @endforeach
                 @endif
