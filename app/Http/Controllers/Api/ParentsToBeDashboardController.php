@@ -11,6 +11,7 @@ use Facades\{
     App\Services\SubscriptionService,
 };
 use App\Helpers\AuthHelper;
+use App\Models\User;
 
 class ParentsToBeDashboardController extends Controller
 {
