@@ -73,7 +73,7 @@ class ParentsToBeDashboardController extends Controller
             $collection = collect($data);
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
             $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit, $page, []);
-            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $matchedDonars, STATUS => $status],Response::HTTP_OK);
+            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => [], STATUS => THREE],Response::HTTP_OK);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
