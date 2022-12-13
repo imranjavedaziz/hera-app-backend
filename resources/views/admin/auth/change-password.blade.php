@@ -71,5 +71,6 @@
 
 @push('after-scripts')
   <script src="{{ asset('assets/js/jquery-3.6.1.min.js') }} "></script>
+  <script src="{{ asset('assets/js/password-common-function.js') }} "></script>
   <script src="{{ asset('assets/js/change-password.js') }} "></script>
 @endpush
