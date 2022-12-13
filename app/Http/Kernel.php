@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'EnsureParentsToBeTokenIsValid' => \App\Http\Middleware\EnsureParentsToBeTokenIsValid::class,
         'EnsureDonarTokenIsValid' => \App\Http\Middleware\EnsureDonarTokenIsValid::class,
         'CheckUserAccountStatus' => \App\Http\Middleware\CheckUserAccountStatus::class,
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         'admin' => \App\Http\Middleware\Admin::class,
     ];
 }

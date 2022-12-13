@@ -489,3 +489,6 @@ define('TWENTY_ONE', '21');
 
 define('NOTIFY_STATUS', 'notify_status');
 define('SUBSCRIPTION_TRIAL_PERIOD', '+30 days');
+
+// message limit constant
+define('MESSAGE_LIMIT', '70');
