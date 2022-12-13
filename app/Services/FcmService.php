@@ -31,9 +31,13 @@ class FcmService
         return true;
     }
 
-    public function deactivateRegisterDevice($user_id)
+    public function deactivateRegisterDevice($user_id, $deviceToken, $statusChk)
     {
-        return DeviceRegistration::where(USER_ID, $user_id)->update([STATUS_ID=>2]);
+        if (!$statusChk) {
+            return DeviceRegistration::where([USER_ID => $user_id, DEVICE_ID => $deviceToken])->update([STATUS_ID=>2]);
+        }else {
+            return DeviceRegistration::where(USER_ID, $user_id)->update([STATUS_ID=>2]);
+        }
     }
 
     public function sendPushNotification($input, $sender_id, $chatNotification = true)

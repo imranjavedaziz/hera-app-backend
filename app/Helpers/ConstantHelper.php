@@ -443,7 +443,7 @@ define('ADMIN_NAME', 'HERA Support');
 define('ADMIN_PHONE', '1111111111');
 
 // Admin inquiry
-define('INQUIRY', 'inquiry');
+define('INQUIRY', 'support');
 define('INQUIRIES', 'inquiries');
 define('UTC', "UTC");
 
