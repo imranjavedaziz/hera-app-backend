@@ -28,6 +28,6 @@ class InquiryReplyMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Inquiry Reply")->view('emails.enquiry-reply');
+        return $this->subject("Support Reply")->view('emails.enquiry-reply');
     }
 }
