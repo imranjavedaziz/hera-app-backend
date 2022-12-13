@@ -24,7 +24,7 @@ class EnquiryForm extends Model
     }
 
     /**
-     * This function is used for reply to inquiry
+     * This function is used for reply to support
      * @param $id
      */
     public static function inquiryReply($id, $input){

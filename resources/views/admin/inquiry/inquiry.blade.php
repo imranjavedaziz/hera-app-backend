@@ -19,12 +19,12 @@
                 </div>
                 @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
-            <h1 class="section-title">Inquiries 
+            <h1 class="section-title">Support 
                 (<span>{{$inquiries->total()}}</span>)
             </h1>
             <!-- For no Users found -->
             @if($inquiries->count() == 0)
-                <div class="no-users">No Inquiries Yet</div>
+                <div class="no-users">No Support Yet</div>
             @endif
         </div>
         <!--  Table start from here  -->
@@ -310,7 +310,7 @@
                                 });
                             });
 
-                            var fileTitle = 'inquiry_data_'+date_month_short.toLocaleString('en-US', { month: 'short' })+'-'+year.toString().substr(-2); // or 'my-unique-title'
+                            var fileTitle = 'support_data_'+date_month_short.toLocaleString('en-US', { month: 'short' })+'-'+year.toString().substr(-2); // or 'my-unique-title'
 
                             exportCSVFile(headers, itemsFormatted, fileTitle);
                             

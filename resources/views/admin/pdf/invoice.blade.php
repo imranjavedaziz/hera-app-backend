@@ -89,7 +89,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
                                             <img src="{{public_path('images/logo.png')}}" alt="Profile-logo" width="61" height="auto">
                                         </td>
                                         <td style="padding: 25px 30px 42px 30px;font-size: 13px; line-height: 1.31;font-family: 'Open Sans', sans-serif; font-weight: 300;">
-                                            You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #fff;">help@hera.com</a>
+                                            You have received this email as a registered user of HERA Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #fff;">help@hera.com</a>
                                         </td>
                                     </tr>
                                 </table>
