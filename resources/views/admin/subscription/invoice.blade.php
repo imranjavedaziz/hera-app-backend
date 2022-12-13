@@ -54,7 +54,7 @@
                             <div class="logo-bill">
                                 <img src="{{ asset('assets/images/logo.png')}}" alt="Profile-logo">
                             </div>
-                            <div class="bill-desc">You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:support@makingbabyconnection.com" target = "_blank">support@makingbabyconnection.com</a></div>
+                            <div class="bill-desc">You have received this email as a registered user of HERA Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:support@makingbabyconnection.com" target = "_blank">support@makingbabyconnection.com</a></div>
                         </div>
 
                     </div>
