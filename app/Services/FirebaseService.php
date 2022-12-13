@@ -45,7 +45,6 @@ class FirebaseService
         })->first();
         if ($reciever->role_id == ADMIN) {
             $msg = 'No Messages Yet!';
-            $read = ONE;
             $status = TWO;
             $profileMatch = [FROM_USER_ID => $sender->id, TO_USER_ID => $reciever->id, STATUS => $status];
         }
