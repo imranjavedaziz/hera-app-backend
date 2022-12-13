@@ -11,6 +11,7 @@ use Facades\{
     App\Services\SubscriptionService,
 };
 use App\Helpers\AuthHelper;
+use App\Models\User;
 
 class ParentsToBeDashboardController extends Controller
 {
@@ -52,12 +53,13 @@ class ParentsToBeDashboardController extends Controller
     public function matchedDonars(Request $request)
     {
         try {
-            $subscriptionStatus = SubscriptionService::getSubscriptionStatus(AuthHelper::authenticatedUser()->id);
+            $userId = AuthHelper::authenticatedUser()->id;
+            $user = User::where(ID,$userId)->first();
             $limit = $limit_cards = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $page = isset($request->page) && ($request->page > ZERO) ? $request->page : ONE;
             $data = $this->myMatchedDonars();
-            if ($subscriptionStatus == SUBSCRIPTION_TRIAL) {
-                $limit_cards = SubscriptionService::getDailiyTrailCardLimit(AuthHelper::authenticatedUser()->id);
+            if ($user->subscription_status == SUBSCRIPTION_TRIAL) {
+                $limit_cards = SubscriptionService::getDailiyTrailCardLimit($userId);
                 $page = ONE;
                 $status = ONE;
             }
@@ -73,7 +75,7 @@ class ParentsToBeDashboardController extends Controller
             $collection = collect($data);
             $currentPageResults = $collection->slice(($page - 1) * $limit, $limit)->values();
             $matchedDonars = new LengthAwarePaginator($currentPageResults, $collection->count(), $limit, $page, []);
-            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => [], STATUS => TWO],Response::HTTP_OK);
+            $response = response()->json([MESSAGE => trans('messages.common_msg.data_found'),DATA => $matchedDonars, STATUS => $status],Response::HTTP_OK);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

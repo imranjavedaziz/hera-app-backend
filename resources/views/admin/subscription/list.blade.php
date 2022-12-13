@@ -45,7 +45,7 @@
                     $subscriptionPlan = $subscription->subscriptionPlan;
                     $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
                     $img = $subscription->profile_pic;
-                    $type = ($subscriptionPlan->interval == 'month') ? 'mo' : 'yr';
+                    $type = 'mo' ;
                     ?>
                     <!--  repeat this div  -->
                     <div class="table-row">
