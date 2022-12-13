@@ -36,17 +36,17 @@ class AuthController extends AdminController
      * 
      */
 	public function postLogin(Request $request) {
-		$param=array(EMAIL =>$request->email,
-    		PASSWORD =>$request->password
-    	);
-		$validate = Validator::make($param, [
-            EMAIL => 'required|email',
-            PASSWORD => 'required',
-        ]);    
+
+		$validate = Validator::make($request->all(), [
+            EMAIL => 'bail|required|email',
+            PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+        ]);
+        
 		if($validate->fails())
 		{
 			return  back()->withInput()->withErrors($validate);
 		}
+
 		$email = $request->input(EMAIL);
 		$password = $request->input(PASSWORD);		
 		$credentials = array(EMAIL =>$email, PASSWORD =>$password, ROLE_ID => [ADMIN]);
