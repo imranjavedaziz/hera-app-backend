@@ -1166,7 +1166,7 @@ input[type=number]::-webkit-outer-spin-button {
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-select ~ label {
   opacity: 1;
-  transform: scale(0.8) translateY(-0.2rem) translateX(0.15rem) !important; }
+  transform: scale(0.8) translateY(-0.25rem) translateX(0.15rem) !important; }
 
 .form-floating > .form-control:focus,
 .form-floating > .form-control:not(:placeholder-shown) {
@@ -1716,7 +1716,7 @@ input[type=number]::-webkit-outer-spin-button {
         .chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec.active {
           background-color: #cfcabb; }
         .chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec:hover {
-          background-color: #cfcabb; }
+          background-color: #d6d2c8; }
   .chat-wrapper .chat-wrapper-right {
     width: 70%;
     -webkit-backdrop-filter: blur(10px);
@@ -2040,7 +2040,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   transform: scale(1, 1); }
 .signin-container .passward-cross {
     position: absolute;
-    top: 80px;
+    top: 55px;
     right: 100px; }
 span.invalid-field.text-right.floatingPassword.invalid-instruction {
     bottom: -62px;
@@ -2090,6 +2090,11 @@ span.invalid-field.text-right.floatingPassword.invalid-instruction {
     width: 100%;
     justify-content: space-between;
   }
+
+  input[type="password"]
+    {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
   .reply-btn{
     width: 98px;
     padding: 10px 0;

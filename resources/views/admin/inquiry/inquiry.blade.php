@@ -44,7 +44,7 @@
                 <div class="table-body table-body-user">
                     @foreach($inquiries as $inquiry)
                         @php
-                            $message = strlen($inquiry->message) > 70 ? substr($inquiry->message,0,70)."..." : $inquiry->message;
+                            $message = strlen($inquiry->message) > MESSAGE_LIMIT ? substr($inquiry->message,ZERO,MESSAGE_LIMIT)."..." : $inquiry->message;
                             $issue_id = 'HR00'.$inquiry->id;
                             if($inquiry->user){
                                 $img = $inquiry->user->profile_pic;

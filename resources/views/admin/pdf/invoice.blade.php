@@ -30,7 +30,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
             </tr>
             <tr>
                 <td style="padding:10px 0 33px 40px;">
-                    <img src="{{public_path('images/logo.png')}}" alt="Logo" width="100" height="auto">
+                    <img src="{{public_path('images/logo.svg')}}" alt="Logo" width="100" height="auto">
                 </td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Billed on</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}}</td></tr>
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Invoice Period</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}} - {{$billedDate}}</td></tr>
                         <tr style="background-color: #f7f5f0;border: 1px solid #ededed;"><td style="padding: 18px 30px;">Amount Paid</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">${{$subscriptionDetail->price}}</td></tr>
-                        <tr style="border: 1px solid #ededed; font-weight: bold;"><td colspan="2" style="padding: 18px 30px;">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a {{$subscriptionDetail->subscriptionPlan->interval}}.</td></tr>
+                        <tr style="border: 1px solid #ededed; font-weight: bold;"><td colspan="2" style="padding: 18px 30px;">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a month.</td></tr>
                         <tr>
                             <td colspan="2">
                                 <table style="border-spacing: 0;" aria-describedby="Payment Invoice">
@@ -89,7 +89,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
                                             <img src="{{public_path('images/logo.png')}}" alt="Profile-logo" width="61" height="auto">
                                         </td>
                                         <td style="padding: 25px 30px 42px 30px;font-size: 13px; line-height: 1.31;font-family: 'Open Sans', sans-serif; font-weight: 300;">
-                                            You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #fff;">help@hera.com</a>
+                                            You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:support@makingbabyconnection.com" style="font-weight: bold; color: #fff;" target = "_blank">support@makingbabyconnection.com</a>
                                         </td>
                                     </tr>
                                 </table>
