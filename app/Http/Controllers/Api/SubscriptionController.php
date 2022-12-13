@@ -172,7 +172,8 @@ class SubscriptionController extends Controller
             $user = User::where(ID,$userId)->first();
             $isTrial = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  true : false;
             $trial_end = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->created_at))) : null;
-            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end]);
+            $trial_msg = 'Your free trial expires on';
+            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
