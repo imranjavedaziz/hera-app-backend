@@ -79,7 +79,7 @@ class UserController extends AdminController
             $user = User::where(ID, $id)->first();
             User::changeStatus($id,$request->all());
             dispatch(new SendActiveDeactiveUserJob($id, $request->status_id));
-            dispatch(new UpdateStatusOnFirebaseJob($user, $request->status_id, STATUS_ID));
+            dispatch(new UpdateStatusOnFirebaseJob($user, (int)$request->status_id, STATUS_ID));
             return $this->sendResponse($msg);
         } catch (\Exception $e) {
         	$message = trans(LANG_SOMETHING_WRONG);
