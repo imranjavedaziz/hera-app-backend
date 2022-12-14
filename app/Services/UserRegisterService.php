@@ -143,7 +143,7 @@ class UserRegisterService
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
         $doner_attribute->education_id = $input[EDUCATION_ID];
         if($doner_attribute->save()){
-            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE]);
+            User::where(ID, $user->id)->update([REGISTRATION_STEP=>THREE, SUBSCRIPTION_STATUS => ONE]);
         }
         return $doner_attribute;
     }
