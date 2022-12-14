@@ -39,7 +39,7 @@ class AuthController extends AdminController
 
 		$validate = Validator::make($request->all(), [
             EMAIL => 'bail|required|email',
-            PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+            PASSWORD => PASSWORD_VALIDATION.PASSWORD_REGEX,
         ]);
         
 		if($validate->fails())
@@ -115,8 +115,8 @@ class AuthController extends AdminController
 
     private function changePasswordValidation($request){
     	return Validator::make($request->all(), [
-            CURRENT_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
-            NEW_PASSWORD => 'bail|required|min:8|max:20|'.PASSWORD_REGEX,
+            CURRENT_PASSWORD => PASSWORD_VALIDATION.PASSWORD_REGEX,
+            NEW_PASSWORD => PASSWORD_VALIDATION.PASSWORD_REGEX,
             CONFIRM_PASSWORD => 'bail|required|same:new_password',
         ], [
             CURRENT_PASSWORD_REQ => __('messages.request_validation.error_msgs.current_password_req'),
