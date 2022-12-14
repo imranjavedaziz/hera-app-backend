@@ -68,12 +68,12 @@ class ProfileMatchService
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
                 if ($to_user->role_id == 2) {
                     //notification to ptb
-                    $name = $to_user->username;
-                    $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
+                    $name = $from_user->username;
+                    $description = 'It\'s a Match! You have a new match with '.$from_user->role->name.' '.$name.'.  Please initiate the conversation.';
                     $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }else {
                     //notification to donor
-                    $name = $to_user->first_name;
+                    $name = $from_user->first_name;
                     $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
                     $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }
