@@ -13,7 +13,7 @@ class ProfileMatchService
 {
     public function profileMatchRequest($user_id, $input)
     {
-        $input[FROM_USER_ID] = $user_id;
+        $input[FROM_USER_ID] = $user_id; //ptb id and to_user will be doner id
         $profile_match = ProfileMatch::where(function ($query) use ($input) {
             $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
             $query->where(TO_USER_ID, $input[TO_USER_ID]);
@@ -23,6 +23,8 @@ class ProfileMatchService
             $query->where(TO_USER_ID, $input[FROM_USER_ID]);
         })
         ->first();
+        // if profile mtch already exists then in case 1 (ptb sent request) : to_user_id = ptb
+        // if profile mtch already exists then in case 2 (donor sent request) : to_user_id = donor
         if ($profile_match) {
             $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
             $profile_match->status = $input[STATUS];
@@ -41,8 +43,8 @@ class ProfileMatchService
 
     private function getMatchRequestMsg($input, $profile_match)
     {
-        $to_user = User::where(ID, $input[TO_USER_ID])->first();
-        $from_user = User::where(ID, $input[FROM_USER_ID])->first();
+        $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
+        $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
         $fromUserNotify = NotificationSetting::where([USER_ID => $input[FROM_USER_ID], NOTIFY_STATUS => ONE ])->first();
         switch ($input[STATUS]) {
@@ -65,13 +67,15 @@ class ProfileMatchService
                 $message = __('messages.profile_match.request_approved');
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
                 if ($to_user->role_id == 2) {
+                    //notification to ptb
                     $name = $to_user->username;
                     $description = 'It\'s a Match! You have a new match with '.$to_user->role->name.' '.$name.'.  Please initiate the conversation.';
                     $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }else {
+                    //notification to donor
                     $name = $to_user->first_name;
                     $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
-                    $this->sendProfileMatchNotification($fromUserNotify, $from_user, $to_user, $profile_match, $description, $title, $feedback);
+                    $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
@@ -96,8 +100,8 @@ class ProfileMatchService
         $profile_match = ProfileMatch::where(ID, $input[ID])->first();
         $profile_match->status = $input[STATUS];
         if ($profile_match->save()) {
-            $input[FROM_USER_ID] = $user_id;
-            $input[TO_USER_ID] = $profile_match->from_user_id == $user_id ? $profile_match->to_user_id : $profile_match->from_user_id;
+            $input[FROM_USER_ID] = $user_id; //donor id
+            $input[TO_USER_ID] = ($profile_match->from_user_id == $user_id) ? $profile_match->to_user_id : $profile_match->from_user_id; //ptb id
             $message = $this->getMatchRequestMsg($input, $profile_match);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
