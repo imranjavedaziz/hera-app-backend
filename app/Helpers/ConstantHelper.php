@@ -114,6 +114,7 @@ define('NEW_PASSWORD_REQ', 'new_password.required');
 define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
 define('CODE_EXISTS', 'code.exists');
 define('ALL_IDS_EXISTS', 'ids_array.*.exists');
+define('PASSWORD_VALIDATION', 'bail|required|min:8|max:20|');
 
 // define migration text
 define('DATETIME', 'datetime');
