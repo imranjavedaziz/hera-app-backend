@@ -115,6 +115,9 @@ class SubscriptionService
         if(!empty($plan) && $plan->interval == 'month') {
             $result[CURRENT_PERIOD_START] = $newstartDate;
             $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
+        } else if(!empty($plan) && $plan->interval == 'year') {
+            $result[CURRENT_PERIOD_START] = $newstartDate;
+            $result[CURRENT_PERIOD_END]   = $startDate->addYear($plan->interval_count);
         }
         return $result;
     }
