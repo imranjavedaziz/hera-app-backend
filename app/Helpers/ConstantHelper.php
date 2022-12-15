@@ -493,3 +493,95 @@ define('SUBSCRIPTION_TRIAL_PERIOD', '+30 days');
 
 // message limit constant
 define('MESSAGE_LIMIT', '70');
+
+//define TESTCASE Param
+define('APPLICATION_JSON','application/json');
+define('ACCEPT', 'accept');
+define('BEARER','Bearer');
+
+define('TESTING_PTB_ID','709');
+define('TESTING_DONOR_ID','711');
+
+//define test register params
+define('TEST_IMAGE_NAME','avatar.jpg');
+define('TEST_FIRST_NAME','Test');
+define('TEST_PTB_LAST_NAME','PTB');
+define('TEST_DONOR_LAST_NAME','DONOR');
+define('TEST_PHONE_NO','1112223331');
+define('TEST_COUNTRY_CODE','+1');
+define('TEST_PTB_EMAIL','testptb@yopmail.com');
+define('TEST_DOB','14-12-1990');
+define('TEST_PASSWORD','Test@1234');
+define('TEST_YOPMAIL','@yopmail.com');
+
+//define Test Profile Register Param
+define('TEST_PTB_GENDER_ID','1');
+define('TEST_DONOR_GENDER_ID','2');
+define('TEST_PTB_SEXUAL_ORIENTATION_ID','1');
+define('TEST_DONOR_SEXUAL_ORIENTATION_ID','2');
+define('TEST_PTB_RELATIONSHIP_STATUS_ID','1');
+define('TEST_DONOR_RELATIONSHIP_STATUS_ID','2');
+define('TEST_OCCUPATION','Test Occupation');
+define('TEST_BIO','Test Bio');
+define('TEST_STATE_ID','1');
+define('TEST_ZIPCODE','12345');
+
+//define Test Preferences Register Param
+define('TEST_ROLE_ID_LOOKING_FOR', '3');
+define('TEST_AGE', '21-28, 28-35');
+define('TEST_HEIGHT', '60-70');
+define('TEST_RACE', '2,3');
+define('TEST_ETHNICITY', '2,3');
+define('TEST_HAIR_COLOUR', '1,2');
+define('TEST_EYE_COLOUR', '1,2');
+define('TEST_STATE', '1,2');
+define('TEST_EDUCATION', '1,2');
+
+//define Test doner attribute Param
+define('TEST_HEIGHT_ID', '3');
+define('TEST_RACE_ID', '3');
+define('TEST_MOTHER_ETHNICITY_ID', '3');
+define('TEST_FATHER_ETHNICITY_ID', '3');
+define('TEST_WEIGHT_ID', '3');
+define('TEST_HAIR_COLOUR_ID', '3');
+define('TEST_EYE_COLOUR_ID', '3');
+define('TEST_EDUCATION_ID', '3');
+
+//define Test Login Param
+define('TEST_DELETED_USER_PHONE', '7090380011');
+define('TEST_DELETED_ADMIN_PHONE', '6363012085');
+
+// define test logout param
+define('TEST_DEVICE_TOKEN', '345aa-asda-2143bsd-kj');
+
+//test donor dashboard api param
+define('TEST_MIN_CHAR_KEYWORD', 'keyword=te');
+define('TEST_KEYWORD', 'keyword=test');
+
+// test enquiry param
+define('TEST_USER_TIMEZONE', 'Asia/Kolkata');
+define('TEST_NAME', 'Inquiry Test');
+define('TEST_MESSAGE', 'Inquiry Test Message');
+
+//test set gallery
+define('TEST_IMAGE_GALLERY', 'avatar.jpg');
+define('TEST_VIDEO_GALLERY', 'avatar.mp4');
+
+//define api end points unit test
+
+define('REGISTER_API', '/api/v1/register');
+define('PROFILE_REGISTER_API', '/api/v1/profile-register');
+define('SET_PREFERENCES_API', '/api/v1/set-preferences');
+define('SET_ATTRIBUTES_API', '/api/v1/set-attributes');
+define('LOGIN_API', '/api/v1/login');
+define('LOGOUT_API', '/api/v1/logout?device_id=');
+define('PTB_PROFILE_CARD_API', '/api/v1/ptb-profile-card/');
+define('INQUIRY_API', '/api/v1/enquiry');
+define('GET_ROLES_API', '/api/v1/roles');
+define('GET_STATES_API', '/api/v1/states');
+define('GET_PROFILE_SETTER_DATA_API', '/api/v1/profile-setter-data');
+define('GET_PREFERENCES_SETTER_DATA_API', '/api/v1/preferences-setter-data');
+define('GET_ATTRIBUTES_SETTER_DATA_API', '/api/v1/attributes-setter-data');
+define('GET_AGE_RANGE_DATA_API', '/api/v1/preferences-age-range-data');
+define('SET_GALLERY_API', '/api/v1/set-gallery');
+define('GET_GALLERY_API', '/api/v1/get-gallery');
