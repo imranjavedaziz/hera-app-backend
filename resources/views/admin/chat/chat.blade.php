@@ -42,7 +42,7 @@
                             </div>
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
-                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
+                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message" disabled = "disabled"></textarea>
                                     <button type="button" class="btn-primary btn-send reply-btn">SEND</button>
                                 </div>
                             </div>
@@ -117,8 +117,9 @@
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
                 var date = getChatDate(time);
+                var statusId = childData.status_id;
                 $(".user-chat-sec[userid='" + childData.recieverId + "']").remove();
-                $('.chat-left-containt').prepend('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'">'
+                $('.chat-left-containt').prepend('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+childData.recieverImage+' alt="user-logo">'
@@ -345,7 +346,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = month+' '+dateName;
+                    day = moment(unixTimeStamp).format('MMM DD');
             }
             return day;
         }
@@ -373,7 +374,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = moment(unixTimeStamp).format('MMM DD');
+                    day = moment(unixTimeStamp).format('MMM DD hh:mm A');
             }
             return day;
         };

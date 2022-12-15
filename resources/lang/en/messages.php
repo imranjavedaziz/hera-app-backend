@@ -119,4 +119,6 @@ return [
     'already_user_reported' => 'This user has already been reported.',
     'notify_status_active' => 'Push notifications turned on successfully. Now, you will get notified for all the future events.',
     'notify_status_in_active' => 'Push notifications turned off successfully!',
+    'subscription_expire' => 'Your subscription has expired. Please renew your subscription now to use this feature.',
+    'trial_subscription_expire' => 'Your trial period is over. Please subscribe now to use this feature.',
 ];

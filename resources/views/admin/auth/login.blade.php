@@ -67,9 +67,6 @@
     <script type="text/javascript">
     $(".eye-img").click(function() {
         var input = $('#floatingPassword');
-        if(input.val() == '') {
-            return false;
-        }
         if (input.attr("type") == "password") {
             $(this).attr('src', "{{ asset('assets/images/svg/eye-close.svg') }}");
             $(".eye-img").css("top", "30px");

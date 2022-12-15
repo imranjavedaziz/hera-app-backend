@@ -33,8 +33,9 @@ class CheckUserAccountStatus
             JWTAuth::invalidate(JWTAuth::parseToken());
             FcmService::deactivateRegisterDevice($user->id, false, true);
             $message = $isPasswordUpdated ? trans('messages.logout_from_other_device_on_pwd_change') : CustomHelper::getDeleteInactiveMsg($user);
-            return response()->json(['data'=>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
+            return response()->json([DATA =>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
         }
+
         return $next($request);
     }
 }

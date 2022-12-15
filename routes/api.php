@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as Responses;
 use App\Http\Middleware\CheckUserAccountStatus;
 use App\Http\Middleware\EnsureParentsToBeTokenIsValid;
+use App\Http\Middleware\EnsureParentsSubscriptionIsActive;
 use App\Http\Middleware\EnsureDonarTokenIsValid;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
@@ -90,7 +91,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
-        Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         Route::get('get-profile-matches', [ProfileMatchController::class, 'getProfileMatches']);
         Route::get('subscription-status',[SubscriptionController::class, 'getSubscriptionStatus']);
         Route::get('new-notification/{notifyType}',[NotificationController::class, 'getNewNotification']);
@@ -131,6 +131,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
+        });
+
+        /***Only Parents route***/
+        Route::middleware([EnsureParentsSubscriptionIsActive::class])->group(function(){
+            Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
         });
     });
 });
