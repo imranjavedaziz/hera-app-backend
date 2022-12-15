@@ -71,7 +71,7 @@ style="border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-seri
                             $billedDate = \Carbon\Carbon::parse($subscriptionDetail->current_period_end)->format('M d, Y');
                             ?>
                         <tr style="background-color: #f7f5f0; border: 1px solid #ededed;"><td colspan="2" style="padding: 18px 30px; font-weight: bold;">Billing Details</td></tr>
-                        <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Subscription Purchased</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$subscriptionDetail->subscriptionPlan->name}}</td></tr>
+                        <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Subscription Purchased</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$subscriptionDetail->subscriptionPlan->description}}</td></tr>
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Transaction ID</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$subscriptionDetail->original_transaction_id}}</td></tr>
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Billed on</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}}</td></tr>
                         <tr style="border: 1px solid #ededed;"><td style="padding: 18px 30px;">Invoice Period</td><td style="text-align: right; padding: 18px 30px; font-weight: bold;">{{$purchasedDate}} - {{$billedDate}}</td></tr>

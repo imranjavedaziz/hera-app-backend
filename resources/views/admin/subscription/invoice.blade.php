@@ -29,7 +29,7 @@
                             $billedDate = \Carbon\Carbon::parse($subscriptionDetail->current_period_end)->format('M d, Y');
                             ?>
                             <div class="bill-title">Subscription Purchased</div>
-                            <div class="bill-amount">{{$subscriptionDetail->subscriptionPlan->name}}</div>
+                            <div class="bill-amount">{{$subscriptionDetail->subscriptionPlan->description}}</div>
                         </div>
                         <div class="cell bill-border">
                             <div class="bill-title">Transaction ID</div>

@@ -102,6 +102,7 @@
             $(document).on('focus','input', function (e) {
               var id = $(this).attr('id');
               $('#'+id).siblings('span').hide();
+              $('#'+id).removeClass('error')
             });
     </script>
 @endsection
