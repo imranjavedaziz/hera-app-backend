@@ -12,7 +12,6 @@ use Facades\{
 };
 use App\Helpers\CustomHelper;
 use App\Models\User;
-use App\Models\Subscription;
 use Exception;
 use Hash;
 
@@ -37,11 +36,6 @@ class CheckUserAccountStatus
             return response()->json([DATA =>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
         }
 
-        if ($user->subscription_status == SUBSCRIPTION_DISABLED && $user->registration_step == THREE) {
-            $subscription = Subscription::where(USER_ID,$user->id)->orderBy('id','desc')->first();
-            $message = !empty($subscription) ? trans('messages.subscription_expire') : trans('messages.trial_subscription_expire');
-            return response()->json([DATA => [], MESSAGE => $message], Response::HTTP_NOT_FOUND);
-        }
         return $next($request);
     }
 }
