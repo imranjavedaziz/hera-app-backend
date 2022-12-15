@@ -42,9 +42,9 @@ class SubscriptionWillEnd implements ShouldQueue
     public function handle()
     {
         $subscriptionEndDate = CustomHelper::dateConvert($this->data->current_period_end, YMD_FORMAT);
-        $title = 'Renew Susbcription!';
-        $trialDesc = "Your free trial period will get over in next 10 days. Please subscribe to continue the services.";
-        $description  = (!$this->isTrial) ? 'Your subscription will end on '.$subscriptionEndDate.'. Please renew to get good matches.' : $trialDesc;
+        $title = 'Susbcription!';
+        $trialDesc = "Your trial period will expire in next 10 days. Please subscribe to continue the services.";
+        $description  = (!$this->isTrial) ? 'Your subscription will renew in next 10 days.' : $trialDesc;
         $userId = (!$this->isTrial) ? $this->data->user_id : $this->data->id;
         $membershipArrayPtb[USER_ID] = $userId;
         $membershipArrayPtb[NAME] = (!$this->isTrial)  ? $this->data->user->first_name.' '.$this->data->user->last_name : $this->data->first_name.' '.$this->data->last_name;

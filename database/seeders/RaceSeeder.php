@@ -24,11 +24,11 @@ class RaceSeeder extends Seeder
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Black or African American',
+                NAME  => 'Black/African American',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'American Indian or Alaska Native',
+                NAME  => 'American Indian/Alaska Native',
                 STATUS_ID   => ACTIVE
             ],
             [
@@ -36,11 +36,11 @@ class RaceSeeder extends Seeder
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Native Hawaiian or Other Pacific Islander',
+                NAME  => 'Native Hawaiian/Other Pacific Islander',
                 STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => 'Mixed Or Other Race',
+                NAME  => 'Mixed/Other Race',
                 STATUS_ID   => ACTIVE
             ]
         ];   

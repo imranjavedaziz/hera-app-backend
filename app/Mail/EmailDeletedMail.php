@@ -28,6 +28,6 @@ class EmailDeletedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Account Deleted Successfully")->view('emails.email-deleted');
+        return $this->subject("HERA | Account Deleted Successfully!")->view('emails.email-deleted');
     }
 }

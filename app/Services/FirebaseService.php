@@ -120,7 +120,7 @@ class FirebaseService
         try {
             $response = NULL;
             /***Add User 2 Friends ***/
-            $msg = "A Parent To Be sent you a request";
+            $msg = "Intended Parent sent you a request";
             $chatUser2FriendData = $this->createFriend($user2,$user1,$msg);
             if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === false){
                 $this->database->getReference($this->tableName)->update([$user2->id.'/'.$this->friendsKey.'/'.$user1->id => '']);
