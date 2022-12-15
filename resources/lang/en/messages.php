@@ -119,4 +119,6 @@ return [
     'already_user_reported' => 'You have already reported this user.',
     'notify_status_active' => 'Your push notifications has been turned on. You will get notified for all the events in HERA.',
     'notify_status_in_active' => 'Your push notifications has been turned off now.',
+    'subscription_expire' => 'Your subscription has expired. Please renew your subscription now to use this feature.',
+    'trial_subscription_expire' => 'Your trial period is over. Please subscribe now to use this feature.',
 ];
