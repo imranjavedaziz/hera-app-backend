@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been successfully reactivated. Explore, Match & Chat with potential <?php if($user['role_id'] != 2) { ?> parents-to-be<?php }else{ ?> surrogate mothers/egg doners/sperm doners<?php } ?>.
+                        Your HERA account has been successfully reactivated. Explore, Match & Chat with <?php if($user['role_id'] != 2) { ?> intended parents<?php }else{ ?> surrogate mothers/egg doners/sperm doners<?php } ?>.
                     </td>
                 </tr>
                 <tr>
