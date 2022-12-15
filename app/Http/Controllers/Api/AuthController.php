@@ -110,6 +110,7 @@ class AuthController extends Controller
                     if ($user->status_id === INACTIVE) {
                         User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
                         dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
+                        dispatch(new UpdateStatusOnFirebaseJob($user, ACTIVE, STATUS_ID));
                     }
                     $user->access_token = $oauth_token;
                     $response = response()->Success(trans('messages.logged_in'), $user);
