@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
                 NAME  => 'Admin',                
             ],
             [
-                NAME  => 'Parents To Be',                
+                NAME  => 'Intended Parent',                
             ],
             [
                 NAME  => 'Surrogate Mother',
