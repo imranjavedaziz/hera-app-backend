@@ -27,7 +27,7 @@ services:
     depends_on:
       - mbc-staging-app
     networks: 
-      - mbc-staging-networks
+      - mbc-staging-network
 
 networks:
   mbc-staging-network:
