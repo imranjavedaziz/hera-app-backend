@@ -42,4 +42,15 @@ class AuthHelper
         }
         return $returnNull;
     }
+
+     /**
+     * Authenticate user for unit test.
+     *
+     * @return void
+     */
+    public static function authenticateTestUser($id)
+    {
+        $user = User::where(ID, $id)->first();
+        return \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+    }
 }

@@ -12,6 +12,7 @@ use Facades\{
 };
 use App\Helpers\CustomHelper;
 use App\Models\User;
+use App\Models\Subscription;
 use Exception;
 use Hash;
 
@@ -33,7 +34,13 @@ class CheckUserAccountStatus
             JWTAuth::invalidate(JWTAuth::parseToken());
             FcmService::deactivateRegisterDevice($user->id, false, true);
             $message = $isPasswordUpdated ? trans('messages.logout_from_other_device_on_pwd_change') : CustomHelper::getDeleteInactiveMsg($user);
-            return response()->json(['data'=>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
+            return response()->json([DATA =>new \stdClass(), MESSAGE => $message], Response::HTTP_FORBIDDEN);
+        }
+
+        if ($user->subscription_status == SUBSCRIPTION_DISABLED) {
+            $subscription = Subscription::where(USER_ID,$user->id)->orderBy('id','desc')->first();
+            $message = !empty($subscription) ? trans('messages.subscription_expire') : trans('messages.trial_subscription_expire');
+            return response()->json([DATA => [], MESSAGE => $message], Response::HTTP_NOT_FOUND);
         }
         return $next($request);
     }
