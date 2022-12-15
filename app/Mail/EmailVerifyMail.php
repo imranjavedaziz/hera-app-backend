@@ -28,6 +28,6 @@ class EmailVerifyMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Verify Your Account")->view('emails.email_verify');
+        return $this->subject("HERA | Verify Your Email!")->view('emails.email_verify');
     }
 }

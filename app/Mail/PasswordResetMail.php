@@ -30,7 +30,7 @@ class PasswordResetMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Password Reset Successfully")->view('emails.forgot_password', [
+        return $this->subject("HERA | Password Reset Successfully!")->view('emails.forgot_password', [
             'user' => $this->user,
         ]);
     }
