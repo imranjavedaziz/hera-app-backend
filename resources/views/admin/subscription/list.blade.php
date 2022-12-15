@@ -27,14 +27,18 @@
             <div class="table-container table-container-subscription">
                 <div class="table-head table-head-user">
                     <div class="table-row table-row-user">
-                        <div class="th">Name</div>
-                        <div class="th">User Type</div>
-                        <div class="th">Email Address</div>
-                        <div class="th">Subscription Type</div>
-                        <div class="th">Amount</div>
-                        <div class="th">Purchased on</div>
-                        <div class="th">Status</div>
-                        <div class="th">Action</div>
+                        <div class="td-user-left">
+                            <div class="th">Name</div>
+                            <div class="th">User Type</div>
+                            <div class="th">Email Address</div>
+                            <div class="th">Subscription Type</div>
+                            <div class="th">Amount</div>
+                            <div class="th">Purchased on</div>
+                            <div class="th">Status</div>
+                        </div>
+                        <div class="td-user-right">
+                            <div class="th">Action</div>
+                        </div>
                     </div>
                 </div>
                 <div class="table-body table-body-user">
@@ -49,35 +53,39 @@
                     ?>
                     <!--  repeat this div  -->
                     <div class="table-row">
-                        <div class="td">
-                            <div class="user-title">
-                                <div class="user-img">
-                                    <div>
-                                        <img src="{{$user->profile_pic}}" alt="user image" />
+                        <div class="td-user-left open-detail-page" data-subscriptionUrl="{{ route('userSubscriptionList', ['id' => $user->id]) }}">
+                            <div class="td">
+                                <div class="user-title">
+                                    <div class="user-img">
+                                        <div>
+                                            <img src="{{$user->profile_pic}}" alt="user image" />
+                                        </div>
+                                    </div>
+                                    <div class="user-title-info">
+                                        <h5>{{CustomHelper::fullName($user)}}</h5>
                                     </div>
                                 </div>
-                                <div class="user-title-info">
-                                    <h5>{{CustomHelper::fullName($user)}}</h5>
-                                </div>
                             </div>
+                            <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
+                                <span class="sm-code">{{$user->username}}</span>
+                            </div>
+                            <div class="td">{{$user->email}}</div>
+                            <div class="td">{{$subscriptionPlan->description}}</div>
+                            <div class="td">${{$subscription->price}}/{{$type}}</div>
+                            <div class="td">{{$purchasedDate}}</div>
+                            <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
                         </div>
-                        <div class="td">{{CustomHelper::getRoleName($user->role_id)}}<br />
-                            <span class="sm-code">{{$user->username}}</span>
-                        </div>
-                        <div class="td">{{$user->email}}</div>
-                        <div class="td">{{$subscriptionPlan->description}}</div>
-                        <div class="td">${{$subscription->price}}/{{$type}}</div>
-                        <div class="td">{{$purchasedDate}}</div>
-                        <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
-                        <div class="td">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
-                                    id="inactive-icon">
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item user-detail" data-id="{{$user->id}}">See Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('userSubscriptionList', ['id' => $user->id]) }}">Payment History</a></li>
-                            </ul>
+                        <div class="td-user-right">
+                            <div class="td">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ asset('assets/images/svg/3-dots-horizontal.svg')}}" alt="" class="3-dots-icon"
+                                        id="inactive-icon">
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item user-detail" data-id="{{$user->id}}">See Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('userSubscriptionList', ['id' => $user->id]) }}">Payment History</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -97,6 +105,12 @@
 @push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function () {
+            $(document).on('click', '.open-detail-page', function(e){
+                e.preventDefault();
+                var url = $(this).attr("data-subscriptionUrl");
+                window.location.href = url;
+            });
+
             $(document).on('click', '.user-detail', function(e){
                 e.preventDefault();
                 var id = $(this).attr("data-id");

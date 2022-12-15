@@ -42,7 +42,7 @@
                             </div>
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
-                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
+                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message" disabled = "disabled"></textarea>
                                     <button type="button" class="btn-primary btn-send reply-btn">SEND</button>
                                 </div>
                             </div>
@@ -346,7 +346,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = month+' '+dateName;
+                    day = moment(unixTimeStamp).format('MMM DD');
             }
             return day;
         }
@@ -374,7 +374,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = moment(unixTimeStamp).format('MMM DD');
+                    day = moment(unixTimeStamp).format('MMM DD hh:mm A');
             }
             return day;
         };
