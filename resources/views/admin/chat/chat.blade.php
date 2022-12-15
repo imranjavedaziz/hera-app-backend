@@ -346,7 +346,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = month+' '+dateName;
+                    day = moment(unixTimeStamp).format('MMM DD');
             }
             return day;
         }
@@ -374,7 +374,7 @@
                     day = 'Yesterday';
                     break;
                 default:
-                    day = moment(unixTimeStamp).format('MMM DD');
+                    day = moment(unixTimeStamp).format('MMM DD hh:mm A');
             }
             return day;
         };
