@@ -13,7 +13,7 @@ class ProfileMatchService
 {
     public function profileMatchRequest($user_id, $input)
     {
-        $input[FROM_USER_ID] = $user_id; //ptb id and to_user will be doner id
+        $input[FROM_USER_ID] = $user_id;
         $profile_match = ProfileMatch::where(function ($query) use ($input) {
             $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
             $query->where(TO_USER_ID, $input[TO_USER_ID]);
@@ -23,8 +23,6 @@ class ProfileMatchService
             $query->where(TO_USER_ID, $input[FROM_USER_ID]);
         })
         ->first();
-        // if profile mtch already exists then in case 1 (ptb sent request) : to_user_id = ptb
-        // if profile mtch already exists then in case 2 (donor sent request) : to_user_id = donor
         if ($profile_match) {
             $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
             $profile_match->status = $input[STATUS];
