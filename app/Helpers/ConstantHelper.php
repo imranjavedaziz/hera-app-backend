@@ -120,7 +120,7 @@ define('PASSWORD_VALIDATION', 'bail|required|min:8|max:20|');
 define('DATETIME', 'datetime');
 define('CASCADE', 'cascade');
 
-define('ROLE_COMMENT', '2 => Parents To Be, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
+define('ROLE_COMMENT', '2 => Intended Parent, 3 => Surrogate Mother, 4 => Egg User, 5=>Sperm Doner');
 define('REGISTRATION_STEP_COMMENT', '1 => Registration Form Filled, 2 => registration and profile form Fille, 3 => All step done');
 define('USER_MATCHES_STATUS_COMMENT', '1 => Pending for approval, 2 => Approved and matched, 3 => Rejected by PTB, 4=> Rejected by Doner');
 define('USER_SUBSCRIPTION_STATUS_COMMENT', '0 => disabled, 1 => enalbed');

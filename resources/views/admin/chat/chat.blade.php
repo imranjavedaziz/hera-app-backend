@@ -382,7 +382,7 @@
         function getRoleData(roleId) {
             switch (true) {
                 case (roleId == '2'): 
-                    role = 'Parents To Be';
+                    role = 'Intended Parent';
                     break;
                 case (roleId == '3'):
                     role = 'Surrogate Mother';
@@ -394,7 +394,7 @@
                     role = 'Sperm Donor';
                     break;
                 default:
-                role = 'Parents To Be';
+                role = 'Intended Parent';
                 break;
             }
             return role;

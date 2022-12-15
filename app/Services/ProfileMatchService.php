@@ -48,7 +48,7 @@ class ProfileMatchService
             case 1:
                 $to_name = ($to_user->role_id == 2) ? $to_user->first_name : $to_user->username;
                 $name = ($from_user->role_id == 2) ? $from_user->first_name : $from_user->username;
-                $title = 'Profile Match Request.';
+                $title = 'Match Request!';
                 $description = $from_user->role->name .' '. $name. ' sent you a match request. Please accept to start the conversation.';
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
                 $feedback = Feedback::where(SENDER_ID, $input[TO_USER_ID])->where(RECIPIENT_ID, $input[FROM_USER_ID])->first();
@@ -60,17 +60,17 @@ class ProfileMatchService
                 }
                 break;
             case 2:
-                $title = 'Profile Match Request Approved.';
+                $title = 'It\'s a Match!';
                 $message = __('messages.profile_match.request_approved');
                 $feedback = Feedback::where(SENDER_ID, $input[FROM_USER_ID])->where(RECIPIENT_ID, $input[TO_USER_ID])->first();
                 if ($to_user->role_id == 2) {
                     //notification to ptb
                     $name = $from_user->username;
-                    $description = 'It\'s a Match! You have a new match with '.$from_user->role->name.' '.$name.'.  Please initiate the conversation.';
+                    $description = 'You matched with '.$from_user->role->name.' '.$name.'.  Please initiate the conversation.';
                 }else {
                     //notification to donor
                     $name = $from_user->first_name;
-                    $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
+                    $description = 'You have a new match with Intended Parent '.$name .'.';
                 }
                 $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));

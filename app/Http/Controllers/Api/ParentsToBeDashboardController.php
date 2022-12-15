@@ -21,7 +21,7 @@ class ParentsToBeDashboardController extends Controller
      * @OA\Get(
      *      path="/v1/parents-matched-doner",
      *      operationId="parents-matched-doner",
-     *      tags={"Parents To Be Dashboard"},
+     *      tags={"Intended Parent Dashboard"},
      *      summary="Get Parents matched donars.",
      *      description="Get Parents matched donars.",
      *      @OA\Response(
