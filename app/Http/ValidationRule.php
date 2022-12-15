@@ -59,4 +59,5 @@ class ValidationRule
     public const IDS_ARRAY =[BAIL, REQUIRED, ARRAYY];
     public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
     public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
+    public const USER_TIMEZONE =[BAIL, REQUIRED];
 }
