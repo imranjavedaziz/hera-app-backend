@@ -34,6 +34,7 @@ class EnquiryRequest extends ApiFormRequest
             PHONE_NO => ValidationRule::PHONE,
             ENQUIRING_AS => ValidationRule::ROLE_ID,
             MESSAGE => ValidationRule::MESSAGE,
+            USER_TIMEZONE => ValidationRule::USER_TIMEZONE,
         ];
     }
 
