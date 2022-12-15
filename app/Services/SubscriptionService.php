@@ -213,7 +213,7 @@ class SubscriptionService
 
     public function getSubcriptionEndBeforeTenDay() {
         /**$dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);**/
-        $dateAfterTenDay = Carbon::now()->addDay(1)->format(YMD_FORMAT);
+        $dateAfterTenDay = Carbon::now()->addDay(TWO)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
@@ -232,7 +232,7 @@ class SubscriptionService
 
     public function getSubscriptionStatus($userId) {
         $user = User::where([ID => $userId])->first();
-        $dateDiff = strtotime(date(DATE_TIME)) - strtotime($user->created_at->format(DATE_TIME));
+        $dateDiff = strtotime(date(YMD_FORMAT)) - strtotime($user->created_at->format(YMD_FORMAT));
         $days = round(($dateDiff / 60));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
         if ($subscription == null && $user->subscription_status == TWO && $days < 10) {
