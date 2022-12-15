@@ -64,6 +64,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);
+    Route::get('logout', [AuthController::class, 'logout']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
@@ -87,7 +88,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
         Route::post('register-device', [FcmController::class, 'registerDevice']);
         Route::post('send-push-notification', [FcmController::class, 'sendPushNotification']);
-        Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile-setter-data', [UserController::class, 'getProfileSetterData']);
         Route::post('profile-register', [UserController::class, 'profileRegister']);
         Route::post('profile-match-request', [ProfileMatchController::class, 'profileMatchRequest']);
