@@ -42,7 +42,7 @@
                             </div>
                             <div class="chat-footer">
                                 <div class="chat-textarea-sec">
-                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message"></textarea>
+                                    <textarea class="form-control" placeholder="Write a message" id="message" name="message" disabled = "disabled"></textarea>
                                     <button type="button" class="btn-primary btn-send reply-btn">SEND</button>
                                 </div>
                             </div>
