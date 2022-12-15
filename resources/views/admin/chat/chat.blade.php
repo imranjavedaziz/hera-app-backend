@@ -15,7 +15,7 @@
                                 <form class="search-input-wrapper">
                                     <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search" id="search">
                                     <img src="{{ asset('assets/images/svg/search.svg')}}" alt="Search" class="search-img">
-                                    <span class="search-close d-none"><img src="{{ asset('assets/images/icon-close-circled.svg')}}"></span>
+                                    <span class="search-close d-none"><img src="{{ asset('assets/images/icon-close-circled.svg')}}" alt="Search-close"></span>
                                 </form>
                             </div>
                             <div class="chat-left-containt">

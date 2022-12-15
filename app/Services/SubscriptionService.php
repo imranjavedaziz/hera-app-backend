@@ -115,9 +115,6 @@ class SubscriptionService
         if(!empty($plan) && $plan->interval == 'month') {
             $result[CURRENT_PERIOD_START] = $newstartDate;
             $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
-        } else if(!empty($plan) && $plan->interval == 'year') {
-            $result[CURRENT_PERIOD_START] = $newstartDate;
-            $result[CURRENT_PERIOD_END]   = $startDate->addMonth($plan->interval_count);
         }
         return $result;
     }
@@ -213,7 +210,7 @@ class SubscriptionService
 
     public function getSubcriptionEndBeforeTenDay() {
         /**$dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);**/
-        $dateAfterTenDay = Carbon::now()->addDay(TWO)->format(YMD_FORMAT);
+        /**$dateAfterTenDay = Carbon::now()->addDay(TWO)->format(YMD_FORMAT);**/
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))

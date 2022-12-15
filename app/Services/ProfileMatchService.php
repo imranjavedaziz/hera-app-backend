@@ -44,7 +44,6 @@ class ProfileMatchService
         $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
-        $fromUserNotify = NotificationSetting::where([USER_ID => $input[FROM_USER_ID], NOTIFY_STATUS => ONE ])->first();
         switch ($input[STATUS]) {
             case 1:
                 $to_name = ($to_user->role_id == 2) ? $to_user->first_name : $to_user->username;
@@ -68,13 +67,12 @@ class ProfileMatchService
                     //notification to ptb
                     $name = $from_user->username;
                     $description = 'It\'s a Match! You have a new match with '.$from_user->role->name.' '.$name.'.  Please initiate the conversation.';
-                    $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }else {
                     //notification to donor
                     $name = $from_user->first_name;
                     $description = 'It\'s a Match! You have a new match with Parent to be '.$name .'.';
-                    $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 }
+                $this->sendProfileMatchNotification($toUserNotify, $to_user, $from_user, $profile_match, $description, $title, $feedback);
                 dispatch(new FirebaseChatFriend($from_user, $to_user, APPROVED_REQUEST));
                 break;
             default:
