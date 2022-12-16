@@ -74,7 +74,11 @@
                             <div class="td">{{$inquiry->role}}</div>
                             <div class="td">{{$message}}</div>
                             <div class="td">{{CustomHelper::dateTimeZoneConversion($inquiry->created_at,$timezone)}}</div>
-                            <div class="td"><img src="/assets/images/svg/send.svg" alt="Send Image"/></div>
+                            <div class="td">
+                                @if($inquiry->admin_reply == null)
+                                    <img src="/assets/images/svg/send.svg" alt="Send Image"/>
+                                @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>

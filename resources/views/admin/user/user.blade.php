@@ -174,6 +174,11 @@
                         $('.user-profile-right img').attr('src', msg.profile_pic)
                         $('#age').html('Age: <span>'+ msg.age + ' yrs </span>')
                         if (msg.doner_attribute != null) {
+                            $('#height').show();
+                            $('#weight').show();
+                            $('#race').show();
+                            $('#eye-colour').show();
+                            $('#hair-colour').show();
                             var inches = msg.doner_attribute.height;
                             var feet = Math.floor(inches / 12);
                             var inch = inches % 12;

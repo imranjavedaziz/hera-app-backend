@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use App\Traits\SetterDataTrait;
 use Storage;
 use App\Jobs\SendEmailVerificationJob;
+use App\Jobs\SendRegisterSuccessfulJob;
 use App\Jobs\SetLocationJob;
 use Carbon\Carbon;
 use App\Helpers\TwilioOtp;
@@ -40,7 +41,7 @@ class UserRegisterService
             $username = $this->setUserName($input[ROLE_ID], $user->id);
             $file = $this->uploadFile($input, 'images/user_profile_images');
             User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
-            $this->sendEmailVerification($user);
+            dispatch(new SendRegisterSuccessfulJob($user));
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
                 dispatch(new CreateAdminChatFreiend($user));
             }
