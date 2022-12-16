@@ -198,11 +198,14 @@
                             var occupation = (msg.user_profile.occupation != null) ? msg.user_profile.occupation : 'N/A';
                             $('#occupation').html('Occupation: <span>' + occupation + '</span>');
                             $('#bio').html( msg.user_profile.bio);
+                            $('#occupation').show();
+                            $('#bio').show();
                         }else{
                             $('#occupation').hide();
                             $('#bio').hide();
                         }
                         if(msg.doner_photo_gallery){
+                            $('.img-wrapper').show();
                             var img = '';
                             msg.doner_photo_gallery.forEach(function(doner_photo_gallery) {
                                 var path = doner_photo_gallery.file_url;
