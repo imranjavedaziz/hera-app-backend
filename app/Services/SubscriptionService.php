@@ -283,7 +283,7 @@ class SubscriptionService
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
-            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_END, '<=', Carbon::now()->format(DATE_TIME))
             ->get();
     }
 }
