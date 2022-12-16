@@ -42,7 +42,7 @@
                     </div>
                     <div id="modal-deactivate" class="deactivate-user modal-deactivate" data-id="" data-name="" data-status=""></div>
                     <div class="deactivate-para para-margin">This option will temporarily <span id="deactivate-para-text"></span> the account.</div>
-                    <div id="modal-delete" class="deactivate-user modal-delete" data-id="">Delete this User</div>
+                    <div id="modal-delete" class="deactivate-user modal-delete" data-id="">Delete this user</div>
                     <div class="deactivate-para">This option will permanently delete the account.</div>
                 </div>
             </div>
