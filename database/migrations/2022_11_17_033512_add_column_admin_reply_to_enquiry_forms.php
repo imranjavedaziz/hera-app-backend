@@ -14,7 +14,7 @@ class AddColumnAdminReplyToEnquiryForms extends Migration
     public function up()
     {
         Schema::table(ENQUIRY_FORMS, function (Blueprint $table) {
-            $table->string(ADMIN_REPLY)->after(MESSAGE)->nullable();
+            $table->longText(ADMIN_REPLY)->after(MESSAGE)->nullable();
             $table->datetime(REPLIED_AT)->after(ADMIN_REPLY)->nullable();
             $table->string(USER_TIMEZONE)->nullable()->default('America/New_york');
         });
