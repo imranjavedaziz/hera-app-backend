@@ -100,7 +100,7 @@ class ProfileMatchController extends Controller
      *     description="User profile match request response for MBC portal.",
      *     @OA\RequestBody(
      *        required = true,
-     *        description = "2 => Approved and matched, 4=> Rejected by Doner",
+     *        description = "2 => Approved and matched, 4=> Rejected by Donor",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
