@@ -43,7 +43,7 @@ class FcmService
     public function sendPushNotification($input, $sender_id, $chatNotification = true)
     {
         $msgId = ($input[RECEIVER_ID] > $sender_id) ? $input[RECEIVER_ID] : $sender_id;
-        $userDevice = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ONE])->first();
+        $deviceRegistrations = DeviceRegistration::where([USER_ID => $input[RECEIVER_ID], STATUS_ID => ACTIVE])->get();
         $sender_user = User::select(ID, USERNAME, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
         ->where(ID, $sender_id)->first();
         $receiver_user = User::select(ID, USERNAME, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, SUBSCRIPTION_STATUS)
@@ -58,7 +58,7 @@ class FcmService
         })
         ->first();
         $feedback = Feedback::where(SENDER_ID, $input[RECEIVER_ID])->where(RECIPIENT_ID, $sender_id)->first();
-        if(!empty($userDevice) || !$chatNotification) {
+        if(!empty($deviceRegistrations) || !$chatNotification) {
             $chatArray[NOTIFY_TYPE] = CHAT;
             $chatArray["chat_start"] = ONE;
             $chatArray["currentRole"] = $sender_user->role_id;
@@ -85,8 +85,10 @@ class FcmService
                 return $chatArray;
             }
             $userNotify = NotificationSetting::where([USER_ID => $input[RECEIVER_ID], NOTIFY_STATUS => ONE])->first();
-            if (!empty($userNotify)){
-                $this->sendPush($userDevice->device_token,$input['title'],$input['message'],$chatArray);
+            if (!empty($userNotify) && !empty($deviceRegistrations)){
+                foreach ($deviceRegistrations as $deviceRegistration) {
+                    $this->sendPush($deviceRegistration->device_token,$input['title'],$input['message'],$chatArray);
+                }
             }
             $response = response()->Success(trans('messages.sent_push_notification'));
         } else {

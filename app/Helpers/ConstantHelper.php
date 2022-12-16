@@ -374,6 +374,7 @@ define('MAIL_STATUS', 'mail_status');
 define('NOTIFICATION_TYPE', 'notification_type');
 define('AUTORENEW_STATUS', 'autorenew_status');
 define('START_DATE', 'start_date');
+define('END_DATE', 'end_date');
 define('IOS', 'ios');
 define('ANDROID', 'android');
 

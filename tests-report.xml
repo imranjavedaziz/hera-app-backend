@@ -1,12 +1,400 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="4" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="2.703125">
-    <testsuite name="Feature" tests="4" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="2.703125">
-      <testsuite name="Tests\Feature\SetGalleryTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/SetGalleryTest.php" tests="4" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="2.703125">
-        <testcase name="testUserAuthentication" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/SetGalleryTest.php" line="18" assertions="1" time="0.425610"/>
-        <testcase name="testRequiredFieldsForSetGallery" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/SetGalleryTest.php" line="34" assertions="1" time="0.224660"/>
-        <testcase name="testSuccessfulSetGallery" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/SetGalleryTest.php" line="50" assertions="2" time="1.811233"/>
-        <testcase name="testGetStates" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/Applications/MAMP/htdocs/kiwitech/mbcbackend/tests/Feature/SetGalleryTest.php" line="69" assertions="2" time="0.241621"/>
+  <testsuite name="" tests="48" assertions="17" errors="40" warnings="0" failures="0" skipped="0" time="0.312826">
+    <testsuite name="Unit" tests="9" assertions="17" errors="1" warnings="0" failures="0" skipped="0" time="0.000189">
+      <testsuite name="Tests\Unit\ExampleTest" file="/var/www/html/MBC-Backend/tests/Unit/ExampleTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.000045">
+        <testcase name="test_example" class="Tests\Unit\ExampleTest" classname="Tests.Unit.ExampleTest" file="/var/www/html/MBC-Backend/tests/Unit/ExampleTest.php" line="14" assertions="1" time="0.000045"/>
+      </testsuite>
+      <testsuite name="Tests\Unit\ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" tests="8" assertions="16" errors="1" warnings="0" failures="0" skipped="0" time="0.000144">
+        <testcase name="testLocationValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="17" assertions="0" time="0.000034">
+          <error type="PHPUnit\Framework\Error\Notice">Tests\Unit\ParentsMatchedDonarsTest::testLocationValue
+Trying to get property 'state_id' of non-object
+
+/var/www/html/MBC-Backend/app/Traits/ParentsToBeMatchedDonerTrait.php:106
+/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php:19</error>
+        </testcase>
+        <testcase name="testAgeValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="29" assertions="4" time="0.000028"/>
+        <testcase name="testRaceValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="43" assertions="2" time="0.000016"/>
+        <testcase name="testEthnicityValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="55" assertions="2" time="0.000014"/>
+        <testcase name="testHeightValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="67" assertions="2" time="0.000014"/>
+        <testcase name="testHairColourValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="79" assertions="2" time="0.000013"/>
+        <testcase name="testEyeColourValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="91" assertions="2" time="0.000013"/>
+        <testcase name="testEducationValue" class="Tests\Unit\ParentsMatchedDonarsTest" classname="Tests.Unit.ParentsMatchedDonarsTest" file="/var/www/html/MBC-Backend/tests/Unit/ParentsMatchedDonarsTest.php" line="103" assertions="2" time="0.000013"/>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Feature" tests="39" assertions="0" errors="39" warnings="0" failures="0" skipped="0" time="0.312637">
+      <testsuite name="Tests\Feature\DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" tests="5" assertions="0" errors="5" warnings="0" failures="0" skipped="0" time="0.083896">
+        <testcase name="testUserAuthentication" class="Tests\Feature\DonorDashBoardTest" classname="Tests.Feature.DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" line="19" assertions="0" time="0.060159">
+          <error type="TypeError">Tests\Feature\DonorDashBoardTest::testUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testEnsureDonorAuthentication" class="Tests\Feature\DonorDashBoardTest" classname="Tests.Feature.DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" line="33" assertions="0" time="0.005935">
+          <error type="TypeError">Tests\Feature\DonorDashBoardTest::testEnsureDonorAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testPtbProfileCards" class="Tests\Feature\DonorDashBoardTest" classname="Tests.Feature.DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" line="51" assertions="0" time="0.005996">
+          <error type="TypeError">Tests\Feature\DonorDashBoardTest::testPtbProfileCards
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testPtbProfileCardsSearch" class="Tests\Feature\DonorDashBoardTest" classname="Tests.Feature.DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" line="66" assertions="0" time="0.005880">
+          <error type="TypeError">Tests\Feature\DonorDashBoardTest::testPtbProfileCardsSearch
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testPtbProfileCardsMinCharSearch" class="Tests\Feature\DonorDashBoardTest" classname="Tests.Feature.DonorDashBoardTest" file="/var/www/html/MBC-Backend/tests/Feature/DonorDashBoardTest.php" line="81" assertions="0" time="0.005925">
+          <error type="TypeError">Tests\Feature\DonorDashBoardTest::testPtbProfileCardsMinCharSearch
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\ExampleTest" file="/var/www/html/MBC-Backend/tests/Feature/ExampleTest.php" tests="1" assertions="0" errors="1" warnings="0" failures="0" skipped="0" time="0.008423">
+        <testcase name="test_example" class="Tests\Feature\ExampleTest" classname="Tests.Feature.ExampleTest" file="/var/www/html/MBC-Backend/tests/Feature/ExampleTest.php" line="15" assertions="0" time="0.008423">
+          <error type="TypeError">Tests\Feature\ExampleTest::test_example
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\GetSetterDataTest" file="/var/www/html/MBC-Backend/tests/Feature/GetSetterDataTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.030992">
+        <testcase name="testGetStates" class="Tests\Feature\GetSetterDataTest" classname="Tests.Feature.GetSetterDataTest" file="/var/www/html/MBC-Backend/tests/Feature/GetSetterDataTest.php" line="18" assertions="0" time="0.009037">
+          <error type="TypeError">Tests\Feature\GetSetterDataTest::testGetStates
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testGetProfileSetterData" class="Tests\Feature\GetSetterDataTest" classname="Tests.Feature.GetSetterDataTest" file="/var/www/html/MBC-Backend/tests/Feature/GetSetterDataTest.php" line="32" assertions="0" time="0.008631">
+          <error type="TypeError">Tests\Feature\GetSetterDataTest::testGetProfileSetterData
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testGetPreferencesSetterData" class="Tests\Feature\GetSetterDataTest" classname="Tests.Feature.GetSetterDataTest" file="/var/www/html/MBC-Backend/tests/Feature/GetSetterDataTest.php" line="50" assertions="0" time="0.006145">
+          <error type="TypeError">Tests\Feature\GetSetterDataTest::testGetPreferencesSetterData
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testGetAttributeSetterData" class="Tests\Feature\GetSetterDataTest" classname="Tests.Feature.GetSetterDataTest" file="/var/www/html/MBC-Backend/tests/Feature/GetSetterDataTest.php" line="68" assertions="0" time="0.007180">
+          <error type="TypeError">Tests\Feature\GetSetterDataTest::testGetAttributeSetterData
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\InquiryFormTest" file="/var/www/html/MBC-Backend/tests/Feature/InquiryFormTest.php" tests="3" assertions="0" errors="3" warnings="0" failures="0" skipped="0" time="0.023216">
+        <testcase name="testGetRoles" class="Tests\Feature\InquiryFormTest" classname="Tests.Feature.InquiryFormTest" file="/var/www/html/MBC-Backend/tests/Feature/InquiryFormTest.php" line="19" assertions="0" time="0.006238">
+          <error type="TypeError">Tests\Feature\InquiryFormTest::testGetRoles
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testRequiredFieldsForInquiry" class="Tests\Feature\InquiryFormTest" classname="Tests.Feature.InquiryFormTest" file="/var/www/html/MBC-Backend/tests/Feature/InquiryFormTest.php" line="33" assertions="0" time="0.006392">
+          <error type="TypeError">Tests\Feature\InquiryFormTest::testRequiredFieldsForInquiry
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulSetAttributes" class="Tests\Feature\InquiryFormTest" classname="Tests.Feature.InquiryFormTest" file="/var/www/html/MBC-Backend/tests/Feature/InquiryFormTest.php" line="56" assertions="0" time="0.010586">
+          <error type="TypeError">Tests\Feature\InquiryFormTest::testSuccessfulSetAttributes
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\LoginTest" file="/var/www/html/MBC-Backend/tests/Feature/LoginTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.024494">
+        <testcase name="testRequiredFieldsForLogin" class="Tests\Feature\LoginTest" classname="Tests.Feature.LoginTest" file="/var/www/html/MBC-Backend/tests/Feature/LoginTest.php" line="18" assertions="0" time="0.006873">
+          <error type="TypeError">Tests\Feature\LoginTest::testRequiredFieldsForLogin
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testDeletedUserLogin" class="Tests\Feature\LoginTest" classname="Tests.Feature.LoginTest" file="/var/www/html/MBC-Backend/tests/Feature/LoginTest.php" line="34" assertions="0" time="0.005981">
+          <error type="TypeError">Tests\Feature\LoginTest::testDeletedUserLogin
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testDeletedByAdminUserLogin" class="Tests\Feature\LoginTest" classname="Tests.Feature.LoginTest" file="/var/www/html/MBC-Backend/tests/Feature/LoginTest.php" line="50" assertions="0" time="0.005901">
+          <error type="TypeError">Tests\Feature\LoginTest::testDeletedByAdminUserLogin
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulLogin" class="Tests\Feature\LoginTest" classname="Tests.Feature.LoginTest" file="/var/www/html/MBC-Backend/tests/Feature/LoginTest.php" line="66" assertions="0" time="0.005738">
+          <error type="TypeError">Tests\Feature\LoginTest::testSuccessfulLogin
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\LogoutUserTest" file="/var/www/html/MBC-Backend/tests/Feature/LogoutUserTest.php" tests="2" assertions="0" errors="2" warnings="0" failures="0" skipped="0" time="0.012702">
+        <testcase name="testLogoutUserAuthentication" class="Tests\Feature\LogoutUserTest" classname="Tests.Feature.LogoutUserTest" file="/var/www/html/MBC-Backend/tests/Feature/LogoutUserTest.php" line="19" assertions="0" time="0.006082">
+          <error type="TypeError">Tests\Feature\LogoutUserTest::testLogoutUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testLogoutUser" class="Tests\Feature\LogoutUserTest" classname="Tests.Feature.LogoutUserTest" file="/var/www/html/MBC-Backend/tests/Feature/LogoutUserTest.php" line="33" assertions="0" time="0.006620">
+          <error type="TypeError">Tests\Feature\LogoutUserTest::testLogoutUser
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\ProfileRegisterTest" file="/var/www/html/MBC-Backend/tests/Feature/ProfileRegisterTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.024398">
+        <testcase name="testUserAuthentication" class="Tests\Feature\ProfileRegisterTest" classname="Tests.Feature.ProfileRegisterTest" file="/var/www/html/MBC-Backend/tests/Feature/ProfileRegisterTest.php" line="18" assertions="0" time="0.005928">
+          <error type="TypeError">Tests\Feature\ProfileRegisterTest::testUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testRequiredFieldsForProfileRegistration" class="Tests\Feature\ProfileRegisterTest" classname="Tests.Feature.ProfileRegisterTest" file="/var/www/html/MBC-Backend/tests/Feature/ProfileRegisterTest.php" line="41" assertions="0" time="0.005969">
+          <error type="TypeError">Tests\Feature\ProfileRegisterTest::testRequiredFieldsForProfileRegistration
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulDonorProfileRegistration" class="Tests\Feature\ProfileRegisterTest" classname="Tests.Feature.ProfileRegisterTest" file="/var/www/html/MBC-Backend/tests/Feature/ProfileRegisterTest.php" line="65" assertions="0" time="0.005822">
+          <error type="TypeError">Tests\Feature\ProfileRegisterTest::testSuccessfulDonorProfileRegistration
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulPtbProfileRegistration" class="Tests\Feature\ProfileRegisterTest" classname="Tests.Feature.ProfileRegisterTest" file="/var/www/html/MBC-Backend/tests/Feature/ProfileRegisterTest.php" line="89" assertions="0" time="0.006680">
+          <error type="TypeError">Tests\Feature\ProfileRegisterTest::testSuccessfulPtbProfileRegistration
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\RegistrationTest" file="/var/www/html/MBC-Backend/tests/Feature/RegistrationTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.024247">
+        <testcase name="testRequiredFieldsForRegistration" class="Tests\Feature\RegistrationTest" classname="Tests.Feature.RegistrationTest" file="/var/www/html/MBC-Backend/tests/Feature/RegistrationTest.php" line="19" assertions="0" time="0.006571">
+          <error type="TypeError">Tests\Feature\RegistrationTest::testRequiredFieldsForRegistration
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testAlreadyExitsPhoneEmailForRegistration" class="Tests\Feature\RegistrationTest" classname="Tests.Feature.RegistrationTest" file="/var/www/html/MBC-Backend/tests/Feature/RegistrationTest.php" line="42" assertions="0" time="0.006070">
+          <error type="TypeError">Tests\Feature\RegistrationTest::testAlreadyExitsPhoneEmailForRegistration
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulRegistrationPtb" class="Tests\Feature\RegistrationTest" classname="Tests.Feature.RegistrationTest" file="/var/www/html/MBC-Backend/tests/Feature/RegistrationTest.php" line="65" assertions="0" time="0.005845">
+          <error type="TypeError">Tests\Feature\RegistrationTest::testSuccessfulRegistrationPtb
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulRegistrationDonor" class="Tests\Feature\RegistrationTest" classname="Tests.Feature.RegistrationTest" file="/var/www/html/MBC-Backend/tests/Feature/RegistrationTest.php" line="92" assertions="0" time="0.005759">
+          <error type="TypeError">Tests\Feature\RegistrationTest::testSuccessfulRegistrationDonor
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\SetAttributeTest" file="/var/www/html/MBC-Backend/tests/Feature/SetAttributeTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.029843">
+        <testcase name="testUserAuthentication" class="Tests\Feature\SetAttributeTest" classname="Tests.Feature.SetAttributeTest" file="/var/www/html/MBC-Backend/tests/Feature/SetAttributeTest.php" line="19" assertions="0" time="0.011502">
+          <error type="TypeError">Tests\Feature\SetAttributeTest::testUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testEnsureDonorAuthentication" class="Tests\Feature\SetAttributeTest" classname="Tests.Feature.SetAttributeTest" file="/var/www/html/MBC-Backend/tests/Feature/SetAttributeTest.php" line="43" assertions="0" time="0.006541">
+          <error type="TypeError">Tests\Feature\SetAttributeTest::testEnsureDonorAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testRequiredFieldsForSetAttributes" class="Tests\Feature\SetAttributeTest" classname="Tests.Feature.SetAttributeTest" file="/var/www/html/MBC-Backend/tests/Feature/SetAttributeTest.php" line="71" assertions="0" time="0.005824">
+          <error type="TypeError">Tests\Feature\SetAttributeTest::testRequiredFieldsForSetAttributes
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulSetAttributes" class="Tests\Feature\SetAttributeTest" classname="Tests.Feature.SetAttributeTest" file="/var/www/html/MBC-Backend/tests/Feature/SetAttributeTest.php" line="96" assertions="0" time="0.005977">
+          <error type="TypeError">Tests\Feature\SetAttributeTest::testSuccessfulSetAttributes
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\SetGalleryTest" file="/var/www/html/MBC-Backend/tests/Feature/SetGalleryTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.025012">
+        <testcase name="testUserAuthentication" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/var/www/html/MBC-Backend/tests/Feature/SetGalleryTest.php" line="18" assertions="0" time="0.006415">
+          <error type="TypeError">Tests\Feature\SetGalleryTest::testUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testRequiredFieldsForSetGallery" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/var/www/html/MBC-Backend/tests/Feature/SetGalleryTest.php" line="34" assertions="0" time="0.006019">
+          <error type="TypeError">Tests\Feature\SetGalleryTest::testRequiredFieldsForSetGallery
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulSetGallery" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/var/www/html/MBC-Backend/tests/Feature/SetGalleryTest.php" line="50" assertions="0" time="0.006555">
+          <error type="TypeError">Tests\Feature\SetGalleryTest::testSuccessfulSetGallery
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testGetStates" class="Tests\Feature\SetGalleryTest" classname="Tests.Feature.SetGalleryTest" file="/var/www/html/MBC-Backend/tests/Feature/SetGalleryTest.php" line="69" assertions="0" time="0.006022">
+          <error type="TypeError">Tests\Feature\SetGalleryTest::testGetStates
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\SetPreferencesTest" file="/var/www/html/MBC-Backend/tests/Feature/SetPrefrencesTest.php" tests="4" assertions="0" errors="4" warnings="0" failures="0" skipped="0" time="0.025413">
+        <testcase name="testUserAuthentication" class="Tests\Feature\SetPreferencesTest" classname="Tests.Feature.SetPreferencesTest" file="/var/www/html/MBC-Backend/tests/Feature/SetPrefrencesTest.php" line="19" assertions="0" time="0.006076">
+          <error type="TypeError">Tests\Feature\SetPreferencesTest::testUserAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testEnsurePtbAuthentication" class="Tests\Feature\SetPreferencesTest" classname="Tests.Feature.SetPreferencesTest" file="/var/www/html/MBC-Backend/tests/Feature/SetPrefrencesTest.php" line="48" assertions="0" time="0.007161">
+          <error type="TypeError">Tests\Feature\SetPreferencesTest::testEnsurePtbAuthentication
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testRequiredFieldsForSetPreferences" class="Tests\Feature\SetPreferencesTest" classname="Tests.Feature.SetPreferencesTest" file="/var/www/html/MBC-Backend/tests/Feature/SetPrefrencesTest.php" line="77" assertions="0" time="0.006116">
+          <error type="TypeError">Tests\Feature\SetPreferencesTest::testRequiredFieldsForSetPreferences
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
+        <testcase name="testSuccessfulSetPreferences" class="Tests\Feature\SetPreferencesTest" classname="Tests.Feature.SetPreferencesTest" file="/var/www/html/MBC-Backend/tests/Feature/SetPrefrencesTest.php" line="107" assertions="0" time="0.006060">
+          <error type="TypeError">Tests\Feature\SetPreferencesTest::testSuccessfulSetPreferences
+TypeError: Argument 1 passed to Tymon\JWTAuth\JWT::fromUser() must implement interface Tymon\JWTAuth\Contracts\JWTSubject, null given, called in /var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php on line 261
+
+/var/www/html/MBC-Backend/vendor/tymon/jwt-auth/src/JWT.php:85
+/var/www/html/MBC-Backend/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php:261
+/var/www/html/MBC-Backend/app/Helpers/AuthHelper.php:54
+/var/www/html/MBC-Backend/tests/TestCase.php:19</error>
+        </testcase>
       </testsuite>
     </testsuite>
   </testsuite>
