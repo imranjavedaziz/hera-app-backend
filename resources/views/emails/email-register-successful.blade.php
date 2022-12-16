@@ -27,17 +27,17 @@
 	            </tr>
 	            <tr>
 	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-	                    Please use the following code to verify your email address.
+	                    <span style="font-weight: bold;">Welcome to HERA</span>
 	                </td>
 	            </tr>
 	            <tr>
-	                <td style="font-size: 36px; padding: 0 40px 23px 40px; color: #5abcec; font-weight: 800;">
-	                    {{ $user['code'] }}
+	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
+	                    You have successfully registered as a <span style="font-weight: bold;">{{ $user['role']['name'] }}</span> on HERA.
 	                </td>
 	            </tr>
 	            <tr>
-	                <td style="font-size: 13px; padding: 0 40px 30px 40px; color: #ff4544;">
-	                    <em>Note: This code will expire in 21 hours</em>
+	                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
+	                    <?php if($user['role_id'] != 2) { ?> Explore, match & chat with intended parents<?php }else{ ?> Match & chat with the potential surrogate mothers, egg donors or sperm donors<?php } ?>.
 	                </td>
 	            </tr>
 	            <tr>

@@ -20,7 +20,7 @@ class InquiryController extends AdminController
     public function index()
     {
         $admin = User::where(ROLE_ID,ADMIN)->first();
-    	$inquiries = EnquiryForm::with(USER)->select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, CREATED_AT)
+    	$inquiries = EnquiryForm::with(USER)->select(ID, NAME, EMAIL, ENQUIRING_AS, MESSAGE, ADMIN_REPLY, CREATED_AT)
     	->selectRaw(SELECT_NAME_ROLES.ENQUIRING_AS.AS_CONNECT.ROLE.' ')
     	->orderBy(ID, DESC)->paginate(ADMIN_PAGE_LIMIT);
         return view('admin.inquiry.inquiry')->with([TITLE => 'Support', INQUIRIES => $inquiries, TIMEZONE => $admin->timezone]);

@@ -53,7 +53,7 @@ class UserController extends Controller
      *                             format="binary"
      *                         ),
      *                          @OA\Property(
-     *                              description="role_id can be 2=>Intended Parent, 3=>Surrogate Mother, 4=>Egg Doner, 5=>Sperm Doner",
+     *                              description="role_id can be 2=>Intended Parent, 3=>Surrogate Mother, 4=>Egg Donor, 5=>Sperm Donor",
      *                              property="role_id",
      *                              type="integer",
      *                              example=2
