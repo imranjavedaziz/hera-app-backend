@@ -35,9 +35,8 @@ class SubscriptionService
             } else {
                 $fields[SUBSCRIPTION_ID] = NULL;
             }
-            $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-            $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-            $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
+            $fields[CURRENT_PERIOD_START] = $receiptService[DATA][PURCHASE_DATE];
+            $fields[CURRENT_PERIOD_END] = $receiptService[DATA][EXPIRES_DATE];
             $fields[ORIGINAL_TRANSACTION_ID] = $receiptService[DATA][ORIGINAL_TRANSACTION_ID];
             $subscriptionFields = $this->setSubscriptionFields($fields);
             Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
@@ -187,12 +186,15 @@ class SubscriptionService
         $signedPayload = explode('.',$payloadInfo->data->signedRenewalInfo)[ONE];
         $signedPayloadInfo = json_decode(base64_decode($signedPayload));
         Log::info(json_encode($signedPayloadInfo));
-
+        $signedTranaction = explode('.',$payloadInfo->data->signedTransactionInfo)[ONE];
+        $signedTransactionInfo = json_decode(base64_decode($signedTranaction ));
+        Log::info(json_encode($signedTransactionInfo));
         return [
             NOTIFICATION_TYPE  => $payloadInfo->notificationType,
             PRODUCT_ID          => $signedPayloadInfo->productId,
             AUTORENEW_STATUS    => $signedPayloadInfo->autoRenewStatus,
-            START_DATE          => $signedPayloadInfo->recentSubscriptionStartDate,
+            START_DATE          => date(DATE_TIME, $signedTransactionInfo->purchaseDate/1000),
+            END_DATE          => date(DATE_TIME, $signedTransactionInfo->expiresDate/1000),
             ORIGINAL_TRANSACTION_ID  => $signedPayloadInfo->originalTransactionId
         ];
     }
@@ -212,25 +214,24 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->subDays(ONE)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->subMinutes(2)->format(DATE_TIME))
             ->get();
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->subDays(ONE)->format(YMD_FORMAT);
+        $twentyDaytoday = Carbon::now()->subMinutes(5)->format(DATE_TIME);
         return User::where(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {
         $user = User::where([ID => $userId])->first();
         $dateDiff = strtotime(date(YMD_FORMAT)) - strtotime($user->created_at->format(YMD_FORMAT));
-        $days = round(($dateDiff / 86400));
+        $days = round(($dateDiff / 60));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-        if ($subscription == null && $user->subscription_status == TWO && $days < 2) {
+        if ($subscription == null && $user->subscription_status == TWO && $days < 10) {
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
@@ -256,9 +257,8 @@ class SubscriptionService
         $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
         $fields[PRICE] = $plan->price;
         $fields[PRODUCT_ID] = $data[PRODUCT_ID];
-        $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-        $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-        $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
+        $fields[CURRENT_PERIOD_START] = $data[START_DATE];
+        $fields[CURRENT_PERIOD_END] = $data[END_DATE];
         $fields[ORIGINAL_TRANSACTION_ID] = $data[ORIGINAL_TRANSACTION_ID];
         $prevSubDetails = $this->getPrevSubscriptionDetails($fields[ORIGINAL_TRANSACTION_ID]);
         $fields[USER_ID] = $userId = $prevSubDetails[USER_ID];
@@ -273,17 +273,17 @@ class SubscriptionService
     }
 
     public function getTrialExpiredSubscription() {
-        $thirtyDaytoday = Carbon::now()->subDays(TWO)->format(YMD_FORMAT);
-        return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        /**$thirtyDaytoday = Carbon::now()->subDays(TWO)->format(YMD_FORMAT);
+        return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();**/
+        $thirtyDaytoday = Carbon::now()->subMinutes(10)->format(DATE_TIME);
+        return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getExpiredSubcription() {
-        $twoDayExpired = Carbon::now()->subDays(TWO)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            /**->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))**/
-            ->whereDate(CURRENT_PERIOD_END, $twoDayExpired)
+            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
+            ->where(CURRENT_PERIOD_START, '<=', Carbon::now()->format(DATE_TIME))
             ->get();
     }
 }

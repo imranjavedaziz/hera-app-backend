@@ -13,7 +13,7 @@
                         <div class="chat-wrapper-left">
                             <div class="chat-search">
                                 <form class="search-input-wrapper">
-                                    <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search" id="search">
+                                    <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search" id="search" autocomplete="off">
                                     <img src="{{ asset('assets/images/svg/search.svg')}}" alt="Search" class="search-img">
                                     <span class="search-close d-none"><img src="{{ asset('assets/images/icon-close-circled.svg')}}" alt="Search-close"></span>
                                 </form>
@@ -212,7 +212,9 @@
             $('#receiverName').attr('data-timeKey', '')
             var statusId = $('#receiverName').attr('data-statusId');
             $("#message").removeAttr('disabled');
+            $('.chat-textarea-sec').css("opacity", "1");
             if (statusId !=1 ) {
+                $('.chat-textarea-sec').css("opacity", "0.5");
                 $('#message').attr('disabled','disabled');
             }
             msgObj.on("child_added", (snapshot) => {
