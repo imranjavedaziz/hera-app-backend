@@ -63,7 +63,7 @@ class UserProfileController extends Controller
             if($user->subscription_status == SUBSCRIPTION_DISABLED) {
                 $subscription = Subscription::where(USER_ID,$user->id)->orderBy('id','desc')->first();
                 $message = !empty($subscription) ? trans('messages.subscription_expire') : trans('messages.trial_subscription_expire');
-                return response()->json([DATA => [], MESSAGE => $message], Response::HTTP_FOUND);
+                return response()->json([DATA => [], MESSAGE => $message], 422);
             }
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());
             if ($doner_profile_details_data) {
