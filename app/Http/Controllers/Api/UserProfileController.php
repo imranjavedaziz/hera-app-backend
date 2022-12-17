@@ -11,6 +11,7 @@ use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\UserProfileService,
 };
+use App\Models\Subscription;
 
 class UserProfileController extends Controller
 {
@@ -45,6 +46,10 @@ class UserProfileController extends Controller
      *          description="Bad Request"
      *      ),
      *      @OA\Response(
+     *          response=302,
+     *          description="Subscription Expired"
+     *      ),
+     *      @OA\Response(
      *          response=404,
      *          description="Not found"
      *      ),
@@ -54,6 +59,12 @@ class UserProfileController extends Controller
     public function getDonerProfileDetails(ProfileDetailsRequest $request)
     {
         try {
+            $user = AuthHelper::authenticatedUser();
+            if($user->subscription_status == SUBSCRIPTION_DISABLED) {
+                $subscription = Subscription::where(USER_ID,$user->id)->orderBy('id','desc')->first();
+                $message = !empty($subscription) ? trans('messages.subscription_expire') : trans('messages.trial_subscription_expire');
+                return response()->json([DATA => [], MESSAGE => $message], 422);
+            }
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());
             if ($doner_profile_details_data) {
                 $response = response()->Success(trans(LANG_DATA_FOUND), $doner_profile_details_data);

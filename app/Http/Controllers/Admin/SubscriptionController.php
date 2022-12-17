@@ -19,8 +19,8 @@ class SubscriptionController extends Controller
     public function index()
     {
         $subscription = Subscription::with('user','subscriptionPlan')->select('id','price','current_period_start','status_id','user_id','subscription_plan_id')
-           ->orderBy('id','desc')->paginate(ADMIN_PAGE_LIMIT);
-        return view('admin.subscription.list')->with(['title' => 'Subscription','subscriptionData'=>$subscription]);   
+           ->groupBy('user_id')->orderBy('id','desc')->paginate(ADMIN_PAGE_LIMIT);
+        return view('admin.subscription.list')->with(['title' => 'Subscription','subscriptionData'=>$subscription]); 
     }
 
     /**
