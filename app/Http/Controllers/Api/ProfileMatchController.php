@@ -152,7 +152,11 @@ class ProfileMatchController extends Controller
             DB::beginTransaction();
             $profile_match_request_response = ProfileMatchService::profileMatchRequestResponse(AuthHelper::authenticatedUser()->id, $request->all());
             DB::commit();
-            $response = response()->Success($profile_match_request_response[MESSAGE], $profile_match_request_response[DATA]);
+            if($profile_match_request_response[SUCCESS]){
+                $response = response()->Success($profile_match_request_response[MESSAGE], $profile_match_request_response[DATA]);
+            }else{
+                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
+            }
         } catch (\Exception $e) {
             DB::rollback();
             $response = response()->Error($e->getMessage());
