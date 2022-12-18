@@ -30,11 +30,13 @@ class Subscription extends Model
         STATUS_ID,
     ];
 
-    public function subscriptionPlan(){
-        return $this->belongsTo(SubscriptionPlan::class,SUBSCRIPTION_PLAN_ID,ID);
+    public function subscriptionPlan()
+    {
+        return $this->belongsTo(SubscriptionPlan::class, SUBSCRIPTION_PLAN_ID, ID);
     }
 
-    public function user(){
-        return $this->belongsTo(User::class,USER_ID,ID);
+    public function user()
+    {
+        return $this->belongsTo(User::class, USER_ID, ID);
     }
 }

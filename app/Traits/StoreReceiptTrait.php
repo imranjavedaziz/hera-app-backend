@@ -9,7 +9,8 @@ use ReceiptValidator\iTunes\Validator as iTunesValidator;
 trait StoreReceiptTrait
 {
 
-    public static function playStore($purchaseToken,$productId){
+    public static function playStore($purchaseToken, $productId)
+    {
         try {
             
             $base_path = base_path();
@@ -28,9 +29,9 @@ trait StoreReceiptTrait
                 $response = $validator->setPackageName($packageName)
                 ->setProductId($productId)
                 ->setPurchaseToken($purchaseToken)
-                ->validatePurchase();                
+                ->validatePurchase();
                 return $response->getRawResponse();
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 $response = json_decode($e->getMessage());
                 return [
                     CODE => Response::HTTP_UNPROCESSABLE_ENTITY,
@@ -46,7 +47,8 @@ trait StoreReceiptTrait
         }
     }
 
-    public static function iTunes($receiptBase64Data){
+    public static function iTunes($receiptBase64Data)
+    {
         try {
             $result = [];
             /***$validator = new iTunesValidator(iTunesValidator::ENDPOINT_PRODUCTION); // Or iTunesValidator::ENDPOINT_SANDBOX if sandbox testing***/
@@ -83,7 +85,8 @@ trait StoreReceiptTrait
         }
     }
 
-    public static function playStoreServiceAccount($purchaseToken,$productId){
+    public static function playStoreServiceAccount($purchaseToken, $productId)
+    {
         try {
             $base_path = base_path();
             $pathToServiceAccountJsonFile = $base_path . '/' . env('GOOGLE_API_JSON_FILE');
@@ -102,13 +105,13 @@ trait StoreReceiptTrait
                 ->setPurchaseToken($purchaseToken)
                 ->validateSubscription();
             return $result->getRawResponse();
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 $errorMessage = json_decode($e->getMessage());
                 $response = [
                     CODE => Response::HTTP_UNPROCESSABLE_ENTITY,
                     MESSAGE => $errorMessage->error->message
                 ];
-            }   
+            }
         } catch (\Exception $e) {
             $errorMessage = json_decode($e->getMessage());
             $response = [

@@ -18,7 +18,8 @@ class AccountDeactiveReason extends Model
         NAME, STATUS_ID
     ];
 
-    public static function getReasons() {
+    public static function getReasons()
+    {
         return self::select(ID, NAME)->where(STATUS_ID, 1)->get();
     }
 }

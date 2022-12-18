@@ -18,7 +18,8 @@ class Height extends Model
         NAME, STATUS_ID
     ];
 
-    public static function getHeight($id) {
+    public static function getHeight($id)
+    {
         $height = self::where(ID, $id)->first();
         return isset($height) ? $height->name :'';
     }

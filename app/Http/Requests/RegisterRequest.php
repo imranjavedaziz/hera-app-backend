@@ -27,8 +27,8 @@ class RegisterRequest extends ApiFormRequest
      */
     public function rules()
     {
-        $emailValidationRule = array_merge(ValidationRule::EMAIL,[Rule::unique(USERS, EMAIL)->where(STATUS_ID, '!=', DELETED)->whereNull(DELETED_AT)]);
-        $phoneValidationRule = array_merge(ValidationRule::PHONE,[Rule::unique(USERS, PHONE_NO)->where(STATUS_ID, '!=', DELETED)->whereNull(DELETED_AT)]);
+        $emailValidationRule = array_merge(ValidationRule::EMAIL, [Rule::unique(USERS, EMAIL)->where(STATUS_ID, '!=', DELETED)->whereNull(DELETED_AT)]);
+        $phoneValidationRule = array_merge(ValidationRule::PHONE, [Rule::unique(USERS, PHONE_NO)->where(STATUS_ID, '!=', DELETED)->whereNull(DELETED_AT)]);
         return [
             ROLE_ID => ValidationRule::ROLE_ID,
             FILE => ValidationRule::PROFILE_PIC,

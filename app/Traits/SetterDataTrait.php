@@ -15,7 +15,8 @@ use App\Models\SexualOrientation;
 use App\Models\Weight;
 use DB;
 
-trait setterDataTrait {
+trait setterDataTrait
+{
 
     private function getGenderData()
     {
@@ -72,7 +73,8 @@ trait setterDataTrait {
         return Role::select(ID, NAME)->where(ID, '>', 2)->get();
     }
 
-    private function setUserName($role_id, $user_id){
+    private function setUserName($role_id, $user_id)
+    {
         switch ($role_id) {
             case 2:
                 $username = 'PTB'.rand(1000, 9999).$user_id;

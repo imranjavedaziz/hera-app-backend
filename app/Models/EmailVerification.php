@@ -14,10 +14,10 @@ class EmailVerification extends Model
     *
     * @var array
     */
-   	protected $fillable = [
-       EMAIL,
-       OTP,
-       MAX_ATTEMPT,
-       OTP_BLOCK_TIME,
-   	];
+    protected $fillable = [
+        EMAIL,
+        OTP,
+        MAX_ATTEMPT,
+        OTP_BLOCK_TIME
+    ];
 }

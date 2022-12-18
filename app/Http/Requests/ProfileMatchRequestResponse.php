@@ -27,7 +27,7 @@ class ProfileMatchRequestResponse extends ApiFormRequest
      */
     public function rules()
     {
-        $statusValidationRule = array_merge(ValidationRule::STATUS,['in : 2,4']);
+        $statusValidationRule = array_merge(ValidationRule::STATUS, ['in : 2,4']);
         return [
             ID => ValidationRule::PROFILE_MATCH_VALIDATION_ID,
             STATUS => $statusValidationRule,

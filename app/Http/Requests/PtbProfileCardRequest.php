@@ -20,7 +20,8 @@ class PtbProfileCardRequest extends ApiFormRequest
         return true;
     }
 
-    public function validationData(){
+    public function validationData()
+    {
         $this->merge([
             STATE_IDS_ARRAY => explode(',', $this->state_ids),
         ]);

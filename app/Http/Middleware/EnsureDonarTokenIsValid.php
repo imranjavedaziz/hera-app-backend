@@ -20,7 +20,7 @@ class EnsureDonarTokenIsValid
     public function handle(Request $request, Closure $next)
     {
         $user = JWTAuth::parseToken()->authenticate();
-        if (!in_array($user->role_id,[SURROGATE_MOTHER, EGG_DONER, SPERM_DONER])) {
+        if (!in_array($user->role_id, [SURROGATE_MOTHER, EGG_DONER, SPERM_DONER])) {
             return response()->json(['data'=>new \stdClass(),MESSAGE => trans('messages.access_denied')], Response::HTTP_FORBIDDEN);
         }
         return $next($request);

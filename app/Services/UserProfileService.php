@@ -18,10 +18,10 @@ class UserProfileService
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
-            USERPROFILE => function($q) {
+            USERPROFILE => function ($q) {
                 return $q->select(ID, USER_ID, OCCUPATION, BIO);
             },
-            DONERATTRIBUTE => function($q) {
+            DONERATTRIBUTE => function ($q) {
                 return $q->select(ID, USER_ID, HEIGHT_ID, RACE_ID, MOTHER_ETHNICITY_ID, FATHER_ETHNICITY_ID, WEIGHT_ID, HAIR_COLOUR_ID, EYE_COLOUR_ID)
                 ->selectRaw('(select name from heights where id='.HEIGHT_ID.AS_CONNECT.HEIGHT.' ')
                 ->selectRaw('(select name from races where id='.RACE_ID.AS_CONNECT.RACE.' ')
@@ -36,7 +36,7 @@ class UserProfileService
         $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id; /** use sender id  as reciver_id for matching chat section **/
         $input[MESSAGE] = "";
         $user->profile_match_request = $this->profileMatchRequest($input[RECEIVER_ID], $input[USER_ID]);
-        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID],false);
+        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID], false);
         return $user;
     }
 
@@ -46,7 +46,7 @@ class UserProfileService
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
-            USERPROFILE => function($q) {
+            USERPROFILE => function ($q) {
                 return $q->select(ID, USER_ID, BIO, OCCUPATION, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID)
                 ->selectRaw('(select name from genders where id='.GENDER_ID.AS_CONNECT.GENDER.' ')
                 ->selectRaw('(select name from sexual_orientations where id='.SEXUAL_ORIENTATION_ID.AS_CONNECT.SEXUAL_ORIENTATION.' ')
@@ -57,19 +57,20 @@ class UserProfileService
         $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id;
         $input[MESSAGE] = "";
         $user->profile_match_request = $this->profileMatchRequest($input[RECEIVER_ID], $input[USER_ID]);
-        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID],false);
+        $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID], false);
         return $user;
     }
 
-    private function profileMatchRequest($from_user_id, $to_user_id){
+    private function profileMatchRequest($from_user_id, $to_user_id)
+    {
         return ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS, UPDATED_AT, CREATED_AT)
         ->where(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $from_user_id);
-            $query->where(TO_USER_ID, $to_user_id);  
+            $query->where(TO_USER_ID, $to_user_id);
         })
         ->orWhere(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $to_user_id);
-            $query->where(TO_USER_ID, $from_user_id);  
+            $query->where(TO_USER_ID, $from_user_id);
         })
         ->first();
     }

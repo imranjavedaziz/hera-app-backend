@@ -17,7 +17,7 @@ class AuthHelper
     public static function createToken($email)
     {
         return base64_encode($email);
-    }  
+    }
 
     public static function dateConvert($date, $format)
     {
@@ -25,7 +25,7 @@ class AuthHelper
     }
     
     public static function authenticatedUser()
-    { 
+    {
         $returnNull = null;
         try {
             if (!JWTAuth::parseToken()->authenticate()) {

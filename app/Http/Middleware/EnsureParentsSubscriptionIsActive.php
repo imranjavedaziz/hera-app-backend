@@ -21,7 +21,7 @@ class EnsureParentsSubscriptionIsActive
     {
         $user = JWTAuth::parseToken()->authenticate();
         if ($user->role_id == PARENTS_TO_BE &&  $user->subscription_status == SUBSCRIPTION_DISABLED && $user->registration_step == THREE) {
-            $subscription = Subscription::where(USER_ID,$user->id)->orderBy('id','desc')->first();
+            $subscription = Subscription::where(USER_ID, $user->id)->orderBy('id', 'desc')->first();
             $message = !empty($subscription) ? trans('messages.subscription_expire') : trans('messages.trial_subscription_expire');
             return response()->json([DATA => [], MESSAGE => $message], 421);
         }

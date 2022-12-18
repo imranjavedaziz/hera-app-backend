@@ -11,7 +11,8 @@ use FCM;
 
 trait FcmTrait
 {
-    public static function sendPush($deviceToken,$title,$body,$data) {
+    public static function sendPush($deviceToken, $title, $body, $data)
+    {
         try {
             $response = [];
             $optionBuilder = new OptionsBuilder();

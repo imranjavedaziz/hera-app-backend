@@ -9,8 +9,9 @@ use Twilio\Rest\Client;
 
 class TwilioOtp
 {
-    public static function sendOTPOnPhone($countryCode, $phoneNo){
-        try{
+    public static function sendOTPOnPhone($countryCode, $phoneNo)
+    {
+        try {
             /*** This code commented for testing purpose on 30-09-2022 */
             /***$client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
             $otp =  mt_rand(11,99).mt_rand(11,99).mt_rand(0,9).mt_rand(0,9);
@@ -30,9 +31,9 @@ class TwilioOtp
             }
             $phoneVerify->otp_block_time = null;
             $attempt = $phoneVerify->max_attempt;
-            $attempt++; 
-            if($attempt == 5){
-                $phoneVerify->otp_block_time = Carbon::now()->getTimestamp() + (60 * 60 * 24);              
+            $attempt++;
+            if ($attempt == 5) {
+                $phoneVerify->otp_block_time = Carbon::now()->getTimestamp() + (60 * 60 * 24);
             }
             $phoneVerify->otp = $otp;
             $phoneVerify->max_attempt = $attempt;
@@ -44,16 +45,17 @@ class TwilioOtp
         }
     }
 
-    public static function otpVerification($data){
-        $isVerifyeOtp = PhoneVerification::where([COUNTRY_CODE => $data[COUNTRY_CODE],PHONE_NO => $data[PHONE_NO]])->where(OTP,$data[OTP])->first();
-        if($isVerifyeOtp) {
+    public static function otpVerification($data)
+    {
+        $isVerifyeOtp = PhoneVerification::where([COUNTRY_CODE => $data[COUNTRY_CODE],PHONE_NO => $data[PHONE_NO]])->where(OTP, $data[OTP])->first();
+        if ($isVerifyeOtp) {
             $otpExpired = $isVerifyeOtp[UPDATED_AT] <= (Carbon::now()->subHours(TWENTY_ONE)->toDateTimeString());
             if ($otpExpired) {
                 return [STATUS => false, MESSAGE => __('messages.MOBILE_OTP_EXPIRED')];
             }
-            PhoneVerification::where([COUNTRY_CODE => $data[COUNTRY_CODE],PHONE_NO => $data[PHONE_NO]])->where(OTP,$data[OTP])->delete();
-            $data =[MESSAGE => __('messages.MOBILE_OTP_SUCCESS'), STATUS=> true];        
-        }else{
+            PhoneVerification::where([COUNTRY_CODE => $data[COUNTRY_CODE],PHONE_NO => $data[PHONE_NO]])->where(OTP, $data[OTP])->delete();
+            $data =[MESSAGE => __('messages.MOBILE_OTP_SUCCESS'), STATUS=> true];
+        } else {
             $data =[MESSAGE => __('messages.MOBILE_OTP_FAIL'), STATUS=> false];
         }
 

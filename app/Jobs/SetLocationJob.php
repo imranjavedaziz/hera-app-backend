@@ -32,7 +32,7 @@ class SetLocationJob implements ShouldQueue
     public function handle()
     {
         $location = Location::where(USER_ID, $this->input[USER_ID])->first();
-        if(!$location){
+        if (!$location) {
             $location = new Location();
         }
         $location->user_id = $this->input[USER_ID];

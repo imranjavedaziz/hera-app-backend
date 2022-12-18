@@ -28,7 +28,7 @@ trait ParentsToBeMatchedDonerTrait
     private function getMatchDonars($donarList): array
     {
         $doctorData = $this->setMatchedDonars($donarList);
-        usort($doctorData,array($this,'sortDataByMatchValue'));
+        usort($doctorData, array($this, 'sortDataByMatchValue'));
         return $doctorData;
     }
 
@@ -69,7 +69,7 @@ trait ParentsToBeMatchedDonerTrait
         $result['user']['state_id'] = isset($donar->location) ? $donar->location->state_id : null;
         $result['user']['state_name'] = isset($donar->location) ? strtoupper($donar->location->name): null;
         $result['user']['age'] = CustomHelper::ageCalculator($donar->dob);
-        $result['match_request'] = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, FROM_USER_ID => $donar->id])->select(ID,FROM_USER_ID,TO_USER_ID,STATUS)->first();
+        $result['match_request'] = ProfileMatch::where([TO_USER_ID => AuthHelper::authenticatedUser()->id, FROM_USER_ID => $donar->id])->select(ID, FROM_USER_ID, TO_USER_ID, STATUS)->first();
         $result[MATCH_VALUE] = $matchValue;
         return $result;
     }
@@ -90,7 +90,7 @@ trait ParentsToBeMatchedDonerTrait
         $excludeDonar = array_merge($ptbSentRequest, $ptbRejecteRequest);
         $srch = User::with(['userProfile','location','donerAttribute']);
         $srch->where($donarBaseCondition);
-        $srch->whereIn('role_id',[$parents->parentsPreference->role_id_looking_for])
+        $srch->whereIn('role_id', [$parents->parentsPreference->role_id_looking_for])
         ->whereNotIn(ID, $excludeDonar);
         return $srch->get();
     }
@@ -100,11 +100,11 @@ trait ParentsToBeMatchedDonerTrait
      * @param string $preference
      * @return int
      */
-    private function getLocationValue ($donarState, $preference): int
+    private function getLocationValue($donarState, $preference): int
     {
         $value = LOCATION_VALUE * 1/3;
-        $state_id = $donarState ? $donarState->state_id : NULL;
-        $statePreference = explode(',',$preference);
+        $state_id = $donarState ? $donarState->state_id : null;
+        $statePreference = explode(',', $preference);
         if (isset($state_id) && in_array($donarState, $statePreference)) {
             $value = LOCATION_VALUE;
         }
@@ -118,10 +118,10 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getAgeValue($age, $agePreference): int
     {
-        $agePreference = explode(',',$agePreference);
+        $agePreference = explode(',', $agePreference);
         $value = AGE_VALUE * 1/3;
         foreach ($agePreference as $ageValue) {
-            $ageRange = explode('-',$ageValue);
+            $ageRange = explode('-', $ageValue);
             if ($ageRange[ZERO] <= $age && $age <= $ageRange[ONE]) {
                 $value = AGE_VALUE;
                 break;
@@ -137,7 +137,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getRaceValue($donerRace, $preference): int
     {
-        $racePreference = explode(',',$preference);
+        $racePreference = explode(',', $preference);
         $value = RACE_VALUE * 1/3;
         if (in_array($donerRace, $racePreference)) {
             $value = RACE_VALUE;
@@ -153,7 +153,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getEthnicityValue($motherEthinicity, $fatherEthinicity, $preference): int
     {
-        $ethinicityPreference = explode(',',$preference);
+        $ethinicityPreference = explode(',', $preference);
         $value = ETHNICITY_VALUE * 1/3;
         if (in_array($motherEthinicity, $ethinicityPreference)
         && in_array($fatherEthinicity, $ethinicityPreference)
@@ -170,7 +170,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getHeightValue($height, $preference): int
     {
-        $heightRange = explode('-',$preference);
+        $heightRange = explode('-', $preference);
         $value = HEIGHT_VALUE * 1/3;
         if ($heightRange[ZERO] <= $height && $height <= $heightRange[ONE]) {
             $value = HEIGHT_VALUE;
@@ -185,7 +185,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getHairColourValue($hairColour, $preference): int
     {
-        $hairPreference = explode(',',$preference);
+        $hairPreference = explode(',', $preference);
         $value = HAIR_COLOUR_VALUE * 1/3;
         if (in_array($hairColour, $hairPreference)) {
             $value = HAIR_COLOUR_VALUE;
@@ -200,7 +200,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getEyeColourValue($eyeColour, $preference): int
     {
-        $eyePreference = explode(',',$preference);
+        $eyePreference = explode(',', $preference);
         $value = EYE_COLOUR_VALUE * 1/3;
         if (in_array($eyeColour, $eyePreference)) {
             $value = EYE_COLOUR_VALUE;
@@ -215,7 +215,7 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getEducationValue($education, $preference): int
     {
-        $educationPreference = explode(',',$preference);
+        $educationPreference = explode(',', $preference);
         $value = EDUCATION_VALUE * 1/3;
         if (in_array($education, $educationPreference)) {
             $value = EDUCATION_VALUE;
@@ -230,10 +230,10 @@ trait ParentsToBeMatchedDonerTrait
      */
     private function getMatchValue($donar, $parents): int
     {
-       $totalPoint =  $this->getAgeValue(CustomHelper::ageCalculator($donar->dob),$parents->parentsPreference->age)
-        + $this->getHeightValue(Height::getHeight($donar->donerAttribute->height_id),$parents->parentsPreference->height)
+       $totalPoint =  $this->getAgeValue(CustomHelper::ageCalculator($donar->dob), $parents->parentsPreference->age)
+        + $this->getHeightValue(Height::getHeight($donar->donerAttribute->height_id), $parents->parentsPreference->height)
         + $this->getRaceValue($donar->donerAttribute->race_id, $parents->parentsPreference->race)
-        + $this->getEthnicityValue($donar->donerAttribute->mother_ethinicity_id, $donar->donerAttribute->father_ethinicity_id,$parents->parentsPreference->ethnicity)
+        + $this->getEthnicityValue($donar->donerAttribute->mother_ethinicity_id, $donar->donerAttribute->father_ethinicity_id, $parents->parentsPreference->ethnicity)
         + $this->getLocationValue($donar->location, $parents->parentsPreference->state)
         + $this->getHairColourValue($donar->donerAttribute->hair_colour_id, $parents->parentsPreference->hair_colour)
         + $this->getEyeColourValue($donar->donerAttribute->eye_colour_id, $parents->parentsPreference->eye_colour)

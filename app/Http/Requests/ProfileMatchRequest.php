@@ -27,10 +27,10 @@ class ProfileMatchRequest extends ApiFormRequest
      */
     public function rules()
     {
-        if(auth()->user()->role_id == 2){
-            $statusValidationRule = array_merge(ValidationRule::STATUS,['in : 1,3']);
-        }else{
-            $statusValidationRule = array_merge(ValidationRule::STATUS,['in : 1']);
+        if (auth()->user()->role_id == 2) {
+            $statusValidationRule = array_merge(ValidationRule::STATUS, ['in : 1,3']);
+        } else {
+            $statusValidationRule = array_merge(ValidationRule::STATUS, ['in : 1']);
         }
         return [
             TO_USER_ID => ValidationRule::USER_ID,

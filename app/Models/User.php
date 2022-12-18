@@ -75,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkUser($field, $value)
     {
-        return self::where($field,$value)->first();
+        return self::where($field, $value)->first();
     }
 
     public function userProfile()
@@ -122,7 +122,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(DeviceRegistration::class, USER_ID, ID)->where(STATUS_ID, ACTIVE);
     }
 
-    public function notification() {
+    public function notification()
+    {
         return $this->hasOne(Notification::class, RECIPIENT_ID, ID)->whereNull(READ_AT);
     }
 
@@ -135,16 +136,18 @@ class User extends Authenticatable implements JWTSubject
      * This function is used for change user status
      * @param $id
      */
-    public static function changeStatus($id,$input){
-        return User::where('id',$id)->update([STATUS_ID => $input[STATUS_ID], DEACTIVATED_BY => $input[DEACTIVATED_BY]]);
+    public static function changeStatus($id, $input)
+    {
+        return User::where('id', $id)->update([STATUS_ID => $input[STATUS_ID], DEACTIVATED_BY => $input[DEACTIVATED_BY]]);
     }
 
     /**
      * This function is used for delete user
      * @param $id
      */
-    public static function deleteUser($id){
-        return User::where('id',$id)->update([DELETED_AT => Carbon::now(), STATUS_ID => DELETED, DELETED_BY => ONE]);
+    public static function deleteUser($id)
+    {
+        return User::where('id', $id)->update([DELETED_AT => Carbon::now(), STATUS_ID => DELETED, DELETED_BY => ONE]);
     }
 
     public function NotificationSetting()

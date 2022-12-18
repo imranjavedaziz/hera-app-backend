@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Requests;
+
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -11,7 +12,8 @@ abstract class ApiFormRequest extends LaravelFormRequest
 {
     private $statusCode;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->statusCode = Response::HTTP_EXPECTATION_FAILED;
     }
     
@@ -51,7 +53,8 @@ abstract class ApiFormRequest extends LaravelFormRequest
      * @throws \Illuminate\Validation\ValidationException
      */
     
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         $errors = collect((new ValidationException($validator))->errors());
         $errors = $this->formatErrors($errors);
         throw new HttpResponseException(
@@ -73,7 +76,8 @@ abstract class ApiFormRequest extends LaravelFormRequest
         $this->statusCode = $code;
     }
 
-    protected function guard() {
+    protected function guard()
+    {
         return Auth::guard('api');
     }
 }

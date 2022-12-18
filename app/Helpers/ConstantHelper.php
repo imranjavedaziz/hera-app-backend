@@ -14,14 +14,14 @@ define('NINE', 9);
 define('TEN', 10);
 define('THIRTY', 30);
 
-//define status number 
+//define status number
 define('ACTIVE', 1);  // Approved
 define('INACTIVE', 2);// Inactive
 define('PENDING', 3); // Pending
 define('REJECTED', 4); // Rejected or Unapproved or Canceled
 define('DELETED', 5); // Deleted
 
-//define role number 
+//define role number
 define('ADMIN', 1);
 define('PARENTS_TO_BE', 2);
 define('SURROGATE_MOTHER', 3);
@@ -131,7 +131,7 @@ define('DELETED_BY_COMMENT', '0 => Nt deleted, 1 => deleted by admin, 2 => delet
 
 define('USE_UPDATE_CURRENT_TIME', 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
-//define status text 
+//define status text
 define('ACTIVE_STATUS', 'Active');
 define('INACTIVE_STATUS', 'InActive');
 define('PENDING_STATUS', 'Pending');
@@ -285,7 +285,7 @@ define('PROFILE_MATCHES', 'profile_matches');
 define('FROM_USER_ID', 'from_user_id');
 define('TO_USER_ID', 'to_user_id');
 
-//define matched statuses 
+//define matched statuses
 define('PENDING_FOR_APPROVAL', 1);
 define('APPROVED_AND_MATCHED', 2);
 define('REJECTED_BY_PTB', 3);
@@ -414,7 +414,7 @@ define('DEVICE_REGISTRATIONS', 'device_registrations');
 define('DEVICE_ID', 'device_id');
 define('DEVICE_TOKEN', 'device_token');
 
-// Notification Vairables 
+// Notification Vairables
 define('PROFILE_MATCH_ID', 'profile_match_id');
 define('NOTIFICATION', 'notification');
 
@@ -440,7 +440,7 @@ define('TIMEZONE', 'timezone');
 // define enquiry form relationship and function constants
 define('USER', 'user');
 
-//Admin 
+//Admin
 define('ADMIN_NAME', 'HERA Support');
 define('ADMIN_PHONE', '1111111111');
 
@@ -496,36 +496,36 @@ define('SUBSCRIPTION_TRIAL_PERIOD', '+30 days');
 define('MESSAGE_LIMIT', '70');
 
 //define TESTCASE Param
-define('APPLICATION_JSON','application/json');
+define('APPLICATION_JSON', 'application/json');
 define('ACCEPT', 'accept');
-define('BEARER','Bearer');
+define('BEARER', 'Bearer');
 
-define('TESTING_PTB_ID','709');
-define('TESTING_DONOR_ID','711');
+define('TESTING_PTB_ID', '709');
+define('TESTING_DONOR_ID', '711');
 
 //define test register params
-define('TEST_IMAGE_NAME','avatar.jpg');
-define('TEST_FIRST_NAME','Test');
-define('TEST_PTB_LAST_NAME','PTB');
-define('TEST_DONOR_LAST_NAME','DONOR');
-define('TEST_PHONE_NO','1112223331');
-define('TEST_COUNTRY_CODE','+1');
-define('TEST_PTB_EMAIL','testptb@yopmail.com');
-define('TEST_DOB','14-12-1990');
-define('TEST_PASSWORD','Test@1234');
-define('TEST_YOPMAIL','@yopmail.com');
+define('TEST_IMAGE_NAME', 'avatar.jpg');
+define('TEST_FIRST_NAME', 'Test');
+define('TEST_PTB_LAST_NAME', 'PTB');
+define('TEST_DONOR_LAST_NAME', 'DONOR');
+define('TEST_PHONE_NO', '1112223331');
+define('TEST_COUNTRY_CODE', '+1');
+define('TEST_PTB_EMAIL', 'testptb@yopmail.com');
+define('TEST_DOB', '14-12-1990');
+define('TEST_PASSWORD', 'Test@1234');
+define('TEST_YOPMAIL', '@yopmail.com');
 
 //define Test Profile Register Param
-define('TEST_PTB_GENDER_ID','1');
-define('TEST_DONOR_GENDER_ID','2');
-define('TEST_PTB_SEXUAL_ORIENTATION_ID','1');
-define('TEST_DONOR_SEXUAL_ORIENTATION_ID','2');
-define('TEST_PTB_RELATIONSHIP_STATUS_ID','1');
-define('TEST_DONOR_RELATIONSHIP_STATUS_ID','2');
-define('TEST_OCCUPATION','Test Occupation');
-define('TEST_BIO','Test Bio');
-define('TEST_STATE_ID','1');
-define('TEST_ZIPCODE','12345');
+define('TEST_PTB_GENDER_ID', '1');
+define('TEST_DONOR_GENDER_ID', '2');
+define('TEST_PTB_SEXUAL_ORIENTATION_ID', '1');
+define('TEST_DONOR_SEXUAL_ORIENTATION_ID', '2');
+define('TEST_PTB_RELATIONSHIP_STATUS_ID', '1');
+define('TEST_DONOR_RELATIONSHIP_STATUS_ID', '2');
+define('TEST_OCCUPATION', 'Test Occupation');
+define('TEST_BIO', 'Test Bio');
+define('TEST_STATE_ID', '1');
+define('TEST_ZIPCODE', '12345');
 
 //define Test Preferences Register Param
 define('TEST_ROLE_ID_LOOKING_FOR', '3');

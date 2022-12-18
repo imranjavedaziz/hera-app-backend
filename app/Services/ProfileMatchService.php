@@ -24,8 +24,10 @@ class ProfileMatchService
         })
         ->first();
         if ($profile_match) {
-            $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
-            $profile_match->status = $input[STATUS];
+            if ($profile_match->from_user_id != $input[FROM_USER_ID]) {
+                $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
+                $profile_match->status = $input[STATUS];
+            }
         } else {
             $profile_match = new ProfileMatch();
             $profile_match->status = $input[STATUS];
@@ -53,7 +55,7 @@ class ProfileMatchService
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
                 $feedback = Feedback::where(SENDER_ID, $input[TO_USER_ID])->where(RECIPIENT_ID, $input[FROM_USER_ID])->first();
                 if ($from_user->role_id == 2) {
-                    if (!empty($toUserNotify)) {
+                    if (!empty($toUserNotify) && $profile_match->from_user_id != $input[FROM_USER_ID]) {
                         dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
                     }
                     dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));

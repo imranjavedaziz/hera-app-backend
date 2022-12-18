@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\User;
 use App\Models\ProfileMatch;
 use Illuminate\Http\Request;
@@ -30,18 +31,19 @@ class FirebaseService
         $this->friendsKey = 'Friends';
     }
 
-    public function createFriend($sender,$reciever, $msg = '') {
+    public function createFriend($sender, $reciever, $msg = '')
+    {
         $msgId = ($sender->id > $reciever->id) ? $sender->id : $reciever->id;
         $read = ZERO;
         $sender_id = $sender->id;
         $reciever_id = $reciever->id;
-        $profileMatch = ProfileMatch::where(function ($query) use ($sender_id, $reciever_id ) {
+        $profileMatch = ProfileMatch::where(function ($query) use ($sender_id, $reciever_id) {
             $query->where(FROM_USER_ID, $sender_id);
-            $query->where(TO_USER_ID, $reciever_id );  
+            $query->where(TO_USER_ID, $reciever_id);
         })
-        ->orWhere(function ($query) use ($sender_id, $reciever_id ) {
-            $query->where(FROM_USER_ID, $reciever_id );
-            $query->where(TO_USER_ID, $sender_id);  
+        ->orWhere(function ($query) use ($sender_id, $reciever_id) {
+            $query->where(FROM_USER_ID, $reciever_id);
+            $query->where(TO_USER_ID, $sender_id);
         })->first();
         if ($reciever->role_id == ADMIN) {
             $msg = 'No Messages Yet!';
@@ -79,26 +81,27 @@ class FirebaseService
         ];
     }
 
-    public function createAdminFriends($newUser) {
+    public function createAdminFriends($newUser)
+    {
         try {
-            $response = NULL;
+            $response = null;
             /***\Log::info(" createAdminFriends : " . json_encode($newUser));***/
-            $admin = User::where(EMAIL,config(CONSTANT_ADMIN_EMAIL))->first();
-            $adminFriendData = $this->createFriend($admin,$newUser);
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id) === false){
+            $admin = User::where(EMAIL, config(CONSTANT_ADMIN_EMAIL))->first();
+            $adminFriendData = $this->createFriend($admin, $newUser);
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id) === false) {
                 $this->database->getReference($this->tableName)->set($admin->id);
                 $this->database->getReference($this->tableName.'/'.$admin->id)->set($this->friendsKey);
                 $this->database->getReference($this->tableName.'/'.$admin->id.'/'.$this->friendsKey)->set($newUser->id);
                 $response = $this->database->getReference($this->tableName.'/'.$admin->id.'/'.$this->friendsKey.'/'.$newUser->id)->set($adminFriendData);
             }
             /***Add Admin Friends ***/
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id.'/'.$this->friendsKey.'/'.$newUser->id) === false){
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($admin->id.'/'.$this->friendsKey.'/'.$newUser->id) === false) {
                 $this->database->getReference($this->tableName)->update([$admin->id.'/'.$this->friendsKey.'/'.$newUser->id => '']);
                 $response = $this->database->getReference($this->tableName.'/'.$admin->id.'/'.$this->friendsKey.'/'.$newUser->id)->set($adminFriendData);
             }
             /***Create New User ***/
-            $friendoOfAdminData = $this->createFriend($newUser,$admin);
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($newUser->id) === false){
+            $friendoOfAdminData = $this->createFriend($newUser, $admin);
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($newUser->id) === false) {
                 $this->database->getReference($this->tableName)->update([$newUser->id => '']);
                 $this->database->getReference($this->tableName.'/'.$newUser->id)->set($this->friendsKey);
                 $this->database->getReference($this->tableName.'/'.$newUser->id.'/'.$this->friendsKey)->set($admin->id);
@@ -116,13 +119,14 @@ class FirebaseService
         return $response;
     }
 
-    public function createChatFriends($user1,$user2) {
+    public function createChatFriends($user1, $user2)
+    {
         try {
-            $response = NULL;
+            $response = null;
             /***Add User 2 Friends ***/
             $msg = "Intended Parent sent you a request";
-            $chatUser2FriendData = $this->createFriend($user2,$user1,$msg);
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === false){
+            $chatUser2FriendData = $this->createFriend($user2, $user1, $msg);
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === false) {
                 $this->database->getReference($this->tableName)->update([$user2->id.'/'.$this->friendsKey.'/'.$user1->id => '']);
                 $response = $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id)->set($chatUser2FriendData);
             }
@@ -138,15 +142,16 @@ class FirebaseService
         return $response;
     }
 
-    public function removeChatFriends($user1,$user2) {
+    public function removeChatFriends($user1, $user2)
+    {
         try {
-            $response = NULL;
+            $response = null;
             /***Remove User 1 Friends ***/
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true){
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true) {
                 $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey.'/'.$user2->id)->remove();
             }
             /***Remove User 2 Friends ***/
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true){
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true) {
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id)->remove();
             }
        } catch (ApiException $e) {
@@ -161,14 +166,15 @@ class FirebaseService
         return $response;
     }
 
-    public function updateChatFriends($receiver) {
+    public function updateChatFriends($receiver)
+    {
         try {
-            $response = NULL;
+            $response = null;
             $users = $this->database->getReference($this->tableName)->getValue();
             $receiverName = CustomHelper::fullName($receiver);
-            if(!empty($users)) {
-                foreach($users as $key => $user) {
-                    if ($key != $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === true){
+            if (!empty($users)) {
+                foreach ($users as $key => $user) {
+                    if ($key != $receiver->id && $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === true) {
                         $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([
                         $receiver->id.'/recieverName' => $receiverName,
                         $receiver->id.'/receiverSearchName' => strtolower($receiverName),
@@ -189,13 +195,14 @@ class FirebaseService
         return $response;
     }
 
-    public function updateUserStatus($receiver, $accountStatus, $keyName) {
+    public function updateUserStatus($receiver, $accountStatus, $keyName)
+    {
         try {
-            $response = NULL;
+            $response = null;
             $users = $this->database->getReference($this->tableName)->getValue();
-            if(!empty($users)) {
-                foreach($users as $key => $user) {
-                    if ($key == $receiver->id || $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === false){
+            if (!empty($users)) {
+                foreach ($users as $key => $user) {
+                    if ($key == $receiver->id || $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->getSnapshot()->hasChild($receiver->id) === false) {
                         continue;
                     }
                     $this->database->getReference($this->tableName.'/'.$key.'/'.$this->friendsKey)->update([$receiver->id.'/'.$keyName => $accountStatus]);
@@ -216,38 +223,40 @@ class FirebaseService
     /**
      * Used To Create Dummy Data
      */
-    public function createAdminFirebaseChatUser() {
-        $users = User::whereIn('role_id',[3,4,5])->get();
-        if(!empty($users)) {
-            foreach($users as $user) {
+    public function createAdminFirebaseChatUser()
+    {
+        $users = User::whereIn('role_id', [3, 4, 5])->get();
+        if (!empty($users)) {
+            foreach ($users as $user) {
                 $this->createAdminFriends($user);
             }
         }
     }
 
-    public function updateMatchRequestStatus($user1,$user2) {
+    public function updateMatchRequestStatus($user1, $user2)
+     {
         try {
-            $response = NULL;
+            $response = null;
             $msg = "Hey, It's a Match!";
             /***Update User 1 Friends ***/
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true){
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true) {
                 $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey)->update([$user2->id.'/message' => $msg]);
                 $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey.'/'.$user2->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id,STATUS => TWO]);
             } else {
-                $chatUser1FriendData = $this->createFriend($user1,$user2, $msg);
+                $chatUser1FriendData = $this->createFriend($user1, $user2, $msg);
                 /***Add User 1 Friends ***/
-                if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === false){
+                if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === false) {
                     $this->database->getReference($this->tableName)->update([$user1->id.'/'.$this->friendsKey.'/'.$user2->id => '']);
                     $response = $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey.'/'.$user2->id)->set($chatUser1FriendData);
                 }
             }
             /***Update User 2 Friends ***/
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true){
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === true) {
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey)->update([$user1->id.'/message' => $msg, $user1->id.'/time'=> time() * 1000]);
                 $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id.'/'.MATCH_REQUEST)->update([FROM_USER_ID => $user1->id, TO_USER_ID => $user2->id, STATUS => TWO]);
             } else {
-                $chatUser2FriendData = $this->createFriend($user2,$user1, $msg);
-                if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === false){
+                $chatUser2FriendData = $this->createFriend($user2, $user1, $msg);
+                if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user2->id.'/'.$this->friendsKey.'/'.$user1->id) === false) {
                     $this->database->getReference($this->tableName)->update([$user2->id.'/'.$this->friendsKey.'/'.$user1->id => '']);
                     $response = $this->database->getReference($this->tableName.'/'.$user2->id.'/'.$this->friendsKey.'/'.$user1->id)->set($chatUser2FriendData);
                 }

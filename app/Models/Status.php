@@ -18,8 +18,9 @@ class Status extends Model
         NAME
     ];
 
-    public static function getStatusById($id) {
+    public static function getStatusById($id)
+    {
         $status = self::where(ID, $id)->first();
-        return isset($status) ? $status->name : NULL;
+        return isset($status) ? $status->name : null;
     }
 }

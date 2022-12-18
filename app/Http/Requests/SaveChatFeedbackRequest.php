@@ -28,11 +28,11 @@ class SaveChatFeedbackRequest extends ApiFormRequest
     public function rules()
     {
         $ids = [3,4,5];
-        $recipient = array_merge(ValidationRule::USER_ID,[Rule::exists(USERS, ID)->whereIn(ROLE_ID, $ids)]);
+        $recipient = array_merge(ValidationRule::USER_ID, [Rule::exists(USERS, ID)->whereIn(ROLE_ID, $ids)]);
         return [
             LIKE => ValidationRule::LIKE,
             RECIPIENT_ID => $recipient,
-            IS_SKIP => ValidationRule::IS_SKIP, 
+            IS_SKIP => ValidationRule::IS_SKIP,
         ];
     }
 

@@ -20,7 +20,7 @@ class UserEnquiryService
     {
         $input[EMAIL] = strtolower($input[EMAIL]);
         $enquiry = EnquiryForm::create($input);
-        if($enquiry){
+        if ($enquiry) {
             dispatch(new SendEnquirySuccessJob($enquiry));
         }
         return $enquiry;

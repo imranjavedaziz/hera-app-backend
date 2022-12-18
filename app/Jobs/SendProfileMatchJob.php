@@ -55,10 +55,10 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray["chat_start"] = ZERO;
         $profileMatchArray["currentRole"] = $this->sender_user->role_id;
         $profileMatchArray["deviceToken"] = "deviceToken";
-        $profileMatchArray["message"] = NULL;
+        $profileMatchArray["message"] = null;
         $profileMatchArray["msgId"] = $msgId."-".time();
         $profileMatchArray["read"] = ZERO;
-        $profileMatchArray["feedback_status"] = !empty($this->feedback) ? $this->feedback->like : NULL;
+        $profileMatchArray["feedback_status"] = !empty($this->feedback) ? $this->feedback->like : null;
         $profileMatchArray["recieverId"] = $this->sender_user->id;
         $profileMatchArray["recieverImage"] = $this->sender_user->profile_pic;
         $profileMatchArray["recieverName"] = CustomHelper::fullName($this->sender_user);
@@ -75,12 +75,13 @@ class SendProfileMatchJob implements ShouldQueue
         $profileMatchArray["type"] = "Text";
         if ($deviceRegistrations) {
             foreach ($deviceRegistrations as $deviceRegistration) {
-                $this->sendPush($deviceRegistration->device_token,$this->title,$this->description,$profileMatchArray);
+                $this->sendPush($deviceRegistration->device_token, $this->title, $this->description, $profileMatchArray);
             }
         }
     }
 
-    private function saveProfileMatchNotification() {
+    private function saveProfileMatchNotification()
+    {
         Notification::create([
             TITLE => $this->title,
             DESCRIPTION => $this->description,

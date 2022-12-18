@@ -34,7 +34,8 @@ class ReceiptService
         /***$this->verifyReceiptUrl = 'https://buy.itunes.apple.com/verifyReceipt';***/ // Live itunes url
     }
 
-    public function verifyIosReceipt($receiptBase64Data) {
+    public function verifyIosReceipt($receiptBase64Data)
+    {
         try {
             $request = [
                 "password" => $this->iosSharedSecret,
@@ -43,9 +44,9 @@ class ReceiptService
             $response = Http::withHeaders($this->headers)->post($this->verifyReceiptUrl, $request);
             $json = $response->json();
             LOG::info($json);
-            $json[MESSAGE] = ($json[STATUS] == ZERO) ? 'Receipt is valid ' : 'Receipt Not valid.';            
+            $json[MESSAGE] = ($json[STATUS] == ZERO) ? 'Receipt is valid ' : 'Receipt Not valid.';
             $json[CODE] = $response->status();
-            if($json[STATUS] === ZERO) {
+            if ($json[STATUS] === ZERO) {
                 unset($json['latest_receipt']);
                 $json[DATA] = self::setIosReceiptData($json);
             }
@@ -55,14 +56,15 @@ class ReceiptService
         }
     }
 
-    public function setIosReceiptData($json) {
-        if(!empty($json)) {
-            $fields[PAYMENT_ID] = isset($json[LATEST_RECEIPT_INFO][0]['web_order_line_item_id']) ? $json[LATEST_RECEIPT_INFO][0]['web_order_line_item_id'] : NULL;
-            $fields[PRODUCT_ID] = isset($json[LATEST_RECEIPT_INFO][0]['product_id']) ? $json[LATEST_RECEIPT_INFO][0]['product_id'] : NULL;
-            $fields[TRANSACTION_ID] = isset($json[LATEST_RECEIPT_INFO][0]['transaction_id']) ? $json[LATEST_RECEIPT_INFO][0]['transaction_id'] : NULL;
-            $fields[ORIGINAL_TRANSACTION_ID] = isset($json['receipt']['in_app'][0]['original_transaction_id']) ? $json['receipt']['in_app'][0]['original_transaction_id']:NULL;
-            $fields[PURCHASE_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['purchase_date']) ? date(DATE_TIME,strtotime($json[LATEST_RECEIPT_INFO][0]['purchase_date'])) : NULL;
-            $fields[EXPIRES_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['expires_date']) ? date(DATE_TIME,strtotime($json[LATEST_RECEIPT_INFO][0]['expires_date'])) : NULL;
+    public function setIosReceiptData($json)
+    {
+        if (!empty($json)) {
+            $fields[PAYMENT_ID] = isset($json[LATEST_RECEIPT_INFO][0]['web_order_line_item_id']) ? $json[LATEST_RECEIPT_INFO][0]['web_order_line_item_id'] : null;
+            $fields[PRODUCT_ID] = isset($json[LATEST_RECEIPT_INFO][0]['product_id']) ? $json[LATEST_RECEIPT_INFO][0]['product_id'] : null;
+            $fields[TRANSACTION_ID] = isset($json[LATEST_RECEIPT_INFO][0]['transaction_id']) ? $json[LATEST_RECEIPT_INFO][0]['transaction_id'] : null;
+            $fields[ORIGINAL_TRANSACTION_ID] = isset($json['receipt']['in_app'][0]['original_transaction_id']) ? $json['receipt']['in_app'][0]['original_transaction_id']:null;
+            $fields[PURCHASE_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['purchase_date']) ? date(DATE_TIME, strtotime($json[LATEST_RECEIPT_INFO][0]['purchase_date'])) : null;
+            $fields[EXPIRES_DATE] = isset($json[LATEST_RECEIPT_INFO][0]['expires_date']) ? date(DATE_TIME, strtotime($json[LATEST_RECEIPT_INFO][0]['expires_date'])) : null;
         }
         return $fields;
     }
