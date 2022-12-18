@@ -179,6 +179,8 @@
                             $('#race').show();
                             $('#eye-colour').show();
                             $('#hair-colour').show();
+                            $('#mother-ethnicity').show();
+                            $('#father-ethnicity').show();
                             var inches = msg.doner_attribute.height;
                             var feet = Math.floor(inches / 12);
                             var inch = inches % 12;
@@ -187,12 +189,16 @@
                             $('#race').html('Race: <span>' + msg.doner_attribute.race + '</span>')
                             $('#eye-colour').html('Eye Color: <span>' + msg.doner_attribute.eye_colour + '</span>')
                             $('#hair-colour').html('Hair Color: <span>' + msg.doner_attribute.hair_colour + '</span>')
+                            $('#mother-ethnicity').html('Mother Ethnicity: <span>' + msg.doner_attribute.mother_ethnicity + '</span>')
+                            $('#father-ethnicity').html('Father Ethnicity: <span>' + msg.doner_attribute.father_ethnicity + '</span>')
                         }else{
                             $('#height').hide();
                             $('#weight').hide();
                             $('#race').hide();
                             $('#eye-colour').hide();
                             $('#hair-colour').hide();
+                            $('#mother-ethnicity').hide();
+                            $('#father-ethnicity').hide();
                         }
                         if (msg.user_profile != null) {
                             var occupation = (msg.user_profile.occupation != null) ? msg.user_profile.occupation : 'N/A';
