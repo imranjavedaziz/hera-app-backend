@@ -14,6 +14,9 @@ class ProfileMatchService
     public function profileMatchRequest($user_id, $input)
     {
         $input[FROM_USER_ID] = $user_id;
+        $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
+        $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
+
         $profile_match = ProfileMatch::where(function ($query) use ($input) {
             $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
             $query->where(TO_USER_ID, $input[TO_USER_ID]);
@@ -34,17 +37,16 @@ class ProfileMatchService
             $profile_match->from_user_id = $input[FROM_USER_ID];
             $profile_match->to_user_id = $input[TO_USER_ID];
         }
-        if ($profile_match->save()) {
-            $message = $this->getMatchRequestMsg($input, $profile_match);
+        if (!empty($to_user)) {
+            $profile_match->save();
+            $message = $this->getMatchRequestMsg($from_user, $to_user, $input, $profile_match);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
     }
 
-    private function getMatchRequestMsg($input, $profile_match)
+    private function getMatchRequestMsg($from_user, $to_user, $input, $profile_match)
     {
-        $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
-        $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
         switch ($input[STATUS]) {
             case 1:
@@ -96,11 +98,15 @@ class ProfileMatchService
     public function profileMatchRequestResponse($user_id, $input)
     {
         $profile_match = ProfileMatch::where(ID, $input[ID])->first();
+
+        $input[FROM_USER_ID] = $user_id; //donor id
+        $input[TO_USER_ID] = ($profile_match->from_user_id == $user_id) ? $profile_match->to_user_id : $profile_match->from_user_id; //ptb id
+        $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
+        $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
         $profile_match->status = $input[STATUS];
-        if ($profile_match->save()) {
-            $input[FROM_USER_ID] = $user_id; //donor id
-            $input[TO_USER_ID] = ($profile_match->from_user_id == $user_id) ? $profile_match->to_user_id : $profile_match->from_user_id; //ptb id
-            $message = $this->getMatchRequestMsg($input, $profile_match);
+        if (!empty($to_user)) {
+            $profile_match->save();
+            $message = $this->getMatchRequestMsg($from_user, $to_user, $input, $profile_match);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
