@@ -29,11 +29,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        \Illuminate\Support\Facades\Auth::provider('cachedUser', function ($app, array $config) {
+        /***\Illuminate\Support\Facades\Auth::provider('cachedUser', function ($app, array $config) {
             $hasher = $app->make(HasherContract::class);
             $provider = new EloquentUserProvider($hasher, $config['model']);
             $cache = $app->make(Repository::class);
             return new UserProviderDecorator($provider, $cache);
-        });
+        });***/
     }
 }
