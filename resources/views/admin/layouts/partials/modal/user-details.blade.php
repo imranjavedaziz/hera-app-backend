@@ -16,14 +16,16 @@
                             <div class="phoneno"></div>
                             <div class="email"></div>
                             <div class="user-profile-details">
-                            <div class="profile-desc" id="age"></div>
-                            <div class="profile-desc" id="height"></div>
-                            <div class="profile-desc" id="weight"></div>
-                            <div class="profile-desc" id="occupation"></div>
-                            <div class="profile-desc" id="race"></div>
-                            <div class="profile-desc" id="hair-colour"></div>
-                            <div class="profile-desc" id="eye-colour"></div>
-                        </div>
+                                <div class="profile-desc" id="age"></div>
+                                <div class="profile-desc" id="height"></div>
+                                <div class="profile-desc" id="weight"></div>
+                                <div class="profile-desc" id="occupation"></div>
+                                <div class="profile-desc" id="race"></div>
+                                <div class="profile-desc" id="hair-colour"></div>
+                                <div class="profile-desc" id="eye-colour"></div>
+                                <div class="profile-desc" id="mother-ethnicity"></div>
+                                <div class="profile-desc" id="father-ethnicity"></div>
+                            </div>
                         </div>
                         <div class="user-profile-right">
                             <img src="/assets/images/people3.jpeg" alt="Profile-logo">

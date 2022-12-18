@@ -50,15 +50,15 @@ class FcmService
         ->where(ID, $input[RECEIVER_ID])->first();
         $profile_match = ProfileMatch::where(function ($query) use ($input, $sender_id) {
             $query->where(FROM_USER_ID, $sender_id);
-            $query->where(TO_USER_ID, $input[RECEIVER_ID]);  
+            $query->where(TO_USER_ID, $input[RECEIVER_ID]);
         })
         ->orWhere(function ($query) use ($input, $sender_id) {
             $query->where(FROM_USER_ID, $input[RECEIVER_ID]);
-            $query->where(TO_USER_ID, $sender_id);  
+            $query->where(TO_USER_ID, $sender_id);
         })
         ->first();
         $feedback = Feedback::where(SENDER_ID, $input[RECEIVER_ID])->where(RECIPIENT_ID, $sender_id)->first();
-        if(!empty($deviceRegistrations) || !$chatNotification) {
+        if (!empty($deviceRegistrations) || !$chatNotification) {
             $chatArray[NOTIFY_TYPE] = CHAT;
             $chatArray["chat_start"] = ONE;
             $chatArray["currentRole"] = $sender_user->role_id;
@@ -66,7 +66,7 @@ class FcmService
             $chatArray["message"] = $input[MESSAGE];
             $chatArray["msgId"] = $msgId."-".time();
             $chatArray["read"] = ZERO;
-            $chatArray["feedback_status"] = !empty($feedback) ? $feedback->like : NULL;
+            $chatArray["feedback_status"] = !empty($feedback) ? $feedback->like : null;
             $chatArray["recieverId"] = $sender_id;
             $chatArray["recieverImage"] = $sender_user->profile_pic;
             $chatArray["recieverName"] = CustomHelper::fullName($sender_user);
@@ -81,19 +81,25 @@ class FcmService
             $chatArray[MATCH_REQUEST] = $profile_match;
             $chatArray["time"] = time();
             $chatArray["type"] = "Text";
-            if(!$chatNotification){
+            if (!$chatNotification) {
                 return $chatArray;
             }
             $userNotify = NotificationSetting::where([USER_ID => $input[RECEIVER_ID], NOTIFY_STATUS => ONE])->first();
-            if (!empty($userNotify) && !empty($deviceRegistrations)){
-                foreach ($deviceRegistrations as $deviceRegistration) {
-                    $this->sendPush($deviceRegistration->device_token,$input['title'],$input['message'],$chatArray);
-                }
-            }
+            $this->sendChatNotification($userNotify, $deviceRegistrations, $input, $chatArray);
             $response = response()->Success(trans('messages.sent_push_notification'));
         } else {
             $response = response()->Success('No device found!');
         }
         return $response;
+    }
+
+    private function sendChatNotification($userNotify, $deviceRegistrations, $input, $chatArray)
+    {
+        if (!empty($userNotify) && !empty($deviceRegistrations)) {
+            foreach ($deviceRegistrations as $deviceRegistration) {
+                $this->sendPush($deviceRegistration->device_token, $input['title'], $input['message'], $chatArray);
+            }
+        }
+        return true;
     }
 }
