@@ -11,9 +11,9 @@ class DonarDashboardService
 {
     public function getPtbProfileCard($input)
     {
-        $role_id = AuthHelper::authenticatedUser()->id;
-        $donerSentRequest = ProfileMatch::where([FROM_USER_ID => $role_id])->get()->pluck(TO_USER_ID)->toArray();
-        $donerRejecteRequest = ProfileMatch::where([TO_USER_ID => $role_id])
+        $user = AuthHelper::authenticatedUser();
+        $donerSentRequest = ProfileMatch::where([FROM_USER_ID => $user->id])->get()->pluck(TO_USER_ID)->toArray();
+        $donerRejecteRequest = ProfileMatch::where([TO_USER_ID => $user->id])
         ->whereIn(STATUS, [PENDING_FOR_APPROVAL, APPROVED_AND_MATCHED, REJECTED_BY_DONAR])
         ->get()
         ->pluck(FROM_USER_ID)
@@ -23,7 +23,7 @@ class DonarDashboardService
         $user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, ROLE_ID, RECENT_ACTIVITY)
         ->whereHas(USERPROFILE)
         ->whereHas(PARENTSPREFERENCE, function ($q) use ($role_id) {
-            $q->where(ROLE_ID_LOOKING_FOR, $role_id);
+            $q->where(ROLE_ID_LOOKING_FOR, $user->role_id);
         })
         ->whereNotIn(ID, $excludePtb);
 
