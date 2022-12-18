@@ -22,7 +22,7 @@ class DonarDashboardService
 
         $user = User::select(ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, PROFILE_PIC, ROLE_ID, RECENT_ACTIVITY)
         ->whereHas(USERPROFILE)
-        ->whereHas(PARENTSPREFERENCE, function ($q) use ($role_id) {
+        ->whereHas(PARENTSPREFERENCE, function ($q) use ($user) {
             $q->where(ROLE_ID_LOOKING_FOR, $user->role_id);
         })
         ->whereNotIn(ID, $excludePtb);
@@ -39,6 +39,6 @@ class DonarDashboardService
             $user = $user->whereHas(LOCATION);
         }
 
-        return $user->with(LOCATION)->where([ROLE_ID => PARENTS_TO_BE, STATUS_ID => ONE, REGISTRATION_STEP => THREE])->where(SUBSCRIPTION_STATUS, '!=', ZERO)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
+        return $user->with([LOCATION, PARENTSPREFERENCE])->where([ROLE_ID => PARENTS_TO_BE, STATUS_ID => ONE, REGISTRATION_STEP => THREE])->where(SUBSCRIPTION_STATUS, '!=', ZERO)->orderBy(USERS.'.'.RECENT_ACTIVITY, DESC);
     }
 }
