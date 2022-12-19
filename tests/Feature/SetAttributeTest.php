@@ -12,7 +12,7 @@ class SetAttributeTest extends TestCase
 {
 
     /**
-     * Set Attributes Registration required field.
+     * Set Attributes User Authentication.
      *
      * @return void
      */
@@ -36,7 +36,7 @@ class SetAttributeTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
+     * Set Attributes Ensure Donor.
      *
      * @return void
      */

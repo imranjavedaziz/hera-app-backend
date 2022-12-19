@@ -12,7 +12,7 @@ class DonorDashBoardTest extends TestCase
 {
 
     /**
-     * Set Attributes Registration required field.
+     * Doner Dashboard user authentication.
      *
      * @return void
      */
@@ -26,7 +26,7 @@ class DonorDashBoardTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
+     * Doner Dashboard user authentication ensure donor.
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class DonorDashBoardTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
+     * get ptb profile cards for donor dashboard.
      *
      * @return void
      */
@@ -59,7 +59,7 @@ class DonorDashBoardTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
+     * get searched ptb profile cards for donor dashboard.
      *
      * @return void
      */
@@ -74,13 +74,13 @@ class DonorDashBoardTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
-     *
+     * get searched ptb profile cards for donor dashboard.
+     *  min char restriction
      * @return void
      */
-    public function testPtbProfileCardsMinCharSearch()
+    public function testPtbProfileCardsMaxStateSelectForSerach()
     {
-        $response = $this->get(PTB_PROFILE_CARD_API.'?'.TEST_MIN_CHAR_KEYWORD, $this->headers);
+        $response = $this->get(PTB_PROFILE_CARD_API.'?'.TEST_MAX_STATE_IDS, $this->headers);
         $response->assertStatus(Response::HTTP_EXPECTATION_FAILED);
         $response->assertJsonStructure([
             MESSAGE

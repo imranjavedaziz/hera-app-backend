@@ -22,8 +22,8 @@ class JwtMiddleware extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         try {
-            $headers = apache_request_headers();
-            $request->headers->set('Authorization', $headers['Authorization']);
+            // $headers = apache_request_headers();
+            // $request->headers->set('Authorization', $headers['Authorization']);
             if (JWTAuth::parseToken()->authenticate()==NULL) {
                 return response()->json([MESSAGE => 'Your session has expired. Please login again.'], Response::HTTP_FORBIDDEN);
             }

@@ -134,6 +134,7 @@
                             $('#modal-delete').addClass('d-block')
                             $('#modal-deactivate').removeClass('d-none')
                             $('#modal-delete').removeClass('d-none')
+                            $('#deactivate-para-text').html(status_text.toLowerCase())
                             $('.deactivate-para').addClass('d-block')
                             $('.deactivate-para').removeClass('d-none')
                         }else{

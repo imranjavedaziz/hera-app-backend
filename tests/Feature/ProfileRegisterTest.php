@@ -6,12 +6,13 @@ use Illuminate\Http\Response;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Helpers\AuthHelper;
 
 class ProfileRegisterTest extends TestCase
 {
 
     /**
-     * User Profile Registration required field.
+     * User Profile Registration User Authentication.
      *
      * @return void
      */
