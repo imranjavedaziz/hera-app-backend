@@ -115,6 +115,7 @@ define('CONFIRM_PASSWORD_REQ', 'confirm_password.required');
 define('CODE_EXISTS', 'code.exists');
 define('ALL_IDS_EXISTS', 'ids_array.*.exists');
 define('PASSWORD_VALIDATION', 'bail|required|min:8|max:20|');
+define('STATE_IDS_ELEMENTS_MAX_THREE', 'state_ids_array.max');
 
 // define migration text
 define('DATETIME', 'datetime');
@@ -556,7 +557,7 @@ define('TEST_DELETED_ADMIN_PHONE', '6363012085');
 define('TEST_DEVICE_TOKEN', '345aa-asda-2143bsd-kj');
 
 //test donor dashboard api param
-define('TEST_MIN_CHAR_KEYWORD', 'keyword=te');
+define('TEST_MAX_STATE_IDS', 'state_ids=1,2,3,4');
 define('TEST_KEYWORD', 'keyword=test');
 
 // test enquiry param
@@ -586,3 +587,5 @@ define('GET_ATTRIBUTES_SETTER_DATA_API', '/api/v1/attributes-setter-data');
 define('GET_AGE_RANGE_DATA_API', '/api/v1/preferences-age-range-data');
 define('SET_GALLERY_API', '/api/v1/set-gallery');
 define('GET_GALLERY_API', '/api/v1/get-gallery');
+define('DONOR_PROFILE_DETAILS_API', '/api/v1/doner-profile-details?user_id=');
+define('PTB_PROFILE_DETAILS_API', '/api/v1/ptb-profile-details?user_id=');

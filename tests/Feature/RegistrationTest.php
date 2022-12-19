@@ -35,7 +35,7 @@ class RegistrationTest extends TestCase
     }
     
     /**
-     * User Registration required field.
+     * User Registration Unique field.
      *
      * @return void
      */
@@ -58,7 +58,7 @@ class RegistrationTest extends TestCase
     }
 
     /**
-     * User Registration.
+     * User Registration Success.
      *
      * @return void
      */

@@ -46,7 +46,7 @@ class ValidationRule
     public const PRODUCT_ID =[BAIL, REQUIRED, STRING];
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
     public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:1'];
-    public const STATE_IDS_ARRAY =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, 'max:3'];
+    public const STATE_IDS_ARRAY =[BAIL, SOMETIMES, NULLABLE, ARRAYY, MIN_ONE, 'max:3'];
     public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
     public const DEVICE_ID =[BAIL, REQUIRED, STRING];
     public const DEVICE_TOKEN =[BAIL, REQUIRED, STRING];
