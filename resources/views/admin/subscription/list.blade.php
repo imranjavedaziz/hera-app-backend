@@ -121,7 +121,7 @@
                     success: function (msg) {
                         var middle_name = (msg.middle_name != null) ? msg.middle_name : '';
                         var status = (msg.status_id == 1) ? 2 : 1
-                        var status_text = (status == 2) ? 'Deactivate' : 'Activate';
+                        var status_text = (status == 2) ? 'Temporarily Deactivate' : 'Activate';
                         var date = moment.utc(msg.created_at).local().format();
                         if(msg.deleted_at == null){
                             $('#modal-deactivate').attr('data-id' , msg.id)
