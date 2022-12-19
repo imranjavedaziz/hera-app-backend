@@ -16,7 +16,7 @@ class ProfileMatchService
         $input[FROM_USER_ID] = $user_id;
         $to_user = User::where(ID, $input[TO_USER_ID])->where(DELETED_AT, null)->first();
         $from_user = User::where(ID, $input[FROM_USER_ID])->where(DELETED_AT, null)->first();
-
+        $notification = true;
         $profile_match = ProfileMatch::where(function ($query) use ($input) {
             $query->where(FROM_USER_ID, $input[FROM_USER_ID]);
             $query->where(TO_USER_ID, $input[TO_USER_ID]);
@@ -28,6 +28,7 @@ class ProfileMatchService
         ->first();
         if ($profile_match) {
             if ($profile_match->from_user_id != $input[FROM_USER_ID]) {
+                $notification = false;
                 $input[STATUS] = ($input[STATUS] == 3) ? $input[STATUS] : 2;
                 $profile_match->status = $input[STATUS];
             }
@@ -39,13 +40,13 @@ class ProfileMatchService
         }
         if (!empty($to_user)) {
             $profile_match->save();
-            $message = $this->getMatchRequestMsg($from_user, $to_user, $input, $profile_match);
+            $message = $this->getMatchRequestMsg($from_user, $to_user, $input, $profile_match, $notification);
             return [SUCCESS => true, DATA => $profile_match, MESSAGE=> $message];
         }
         return [SUCCESS => false];
     }
 
-    private function getMatchRequestMsg($from_user, $to_user, $input, $profile_match)
+    private function getMatchRequestMsg($from_user, $to_user, $input, $profile_match, $notification = true)
     {
         $toUserNotify = NotificationSetting::where([USER_ID => $input[TO_USER_ID], NOTIFY_STATUS => ONE])->first();
         switch ($input[STATUS]) {
@@ -57,7 +58,7 @@ class ProfileMatchService
                 $message = __('messages.profile_match.request_sent', [NAME => $to_name]);
                 $feedback = Feedback::where(SENDER_ID, $input[TO_USER_ID])->where(RECIPIENT_ID, $input[FROM_USER_ID])->first();
                 if ($from_user->role_id == 2) {
-                    if (!empty($toUserNotify) && $profile_match->from_user_id != $input[FROM_USER_ID]) {
+                    if (!empty($toUserNotify) && $notification) {
                         dispatch(new SendProfileMatchJob($to_user, $from_user, $profile_match, $description, $title, $feedback));
                     }
                     dispatch(new FirebaseChatFriend($from_user, $to_user, SENT_REQUEST));
