@@ -58,6 +58,7 @@ class PtbProfileCardRequest extends ApiFormRequest
     {
         return [
             STATE_IDS_ELEMENTS_EXISTS => __('messages.request_validation.error_msgs.state_id_exists'),
+            STATE_IDS_ELEMENTS_MAX_THREE => __('messages.request_validation.error_msgs.state_id_array_max_three'),
         ];
     }
 

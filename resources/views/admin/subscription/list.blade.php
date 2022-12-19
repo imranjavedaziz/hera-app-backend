@@ -73,7 +73,7 @@
                             <div class="td">{{$subscriptionPlan->description}}</div>
                             <div class="td">${{$subscription->price}}/{{$type}}</div>
                             <div class="td">{{$purchasedDate}}</div>
-                            <div class="td @if ($subscription->status_id == 2) text-danger @endif">@if($subscription->status_id == 1) Active @else Canceled @endif</div>
+                            <div class="td @if ($user->subscription_status == 0) text-danger @endif">@if($user->subscription_status != 0) Active @else Canceled @endif</div>
                         </div>
                         <div class="td-user-right">
                             <div class="td">
@@ -134,6 +134,7 @@
                             $('#modal-delete').addClass('d-block')
                             $('#modal-deactivate').removeClass('d-none')
                             $('#modal-delete').removeClass('d-none')
+                            $('#deactivate-para-text').html(status_text.toLowerCase())
                             $('.deactivate-para').addClass('d-block')
                             $('.deactivate-para').removeClass('d-none')
                         }else{

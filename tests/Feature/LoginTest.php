@@ -27,7 +27,7 @@ class LoginTest extends TestCase
     }
     
     /**
-     * User Login required field.
+     * User Login restricat deleted user.
      *
      * @return void
      */
