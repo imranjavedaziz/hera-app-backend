@@ -12,7 +12,7 @@ class SetPreferencesTest extends TestCase
 {
 
     /**
-     * Set Preference Registration required field.
+     * Set Preference User Authentication test.
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class SetPreferencesTest extends TestCase
     }
 
     /**
-     * Set Preference Registration required field.
+     * Set Preference ensure ptb.
      *
      * @return void
      */

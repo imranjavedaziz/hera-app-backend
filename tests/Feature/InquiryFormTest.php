@@ -26,7 +26,7 @@ class InquiryFormTest extends TestCase
     }
 
     /**
-     * Set Attributes Registration required field.
+     * Support Form required field.
      *
      * @return void
      */
@@ -49,11 +49,11 @@ class InquiryFormTest extends TestCase
     }
     
     /**
-     * Set Attributes Registration.
+     * Support Form submission.
      *
      * @return void
      */
-    public function testSuccessfulSetAttributes()
+    public function testSuccessfulSupportForm()
     {
         $payload = [
             USER_TIMEZONE => TEST_USER_TIMEZONE,
