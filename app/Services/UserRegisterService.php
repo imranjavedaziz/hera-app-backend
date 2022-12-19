@@ -43,7 +43,7 @@ class UserRegisterService
             User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
             dispatch(new SendRegisterSuccessfulJob($user));
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
-                // dispatch(new CreateAdminChatFreiend($user));
+                dispatch(new CreateAdminChatFreiend($user));
             }
             dispatch(new UpdateUserNotificationSetting($user->id));
         }
