@@ -10,6 +10,7 @@ use PDF;
 use Facades\{
     App\Services\SubscriptionService,
 };
+use DB;
 
 class SubscriptionController extends Controller
 {
@@ -18,8 +19,8 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        $subscription = Subscription::with('user','subscriptionPlan')->select('id','price','current_period_start','status_id','user_id','subscription_plan_id')
-           ->groupBy('user_id')->orderBy('id','desc')->paginate(ADMIN_PAGE_LIMIT);
+        $subscription = Subscription::with('user','subscriptionPlan')->select(DB::raw("MAX(id) as subscriptionId"),'price','current_period_start','current_period_end','status_id','user_id','subscription_plan_id')
+           ->groupBy('user_id')->orderBy('subscriptionId','desc')->paginate(ADMIN_PAGE_LIMIT);
         return view('admin.subscription.list')->with(['title' => 'Subscription','subscriptionData'=>$subscription]); 
     }
 

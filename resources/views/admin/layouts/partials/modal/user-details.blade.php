@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="user-profile-right">
-                            <img src="/assets/images/people3.jpeg" alt="Profile-logo">
+                            <img src="" alt="Profile-logo">
                         </div>
                     </div>
                     <div class="user-profile-desc" id="bio"></div>
