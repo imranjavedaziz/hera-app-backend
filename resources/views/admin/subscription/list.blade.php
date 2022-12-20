@@ -33,7 +33,8 @@
                             <div class="th">Email Address</div>
                             <div class="th">Subscription Type</div>
                             <div class="th">Amount</div>
-                            <div class="th">Purchased on</div>
+                            <div class="th">Purchased On</div>
+                            <div class="th">Next Due On</div>
                             <div class="th">Status</div>
                         </div>
                         <div class="td-user-right">
@@ -48,6 +49,7 @@
                     $user = $subscription->user;
                     $subscriptionPlan = $subscription->subscriptionPlan;
                     $purchasedDate = \Carbon\Carbon::parse($subscription->current_period_start)->format('M d, Y');
+                    $duedDate = \Carbon\Carbon::parse($subscription->current_period_end)->format('M d, Y');
                     $img = $subscription->profile_pic;
                     $type = 'mo' ;
                     ?>
@@ -73,6 +75,7 @@
                             <div class="td">{{$subscriptionPlan->description}}</div>
                             <div class="td">${{$subscription->price}}/{{$type}}</div>
                             <div class="td">{{$purchasedDate}}</div>
+                            <div class="td">{{$duedDate}}</div>
                             <div class="td @if ($user->subscription_status == 0) text-danger @endif">@if($user->subscription_status != 0) Active @else Canceled @endif</div>
                         </div>
                         <div class="td-user-right">
@@ -98,10 +101,10 @@
            {{ $subscriptionData->links() }}
         </div>
     </div>
-@endsection
-@include('admin.layouts.partials.modal.user-details')
+    @include('admin.layouts.partials.modal.user-details')
 @include('admin.layouts.partials.modal.user-deactivate')
 @include('admin.layouts.partials.modal.user-delete')
+@endsection
 @push('after-scripts')
     <script type="text/javascript">
         $(document).ready(function () {
