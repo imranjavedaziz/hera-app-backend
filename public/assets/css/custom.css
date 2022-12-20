@@ -37,3 +37,7 @@ input[type="search"]::-webkit-search-cancel-button{
   display: flex;
   justify-content: center;
 }
+
+.chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec.recent-message {
+  background-color: #cfbbc3;
+}

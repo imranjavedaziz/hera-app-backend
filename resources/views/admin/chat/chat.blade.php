@@ -25,7 +25,7 @@
                             <div class="chat-header">
                                 <div class="user-chat-profile">
                                     <div class="profile-logo">
-                                        <img id="receiverImage" class="d-none" src=" {{ asset('assets/images/people3.jpeg')}}" alt="user-logo">
+                                        <img id="receiverImage" class="d-none" src="" alt="user-logo">
                                     </div>
                                     <div class="profile-detail">
                                         <div class="user-name" id="receiverRole"></div>
@@ -69,13 +69,16 @@
         chatList();
         function chatList() {
             var chatUser = [];
+            var count = 0;
             userCollection.orderByChild('adminChatTime').on("child_added", function(snapshot) {
+                count ++;
                 var childData = snapshot.val();
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
                 var date = (childData.message) ? getChatDate(time) : '';
                 var statusId = childData.status_id;
-                $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
+                var offset = count * 70.6;
+                $('.chat-left-containt').append('<div id ="'+childData.recieverId+'" data-offset="'+offset+'" class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
                                             +'<img src='+childData.recieverImage+' alt="user-logo">'
@@ -104,6 +107,8 @@
                     var statusId = user.status_id;
                     var roleData = getRoleData(roleId);
                     $(".user-chat-sec[userid='" + userId + "']").addClass("active");
+                    var scroll = $('#'+userId).data('offset');
+                    $('.chat-left-containt').scrollTop(scroll);
                     updateUserChatProfile(image, roleData, name, username, userId, statusId);
                 }else {
                     setTimeout(function() {
@@ -111,6 +116,7 @@
                 }, 1000);
                 }
             });
+
         }
         userCollection.on("child_changed", function(snapshot) {
                 var childData = snapshot.val();
@@ -133,7 +139,7 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
-            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active");
+            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active recent-mesage");
             });
         $('.search-close').click(function(){
             $('#search').val('');
@@ -342,7 +348,7 @@
             var dateName = today.getDate();
             switch (true) {
                 case (formattedDate == todayDate): 
-                    day = 'Today';
+                    day = moment(unixTimeStamp).format('h:mm A');
                     break;
                 case (formattedDate == yesterday):
                     day = 'Yesterday';
@@ -370,13 +376,13 @@
             var yesterday = dateFormate(yesterdayDate);
             switch (true) {
                 case (formattedDate == todayDate): 
-                    day = moment(unixTimeStamp).format('hh:mm A');
+                    day = moment(unixTimeStamp).format('h:mm A');
                     break;
                 case (formattedDate == yesterday):
                     day = 'Yesterday';
                     break;
                 default:
-                    day = moment(unixTimeStamp).format('MMM DD hh:mm A');
+                    day = moment(unixTimeStamp).format('MMM DD h:mm A');
             }
             return day;
         };
