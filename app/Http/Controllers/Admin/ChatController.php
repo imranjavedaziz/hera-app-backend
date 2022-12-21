@@ -17,7 +17,8 @@ class ChatController extends Controller
     public function index($userId = null)
     {
         $user = User::where('id',$userId)->first();
-        return view('admin.chat.chat')->with(['title' => 'Chat', 'env' => env('APP_ENV'), 'adminId' => auth()->id(), 'user' => $user]);
+        $usersCount = User::whereIn(ROLE_ID,[SURROGATE_MOTHER,EGG_DONER,SPERM_DONER])->get()->count();
+        return view('admin.chat.chat')->with(['title' => 'Chat', 'env' => env('APP_ENV'), 'adminId' => auth()->id(), 'user' => $user, 'userCount' => $usersCount]);
     }
 
     public function sendPushNotification(Request $request) {
