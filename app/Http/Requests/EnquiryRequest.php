@@ -31,7 +31,6 @@ class EnquiryRequest extends ApiFormRequest
             NAME => ValidationRule::NAME,
             EMAIL => ValidationRule::EMAIL,
             COUNTRY_CODE => ValidationRule::COUNTRY_CODE,
-            PHONE_NO => ValidationRule::PHONE,
             ENQUIRING_AS => ValidationRule::ROLE_ID,
             MESSAGE => ValidationRule::MESSAGE,
             USER_TIMEZONE => ValidationRule::USER_TIMEZONE,
