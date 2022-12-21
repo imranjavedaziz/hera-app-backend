@@ -18,7 +18,7 @@
                                     <span class="search-close d-none"><img src="{{ asset('assets/images/icon-close-circled.svg')}}" alt="Search-close"></span>
                                 </form>
                             </div>
-                            <div class="chat-left-containt">
+                            <div class="chat-left-containt" data-userCount="{{$userCount}}">
                             </div>
                         </div>
                         <div class="chat-wrapper-right">
@@ -60,6 +60,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var user_data = '<?php echo $user; ?>';
+        var userCount = $('.chat-left-containt').attr('data-userCount');
         $('.chat-left-containt').html('');
         $('.msg-wrapper').html('');
         var database = firebase.database();
@@ -110,10 +111,8 @@
                     var scroll = $('#'+userId).data('offset');
                     $('.chat-left-containt').scrollTop(scroll);
                     updateUserChatProfile(image, roleData, name, username, userId, statusId);
-                }else {
-                    setTimeout(function() {
+                }else if(userCount == count) {
                     $('.chat-left-containt').children().first().click();
-                }, 1000);
                 }
             });
 
@@ -139,7 +138,7 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
-            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active recent-mesage");
+            $(".user-chat-sec[userid='" + childData.recieverId + "']").addClass("active");
             });
         $('.search-close').click(function(){
             $('#search').val('');
@@ -151,7 +150,11 @@
         $(document).on('click', '.user-chat-sec', function(){
             $('.msg-wrapper').html('');
             $(".user-chat-sec").removeClass("active");
+            $('.chat-left-containt').attr('data-userCount', "");
             $(this).addClass("active");
+            var currentUser = $('#receiverName').attr('data-recevierId');
+            var currentMsgObj = getMessageCollectionObject(currentUser);
+            currentMsgObj.off("child_added");
             var userId = $(this).attr("userId");
             var name = $(this).attr("userFullName");
             var image = $(this).attr("userImage");
@@ -237,7 +240,7 @@
                     $('.empty-msg').removeClass("d-none");
                     $('.msg-wrapper').addClass("d-none");
                 }
-            }) 
+            })
         }
 
         function checkMessage(msg) {
