@@ -126,7 +126,12 @@
                 var statusId = childData.status_id;
                 var msg = childData.message;
                 var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
-                var dateSection = date+ readDot;
+                var currentUser = $('#receiverName').attr('data-recevierId');
+                var dateSection = (currentUser != childData.recieverId) ? date+ readDot : date;
+                if (currentUser == childData.recieverId) {
+                /** Update Message Read Status */
+                database.ref(env+'/Users/'+adminId+'/Friends/'+currentUser).update({read: 1});
+                }
                 setOnTopList(childData.recieverId, childData.recieverName, childData.recieverImage, childData.currentRole, childData.recieverUserName, adminChatTime, dateSection, statusId, msg);
             });
         $('.search-close').click(function(){
@@ -296,6 +301,8 @@
                         var statusId = childData.status_id;
                         var date = getChatDate(time);
                         var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
+                        var currentUser = $('#receiverName').attr('data-recevierId');
+                        var dateSection = (currentUser != childData.recieverId) ? date+ readDot : date;
                         $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+recieverName+'" userImage="'+profileImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
@@ -307,7 +314,7 @@
                                         +'</div>'
                                     +'</div>'
                                     +'<div class="user-chat-right">'
-                                        +'<div class="chat-date">'+date+ readDot+'</div>'
+                                        +'<div class="chat-date">'+dateSection+'</div>'
                                     +'</div>'
                                 +'</div>'
                         );
