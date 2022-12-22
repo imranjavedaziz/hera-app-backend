@@ -79,7 +79,7 @@
                 var adminChatTime = childData.adminChatTime;
                 var date = (childData.message) ? getChatDate(time) : '';
                 var statusId = childData.status_id;
-                var readDot = (childData.read != 1) ? '<span class="read-dot"></span>' : '';
+                var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
                 $('.chat-left-containt').append('<div id ="'+childData.recieverId+'" class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+childData.recieverName+'" userImage="'+childData.recieverImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
@@ -125,7 +125,7 @@
                 var date = getChatDate(time);
                 var statusId = childData.status_id;
                 var msg = childData.message;
-                var readDot = (childData.read != 1) ? '<span class="read-dot"></span>' : '';
+                var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
                 var dateSection = date+ readDot;
                 setOnTopList(childData.recieverId, childData.recieverName, childData.recieverImage, childData.currentRole, childData.recieverUserName, adminChatTime, dateSection, statusId, msg);
             });
@@ -295,7 +295,7 @@
                         var time = childData.time;
                         var statusId = childData.status_id;
                         var date = getChatDate(time);
-                        var readDot = (childData.read != 1) ? '<span class="read-dot"></span>' : '';
+                        var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
                         $('.chat-left-containt').append('<div class="user-chat-sec" userId="'+childData.recieverId+'" userFullName="'+recieverName+'" userImage="'+profileImage+'" userRole="'+childData.currentRole+'" username="'+childData.recieverUserName+'" data-date="'+time+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
                                         +'<div class="user-logo">'
