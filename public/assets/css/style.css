@@ -1734,7 +1734,9 @@ input[type=number]::-webkit-outer-spin-button {
           font-style: normal;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
-          color: #928c7d; }
+          color: #928c7d;
+          position: relative;
+        }
         .chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec.active {
           background-color: #cfcabb; }
         .chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec:hover {
