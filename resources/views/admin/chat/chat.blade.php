@@ -122,7 +122,7 @@
                 var childData = snapshot.val();
                 var time = childData.time;
                 var adminChatTime = childData.adminChatTime;
-                var date = getChatDate(time);
+                var date = (childData.message) ? getChatDate(time) : '';
                 var statusId = childData.status_id;
                 var msg = childData.message;
                 var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
@@ -141,7 +141,7 @@
             chatList();
         })
 
-        function setOnTopList(recieverId, recieverName, recieverImage, currentRole, recieverUserName, adminChatTime, date, statusId, msg = false) {
+        function setOnTopList(recieverId, recieverName, recieverImage, currentRole, recieverUserName, adminChatTime, date, statusId, msg = '') {
             $(".user-chat-sec[userid='" + recieverId + "']").remove();
             $('.chat-left-containt').prepend('<div class="user-chat-sec" userId="'+recieverId+'" userFullName="'+recieverName+'" userImage="'+recieverImage+'" userRole="'+currentRole+'" username="'+recieverUserName+'" data-date="'+adminChatTime+'" statusId="'+statusId+'">'
                                     +'<div class="user-chat-left">'
@@ -157,7 +157,6 @@
                                         +'<div class="chat-date">'+date+'</div>'
                                     +'</div>'
                                 +'</div>');
-            $(".user-chat-sec[userid='" + recieverId + "']").addClass("active");
         }
 
         $(document).on('click', '.user-chat-sec', function(){
@@ -232,6 +231,7 @@
             });
             $(".user-chat-sec[userid='" + userId + "']").find(".user-msg").html(msg);
             $(".user-chat-sec[userid='" + userId + "']").find(".chat-date").html(moment( new Date().getTime()).format('h:mm A'));
+            $(".user-chat-sec[userid='" + userId + "']").addClass("active");
         }
 
         function getMessageList(msgObj, userId) {
@@ -249,7 +249,7 @@
             msgObj.on("child_added", (snapshot) => {
                 var msgData = snapshot.val();
                 var msg = (msgData) ? msgData.text : '';
-                var date = DisplayTime(msgData.time);
+                var date = getChatDate(msgData.time);
                 $(".user-chat-sec[userid='" + userId + "']").find(".user-msg").html(msg);
                 $(".user-chat-sec[userid='" + userId + "']").find(".chat-date").html(date);
                 if ($('#receiverName').attr('data-timeKey') == '') {
@@ -299,7 +299,7 @@
                         var message = childData.message;
                         var time = childData.time;
                         var statusId = childData.status_id;
-                        var date = getChatDate(time);
+                        var date = (childData.message) ? getChatDate(time) : '';
                         var readDot = (childData.message && childData.read != 1) ? '<span class="read-dot"></span>' : '';
                         var currentUser = $('#receiverName').attr('data-recevierId');
                         var dateSection = (currentUser != childData.recieverId) ? date+ readDot : date;
