@@ -214,7 +214,7 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->addDay(TWO)->format(YMD_FORMAT);
+        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
@@ -223,7 +223,7 @@ class SubscriptionService
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->subDays(ONE)->format(YMD_FORMAT);
+        $twentyDaytoday = Carbon::now()->subDays(20)->format(YMD_FORMAT);
         return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
@@ -232,7 +232,7 @@ class SubscriptionService
         $dateDiff = strtotime(date(YMD_FORMAT)) - strtotime($user->created_at->format(YMD_FORMAT));
         $days = round(($dateDiff / 86400));
         $subscription = Subscription::where(USER_ID,$userId)->orderBy('id','desc')->first();
-        if ($subscription == null && $user->subscription_status == TWO && $days < 2) {
+        if ($subscription == null && $user->subscription_status == TWO && $days < THIRTY) {
             $status = SUBSCRIPTION_TRIAL;
         } else {
             $status = SUBSCRIPTION_DISABLED;
@@ -274,16 +274,15 @@ class SubscriptionService
     }
 
     public function getTrialExpiredSubscription() {
-        $thirtyDaytoday = Carbon::now()->subDays(TWO)->format(YMD_FORMAT);
+        $thirtyDaytoday = Carbon::now()->subDays(THIRTY)->format(YMD_FORMAT);
         return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getExpiredSubcription() {
-        $thirtyDaytoday = Carbon::now()->subDays(TWO)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->where(CURRENT_PERIOD_START, '<', Carbon::now()->format(DATE_TIME))
-            ->whereDate(CURRENT_PERIOD_END, '=', $thirtyDaytoday)
+            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
             ->get();
     }
 }
