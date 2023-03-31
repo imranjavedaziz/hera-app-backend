@@ -223,7 +223,7 @@ class SubscriptionService
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->subDays(20)->format(YMD_FORMAT);
+        $twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
         return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 

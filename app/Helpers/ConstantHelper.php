@@ -13,6 +13,7 @@ define('EIGHT', 8);
 define('NINE', 9);
 define('TEN', 10);
 define('THIRTY', 30);
+define('TWENTY', 20);
 
 //define status number 
 define('ACTIVE', 1);  // Approved
