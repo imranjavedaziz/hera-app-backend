@@ -52,3 +52,38 @@ input[type="search"]::-webkit-search-cancel-button{
   border: solid 1px #fff;
   background-color: #98c8c2;
 }
+
+.btn-import{
+  width: 175px;
+  height: 45px;
+  border-radius: 4px;
+  padding: 10px 0 !important;
+  margin-left: 7px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.75px;
+  position: relative;
+}
+.btn-download{
+  width: 199px;
+  height: 45px;
+  padding: 10px 0 !important;
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.75px;
+  border: 1px solid #353a3a;
+  font-size: 12px;
+
+  color: #353a3a;
+}
+.input-file-style{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+}

@@ -16,6 +16,11 @@ use App\Helpers\Helper;
 use Validator;
 use App\Jobs\SendActiveDeactiveUserJob;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Illuminate\Validation\ValidationException;
+use App\Jobs\ImportUsersJob;
 
 class UserController extends AdminController
 {
@@ -118,5 +123,45 @@ class UserController extends AdminController
     {
         User::where('role_id',ADMIN)->update(['timezone' => $request->timezone]);
         return $this->sendResponse('success');
+    }
+
+    /**
+     * Import Users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function importUsers(Request $request)
+    {
+        try {
+            // Validate the uploaded file
+            $validator = Validator::make($request->all(), [
+                'file' => 'required|mimes:csv,xlsx'
+            ]);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            // Get the uploaded file
+            $file = $request->file('file');
+
+            // Generate a unique name for the file
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // Move the file to a temporary directory
+            $file->move(sys_get_temp_dir(), $filename);
+
+            // Dispatch a job to import users from the uploaded file
+            ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
+
+            // Redirect back with success message
+            return redirect()->back()->with('flash_success', 'Users Import started successfully!');
+            } catch (ValidationException $e) {
+                 return redirect()->back()->withErrors($e->errors())->withInput();
+            } catch (FileNotFoundException $e) {
+                 return redirect()->back()->withErrors($e->getMessage())->withInput();
+            } catch (Exception $e) {
+                 return redirect()->back()->withErrors($e->getMessage())->withInput();
+            }
     }
 }

@@ -15,6 +15,24 @@
                     </div>
                 </div>
             </div>
+            <div class="export-csv">
+                    <button type="button" class="btn-outline btn-download">DOWNLOAD SAMPLE FILE</button>
+
+                    <button type="button" class="btn-primary btn-import"><img src="/assets/images/svg/icon-export.svg" alt="download icon" />BULK UPLOAD
+                    <input class="input-file-style" type="file" id="formFile">
+
+                    </button>
+            </div>
+
+            @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             @if ($userData->count() > 0)
@@ -23,6 +41,10 @@
             <!-- For no Users found -->
             <div class="no-users d-none">No Users Yet</div>
             @endif
+            <div class="export-csv">
+                    <button type="button" class="btn-primary btn-logout" data-bs-toggle="modal" data-bs-target="#modalExportCsv" ><img src="/assets/images/svg/download.svg" alt="download icon" />Import Users</button>
+            </div>
+            @include('admin.layouts.partials.modal.import-users')
         </div>
         <!--  Table start from here  -->
         <div class="table-container table-container-user-modal">
