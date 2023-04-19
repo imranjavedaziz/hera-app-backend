@@ -590,3 +590,8 @@ define('SET_GALLERY_API', '/api/v1/set-gallery');
 define('GET_GALLERY_API', '/api/v1/get-gallery');
 define('DONOR_PROFILE_DETAILS_API', '/api/v1/doner-profile-details?user_id=');
 define('PTB_PROFILE_DETAILS_API', '/api/v1/ptb-profile-details?user_id=');
+
+define('IV_LENGTH', 16);
+define('CIPHER_REFRESH_TOKEN', 'AES-128-CBC');
+define('EXPIRE', 'expire');
+define('REFRESH_TOKEN', 'refresh_token');

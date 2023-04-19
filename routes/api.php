@@ -80,9 +80,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
+    Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
-        Route::get('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
         Route::post('match-password', [AuthController::class, 'matchPassword']);
         Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
