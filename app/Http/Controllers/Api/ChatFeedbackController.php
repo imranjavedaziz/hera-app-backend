@@ -138,10 +138,10 @@ class ChatFeedbackController extends Controller
     {
         try {
             DB::beginTransaction();
-            $save_chat_feedback = ChatFeedbackService::saveNextSteps(AuthHelper::authenticatedUser()->id, $request->to_user_id);
-            if($save_chat_feedback[SUCCESS]){
+            $saveNextSteps = ChatFeedbackService::saveNextSteps(AuthHelper::authenticatedUser()->id, $request->to_user_id);
+            if($saveNextSteps[SUCCESS]){
                 DB::commit();
-                $response = response()->Success(trans($save_chat_feedback[MESSAGE]), $save_chat_feedback[DATA]);
+                $response = response()->Success(trans($saveNextSteps[MESSAGE]), $saveNextSteps[DATA]);
             }else {
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));
             }
