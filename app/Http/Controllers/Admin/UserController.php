@@ -135,7 +135,7 @@ class UserController extends AdminController
         try {
             // Validate the uploaded file
             $validator = Validator::make($request->all(), [
-                'file' => 'required|mimes:csv,xlsx|max:5120'//5 mb maximum file size
+                'file' => 'required|mimes:csv,xlsx|max:10240'//10 mb maximum file size
             ]);
 
             if ($validator->fails()) {
