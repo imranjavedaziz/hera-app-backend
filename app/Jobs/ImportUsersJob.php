@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\File;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportUsersJob implements ShouldQueue
@@ -22,6 +23,26 @@ class ImportUsersJob implements ShouldQueue
 
     public function handle()
     {
-        Excel::import(new UsersImport(), new File($this->filePath));
+        $import = new UsersImport();
+        Excel::import($import, new File($this->filePath));
+
+        $totalRecords = $import->getTotalRecords();
+        $insertedRecords = $import->getInsertedRecords();
+        $skippedRecordsCount = $import->getSkippedRecordsCount();
+        $skippedRecords = $import->getSkippedRecords();
+        $existingRecordsCount = $import->getExistingRecordsCount();
+        $existingRecords = $import->getExistingRecords();
+        $data = [
+            'totalRecords' => $totalRecords,
+            'insertedRecords' => $insertedRecords,
+            'skippedRecordsCount' => $skippedRecordsCount,
+            'skippedRecords' => $skippedRecords,
+            'existingRecordsCount' => $existingRecordsCount,
+            'existingRecords' => $existingRecords,
+        ];
+        $adminEmail = env('ADMIN_EMAIL', 'admin-mbc@yopmail.com');
+        Mail::send('emails.import-summary', $data, function ($message) use ($data,$adminEmail) {
+            $message->to($adminEmail)->subject('User Import Summary');
+        });
     }
 }

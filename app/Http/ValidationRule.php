@@ -11,7 +11,7 @@ class ValidationRule
     public const OTP =[BAIL,REQUIRED, NUMERIC,'digits:6'];
     public const REGISTRATION_STEP =[BAIL, REQUIRED, 'in : 1,2,3'];
     public const ROLE_ID =[BAIL, REQUIRED, 'in : 2,3,4,5'];
-    public const NAME =[BAIL, REQUIRED, MIN_ONE, NAME_REGEX, 'max:30'];
+    public const NAME =[REQUIRED, MIN_ONE, NAME_REGEX, 'max:30'];
     public const MIDDLE_NAME =[BAIL, SOMETIMES, NULLABLE, MIN_ONE, NAME_REGEX, 'max:30'];
     public const EMAIL =[BAIL, REQUIRED, EMAIL, EMAIL_MAX_LENGTH, EMAIL_REGEX];
     public const PASSWORD =[BAIL, REQUIRED, 'min:8', 'max:20', PASSWORD_REGEX];

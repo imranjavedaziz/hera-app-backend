@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             StateSeeder::class,
             /** CitySeeder::class, **/
             WeightSeeder::class,
+            StatusTableSeeder::class,
         ]);
     }
 }

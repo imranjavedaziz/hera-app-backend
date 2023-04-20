@@ -18,10 +18,13 @@
             <div class="export-csv">
                     <button type="button" class="btn-outline btn-download">DOWNLOAD SAMPLE FILE</button>
 
+                    <form action="{{url('admin/import-users')}}" autocomplete="off" id="form1" method="POST" enctype="multipart/form-data">
+                        @csrf
                     <button type="button" class="btn-primary btn-import"><img src="/assets/images/svg/icon-export.svg" alt="download icon" />BULK UPLOAD
-                    <input class="input-file-style" type="file" id="formFile">
+                    <input name='file' class="input-file-style" type="file" id="formFile" onchange="javascript:this.form.submit();">
 
                     </button>
+                    </form>
             </div>
 
             @if ($errors->any())
@@ -41,10 +44,6 @@
             <!-- For no Users found -->
             <div class="no-users d-none">No Users Yet</div>
             @endif
-            <div class="export-csv">
-                    <button type="button" class="btn-primary btn-logout" data-bs-toggle="modal" data-bs-target="#modalExportCsv" ><img src="/assets/images/svg/download.svg" alt="download icon" />Import Users</button>
-            </div>
-            @include('admin.layouts.partials.modal.import-users')
         </div>
         <!--  Table start from here  -->
         <div class="table-container table-container-user-modal">
