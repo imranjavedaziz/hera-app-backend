@@ -131,6 +131,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
+            Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
         });
 
         /***Only Parents route***/

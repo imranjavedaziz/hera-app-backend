@@ -84,6 +84,8 @@ return [
             'skip' => 'Skipped',
             'saved' => 'Thank you for sharing your feedback.',
         ],
+        'nextSteps' => 'Next steps save successfully!',
+        'nextSteps_exits' => 'You have already created request.',
     ],
     'subscription_created' => 'Subcription created successfully.',
     'reset_password_invalid_user' => 'Entered user id does not exist. Please check & try again.',

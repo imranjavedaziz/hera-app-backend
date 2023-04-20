@@ -14,7 +14,7 @@ class AddRefreshTokenToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('refresh_token')->nullable()->after('deleted_by');
+            $table->longText('refresh_token')->nullable()->after('deleted_by');
         });
     }
 
