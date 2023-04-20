@@ -60,4 +60,5 @@ class ValidationRule
     public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
     public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
     public const USER_TIMEZONE =[BAIL, REQUIRED];
+    public const REFRESH_TOKEN =[BAIL, REQUIRED, STRING];
 }
