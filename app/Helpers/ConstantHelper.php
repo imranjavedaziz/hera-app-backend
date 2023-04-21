@@ -595,3 +595,5 @@ define('IV_LENGTH', 16);
 define('CIPHER_REFRESH_TOKEN', 'AES-128-CBC');
 define('EXPIRE', 'expire');
 define('REFRESH_TOKEN', 'refresh_token');
+define('METADATA', 'metadata');
+define('STRIPE_SECRET', 'STRIPE_SECRET');

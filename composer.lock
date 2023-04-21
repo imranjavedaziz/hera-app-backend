@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "170930181ce615049fee93e9fe5b8ec1",
+    "content-hash": "f3f43b6e891fa85df5f3d6f13cc1735e",
     "packages": [
         {
             "name": "apility/laravel-fcm",
@@ -5643,6 +5643,67 @@
             "time": "2022-09-27T15:03:11+00:00"
         },
         {
+            "name": "stripe/stripe-php",
+            "version": "v10.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/9e8055d55e8212ad844f48d7cf525b630689be35",
+                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v10.12.1"
+            },
+            "time": "2023-04-04T19:13:21+00:00"
+        },
+        {
             "name": "swagger-api/swagger-ui",
             "version": "v4.15.5",
             "source": {
@@ -9313,71 +9374,6 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
-        },
-        {
-            "name": "jkocik/laravel-profiler",
-            "version": "2.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jkocik/laravel-profiler.git",
-                "reference": "cda42631f802f32507ba0908cac52c335a494953"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jkocik/laravel-profiler/zipball/cda42631f802f32507ba0908cac52c335a494953",
-                "reference": "cda42631f802f32507ba0908cac52c335a494953",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^5.0 || ^6.0 || ^7.0",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "^1.5",
-                "mockery/mockery": "^1.0",
-                "php-coveralls/php-coveralls": "^2.1",
-                "php-mock/php-mock": "^2.0",
-                "phpunit/phpunit": "^8",
-                "predis/predis": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "JKocik\\Laravel\\Profiler\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/Services/helpers.php"
-                ],
-                "psr-4": {
-                    "JKocik\\Laravel\\Profiler\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Janusz Kocik",
-                    "email": "janusz.kocik@gmail.com"
-                }
-            ],
-            "description": "Profiler for Laravel Framework",
-            "homepage": "https://github.com/jkocik/laravel-profiler",
-            "keywords": [
-                "debugbar",
-                "laravel",
-                "profiler"
-            ],
-            "support": {
-                "issues": "https://github.com/jkocik/laravel-profiler/issues",
-                "source": "https://github.com/jkocik/laravel-profiler/tree/2.0.3"
-            },
-            "time": "2021-05-12T21:42:38+00:00"
         },
         {
             "name": "laravel/sail",
