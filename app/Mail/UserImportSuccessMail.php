@@ -10,15 +10,19 @@ use Illuminate\Queue\SerializesModels;
 class UserImportSuccessMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+
+    protected $user;
+
+    protected $password;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $password)
     {
         $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -29,6 +33,9 @@ class UserImportSuccessMail extends Mailable
     public function build()
     {
         $role_name = $this->user->role->name;
-        return $this->subject("HERA | Imported As ".$role_name." Successfully!")->view('emails.user-imported');
+        return $this->subject("HERA | Imported As ".$role_name." Successfully!")->view('emails.user-imported',[
+            'user' => $this->user,
+            'password' => $this->password,
+        ]);
     }
 }

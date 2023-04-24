@@ -15,6 +15,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use App\Jobs\SendUserImportSuccessJob;
+use Illuminate\Support\Facades\Hash;
+use App\Jobs\CreateAdminChatFreiend;
+use App\Jobs\UpdateUserNotificationSetting;
 
 class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
 {
@@ -71,7 +74,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 PHONE_NO    => $row[PHONE_NO],
                 COUNTRY_CODE    => '+1',
                 DOB => date(YMD_FORMAT,strtotime($row[DOB])),
-                PASSWORD => bcrypt($randomPassword),
+                PASSWORD => Hash::make($randomPassword),
                 REGISTRATION_STEP => ONE
             ]);
 
@@ -79,9 +82,12 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 $this->insertedRecords++;
                 $username = $this->setUserName($user[ROLE_ID], $user->id);
                 User::where(ID, $user->id)->update([STATUS_ID => SIX,USERNAME=>$username]);
-                dispatch(new SendUserImportSuccessJob($user));//to send user credentials over mail
+                dispatch(new SendUserImportSuccessJob($user, $randomPassword));
+                if ($user[ROLE_ID] != PARENTS_TO_BE) {
+                    dispatch(new CreateAdminChatFreiend($user));
+                }
+                dispatch(new UpdateUserNotificationSetting($user->id));
             } else {
-                // Record already exists, so it's a skipped row
                  $this->existingRecordsCount++;
                  $this->existingRecords[] = [
                     ROW => $this->totalRecords,
@@ -91,7 +97,6 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
             }
 
         } catch (\Exception $e) {
-            // Log the error and skip the row
             Log::error('Skipping row due to error: '.$e->getMessage());
             $this->skippedRecordsCount++;
             $this->skippedRecords[] = [

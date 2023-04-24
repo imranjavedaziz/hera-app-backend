@@ -16,9 +16,11 @@ class ImportUsersJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private string $filePath)
-    {
+    private $filePath;
 
+    public function __construct(string $filePath)
+    {
+        $this->filePath = $filePath;
     }
 
     public function handle()

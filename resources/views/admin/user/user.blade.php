@@ -15,9 +15,8 @@
                     </div>
                 </div>
             </div>
-            <div class="export-csv">
-                    <button type="button" class="btn-outline btn-download">DOWNLOAD SAMPLE FILE</button>
-
+            <div class="download-csv">
+                <a class="btn-outline btn-download" href="/assets/csv/MBC_SAMPLE.xlsx" download="">DOWNLOAD SAMPLE FILE</a>
                     <form action="{{url('admin/import-users')}}" autocomplete="off" id="form1" method="POST" enctype="multipart/form-data">
                         @csrf
                     <button type="button" class="btn-primary btn-import"><img src="/assets/images/svg/icon-export.svg" alt="download icon" />BULK UPLOAD
@@ -97,12 +96,12 @@
                                             Active
                                         </span>
                                         <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
-                                            @if($user->status_id == 5) Deleted @else Inactive @endif <br>
+                                            @if($user->status_id == 6) - @elseif($user->status_id == 5) Deleted @else Inactive @endif <br>
                                             <span>
                                                 @if($user->deactivated_by == 1 || $user->deleted_by == 1) 
                                                     (By Admin) 
                                                 @else
-                                                    (By User) 
+                                                @if($user->status_id != 6)  (By User)  @endif
                                                 @endif
                                             </span>
                                         </span>

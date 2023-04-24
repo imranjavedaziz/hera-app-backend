@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -133,29 +134,16 @@ class UserController extends AdminController
     public function importUsers(Request $request)
     {
         try {
-            // Validate the uploaded file
-            $validator = Validator::make($request->all(), [
-                'file' => 'required|mimes:csv,xlsx|max:10240'//10 mb maximum file size
-            ]);
-
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
+            $valid = ['csv','xlsx'];
+            if (!$request->hasFile('file') || !in_array($request->file('file')->getClientOriginalExtension(), $valid)) {
+                return  redirect()->back()->withInput()->withErrors([ERROR => 'Only csv and excel files are allowed to be uploaded.']);
+            } else {
+                $file = $request->file('file');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(sys_get_temp_dir(), $filename);
+                ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
+                return redirect()->back()->with('flash_success', 'Users Import started successfully!');
             }
-
-            // Get the uploaded file
-            $file = $request->file('file');
-
-            // Generate a unique name for the file
-            $filename = time() . '_' . $file->getClientOriginalName();
-
-            // Move the file to a temporary directory
-            $file->move(sys_get_temp_dir(), $filename);
-
-            // Dispatch a job to import users from the uploaded file
-            ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
-
-            // Redirect back with success message
-            return redirect()->back()->with('flash_success', 'Users Import started successfully!');
             } catch (ValidationException $e) {
                  return redirect()->back()->withErrors($e->errors())->withInput();
             } catch (FileNotFoundException $e) {

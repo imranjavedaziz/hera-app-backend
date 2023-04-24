@@ -14,15 +14,19 @@ use App\Mail\UserImportSuccessMail;
 class SendUserImportSuccessJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected $user;
+
+    protected $password;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $password)
     {
         $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -32,6 +36,6 @@ class SendUserImportSuccessJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->user->email)->send(new UserImportSuccessMail($this->user));
+        Mail::to($this->user->email)->send(new UserImportSuccessMail($this->user, $this->password));
     }
 }
