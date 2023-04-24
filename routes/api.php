@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChatFeedbackController;
 use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\ReportUserController;
+use App\Http\Controllers\Api\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,6 +132,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
+            Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
+            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
         });
 
         /***Only Parents route***/
