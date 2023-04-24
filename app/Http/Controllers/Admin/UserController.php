@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -16,6 +17,11 @@ use App\Helpers\Helper;
 use Validator;
 use App\Jobs\SendActiveDeactiveUserJob;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Illuminate\Validation\ValidationException;
+use App\Jobs\ImportUsersJob;
 
 class UserController extends AdminController
 {
@@ -118,5 +124,32 @@ class UserController extends AdminController
     {
         User::where('role_id',ADMIN)->update(['timezone' => $request->timezone]);
         return $this->sendResponse('success');
+    }
+
+    /**
+     * Import Users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function importUsers(Request $request)
+    {
+        try {
+            $valid = ['csv','xlsx'];
+            if (!$request->hasFile('file') || !in_array($request->file('file')->getClientOriginalExtension(), $valid)) {
+                return  redirect()->back()->withInput()->withErrors([ERROR => 'Only csv and excel files are allowed to be uploaded.']);
+            } else {
+                $file = $request->file('file');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(sys_get_temp_dir(), $filename);
+                ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
+                return redirect()->back()->with('flash_success', 'Users Import started successfully!');
+            }
+            } catch (ValidationException $e) {
+                 return redirect()->back()->withErrors($e->errors())->withInput();
+            } catch (FileNotFoundException $e) {
+                 return redirect()->back()->withErrors($e->getMessage())->withInput();
+            } catch (Exception $e) {
+                 return redirect()->back()->withErrors($e->getMessage())->withInput();
+            }
     }
 }

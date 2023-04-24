@@ -156,6 +156,7 @@ define('FIRST_NAME', 'first_name');
 define('MIDDLE_NAME', 'middle_name');
 define('LAST_NAME', 'last_name');
 define('EMAIL', 'email');
+define('PHONE_NO', 'phone_no');
 define('EMAIL_VERIFIED', 'email_verified');
 define('EMAIL_VERIFIED_AT', 'email_verified_at');
 define('DOB', 'dob');
@@ -182,7 +183,6 @@ define('NAME', 'name');
 //define phone varification table column
 define('PHONE_VERIFICATIONS', 'phone_verifications');
 define('COUNTRY_CODE', 'country_code');
-define('PHONE_NO', 'phone_no');
 define('OTP', 'otp');
 define('MAX_ATTEMPT', 'max_attempt');
 define('OTP_BLOCK_TIME', 'otp_block_time');
@@ -496,6 +496,9 @@ define('SUBSCRIPTION_TRIAL_PERIOD', '+30 days');
 
 // message limit constant
 define('MESSAGE_LIMIT', '70');
+
+//variable to bind with response
+define('ROW', 'row');
 
 //define TESTCASE Param
 define('APPLICATION_JSON','application/json');
