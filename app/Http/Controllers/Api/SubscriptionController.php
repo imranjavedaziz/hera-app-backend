@@ -52,7 +52,8 @@ class SubscriptionController extends Controller
     public function getPlan(Request $request)
     {
         try {
-            $response = response()->Success(trans('messages.common_msg.data_found'), SubscriptionService::getSubscriptionPlan());
+            $subscription = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,AuthHelper::authenticatedUser()->id)->orderBY(ID,DESC)->first();
+            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $subscription]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
