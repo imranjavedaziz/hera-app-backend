@@ -43,7 +43,7 @@ class ImportUsersJob implements ShouldQueue
             'existingRecords' => $existingRecords,
         ];
         $adminEmail = env('ADMIN_EMAIL', 'admin-mbc@yopmail.com');
-        Mail::send('emails.import-summary', $data, function ($message) use ($data,$adminEmail) {
+        Mail::send('emails.import-summary', $data, function ($message) use ($adminEmail) {
             $message->to($adminEmail)->subject('User Import Summary');
         });
     }
