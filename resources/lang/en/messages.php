@@ -47,6 +47,7 @@ return [
             'email_unique' => 'Entered email already exist. Please use another email to complete the registration.',
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'You have uploaded an image of more than 5MB size. Please re-upload a smaller size image.',
+            'pro_doc_max' => 'You have uploaded an document of more than 5MB size. Please re-upload a smaller size document.',
             'state_id_array_max_three' => 'You can select maximum 3 states.',
             'state_id_exists' => 'You have selected an invalid state. Please select a valid state from the list.',
             'image_required_without' => 'Either video or image is required.',

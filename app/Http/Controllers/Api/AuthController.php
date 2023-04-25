@@ -116,6 +116,8 @@ class AuthController extends Controller
                     $refreshToken = $this->createRefreshTokenForUser($user, $user_credentials);
                     $user->access_token = $oauth_token;
                     $user->refresh_token = $refreshToken;
+                    $user->stripe_key = env('STRIPE_KEY') ?? null;
+                    $user->stripe_secret = env('STRIPE_KEY') ?? null;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
                     $response = response()->Error($message);

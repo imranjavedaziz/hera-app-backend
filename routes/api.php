@@ -82,6 +82,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
+    Route::post('upload-document', [StateController::class, 'uploadDocument']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
