@@ -67,7 +67,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 EMAIL    => $row[EMAIL],
                 PHONE_NO => $row[PHONE_NO]
             ], [
-                ROLE_ID    => $row[ROLE_ID] === 'PARENTS_TO_BE' ? 2 : ($row[ROLE_ID] === 'SURROGATE_MOTHER' ? 3 : ($row[ROLE_ID] === 'EGG_DONER' ? 4 : ($row[ROLE_ID] === 'SPERM_DONER' ? 5 : null))),
+                ROLE_ID    => $this->getRoles($row[ROLE_ID]),
                 PROFILE_PIC    => '/assets/images/svg/user-icon.svg',
                 FIRST_NAME     => $row[FIRST_NAME],
                 LAST_NAME     => $row[LAST_NAME],
@@ -161,6 +161,17 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
     public function getSkippedRecordsCount()
     {
         return $this->skippedRecordsCount;
+    }
+
+    public function getRoles($roleKey) {
+        $roles = [
+            'PARENTS_TO_BE' => 2,
+            'SURROGATE_MOTHER' => 3,
+            'EGG_DONER' => 4,
+            'SPERM_DONER' => 5
+        ];
+
+        return $roles[$roleKey];
     }
     
 }

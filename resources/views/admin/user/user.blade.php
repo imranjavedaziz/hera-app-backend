@@ -20,7 +20,7 @@
                     <form action="{{url('admin/import-users')}}" autocomplete="off" id="form1" method="POST" enctype="multipart/form-data">
                         @csrf
                     <button type="button" class="btn-primary btn-import"><img src="/assets/images/svg/icon-export.svg" alt="download icon" />BULK UPLOAD
-                    <input name='file' class="input-file-style" type="file" id="formFile" onchange="javascript:this.form.submit();">
+                    <input name='file' class="input-file-style" type="file" id="formFile" onchange="javascript:this.form.submit();" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
 
                     </button>
                     </form>
