@@ -13,6 +13,7 @@ use Log;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Models\ParentsPreference;
 
 class SubscriptionController extends Controller
 {
@@ -52,8 +53,10 @@ class SubscriptionController extends Controller
     public function getPlan(Request $request)
     {
         try {
-            $subscription = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,AuthHelper::authenticatedUser()->id)->orderBY(ID,DESC)->first();
-            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $subscription]);
+            $userId = AuthHelper::authenticatedUser()->id;
+            $subscription = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            $preference = ParentsPreference::where(USER_ID, $userId)->first();
+            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $subscription,'preference' => $preference]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
