@@ -742,7 +742,6 @@ class AuthController extends Controller
         if (!empty($credentials[EXPIRE])) {
             return $credentials[EXPIRE];
         }
-        $tokenExpireTime = Carbon::now()->addDay(7);
-        return $tokenExpireTime;
+        return Carbon::now()->addDay(7);
     }
 }

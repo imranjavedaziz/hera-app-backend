@@ -134,21 +134,24 @@ class UserController extends AdminController
     public function importUsers(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'file' => 'required|max:51200'
+            ]);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
             $valid = ['csv','xlsx'];
             if (!$request->hasFile('file') || !in_array($request->file('file')->getClientOriginalExtension(), $valid)) {
-                return  redirect()->back()->withInput()->withErrors([ERROR => 'Only csv and excel files are allowed to be uploaded.']);
+                $response = redirect()->back()->withInput()->withErrors([ERROR => 'Only csv and excel files are allowed to be uploaded.']);
             } else {
                 $file = $request->file('file');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(sys_get_temp_dir(), $filename);
                 ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
-                return redirect()->back()->with('flash_success', 'Users Import started successfully!');
+                $response = redirect()->back()->with('flash_success', 'Users Import started successfully!');
             }
-            } catch (ValidationException $e) {
-                 return redirect()->back()->withErrors($e->errors())->withInput();
-            } catch (FileNotFoundException $e) {
-                 return redirect()->back()->withErrors($e->getMessage())->withInput();
-            } catch (Exception $e) {
+            return $response;
+            } catch (\Exception $e) {
                  return redirect()->back()->withErrors($e->getMessage())->withInput();
             }
     }
