@@ -600,3 +600,4 @@ define('EXPIRE', 'expire');
 define('REFRESH_TOKEN', 'refresh_token');
 define('METADATA', 'metadata');
 define('STRIPE_SECRET', 'STRIPE_SECRET');
+define('STRIPE_KEY', 'STRIPE_KEY');
