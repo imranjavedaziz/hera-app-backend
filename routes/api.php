@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChatFeedbackController;
 use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\ReportUserController;
+use App\Http\Controllers\Api\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,9 +81,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
+    Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
-        Route::get('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
         Route::post('match-password', [AuthController::class, 'matchPassword']);
         Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
@@ -131,6 +132,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
+            Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
+            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
         });
 
         /***Only Parents route***/
