@@ -125,4 +125,9 @@ return [
     'notify_status_in_active' => 'Push notifications turned off successfully!',
     'subscription_expire' => 'Your subscription has expired. Please renew your subscription now to use this feature.',
     'trial_subscription_expire' => 'Your trial period is over. Please subscribe now to use this feature.',
+    'bulk_import' => [
+        'success' => 'Users Import started successfully!',
+        'file_type' => 'Only csv and excel files are allowed to be uploaded.',
+        'file_max' => 'You have uploaded an document of more than 50MB size. Please upload a smaller size document.',
+    ],
 ];
