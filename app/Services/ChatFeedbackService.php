@@ -6,6 +6,8 @@ use App\Models\Feedback;
 use App\Models\CtaNextStep;
 use DB;
 use App\Jobs\SendNextStepsMail;
+use App\Models\ChatMedia;
+use App\Helpers\AuthHelper;
 
 class ChatFeedbackService
 {
@@ -43,5 +45,40 @@ class ChatFeedbackService
             return [SUCCESS => true, MESSAGE => __('messages.chat.nextSteps'), DATA => $ctaNextSteps];
         }
         return [SUCCESS => false];
+    }
+
+    public function saveChatMedia($uploadDocument, $input) {
+        $chatMedia = new ChatMedia();
+        $chatMedia->from_user_id = AuthHelper::authenticatedUser()->id;
+        $chatMedia->to_user_id = $input[TO_USER_ID];
+        $chatMedia->url = $uploadDocument[FILE_URL];
+        if($chatMedia->save()){
+            return [SUCCESS => true, DATA => $this->getFileSIze($input[FILE])];
+        }
+        return [SUCCESS => false];
+    }
+
+    public function getFileSIze($file) {
+        $sizeInBytes = $file->getSize();
+        $sizeInKB = $sizeInBytes / 1024;
+        if ($sizeInKB < 1024) {
+            return number_format($sizeInKB, 2) . ' KB';
+        } else {
+            $sizeInMB = $sizeInKB / 1024;
+            return number_format($sizeInMB, 2) . ' MB';
+        }
+    }
+
+    public function getChatMedia($to_user_id)  {
+        $from_user_id = AuthHelper::authenticatedUser()->id;
+        return ChatMedia::select(FROM_USER_ID, TO_USER_ID, URL, UPDATED_AT, CREATED_AT)
+        ->where(function ($query) use ($from_user_id, $to_user_id) {
+            $query->where(FROM_USER_ID, $from_user_id);
+            $query->where(TO_USER_ID, $to_user_id);  
+        })
+        ->orWhere(function ($query) use ($from_user_id, $to_user_id) {
+            $query->where(FROM_USER_ID, $to_user_id);
+            $query->where(TO_USER_ID, $from_user_id);  
+        });
     }
 }

@@ -12,6 +12,7 @@ define('SEVEN', 7);
 define('EIGHT', 8);
 define('NINE', 9);
 define('TEN', 10);
+define('FIFTEEN', 15);
 define('THIRTY', 30);
 define('TWENTY', 20);
 
@@ -601,3 +602,4 @@ define('REFRESH_TOKEN', 'refresh_token');
 define('METADATA', 'metadata');
 define('STRIPE_SECRET', 'STRIPE_SECRET');
 define('STRIPE_KEY', 'STRIPE_KEY');
+define('URL', 'url');
