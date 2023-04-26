@@ -281,7 +281,7 @@ a {
     margin-right: 10px; }
   .alert .alert-text {
     display: flex;
-    align-items: center; }
+    align-items: flex-start; }
   .alert.alert-warning {
     color: #fff;
     background-color: #ff4544; }
