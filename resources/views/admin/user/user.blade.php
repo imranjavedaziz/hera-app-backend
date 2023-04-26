@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="user-title-info">
                                             <h5>{{CustomHelper::fullName($user)}}</h5>
-                                            <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p>
+                                            @if($user->status_id != 6) <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p> @endif
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                                         <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
                                             Active
                                         </span>
-                                        <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
+                                        <span class="inactive-span @if($user->status_id != 6) text-danger @endif @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
                                             @if($user->status_id == 6) - @elseif($user->status_id == 5) Deleted @else Inactive @endif <br>
                                             <span>
                                                 @if($user->deactivated_by == 1 || $user->deleted_by == 1) 

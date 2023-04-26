@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\ChatFeedbackController;
 use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\Api\StripeController;
+use App\Http\Controllers\Api\ChatMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +83,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
-    Route::post('upload-document', [StateController::class, 'uploadDocument']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
@@ -110,7 +110,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
         Route::post('/change-password', [UserController::class, 'changePassword']);
 
-        //Enquiry Routes
+        Route::post('upload-document', [ChatMediaController::class, 'uploadDocument']);
+        Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
 
 
         /***Only Donar route***/
