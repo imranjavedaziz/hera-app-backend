@@ -102,6 +102,7 @@ return [
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
     'user_account_deactivated_by_admin' => 'Your account has been deactivated by admin. Please contact HERA Support to get it re-activated.',
     'user_account_deleted_by_admin' => 'Your account has been deleted by admin. Please contact HERA support.',
+    'user_account_imported_by_admin' => 'Your account has been deactivated by admin. Please contact HERA support.',
     'admin' => [
         'invalid_credentail' => 'Please login with valid credentials.',
         'account_deactive' => 'User deactivated successfully!',
@@ -126,7 +127,7 @@ return [
     'subscription_expire' => 'Your subscription has expired. Please renew your subscription now to use this feature.',
     'trial_subscription_expire' => 'Your trial period is over. Please subscribe now to use this feature.',
     'bulk_import' => [
-        'success' => 'Users Import started successfully!',
+        'success' => 'The Users Import has begun and we will notify you via email once the sheet has been successfully imported.',
         'file_type' => 'Only csv and excel files are allowed to be uploaded.',
         'file_max' => 'You have uploaded an document of more than 50MB size. Please upload a smaller size document.',
     ],
