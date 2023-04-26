@@ -69,7 +69,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 PHONE_NO => $row[PHONE_NO]
             ], [
                 ROLE_ID    => $this->getRoles($row[ROLE_ID]),
-                PROFILE_PIC    => '/assets/images/svg/user-icon.svg',
+                PROFILE_PIC    => 'https://mbc-dev-kiwitech.s3.amazonaws.com/chat/documents/BAhVUNjoIiwM81TNc3NdkNCVjxeU6GyyPRP8C30l.jpg',
                 FIRST_NAME     => $row[FIRST_NAME],
                 LAST_NAME     => $row[LAST_NAME],
                 PHONE_NO    => $row[PHONE_NO],
