@@ -62,7 +62,8 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
         }
 
         try {
-            $randomPassword = $this->rand_passwd();
+            /**$randomPassword = $this->rand_passwd(); **/
+            $randomPassword = 'Admin@123';
             $user = User::firstOrCreate([
                 EMAIL    => $row[EMAIL],
                 PHONE_NO => $row[PHONE_NO]
