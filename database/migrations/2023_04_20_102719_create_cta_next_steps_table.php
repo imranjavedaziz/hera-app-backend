@@ -3,9 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\CommonMigrationMethods;
 
 class CreateCtaNextStepsTable extends Migration
 {
+    use CommonMigrationMethods;
     /**
      * Run the migrations.
      *
@@ -15,11 +17,7 @@ class CreateCtaNextStepsTable extends Migration
     {
         Schema::create('cta_next_steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(FROM_USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
-            $table->foreignId(TO_USER_ID)->constrained(USERS)->onDelete(CASCADE)->onUpdate(CASCADE);
-            $table->tinyInteger(STATUS)->nullable()->default(ONE);
-            $table->timestamp(CREATED_AT)->useCurrent();
-            $table->timestamp(UPDATED_AT)->default(\DB::raw(USE_UPDATE_CURRENT_TIME));
+            $this->commonColumns($table);
         });
     }
 

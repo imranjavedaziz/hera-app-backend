@@ -15,12 +15,12 @@
 
     @if(is_array($skippedRecords) && count($skippedRecords) > 0)
             <p>Skipped records:</p>
-            <table>
+            <table aria-describedby="report List">
                 <thead>
                     <tr>
-                        <th>Row No.</th>
-                        <th>Email</th>
-                        <th>Error</th>
+                        <th scope="col">Row No.</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Error</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,12 +46,12 @@
 
     @if(is_array($existingRecords) && count($existingRecords) > 0)
         <p>Already existing records:</p>
-        <table>
+        <table aria-describedby="existing report">
             <thead>
                 <tr>
-                    <th>Row No.</th>
-                    <th>Email</th>
-                    <th>Status</th>
+                    <th scope="col">Row No.</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody>

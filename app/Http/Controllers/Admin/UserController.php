@@ -138,17 +138,17 @@ class UserController extends AdminController
                 'file' => 'required|max:51200'
             ]);
             if ($validator->fails()) {
-                throw new ValidationException($validator);
+                return redirect()->back()->with('flash_error', trans('messages.bulk_import.file_max'));
             }
             $valid = ['csv','xlsx'];
             if (!$request->hasFile('file') || !in_array($request->file('file')->getClientOriginalExtension(), $valid)) {
-                $response = redirect()->back()->withInput()->withErrors([ERROR => 'Only csv and excel files are allowed to be uploaded.']);
+                $response = redirect()->back()->with('flash_error', trans('messages.bulk_import.file_type'));
             } else {
                 $file = $request->file('file');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(sys_get_temp_dir(), $filename);
                 ImportUsersJob::dispatch(sys_get_temp_dir() . '/' . $filename);
-                $response = redirect()->back()->with('flash_success', 'Users Import started successfully!');
+                $response = redirect()->back()->with('flash_success', trans('messages.bulk_import.success'));
             }
             return $response;
             } catch (\Exception $e) {

@@ -3,12 +3,13 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
+                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success') || session()->get('flash_error')) display: block @else display: none @endif">
                 <div class ="alert-boxes">    
                 <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
                         </span> <span id="deactivate-msg">@if(session()->get('flash_success')) {{ session()->get('flash_success') }} @endif</span>
+                        <span @if(session()->get('flash_error')) class="alert alert-danger" @endif>@if(session()->get('flash_error')) {{ session()->get('flash_error') }} @endif</span>
                     </div>
                     <div class="text-end">
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
@@ -144,7 +145,7 @@
     <script src="{{ asset('assets/lightbox/lightboxed.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            @if(session()->get('flash_success'))
+            @if(session()->get('flash_success') || session()->get('flash_error'))
                 $("#deactivate-msg-box").delay(3000).fadeOut();
             @endif
             $(document).on('click', '.open-detail-modal', function(e){
