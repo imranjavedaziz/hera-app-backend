@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\ChatMediaController;
+use App\Http\Controllers\Api\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,7 +113,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 
         Route::post('upload-document', [ChatMediaController::class, 'uploadDocument']);
         Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
-
+        Route::get('match-list', [PaymentController::class, 'getMatchList']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
