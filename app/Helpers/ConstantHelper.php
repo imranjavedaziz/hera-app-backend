@@ -603,3 +603,5 @@ define('METADATA', 'metadata');
 define('STRIPE_SECRET', 'STRIPE_SECRET');
 define('STRIPE_KEY', 'STRIPE_KEY');
 define('URL', 'url');
+define('AMOUNT', 'amount');
+define('DOC_URL', 'doc_url');

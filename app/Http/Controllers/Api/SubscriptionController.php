@@ -174,7 +174,8 @@ class SubscriptionController extends Controller
         try {
             $userId = AuthHelper::authenticatedUser()->id;
             $user = User::where(ID,$userId)->first();
-            $isTrial = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  true : false;
+            $subscription = Subscription::where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            $isTrial = empty($subscription) ?  true : false;
             $trial_end = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->created_at))) : null;
             $trial_msg = 'Your free trial period expires on';
             $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
