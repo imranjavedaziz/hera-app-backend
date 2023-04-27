@@ -114,6 +114,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('upload-document', [ChatMediaController::class, 'uploadDocument']);
         Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
         Route::get('match-list', [PaymentController::class, 'getMatchList']);
+        Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
+
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -123,6 +125,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
+            Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
