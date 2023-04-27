@@ -274,8 +274,10 @@ class SubscriptionService
     }
 
     public function getTrialExpiredSubscription() {
-        $thirtyDaytoday = Carbon::now()->subDays(THIRTY)->format(YMD_FORMAT);
-        return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        /**$thirtyDaytoday = Carbon::now()->subDays(THIRTY)->format(YMD_FORMAT);
+        return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();**/
+        $thirtyDaytoday = Carbon::now()->subHours(1)->format(DATE_TIME);
+        return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getExpiredSubcription() {
