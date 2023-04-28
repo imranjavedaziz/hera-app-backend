@@ -57,11 +57,7 @@ class PaymentController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $matchList = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id, $request->keyword);
-            if ($matchList) {
-                $response = response()->Success(trans('messages.common_msg.data_found'), $matchList->paginate($limit));
-            } else {
-                $response = response()->Error(trans('messages.common_msg.no_data_found'));
-            }
+            $response = response()->Success(trans('messages.common_msg.data_found'), $matchList->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -199,11 +195,48 @@ class PaymentController extends Controller
     {
         try {
             $uploadDocument = UserRegisterService::uploadFile($request->all(),'payment/documents');
-            if ($uploadDocument) {
-                $response = response()->Success(SUCCESS, $uploadDocument);
-            } else {
-                $response = response()->Error(trans(LANG_SOMETHING_WRONG));
-            }
+            $response = response()->Success(SUCCESS, $uploadDocument);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/payment-request-list",
+     *      operationId="payment-request-list",
+     *      tags={"Payment"},
+     *      summary="Get payment request list",
+     *      description="Get payment request list",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getPaymentRequestList(Request $request)
+    {
+        try {
+            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $paymentRequestList = PaymentService::getPaymentRequestList(AuthHelper::authenticatedUser());
+            $response = response()->Success(trans('messages.common_msg.data_found'), $paymentRequestList->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

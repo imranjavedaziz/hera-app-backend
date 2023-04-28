@@ -134,11 +134,7 @@ class ChatMediaController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : FIFTEEN;
             $chatMedia = ChatFeedbackService::getChatMedia($request->to_user_id);
-            if ($chatMedia) {
-                $response = response()->Success(trans('messages.common_msg.data_found'), $chatMedia->paginate($limit));
-            } else {
-                $response = response()->Error(trans('messages.common_msg.no_data_found'));
-            }
+            $response = response()->Success(trans('messages.common_msg.data_found'), $chatMedia->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
