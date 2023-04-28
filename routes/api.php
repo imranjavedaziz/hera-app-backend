@@ -126,6 +126,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
+            Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){

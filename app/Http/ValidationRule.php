@@ -63,4 +63,5 @@ class ValidationRule
     public const REFRESH_TOKEN =[BAIL, REQUIRED, STRING];
     public const AMOUNT =[BAIL, REQUIRED, NUMERIC];
     public const DOC_URL =[BAIL, SOMETIMES, NULLABLE];
+    public const FILE =[BAIL, REQUIRED,FILE,'mimes:jpeg,png,gif,pdf'];
 }

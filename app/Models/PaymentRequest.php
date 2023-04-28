@@ -17,4 +17,12 @@ class PaymentRequest extends Model
     protected $fillable = [
         FROM_USER_ID,TO_USER_ID,AMOUNT,DOC_URL,STATUS
     ];
+
+    public function donar(){
+        return $this->belongsTo(User::class,FROM_USER_ID,ID);
+    }
+
+    public function ptb(){
+        return $this->belongsTo(User::class,TO_USER_ID,ID);
+    }
 }
