@@ -24,5 +24,6 @@ class SubscriptionPlan extends Model
         ANDROID_PRODUCT,
         FOR_WHOM,
         STATUS_ID,
+        ROLE_ID_LOOKING_FOR,
     ];
 }

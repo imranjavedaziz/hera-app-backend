@@ -37,6 +37,7 @@ class User extends Authenticatable implements JWTSubject
         REGISTRATION_STEP,
         RECENT_ACTIVITY,
         SUBSCRIPTION_STATUS,
+        TRIAL_START,
     ];
 
     /**

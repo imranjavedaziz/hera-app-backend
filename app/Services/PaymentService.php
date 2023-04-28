@@ -52,4 +52,11 @@ class PaymentService
         }
     }
 
+    public function updatePaymentRequestStatus($input) {
+        return PaymentRequest::where(ID, $input[PAYMENT_REQUEST_ID])->update([STATUS => $input[STATUS]]);
+    }
+
+    public function checkPaymentRequestBelongToPtb($input, $userId) {
+        return PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID], TO_USER_ID => $userId])->first();
+    }
 }
