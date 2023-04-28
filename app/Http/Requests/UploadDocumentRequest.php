@@ -28,7 +28,7 @@ class UploadDocumentRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            FILE => 'required|file|mimes:jpeg,png,gif,pdf',
+            FILE => ValidationRule::FILE,
         ];
     }
 
@@ -48,7 +48,7 @@ class UploadDocumentRequest extends ApiFormRequest
     public function messages()
     {
         return [
-            PRO_PIC_MAX => __('messages.request_validation.error_msgs.pro_doc_max'),
+            FILE_MAX => __('messages.request_validation.error_msgs.pro_doc_max'),
         ];
     }
 }

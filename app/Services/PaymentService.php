@@ -8,7 +8,7 @@ use App\Models\User;
 
 class PaymentService
 {
-    function getUsersByProfileMatchAndKeyword($user_id, $keyword) {
+    public function getUsersByProfileMatchAndKeyword($user_id, $keyword) {
         $users = User::whereIn(ID, function ($query) use ($user_id) {
                 $query->select(FROM_USER_ID)
                     ->from('profile_matches')
@@ -32,7 +32,7 @@ class PaymentService
         return $users;
     }
 
-    function savePaymentRequest($user_id, $input) {
+    public function savePaymentRequest($user_id, $input) {
         $paymentRequest = new PaymentRequest();
         $paymentRequest->from_user_id = $user_id;
         $paymentRequest->to_user_id = $input[TO_USER_ID];
@@ -43,4 +43,13 @@ class PaymentService
         }
         return [SUCCESS => false];
     }
+
+    public function getPaymentRequestList($user) {
+        if ($user->role_id == PARENTS_TO_BE) {
+            return PaymentRequest::with(['donar'])->where(TO_USER_ID, $user->id)->orderBy(ID, DESC);
+        } else {
+            return PaymentRequest::with(['ptb'])->where(FROM_USER_ID, $user->id)->orderBy(ID, DESC);
+        }
+    }
+
 }

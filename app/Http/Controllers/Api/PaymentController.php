@@ -209,4 +209,49 @@ class PaymentController extends Controller
         }
         return $response;
     }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/payment-request-list",
+     *      operationId="payment-request-list",
+     *      tags={"Payment"},
+     *      summary="Get payment request list",
+     *      description="Get payment request list",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getPaymentRequestList(Request $request)
+    {
+        try {
+            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $paymentRequestList = PaymentService::getPaymentRequestList(AuthHelper::authenticatedUser());
+            if ($paymentRequestList) {
+                $response = response()->Success(trans('messages.common_msg.data_found'), $paymentRequestList->paginate($limit));
+            } else {
+                $response = response()->Error(trans('messages.common_msg.no_data_found'));
+            }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
 }

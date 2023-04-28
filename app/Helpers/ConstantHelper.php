@@ -605,3 +605,4 @@ define('STRIPE_KEY', 'STRIPE_KEY');
 define('URL', 'url');
 define('AMOUNT', 'amount');
 define('DOC_URL', 'doc_url');
+define('FILE_MAX', 'file.max');
