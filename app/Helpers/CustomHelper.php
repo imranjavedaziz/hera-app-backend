@@ -121,4 +121,17 @@ class CustomHelper
         }
         return $message;
     }
+
+    public static function createRefreshTokenForUser(User $user, array $credentials): string
+    {
+        $data = serialize([
+            USER_ID => $user->id
+        ]);
+        $iv = openssl_random_pseudo_bytes(IV_LENGTH);
+        $token = openssl_encrypt($data, CIPHER_REFRESH_TOKEN, env('JWT_SECRET'), OPENSSL_RAW_DATA, $iv);
+        $token = base64_encode($iv . $token);
+        $user->timestamps = false;
+        User::where(ID, $user->id)->update([REFRESH_TOKEN => $token]);
+        return $token;
+    }
 }
