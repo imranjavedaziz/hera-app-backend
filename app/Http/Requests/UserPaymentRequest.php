@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
-use App\Http\ValidationRule;
 use App\Http\Requests\ApiFormRequest;
+use App\Http\ValidationRule;
 
-class UploadDocumentRequest extends ApiFormRequest
+class UserPaymentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,9 @@ class UploadDocumentRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            FILE => 'required|file|mimes:jpeg,png,gif,pdf',
+            TO_USER_ID => ValidationRule::USER_ID,
+            AMOUNT => ValidationRule::AMOUNT,
+            DOC_URL => ValidationRule::DOC_URL,
         ];
     }
 
@@ -37,18 +39,6 @@ class UploadDocumentRequest extends ApiFormRequest
      */
     protected function formatErrors($errors)
     {
-        return !empty($errors) ? $errors : "";
-    }
-    
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            PRO_PIC_MAX => __('messages.request_validation.error_msgs.pro_doc_max'),
-        ];
+        return !empty($errors) ? $errors->first()[0] : "";
     }
 }

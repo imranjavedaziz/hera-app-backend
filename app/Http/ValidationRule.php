@@ -61,4 +61,6 @@ class ValidationRule
     public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
     public const USER_TIMEZONE =[BAIL, REQUIRED];
     public const REFRESH_TOKEN =[BAIL, REQUIRED, STRING];
+    public const AMOUNT =[BAIL, REQUIRED, NUMERIC];
+    public const DOC_URL =[BAIL, SOMETIMES, NULLABLE];
 }
