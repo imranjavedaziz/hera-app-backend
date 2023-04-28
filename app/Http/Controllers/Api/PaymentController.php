@@ -11,6 +11,7 @@ use Facades\{
 };
 use App\Http\Requests\UserPaymentRequest;
 use App\Http\Requests\UploadDocumentRequest;
+use App\Http\Requests\PaymentRequestStatusRequest;
 use DB;
 
 class PaymentController extends Controller
@@ -237,6 +238,70 @@ class PaymentController extends Controller
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $paymentRequestList = PaymentService::getPaymentRequestList(AuthHelper::authenticatedUser());
             $response = response()->Success(trans('messages.common_msg.data_found'), $paymentRequestList->paginate($limit));
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/payment-request-status",
+     *      operationId="update-payment-request-status",
+     *      tags={"Payment"},
+     *      summary="Update payment request status",
+     *      description="Update payment request status",
+     *      @OA\RequestBody(
+     *        required = true,
+     *        description = "Update booking status 2- > Invalid request, 3- Already paid",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="payment_request_id",
+     *                type="integer",
+     *                example="1"
+     *             ),
+     *             @OA\Property(
+     *                property="status",
+     *                type="integer",
+     *                example="2"
+     *             )
+     *         ),
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function updatePaymentRequestStatus(PaymentRequestStatusRequest $request)
+    {
+        try {
+            if (!PaymentService::checkPaymentRequestBelongToPtb($request->all(), AuthHelper::authenticatedUser()->id)) {
+                return response()->Error(trans('messages.payment.invalid_request'));
+            }
+            PaymentService::updatePaymentRequestStatus($request->all());
+            $response = response()->Success(trans('messages.payment.request_rejected'));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

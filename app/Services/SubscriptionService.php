@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Models\ProfileMatch;
+use App\Models\ParentsPreference;
 use App\Services\ReceiptService;
 use Log;
 use Carbon\Carbon;
@@ -40,6 +41,7 @@ class SubscriptionService
             $fields[ORIGINAL_TRANSACTION_ID] = $receiptService[DATA][ORIGINAL_TRANSACTION_ID];
             $subscriptionFields = $this->setSubscriptionFields($fields);
             Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
+            ParentsPreference::where(USER_ID, $userId)->update([ROLE_ID_LOOKING_FOR => $plan->role_id_looking_for]);
             if(!empty($subscriptionFields)) {
                 return $this->createNewSubscription($subscriptionFields);
             }
@@ -224,7 +226,7 @@ class SubscriptionService
 
     public function getTrialSubscriptionEndBeforeTenDay() {
         $twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
-        return User::whereDate(CREATED_AT,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        return User::whereDate(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {
@@ -277,7 +279,7 @@ class SubscriptionService
         /**$thirtyDaytoday = Carbon::now()->subDays(THIRTY)->format(YMD_FORMAT);
         return User::whereDate(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();**/
         $thirtyDaytoday = Carbon::now()->subHours(1)->format(DATE_TIME);
-        return User::where(CREATED_AT,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        return User::where(TRIAL_START,'<=',$thirtyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getExpiredSubcription() {

@@ -606,3 +606,6 @@ define('URL', 'url');
 define('AMOUNT', 'amount');
 define('DOC_URL', 'doc_url');
 define('FILE_MAX', 'file.max');
+define('TRIAL_START', 'trial_start');
+define('PAYMENT_REQUEST_ID', 'payment_request_id');
+define('EXISTS_PAYMENT_REQUEST_ID', 'exists:payment_requests,id');

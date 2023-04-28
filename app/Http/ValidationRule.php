@@ -64,4 +64,5 @@ class ValidationRule
     public const AMOUNT =[BAIL, REQUIRED, NUMERIC];
     public const DOC_URL =[BAIL, SOMETIMES, NULLABLE];
     public const FILE =[BAIL, REQUIRED,FILE,'mimes:jpeg,png,gif,pdf'];
+    public const PAYMENT_REQUEST_ID =[BAIL, REQUIRED, EXISTS_PAYMENT_REQUEST_ID];
 }
