@@ -105,7 +105,7 @@ trait ParentsToBeMatchedDonerTrait
         $value = LOCATION_VALUE * 1/3;
         $state_id = $donarState ? $donarState->state_id : NULL;
         $statePreference = explode(',',$preference);
-        if (isset($state_id) && in_array($donarState, $statePreference)) {
+        if (isset($state_id) && in_array($state_id , $statePreference)) {
             $value = LOCATION_VALUE;
         }
         return $value;
