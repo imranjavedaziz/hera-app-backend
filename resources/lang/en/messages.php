@@ -133,5 +133,7 @@ return [
     ],
     'payment' => [
         'payment_request' => 'Payment request sent successfully!',
+        'request_rejected' => 'Payment request rejected successfully!',
+        'invalid_request' => 'Payment request is not belongs to this account.',
     ],
 ];
