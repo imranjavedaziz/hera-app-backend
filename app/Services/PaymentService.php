@@ -31,4 +31,16 @@ class PaymentService
     
         return $users;
     }
+
+    function savePaymentRequest($user_id, $input) {
+        $paymentRequest = new PaymentRequest();
+        $paymentRequest->from_user_id = $user_id;
+        $paymentRequest->to_user_id = $input[TO_USER_ID];
+        $paymentRequest->amount = $input[AMOUNT];
+        $paymentRequest->doc_url = $input[DOC_URL];
+        if($paymentRequest->save()){
+            return [SUCCESS => true, DATA => $paymentRequest];
+        }
+        return [SUCCESS => false];
+    }
 }

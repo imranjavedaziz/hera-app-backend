@@ -131,4 +131,7 @@ return [
         'file_type' => 'Only csv and excel files are allowed to be uploaded.',
         'file_max' => 'You have uploaded an document of more than 50MB size. Please upload a smaller size document.',
     ],
+    'payment' => [
+        'payment_request' => 'Payment request sent successfully!',
+    ],
 ];

@@ -113,9 +113,7 @@ class AuthController extends Controller
                         dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
                         dispatch(new UpdateStatusOnFirebaseJob($user, ACTIVE, STATUS_ID));
                     }
-                    $refreshToken = $this->createRefreshTokenForUser($user, $user_credentials);
                     $user->access_token = $oauth_token;
-                    $user->refresh_token = $refreshToken;
                     $user->stripe_key = env(STRIPE_KEY) ?? null;
                     $user->stripe_secret = env(STRIPE_SECRET) ?? null;
                     $response = response()->Success(trans('messages.logged_in'), $user);
@@ -388,14 +386,11 @@ class AuthController extends Controller
             return response()->json([MESSAGE => 'cant decrypt token'], Response::HTTP_FORBIDDEN);
         }
         $data = unserialize($data);
-        if ($data[EXPIRE] < Carbon::now()) {
-            return response()->json([MESSAGE => 'Token is expired.'], Response::HTTP_FORBIDDEN);
-        }
         $user = User::where(ID, $data[USER_ID])->first();
         if ($refreshToken !== $user->refresh_token) {
             $response = response()->json([MESSAGE => __('messages.invalid_access_token')], Response::HTTP_FORBIDDEN);
         }else{
-            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => $this->createRefreshTokenForUser($user, $data)], Response::HTTP_OK);
+            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user, $data)], Response::HTTP_OK);
         }
 
         return $response;
@@ -723,27 +718,5 @@ class AuthController extends Controller
             $response = response()->Error($e->getMessage());
         }
         return $response;
-    }
-
-    protected function createRefreshTokenForUser(User $user, array $credentials): string
-    {
-        $data = serialize([
-            USER_ID => $user->id,
-            EXPIRE => $this->getTokenExpireTime($credentials)
-        ]);
-        $iv = openssl_random_pseudo_bytes(IV_LENGTH);
-        $token = openssl_encrypt($data, CIPHER_REFRESH_TOKEN, env('JWT_SECRET'), OPENSSL_RAW_DATA, $iv);
-        $token = base64_encode($iv . $token);
-        $user->timestamps = false;
-        User::where(ID, $user->id)->update([REFRESH_TOKEN => $token]);
-        return $token;
-    }
-
-    private function getTokenExpireTime(array $credentials): Carbon
-    {
-        if (!empty($credentials[EXPIRE])) {
-            return $credentials[EXPIRE];
-        }
-        return Carbon::now()->addDay(7);
     }
 }
