@@ -20,24 +20,41 @@ class SubscriptionPlanSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $subscriptionPlan = [
             [
-                NAME  => MONTHLY_PLAN_NAME,
-                PRICE  => MONTHLY_PLAN_PRICE,
-                INTERVAL  => 'month',
+                ROLE_ID_LOOKING_FOR => SURROGATE_MOTHER,
+                NAME  => SURROGATE_MONTHLY_PLAN_NAME,
+                PRICE  => SURROGATE_MONTHLY_PLAN_PRICE,
+                INTERVAL  => MONTH,
                 INTERVAL_COUNT  => ONE,
                 DESCRIPTION  => MONTHLY_PLAN_DESCRIPTION,
-                IOS_PRODUCT  => MONTHLY_IOS_PRODUCT,
-                ANDROID_PRODUCT  => MONTHLY_ANDROID_PRODUCT,
+                IOS_PRODUCT  => SURROGATE_MONTHLY_IOS_PLAN,
+                ANDROID_PRODUCT  => SURROGATE_MONTHLY_ANDROID_PLAN,
+                OFFER_TOKEN => SURROGATE_MONTHLY_OFFER_TOKEN,
                 FOR_WHOM  => ONE,
-                STATUS_ID   => ACTIVE     
+                STATUS_ID   => ACTIVE
             ],
             [
-                NAME  => YEARLY_PLAN_NAME,
-                PRICE  => YEARLY_PLAN_PRICE,
-                INTERVAL  => 'year',
+                ROLE_ID_LOOKING_FOR => EGG_DONER,
+                NAME  => EGG_DONER_MONTHLY_PLAN_NAME,
+                PRICE  => EGG_DONER_MONTHLY_PLAN_PRICE,
+                INTERVAL  => MONTH,
                 INTERVAL_COUNT  => ONE,
-                DESCRIPTION  => YEARLY_PLAN_DESCRIPTION,
-                IOS_PRODUCT  => YEARLY_IOS_PRODUCT,
-                ANDROID_PRODUCT  => YEARLY_ANDROID_PRODUCT,
+                DESCRIPTION  => MONTHLY_PLAN_DESCRIPTION,
+                IOS_PRODUCT  => EGG_DONER_MONTHLY_IOS_PLAN,
+                ANDROID_PRODUCT  => EGG_DONER_MONTHLY_ANDROID_PLAN,
+                OFFER_TOKEN => EGG_DONER_MONTHLY_OFFER_TOKEN,
+                FOR_WHOM  => ONE,
+                STATUS_ID   => ACTIVE
+            ],
+            [
+                ROLE_ID_LOOKING_FOR => SPERM_DONER,
+                NAME  => SPERM_DONER_MONTHLY_PLAN_NAME,
+                PRICE  => SPERM_DONER_MONTHLY_PLAN_PRICE,
+                INTERVAL  => MONTH,
+                INTERVAL_COUNT  => ONE,
+                DESCRIPTION  => MONTHLY_PLAN_DESCRIPTION,
+                IOS_PRODUCT  => SPERM_DONER_MONTHLY_IOS_PLAN,
+                ANDROID_PRODUCT  => SPERM_DONER_MONTHLY_ANDROID_PLAN,
+                OFFER_TOKEN => SPERM_DONER_MONTHLY_OFFER_TOKEN,
                 FOR_WHOM  => ONE,
                 STATUS_ID   => ACTIVE
             ],

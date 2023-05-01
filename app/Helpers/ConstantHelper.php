@@ -469,17 +469,29 @@ define('PROFILE_MATCH', "profile_match");
 
 
 //Subscription Plan details
-define('MONTHLY_PLAN_NAME', "HereDev-Monthly");
-define('MONTHLY_PLAN_PRICE', "99.99");
-define('MONTHLY_PLAN_DESCRIPTION', "6 Month Commitment");
-define('MONTHLY_IOS_PRODUCT', "com.HeraDev.Monthly");
-define('MONTHLY_ANDROID_PRODUCT', "");
+define('SURROGATE_MONTHLY_IOS_PLAN', "com.HeraDev.SurrogateMonthly");
+define('EGG_DONER_MONTHLY_IOS_PLAN', "com.HeraDev.EggDonorMonthly");
+define('SPERM_DONER_MONTHLY_IOS_PLAN', "com.HeraDev.SpermDonorMonthly");
 
-define('YEARLY_PLAN_NAME', "HereDev-Yearly");
-define('YEARLY_PLAN_PRICE', "199.99");
-define('YEARLY_PLAN_DESCRIPTION', "12 Month Commitment");
-define('YEARLY_IOS_PRODUCT', "com.HeraDev.Yearly");
-define('YEARLY_ANDROID_PRODUCT', "");
+define('SURROGATE_MONTHLY_ANDROID_PLAN', "com.hera_dev.surrogate_monthly");
+define('EGG_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.egg_donor_monthly");
+define('SPERM_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_monthly");
+
+define('SURROGATE_MONTHLY_PLAN_NAME', "Surrogate Mother Monthly");
+define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donar Monthly");
+define('SPERM_DONER_MONTHLY_PLAN_NAME', "SPERM Donar Monthly");
+
+define('SURROGATE_MONTHLY_PLAN_PRICE', "299");
+define('EGG_DONER_MONTHLY_PLAN_PRICE', "299");
+define('SPERM_DONER_MONTHLY_PLAN_PRICE', "99");
+
+define('SURROGATE_MONTHLY_OFFER_TOKEN', "AUj/Yhj86TWvWZ0H8SiVPKDvOR1q1RK+qgS8e06fapC9I1SuSYHK4BU1tpZlmMOef3I7+ne9wKzyEnzxs2Cglhnjz0RwZJ2cvxpJ8PY6qASCmn9HtCibyZQi9JlA21AqKRMRTj7r7oJO7Wd5xz9fCKFrrg==");
+define('EGG_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhhOOiDqmnUvT9UpujRzHksqKIpX6NKCf/bDm20eYgWbMaMNSAzAckhBhlIOlWcQP61LnjmAllZE7nxde7K0wn+jFbR5GfRiU5evHD7YQOMR9MXjXn5zNLEtmNrD8kZnD1APNUsYi3IXtbRlSdg=");
+define('SPERM_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LOO2SkrwOZToU3Wz2/JkdC6zWrAURuz3jMrH6dWhCTq6x14Ur2D6QFkfAF4VU5TaOkU+ewnxwCjF1YNViylFVbGPJfIffpMGVJN1Iz8fpoBcxdnB58lyTzQsIhRww==");
+
+define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
+define('MONTH', "month");
+define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
 
