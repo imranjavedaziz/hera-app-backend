@@ -39,6 +39,8 @@ class KycRequest extends ApiFormRequest
             'postal_code' => REQUIRED,
             'ssn_last_4' => REQUIRED,
             'bank_token_id' => REQUIRED,
+            'document_front' => REQUIRED,
+            'document_back' => REQUIRED,
         ];
     }
 

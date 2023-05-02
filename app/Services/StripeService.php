@@ -57,6 +57,8 @@ class StripeService
     public function saveKycDetails($user, $input, $clientIP)
     {
         try {
+            $documentFront = $this->uploadVerificationFile($input['document_front'],$user);
+            $documentBack = $this->uploadVerificationFile($input['document_back'],$user);
             $this->stripeClient->accounts->update(
                 $user->connected_acc_token,
                 [
@@ -80,7 +82,8 @@ class StripeService
                         ],
                         'verification' => [
                             'document' => [
-                                'front' => $input['document_front'],
+                                'front' => $documentFront[ID],
+                                'back' => $documentBack[ID]
                             ],
                         ],
                     ],
@@ -105,10 +108,10 @@ class StripeService
         }
     }
 
-    public function uploadVerificationFile($input,$user)
+    public function uploadVerificationFile($file,$user)
     {
         try {
-            $fp = fopen($input[FILE], 'r');
+            $fp = fopen($file, 'r');
             return $this->stripeClient->files->create([
                 'purpose' => 'identity_document',
                 'file' => $fp,
