@@ -243,8 +243,9 @@ class UserRegisterService
                 return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
             },
             SUBSCRIPTION => function($q) {
-                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE,ROLE_ID_LOOKING_FOR)
+                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE)
                 ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
+                ->selectRaw('(select role_id_looking_for from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'role_id_looking_for')
                 ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
             },
             'NotificationSetting' => function($q) {
