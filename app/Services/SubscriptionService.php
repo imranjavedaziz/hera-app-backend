@@ -74,6 +74,7 @@ class SubscriptionService
             $fields[ORIGINAL_TRANSACTION_ID] = $receiptService->orderId;
             $subscriptionFields = $this->setSubscriptionFields($fields);
             Subscription::where(USER_ID,$fields[USER_ID])->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
+            ParentsPreference::where(USER_ID, $fields[USER_ID])->update([ROLE_ID_LOOKING_FOR => $plan->role_id_looking_for]);
             if(!empty($subscriptionFields)) {
                 return $this->createNewSubscription($subscriptionFields);
             }
