@@ -10,7 +10,6 @@ use Facades\{
     App\Services\StripeService
 };
 use App\Http\Requests\KycRequest;
-use App\Http\Requests\UploadDocumentRequest;
 
 class StripeController extends Controller
 {
@@ -77,71 +76,83 @@ class StripeController extends Controller
      *      summary=" kyc details",
      *      description="Save kyc details",
      *      @OA\RequestBody(
-     *        required = true,
-     *        description = "save user kyc details",
-     *        @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                property="first_name",
-     *                type="string",
-     *                example="jhon"
-     *             ),
-     *             @OA\Property(
-     *                property="last_name",
-     *                type="string",
-     *                example="Doe"
-     *             ),
-     *             @OA\Property(
-     *                property="dob_year",
-     *                type="string",
-     *                example="1980"
-     *             ),
-     *             @OA\Property(
-     *                property="dob_month",
-     *                type="string",
-     *                example="10"
-     *             ),
-     *             @OA\Property(
-     *                property="dob_day",
-     *                type="string",
-     *                example="15"
-     *             ),
-     *             @OA\Property(
-     *                property="address",
-     *                type="string",
-     *                example="123 Main St"
-     *             ),
-     *             @OA\Property(
-     *                property="city",
-     *                type="string",
-     *                example="Anytown"
-     *             ),
-     *             @OA\Property(
-     *                property="state",
-     *                type="string",
-     *                example="CA"
-     *             ),
-     *             @OA\Property(
-     *                property="postal_code",
-     *                type="string",
-     *                example="12345"
-     *             ),
-     *              @OA\Property(
-     *                property="ssn_last_4",
-     *                type="string",
-     *                example="1234"
-     *             ),
-     *             @OA\Property(
-     *                property="bank_token_id",
-     *                type="string",
-     *                example="ba_1N1t65KStVxXZYaxpiESHneS"
-     *             ),
-     *             @OA\Property(
-     *                property="document_front",
-     *                type="string",
-     *                example="file_1N3Gsx4GGp3TWLGjlzNjXLG8"
+     *        description = "Save kyc details",
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 allOf={
+     *                     @OA\Schema(
+     *                         @OA\Property(
+     *                             description="Item image PNG/JPEG",
+     *                             property="document_front",
+     *                             type="string",
+     *                             format="binary"
+     *                         ),
+     *                         @OA\Property(
+     *                             description="Item image PNG/JPEG",
+     *                             property="document_back",
+     *                             type="string",
+     *                             format="binary"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="first_name",
+     *                             type="string",
+     *                             example="jhon"
+     *                         ),
+     *                         @OA\Property(
+     *                             property="last_name",
+     *                             type="string",
+     *                             example="Doe"
+     *                         ),
+     *                         @OA\Property(
+     *                            property="dob_year",
+     *                            type="string",
+     *                            example="1980"
+     *                        ),
+     *                        @OA\Property(
+     *                           property="dob_month",
+     *                           type="string",
+     *                           example="10"
+     *                        ),
+     *                        @OA\Property(
+     *                            property="dob_day",
+     *                            type="string",
+     *                            example="15"
+     *                         ),
+     *                        @OA\Property(
+     *                           property="address",
+     *                           type="string",
+     *                           example="123 Main St"
+     *                        ),
+     *                        @OA\Property(
+     *                           property="city",
+     *                           type="string",
+     *                           example="Anytown"
+     *                        ),
+     *                        @OA\Property(
+     *                           property="state",
+     *                           type="string",
+     *                           example="CA"
+     *                       ),
+     *                       @OA\Property(
+     *                           property="postal_code",
+     *                           type="string",
+     *                           example="12345"
+     *                      ),
+     *                      @OA\Property(
+     *                         property="ssn_last_4",
+     *                         type="string",
+     *                         example="1234"
+     *                      ),
+     *                     @OA\Property(
+     *                         property="bank_token_id",
+     *                         type="string",
+     *                           example="ba_1N1t65KStVxXZYaxpiESHneS"
+     *                      ),
+     *                  )
+     *                }
      *             )
-     *         ),
+     *         )
      *     ),
      *      @OA\Response(
      *          response=200,
@@ -181,67 +192,6 @@ class StripeController extends Controller
                 $request->ip()
             );
             $response = response()->Success(trans('messages.payment.save_kyc'), [DATA => $result]);
-        } catch (\Exception $e) {
-            $response = response()->Error($e->getMessage());
-        }
-        return $response;
-    }
-
-     /**
-     * @OA\Post(
-     *      path="/v1/upload-kyc-doc",
-     *      operationId="upload-kyc-doc",
-     *      tags={"Stripe"},
-     *      summary="Upload kyc document",
-     *      description="Upload kyc document.",
-     *      @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                 allOf={
-     *                     @OA\Schema(
-     *                         @OA\Property(
-     *                             description="Item image/Document",
-     *                             property="file",
-     *                             type="string",
-     *                             format="binary"
-     *                         )
-     *                     )
-     *                 }
-     *             )
-     *         )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Request successfully completed.",
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=417,
-     *          description="Expectation Failed"
-     *      ),
-     *      @OA\Response(
-     *          response=409,
-     *          description="Conflict",
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Not found"
-     *      ),
-     *     security={ {"bearer": {}} },
-     *  )
-     */
-    public function uploadkycDocument(UploadDocumentRequest $request)
-    {
-        try {
-            $uploadDocument = StripeService::uploadVerificationFile($request->all(),AuthHelper::authenticatedUser());
-            $response = response()->Success(SUCCESS, $uploadDocument);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
