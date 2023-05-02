@@ -127,6 +127,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
             Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
+            Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
+            Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
