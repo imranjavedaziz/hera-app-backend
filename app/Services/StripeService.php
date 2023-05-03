@@ -61,11 +61,16 @@ class StripeService
                 $user->connected_acc_token,
                 [
                     'business_type' => 'individual',
+                    'business_profile' => [
+                        'mcc' => '5734',
+                        'product_description' => 'Making baby connection',
+                      ],
                     'individual' => [
                         'ssn_last_4' => $input['ssn_last_4'],
                         'first_name' => $input[FIRST_NAME],
                         'last_name' => $input[LAST_NAME],
                         'email' => $user->email,
+                        'phone' => $input[PHONE_NO],
                         'dob' => [
                             'day' => $input['dob_day'],
                             'month' => $input['dob_month'],
@@ -77,23 +82,42 @@ class StripeService
                             'state' => $input['state'],
                             'postal_code' => $input['postal_code'],
                             'country' => 'US',
-                        ],
-                        'verification' => [
-                            'document' => [
-                                'front' => $input['document_front'],
-                            ],
-                        ],
+                        ]
                     ],
                     'tos_acceptance' => ['date' => strtotime(Carbon::now()), 'ip' => $clientIP]
                 ]
             );
-            $externalId = $this->stripeClient->accounts->createExternalAccount($user->connected_acc_token, [
-                'external_account' => $input['bank_token_id'],
-            ]);
-            return $user->connected_acc_token;
+            $account = $this->retrieveAccountStatus($user->connected_acc_token);
+            if($account->individual->verification->status !== 'verified') {
+                $documentFront = $this->uploadVerificationFile($input['document_front'],$user);
+                $documentBack = $this->uploadVerificationFile($input['document_back'],$user);
+                $this->stripeClient->accounts->update(
+                    $user->connected_acc_token,
+                    [
+                        'individual' => [
+                            'verification' => [
+                                'document' => [
+                                    'front' => $documentFront[ID],
+                                    'back' => $documentBack[ID]
+                                ],
+                            ],
+                        ],
+                    ]
+                );
+            }
+            if(empty($user->bank_acc_token)) {
+                $externalId = $this->stripeClient->accounts->createExternalAccount($user->connected_acc_token, [
+                    'external_account' => $input['bank_token_id'],
+                ]);
+                $user->bank_acc_token = $externalId;
+                $user->save();
+            }
+            $response[SUCCESS] = true;
         } catch (\Exception $e) {
-            return $e->getMessage();
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
         }
+        return $response;
     }
 
     public function retrieveAccountStatus($params)
@@ -105,10 +129,10 @@ class StripeService
         }
     }
 
-    public function uploadVerificationFile($input,$user)
+    public function uploadVerificationFile($file,$user)
     {
         try {
-            $fp = fopen($input[FILE], 'r');
+            $fp = fopen($file, 'r');
             return $this->stripeClient->files->create([
                 'purpose' => 'identity_document',
                 'file' => $fp,
