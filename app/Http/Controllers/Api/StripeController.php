@@ -105,6 +105,11 @@ class StripeController extends Controller
      *                             example="Doe"
      *                         ),
      *                         @OA\Property(
+     *                             property="phone_no",
+     *                             type="string",
+     *                             example="(201) 555-0123"
+     *                         ),
+     *                         @OA\Property(
      *                            property="dob_year",
      *                            type="string",
      *                            example="1980"
@@ -191,7 +196,11 @@ class StripeController extends Controller
                 $request->all(),
                 $request->ip()
             );
-            $response = response()->Success(trans('messages.payment.save_kyc'), [DATA => $result]);
+            if ($result[SUCCESS]) {
+                $response = response()->Success(trans('messages.payment.save_kyc'));
+            } else {
+                $response = response()->Error($result[MESSAGE]);
+            }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
