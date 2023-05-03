@@ -30,6 +30,7 @@ class KycRequest extends ApiFormRequest
         return [
             FIRST_NAME => ValidationRule::NAME,
             LAST_NAME => ValidationRule::NAME,
+            PHONE_NO => REQUIRED,
             'dob_year' => REQUIRED,
             'dob_month' => REQUIRED,
             'dob_day' => REQUIRED,

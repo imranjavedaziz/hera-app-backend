@@ -116,7 +116,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('match-list', [PaymentController::class, 'getMatchList']);
         Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
 
-
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
             Route::get('attributes-setter-data', [UserController::class, 'getAttributesSetterData']);
@@ -128,6 +127,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
             Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
             Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
+            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
             Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/
@@ -142,7 +142,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
-            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
         });
 

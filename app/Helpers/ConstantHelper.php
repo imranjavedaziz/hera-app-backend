@@ -489,7 +489,28 @@ define('SURROGATE_MONTHLY_OFFER_TOKEN', "AUj/Yhj86TWvWZ0H8SiVPKDvOR1q1RK+qgS8e06
 define('EGG_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhhOOiDqmnUvT9UpujRzHksqKIpX6NKCf/bDm20eYgWbMaMNSAzAckhBhlIOlWcQP61LnjmAllZE7nxde7K0wn+jFbR5GfRiU5evHD7YQOMR9MXjXn5zNLEtmNrD8kZnD1APNUsYi3IXtbRlSdg=");
 define('SPERM_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LOO2SkrwOZToU3Wz2/JkdC6zWrAURuz3jMrH6dWhCTq6x14Ur2D6QFkfAF4VU5TaOkU+ewnxwCjF1YNViylFVbGPJfIffpMGVJN1Iz8fpoBcxdnB58lyTzQsIhRww==");
 
+define('SURROGATE_QUARTERLY_IOS_PLAN', "om.HeraDev.SurrogateQuarterly");
+define('EGG_DONER_QUARTERLY_IOS_PLAN', "com.HeraDev.EggDonorQuarterly");
+define('SPERM_DONER_QUARTERLY_IOS_PLAN', "com.HeraDev.SpermDonorQuarterly");
+
+define('SURROGATE_QUARTERLY_ANDROID_PLAN', "com.hera_dev.surrogate_quarterly");
+define('EGG_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.egg_donor_quarterly");
+define('SPERM_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_quarterly");
+
+define('SURROGATE_QUARTERLY_PLAN_NAME', "Surrogate Mother Quarterly");
+define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donar Quarterly");
+define('SPERM_DONER_QUARTERLY_PLAN_NAME', "SPERM Donar Quarterly");
+
+define('SURROGATE_QUARTERLY_PLAN_PRICE', "749");
+define('EGG_DONER_QUARTERLY_PLAN_PRICE', "749");
+define('SPERM_DONER_QUARTERLY_PLAN_PRICE', "249");
+
+define('SURROGATE_QUARTERLY_OFFER_TOKEN', "AUj/Yhj86TWvWZ0H8SiVPKDvOR1q1RK+qgS8e06fapC9I1SuSYHK4BU1tpZlmMOef3I7+ne9wKzyEnzxs2Cglhnjz0RwZJ2cvxpJ8PY6qASCmn9HtCibyZQi9JlA21AqKRMRTj7r7oJO7Wd5xz9fCKFrrg==");
+define('EGG_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhhOOiDqmnUvT9UpujRzHksqKIpX6NKCf/bDm20eYgWbMaMNSAzAckhBhlIOlWcQP61LnjmAllZE7nxde7K0wn+jFbR5GfRiU5evHD7YQOMR9MXjXn5zNLEtmNrD8kZnD1APNUsYi3IXtbRlSdg=");
+define('SPERM_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LOO2SkrwOZToU3Wz2/JkdC6zWrAURuz3jMrH6dWhCTq6x14Ur2D6QFkfAF4VU5TaOkU+ewnxwCjF1YNViylFVbGPJfIffpMGVJN1Iz8fpoBcxdnB58lyTzQsIhRww==");
+
 define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
+define('QUARTERLY_PLAN_DESCRIPTION', "Quarterly Plan");
 define('MONTH', "month");
 define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
