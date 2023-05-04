@@ -105,13 +105,6 @@ class StripeService
                     ]
                 );
             }
-            if(empty($user->bank_acc_token)) {
-                $externalId = $this->stripeClient->accounts->createExternalAccount($user->connected_acc_token, [
-                    'external_account' => $input['bank_token_id'],
-                ]);
-                $user->bank_acc_token = $externalId;
-                $user->save();
-            }
             $response[SUCCESS] = true;
         } catch (\Exception $e) {
             $response[SUCCESS] = false;
