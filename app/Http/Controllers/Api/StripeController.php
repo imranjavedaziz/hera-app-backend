@@ -56,12 +56,16 @@ class StripeController extends Controller
             $user = User::where(ID,AuthHelper::authenticatedUser()->id)->first();
             $accountStatus = StripeService::retrieveAccountStatus($user->connected_acc_token);
             $status = 0;
+            $kycStatus = 'incomplete';
             if (!empty($accountStatus['capabilities']['transfers']) && $accountStatus['capabilities']['transfers'] == 'active') {
                 $status = 1;
             }
+            if (!empty($accountStatus['individual']['verification'][STATUS])) {
+                $kycStatus = $accountStatus['individual']['verification'][STATUS];
+            }
             $user->connected_acc_status = $status;
             $user->save();
-            $response = response()->Success(SUCCESS, [STATUS => $status]);
+            $response = response()->Success(SUCCESS, [STATUS => $status,'kyc_status'=> $kycStatus]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
