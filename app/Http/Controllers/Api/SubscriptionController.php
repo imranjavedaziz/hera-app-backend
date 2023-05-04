@@ -14,6 +14,7 @@ use App\Http\Requests\SubscriptionRequest;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\ParentsPreference;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -54,9 +55,13 @@ class SubscriptionController extends Controller
     {
         try {
             $userId = AuthHelper::authenticatedUser()->id;
-            $subscription = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            $upcoming = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$upcoming->id)->where(USER_ID,$userId)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+            ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+            $currentSubscription = !empty($current) ? $current : $upcoming;
+            $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->subscription_plan->role_id_looking_for === $current->subscription_plan->role_id_looking_for) ? $upcoming : null;
             $preference = ParentsPreference::where(USER_ID, $userId)->first();
-            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $subscription,'preference' => $preference]);
+            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $currentSubscription,'preference' => $preference, 'upcomingSubscription' => $upcomingSubscription]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
