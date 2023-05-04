@@ -24,6 +24,7 @@ use App\Helpers\AuthHelper;
 use App\Helpers\CustomHelper;
 use Facades\{
     App\Services\UserRegisterService,
+    App\Services\StripeService,
 };
 use App\Models\User;
 use Log;
@@ -153,6 +154,10 @@ class UserController extends Controller
                 $user->refresh_token = $refreshToken;
                 $user->stripe_key = env(STRIPE_KEY) ?? null;
                 $user->stripe_secret = env(STRIPE_SECRET) ?? null;
+                $account = StripeService::createStripeAccount($user);
+                $customer = StripeService::createStripeCustomer($user);
+                $user->connected_acc_token = $account->id;
+                $user->stripe_customer_id = $customer->id;
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
                 DB::rollback();

@@ -24,8 +24,6 @@ use Facades\{
 use App\Jobs\CreateAdminChatFreiend;
 use App\Jobs\UpdateUserDetailOnFirebase;
 use App\Jobs\UpdateUserNotificationSetting;
-use App\Jobs\CreateStripeCustomer;
-use App\Jobs\CreateStripeAccount;
 use DB;
 
 class UserRegisterService
@@ -44,12 +42,10 @@ class UserRegisterService
             $file = $this->uploadFile($input, 'images/user_profile_images');
             User::where(ID, $user->id)->update([USERNAME=>$username, PROFILE_PIC=>$file[FILE_URL]]);
             dispatch(new SendRegisterSuccessfulJob($user));
-            CreateStripeCustomer::dispatch($user);
-            CreateStripeAccount::dispatch($user);
             if ($input[ROLE_ID] != PARENTS_TO_BE) {
                 dispatch(new CreateAdminChatFreiend($user));
             }
-           dispatch(new UpdateUserNotificationSetting($user->id));
+            dispatch(new UpdateUserNotificationSetting($user->id));
         }
         return $user;
     }
