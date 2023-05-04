@@ -158,6 +158,7 @@ class UserController extends Controller
                 $customer = StripeService::createStripeCustomer($user);
                 $user->connected_acc_token = $account->id;
                 $user->stripe_customer_id = $customer->id;
+                User::where(ID,$user->id)->update(['stripe_customer_id'=>$customer->id, 'connected_acc_token' => $account->id]);
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
                 DB::rollback();
