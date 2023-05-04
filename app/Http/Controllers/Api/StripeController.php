@@ -59,9 +59,10 @@ class StripeController extends Controller
             if (!empty($accountStatus['capabilities']['transfers']) && $accountStatus['capabilities']['transfers'] == 'active') {
                 $status = 1;
             }
+            $kycStatus = !empty($accountStatus['individual']['verification'][STATUS]) ? $accountStatus['individual']['verification'][STATUS] : 'incomplete';
             $user->connected_acc_status = $status;
             $user->save();
-            $response = response()->Success(SUCCESS, [STATUS => $status]);
+            $response = response()->Success(SUCCESS, [STATUS => $status,'kyc_status'=> $kycStatus]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
