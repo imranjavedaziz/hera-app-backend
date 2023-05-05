@@ -18,7 +18,6 @@
   letter-spacing: 1.8px;
   color: #353a3a;
   background-color: #98c8c2;
-  border-radius: 40px;
   padding: 2px 6px;
   border: transparent;
   text-transform: uppercase; }
@@ -281,7 +280,7 @@ a {
     margin-right: 10px; }
   .alert .alert-text {
     display: flex;
-    align-items: center; }
+    align-items: flex-start; }
   .alert.alert-warning {
     color: #fff;
     background-color: #ff4544; }

@@ -47,6 +47,7 @@ return [
             'email_unique' => 'Entered email already exist. Please use another email to complete the registration.',
             'pass_regex' => 'Password should start with an alphabet, should be 8 to 20 characters long and contain atleast 1 numeric digit, 1 special character, 1 uppercase and 1 lowercase.',
             'pro_pic_max' => 'You have uploaded an image of more than 5MB size. Please re-upload a smaller size image.',
+            'pro_doc_max' => 'You have uploaded an document of more than 5MB size. Please re-upload a smaller size document.',
             'state_id_array_max_three' => 'You can select maximum 3 states.',
             'state_id_exists' => 'You have selected an invalid state. Please select a valid state from the list.',
             'image_required_without' => 'Either video or image is required.',
@@ -84,6 +85,8 @@ return [
             'skip' => 'Skipped',
             'saved' => 'Thank you for sharing your feedback.',
         ],
+        'nextSteps' => 'Next steps save successfully!',
+        'nextSteps_exits' => 'You have already created request.',
     ],
     'subscription_created' => 'Subcription created successfully.',
     'reset_password_invalid_user' => 'Entered user id does not exist. Please check & try again.',
@@ -99,6 +102,7 @@ return [
     'user_account_deleted' => 'Your account has been deleted and no longer available.',
     'user_account_deactivated_by_admin' => 'Your account has been deactivated by admin. Please contact HERA Support to get it re-activated.',
     'user_account_deleted_by_admin' => 'Your account has been deleted by admin. Please contact HERA support.',
+    'user_account_imported_by_admin' => 'Your account has been deactivated by admin. Please contact HERA support.',
     'admin' => [
         'invalid_credentail' => 'Please login with valid credentials.',
         'account_deactive' => 'User deactivated successfully!',
@@ -122,4 +126,15 @@ return [
     'notify_status_in_active' => 'Push notifications turned off successfully!',
     'subscription_expire' => 'Your subscription has expired. Please renew your subscription now to use this feature.',
     'trial_subscription_expire' => 'Your trial period is over. Please subscribe now to use this feature.',
+    'bulk_import' => [
+        'success' => 'The Users Import has begun and we will notify you via email once the sheet has been successfully imported.',
+        'file_type' => 'Only csv and excel files are allowed to be uploaded.',
+        'file_max' => 'You have uploaded an document of more than 50MB size. Please upload a smaller size document.',
+    ],
+    'payment' => [
+        'payment_request' => 'Payment request sent successfully!',
+        'request_rejected' => 'Payment request rejected successfully!',
+        'invalid_request' => 'Payment request is not belongs to this account.',
+        'save_kyc' => 'Kyc details save successfully!',
+    ],
 ];

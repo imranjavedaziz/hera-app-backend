@@ -60,4 +60,9 @@ class ValidationRule
     public const ALL_IDS =[BAIL, REQUIRED, NUMERIC];
     public const MESSAGE =[BAIL, REQUIRED, STRING,  'max:200'];
     public const USER_TIMEZONE =[BAIL, REQUIRED];
+    public const REFRESH_TOKEN =[BAIL, REQUIRED, STRING];
+    public const AMOUNT =[BAIL, REQUIRED, NUMERIC];
+    public const DOC_URL =[BAIL, SOMETIMES, NULLABLE];
+    public const FILE =[BAIL, REQUIRED,FILE,'mimes:jpeg,png,gif,pdf'];
+    public const PAYMENT_REQUEST_ID =[BAIL, REQUIRED, EXISTS_PAYMENT_REQUEST_ID];
 }

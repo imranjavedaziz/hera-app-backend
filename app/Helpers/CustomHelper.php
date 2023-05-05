@@ -104,6 +104,9 @@ class CustomHelper
             case ($user->deactivated_by == ONE):
                 $message = trans('messages.user_account_deactivated_by_admin');
                 break;
+            case ($user->status_id == SIX):
+                $message = trans('messages.user_account_imported_by_admin');
+                break;
             default:
                 $message = trans('messages.invalid_user_pass');
                 break;
@@ -117,5 +120,18 @@ class CustomHelper
             $message = trans('messages.notify_status_active');
         }
         return $message;
+    }
+
+    public static function createRefreshTokenForUser(User $user, array $credentials): string
+    {
+        $data = serialize([
+            USER_ID => $user->id
+        ]);
+        $iv = openssl_random_pseudo_bytes(IV_LENGTH);
+        $token = openssl_encrypt($data, CIPHER_REFRESH_TOKEN, env('JWT_SECRET'), OPENSSL_RAW_DATA, $iv);
+        $token = base64_encode($iv . $token);
+        $user->timestamps = false;
+        User::where(ID, $user->id)->update([REFRESH_TOKEN => $token]);
+        return $token;
     }
 }

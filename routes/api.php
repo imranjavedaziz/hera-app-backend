@@ -22,6 +22,9 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChatFeedbackController;
 use App\Http\Controllers\Api\EnquiryController;
 use App\Http\Controllers\Api\ReportUserController;
+use App\Http\Controllers\Api\StripeController;
+use App\Http\Controllers\Api\ChatMediaController;
+use App\Http\Controllers\Api\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,9 +83,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('account-deactive-reason', [AuthController::class, 'getAccountDeactiveReason']);
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
+    Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
-        Route::get('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);
         Route::post('match-password', [AuthController::class, 'matchPassword']);
         Route::delete('delete-account', [AuthController::class, 'deleteAccount']);
@@ -108,8 +111,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
         Route::post('/change-password', [UserController::class, 'changePassword']);
 
-        //Enquiry Routes
-
+        Route::post('upload-document', [ChatMediaController::class, 'uploadDocument']);
+        Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
+        Route::get('match-list', [PaymentController::class, 'getMatchList']);
+        Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -119,6 +124,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-card', [DonarDashboardController::class, 'getPtbProfileCard']);
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
+            Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
+            Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
+            Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
+            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
+            Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/
         Route::middleware([EnsureParentsToBeTokenIsValid::class])->group(function(){
@@ -131,6 +141,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
+            Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
+            Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
         });
 
         /***Only Parents route***/

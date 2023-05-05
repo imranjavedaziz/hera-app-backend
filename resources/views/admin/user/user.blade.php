@@ -3,18 +3,39 @@
     <div class="main-right-wrapper">
         <div class="dashboard-container">
             <div class="user-management-header">
-                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success')) display: block @else display: none @endif">
+                <div id="deactivate-msg-box" class="alert alert-success" role="alert" style=" @if(session()->get('flash_success') || session()->get('flash_error')) display: block @else display: none @endif">
                 <div class ="alert-boxes">    
                 <div class="alert-text">
                         <span>
                             <img src="{{ asset('assets/images/svg/check.svg')}}" alt="check icon" />
                         </span> <span id="deactivate-msg">@if(session()->get('flash_success')) {{ session()->get('flash_success') }} @endif</span>
+                        <span @if(session()->get('flash_error')) class="alert alert-danger" @endif>@if(session()->get('flash_error')) {{ session()->get('flash_error') }} @endif</span>
                     </div>
                     <div class="text-end">
                         <img src="{{ asset('assets/images/svg/alert-cross.svg')}}" alt="alert icon" />
                     </div>
                 </div>
             </div>
+            <div class="download-csv">
+                <a class="btn-outline btn-download" href="/assets/csv/MBC_SAMPLE.xlsx" download="">DOWNLOAD SAMPLE FILE</a>
+                    <form action="{{url('admin/import-users')}}" autocomplete="off" id="form1" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <button type="button" class="btn-primary btn-import"><img src="/assets/images/svg/icon-export.svg" alt="download icon" />BULK UPLOAD
+                    <input name='file' class="input-file-style" type="file" id="formFile" onchange="javascript:this.form.submit();" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                    </button>
+                    </form>
+            </div>
+
+            @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @include('admin.layouts.partials.modal.login-user-dropdown')
             </div>
             @if ($userData->count() > 0)
@@ -59,7 +80,7 @@
                                         </div>
                                         <div class="user-title-info">
                                             <h5>{{CustomHelper::fullName($user)}}</h5>
-                                            <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p>
+                                            @if($user->status_id != 6) <p>Joined: {{CustomHelper::dateTimeZoneConversion($user->created_at,$timezone)}}</p> @endif
                                         </div>
                                     </div>
                                 </div>
@@ -75,13 +96,13 @@
                                         <span class="@if($user->status_id == 1) d-block @else d-none @endif" id="active-user{{$user->id}}">
                                             Active
                                         </span>
-                                        <span class="inactive-span text-danger @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
-                                            @if($user->status_id == 5) Deleted @else Inactive @endif <br>
+                                        <span class="inactive-span @if($user->status_id != 6) text-danger @endif @if($user->status_id == 1) d-none @else d-block @endif" id="inactive-user{{$user->id}}">
+                                            @if($user->status_id == 6) - @elseif($user->status_id == 5) Deleted @else Inactive @endif <br>
                                             <span>
                                                 @if($user->deactivated_by == 1 || $user->deleted_by == 1) 
                                                     (By Admin) 
                                                 @else
-                                                    (By User) 
+                                                @if($user->status_id != 6)  (By User)  @endif
                                                 @endif
                                             </span>
                                         </span>
@@ -124,7 +145,7 @@
     <script src="{{ asset('assets/lightbox/lightboxed.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            @if(session()->get('flash_success'))
+            @if(session()->get('flash_success') || session()->get('flash_error'))
                 $("#deactivate-msg-box").delay(3000).fadeOut();
             @endif
             $(document).on('click', '.open-detail-modal', function(e){

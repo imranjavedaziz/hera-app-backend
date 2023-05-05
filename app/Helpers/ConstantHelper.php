@@ -12,6 +12,7 @@ define('SEVEN', 7);
 define('EIGHT', 8);
 define('NINE', 9);
 define('TEN', 10);
+define('FIFTEEN', 15);
 define('THIRTY', 30);
 define('TWENTY', 20);
 
@@ -156,6 +157,7 @@ define('FIRST_NAME', 'first_name');
 define('MIDDLE_NAME', 'middle_name');
 define('LAST_NAME', 'last_name');
 define('EMAIL', 'email');
+define('PHONE_NO', 'phone_no');
 define('EMAIL_VERIFIED', 'email_verified');
 define('EMAIL_VERIFIED_AT', 'email_verified_at');
 define('DOB', 'dob');
@@ -182,7 +184,6 @@ define('NAME', 'name');
 //define phone varification table column
 define('PHONE_VERIFICATIONS', 'phone_verifications');
 define('COUNTRY_CODE', 'country_code');
-define('PHONE_NO', 'phone_no');
 define('OTP', 'otp');
 define('MAX_ATTEMPT', 'max_attempt');
 define('OTP_BLOCK_TIME', 'otp_block_time');
@@ -468,17 +469,50 @@ define('PROFILE_MATCH', "profile_match");
 
 
 //Subscription Plan details
-define('MONTHLY_PLAN_NAME', "HereDev-Monthly");
-define('MONTHLY_PLAN_PRICE', "99.99");
-define('MONTHLY_PLAN_DESCRIPTION', "6 Month Commitment");
-define('MONTHLY_IOS_PRODUCT', "com.HeraDev.Monthly");
-define('MONTHLY_ANDROID_PRODUCT', "");
+define('SURROGATE_MONTHLY_IOS_PLAN', "com.HeraDev.SurrogateMonthly");
+define('EGG_DONER_MONTHLY_IOS_PLAN', "com.HeraDev.EggDonorMonthly");
+define('SPERM_DONER_MONTHLY_IOS_PLAN', "com.HeraDev.SpermDonorMonthly");
 
-define('YEARLY_PLAN_NAME', "HereDev-Yearly");
-define('YEARLY_PLAN_PRICE', "199.99");
-define('YEARLY_PLAN_DESCRIPTION', "12 Month Commitment");
-define('YEARLY_IOS_PRODUCT', "com.HeraDev.Yearly");
-define('YEARLY_ANDROID_PRODUCT', "");
+define('SURROGATE_MONTHLY_ANDROID_PLAN', "com.hera_dev.surrogate_monthly");
+define('EGG_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.egg_donor_monthly");
+define('SPERM_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_monthly");
+
+define('SURROGATE_MONTHLY_PLAN_NAME', "Surrogate Mother Monthly");
+define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donar Monthly");
+define('SPERM_DONER_MONTHLY_PLAN_NAME', "SPERM Donar Monthly");
+
+define('SURROGATE_MONTHLY_PLAN_PRICE', "299");
+define('EGG_DONER_MONTHLY_PLAN_PRICE', "299");
+define('SPERM_DONER_MONTHLY_PLAN_PRICE', "99");
+
+define('SURROGATE_MONTHLY_OFFER_TOKEN', "AUj/Yhj86TWvWZ0H8SiVPKDvOR1q1RK+qgS8e06fapC9I1SuSYHK4BU1tpZlmMOef3I7+ne9wKzyEnzxs2Cglhnjz0RwZJ2cvxpJ8PY6qASCmn9HtCibyZQi9JlA21AqKRMRTj7r7oJO7Wd5xz9fCKFrrg==");
+define('EGG_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhhOOiDqmnUvT9UpujRzHksqKIpX6NKCf/bDm20eYgWbMaMNSAzAckhBhlIOlWcQP61LnjmAllZE7nxde7K0wn+jFbR5GfRiU5evHD7YQOMR9MXjXn5zNLEtmNrD8kZnD1APNUsYi3IXtbRlSdg=");
+define('SPERM_DONER_MONTHLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LOO2SkrwOZToU3Wz2/JkdC6zWrAURuz3jMrH6dWhCTq6x14Ur2D6QFkfAF4VU5TaOkU+ewnxwCjF1YNViylFVbGPJfIffpMGVJN1Iz8fpoBcxdnB58lyTzQsIhRww==");
+
+define('SURROGATE_QUARTERLY_IOS_PLAN', "com.HeraDev.SurrogateQuarterly");
+define('EGG_DONER_QUARTERLY_IOS_PLAN', "com.HeraDev.EggDonorQuarterly");
+define('SPERM_DONER_QUARTERLY_IOS_PLAN', "com.HeraDev.SpermDonorQuarterly");
+
+define('SURROGATE_QUARTERLY_ANDROID_PLAN', "com.hera_dev.surrogate_quarterly");
+define('EGG_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.egg_donor_quarterly");
+define('SPERM_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_quarterly");
+
+define('SURROGATE_QUARTERLY_PLAN_NAME', "Surrogate Mother Quarterly");
+define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donar Quarterly");
+define('SPERM_DONER_QUARTERLY_PLAN_NAME', "SPERM Donar Quarterly");
+
+define('SURROGATE_QUARTERLY_PLAN_PRICE', "749");
+define('EGG_DONER_QUARTERLY_PLAN_PRICE', "749");
+define('SPERM_DONER_QUARTERLY_PLAN_PRICE', "249");
+
+define('SURROGATE_QUARTERLY_OFFER_TOKEN', "AUj/Yhj86TWvWZ0H8SiVPKDvOR1q1RK+qgS8e06fapC9I1SuSYHK4BU1tpZlmMOef3I7+ne9wKzyEnzxs2Cglhnjz0RwZJ2cvxpJ8PY6qASCmn9HtCibyZQi9JlA21AqKRMRTj7r7oJO7Wd5xz9fCKFrrg==");
+define('EGG_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhhOOiDqmnUvT9UpujRzHksqKIpX6NKCf/bDm20eYgWbMaMNSAzAckhBhlIOlWcQP61LnjmAllZE7nxde7K0wn+jFbR5GfRiU5evHD7YQOMR9MXjXn5zNLEtmNrD8kZnD1APNUsYi3IXtbRlSdg=");
+define('SPERM_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LOO2SkrwOZToU3Wz2/JkdC6zWrAURuz3jMrH6dWhCTq6x14Ur2D6QFkfAF4VU5TaOkU+ewnxwCjF1YNViylFVbGPJfIffpMGVJN1Iz8fpoBcxdnB58lyTzQsIhRww==");
+
+define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
+define('QUARTERLY_PLAN_DESCRIPTION', "Quarterly Plan");
+define('MONTH', "month");
+define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
 
@@ -496,6 +530,9 @@ define('SUBSCRIPTION_TRIAL_PERIOD', '+30 days');
 
 // message limit constant
 define('MESSAGE_LIMIT', '70');
+
+//variable to bind with response
+define('ROW', 'row');
 
 //define TESTCASE Param
 define('APPLICATION_JSON','application/json');
@@ -590,3 +627,18 @@ define('SET_GALLERY_API', '/api/v1/set-gallery');
 define('GET_GALLERY_API', '/api/v1/get-gallery');
 define('DONOR_PROFILE_DETAILS_API', '/api/v1/doner-profile-details?user_id=');
 define('PTB_PROFILE_DETAILS_API', '/api/v1/ptb-profile-details?user_id=');
+
+define('IV_LENGTH', 16);
+define('CIPHER_REFRESH_TOKEN', 'AES-128-CBC');
+define('EXPIRE', 'expire');
+define('REFRESH_TOKEN', 'refresh_token');
+define('METADATA', 'metadata');
+define('STRIPE_SECRET', 'STRIPE_SECRET');
+define('STRIPE_KEY', 'STRIPE_KEY');
+define('URL', 'url');
+define('AMOUNT', 'amount');
+define('DOC_URL', 'doc_url');
+define('FILE_MAX', 'file.max');
+define('TRIAL_START', 'trial_start');
+define('PAYMENT_REQUEST_ID', 'payment_request_id');
+define('EXISTS_PAYMENT_REQUEST_ID', 'exists:payment_requests,id');

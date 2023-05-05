@@ -11,6 +11,7 @@ use Facades\{
     App\Services\FirebaseService,
 };
 use DB;
+
 class StateController extends Controller
 {
    /**

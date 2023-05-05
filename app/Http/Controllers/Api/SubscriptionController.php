@@ -13,6 +13,8 @@ use Log;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Models\ParentsPreference;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -52,7 +54,16 @@ class SubscriptionController extends Controller
     public function getPlan(Request $request)
     {
         try {
-            $response = response()->Success(trans('messages.common_msg.data_found'), SubscriptionService::getSubscriptionPlan());
+            $userId = AuthHelper::authenticatedUser()->id;
+            $upcoming = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            if(!empty($upcoming)) {
+            $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$upcoming->id)->where(USER_ID,$userId)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+            ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+            }
+            $currentSubscription = !empty($current) ? $current : $upcoming;
+            $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
+            $preference = ParentsPreference::where(USER_ID, $userId)->first();
+            $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $currentSubscription,'preference' => $preference, 'upcomingSubscription' => $upcomingSubscription]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -170,8 +181,9 @@ class SubscriptionController extends Controller
         try {
             $userId = AuthHelper::authenticatedUser()->id;
             $user = User::where(ID,$userId)->first();
-            $isTrial = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  true : false;
-            $trial_end = ($user->subscription_status == SUBSCRIPTION_TRIAL) ?  date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->created_at))) : null;
+            $subscription = Subscription::where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            $isTrial = empty($subscription) ?  true : false;
+            $trial_end =  !empty($user->trial_start) ? date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->trial_start))) : null;
             $trial_msg = 'Your free trial period expires on';
             $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
         } catch (\Exception $e) {

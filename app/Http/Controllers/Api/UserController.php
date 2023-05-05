@@ -21,8 +21,10 @@ use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Requests\ValidateEmailVerifyRequest;
 use DB;
 use App\Helpers\AuthHelper;
+use App\Helpers\CustomHelper;
 use Facades\{
     App\Services\UserRegisterService,
+    App\Services\StripeService,
 };
 use App\Models\User;
 use Log;
@@ -139,8 +141,24 @@ class UserController extends Controller
             $user = UserRegisterService::register($request->all());
             if ($user) {
                 DB::commit();
+                $user_credentials = [
+                    COUNTRY_CODE => $request->country_code,
+                    PHONE_NO => $request->phone_no,
+                    PASSWORD => $request->password,
+                    ROLE_ID => [PARENTS_TO_BE, SURROGATE_MOTHER, EGG_DONER, SPERM_DONER],
+                    DELETED_AT => NULL
+                ];
                 $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password, DELETED_AT => NULL]);
+                $refreshToken = CustomHelper::createRefreshTokenForUser($user, $user_credentials);
                 $user->access_token = $oauth_token;
+                $user->refresh_token = $refreshToken;
+                $user->stripe_key = env(STRIPE_KEY) ?? null;
+                $user->stripe_secret = env(STRIPE_SECRET) ?? null;
+                $account = StripeService::createStripeAccount($user);
+                $customer = StripeService::createStripeCustomer($user);
+                $user->connected_acc_token = $account->id;
+                $user->stripe_customer_id = $customer->id;
+                User::where(ID,$user->id)->update(['stripe_customer_id'=>$customer->id, 'connected_acc_token' => $account->id]);
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
                 DB::rollback();

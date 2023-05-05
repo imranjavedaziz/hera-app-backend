@@ -13,6 +13,7 @@ use App\Http\Requests\CheckPhoneRequest;
 use App\Http\Requests\ValidateOtpRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\UpdateAccountStatusRequest;
+use App\Http\Requests\RefreshTokenRequest;
 use App\Helpers\TwilioOtp;
 use App\Helpers\AuthHelper;
 use Log;
@@ -113,6 +114,8 @@ class AuthController extends Controller
                         dispatch(new UpdateStatusOnFirebaseJob($user, ACTIVE, STATUS_ID));
                     }
                     $user->access_token = $oauth_token;
+                    $user->stripe_key = env(STRIPE_KEY) ?? null;
+                    $user->stripe_secret = env(STRIPE_SECRET) ?? null;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
                     $response = response()->Error($message);
@@ -324,12 +327,24 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/v1/refresh-token",
      *      operationId="refresh-token",
      *      tags={"Auth"},
      *      summary="User refresh token",
      *      description="User refresh token for MBC portal.",
+     *       @OA\RequestBody(
+     *        required = true,
+     *        description = "Verify OTP",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="refresh_token",
+     *                type="string",
+     *                example="y46trT5dx8UK0XTNc29i3mV3tzr7Rcb2GFFmb/IOH3Dn1kTtmyod4P8TvZkKcxs40kvD42fO/PISZdONT1RvqYyrFF6WpzFinFN7LPazV3zMVc9SZOk27USW4eC1SWNCJ8iF0sG88ygAd/MgWSXm8u9OSfm5WxHSUcPGOCaXo7XfxJnFU7Xr7LwwgAAQCwgJ6TEWHVLxAKBKHq1oWhfwVEoxI306nfbcWukEzGEC5rY="
+     *             ),
+     *         ),
+     *     ),
      *      @OA\Response(
      *          response=200,
      *          description="Success",
@@ -357,23 +372,25 @@ class AuthController extends Controller
      *          response=404,
      *          description="Not found"
      *      ),
-     *      security={ {"bearer": {}} },
      *  )
      */
-    public function refreshToken()
+    public function refreshToken(RefreshTokenRequest $request)
     {
-        $token = JWTAuth::getToken();
-        try {
-            $newToken = JWTAuth::refresh($token);
-            $response = response()->json(['token' => $newToken], Response::HTTP_OK);
-        } catch (\Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                $response = response()->json([MESSAGE => 'Token is invalid.'], Response::HTTP_FORBIDDEN);
-            } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                $response = response()->json([MESSAGE => 'Token is expired.'], Response::HTTP_FORBIDDEN);
-            } else {
-                $response = response()->json([MESSAGE => $e->getMessage()], Response::HTTP_FORBIDDEN);
-            }
+        $refreshToken = $request[REFRESH_TOKEN];
+        $token = base64_decode($refreshToken);
+        $iv = substr($token, 0, IV_LENGTH); // get IV
+        $token = str_replace($iv, '', $token); // delete IV from input string
+        $data = openssl_decrypt($token, CIPHER_REFRESH_TOKEN, env('JWT_SECRET'), OPENSSL_RAW_DATA, $iv);
+
+        if ($data === false) {
+            return response()->json([MESSAGE => 'cant decrypt token'], Response::HTTP_FORBIDDEN);
+        }
+        $data = unserialize($data);
+        $user = User::where(ID, $data[USER_ID])->first();
+        if ($refreshToken !== $user->refresh_token) {
+            $response = response()->json([MESSAGE => __('messages.invalid_access_token')], Response::HTTP_FORBIDDEN);
+        }else{
+            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user, $data)], Response::HTTP_OK);
         }
 
         return $response;
