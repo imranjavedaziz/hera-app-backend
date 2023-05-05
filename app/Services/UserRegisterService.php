@@ -232,7 +232,7 @@ class UserRegisterService
 
     public function getUserProfile($user_id)
     {
-        $userProfile = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
+        $user = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
         ->with([USERPROFILE => function($q) {
                 return $q->select(ID, USER_ID, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID, OCCUPATION, BIO);
             },
@@ -251,15 +251,32 @@ class UserRegisterService
         ])
         ->where(ID, $user_id)
         ->first();
-        $upcoming = $userProfile->subscription;
+        $upcoming = $user->subscription;
         if(!empty($upcoming)) {
-            $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$userProfile->subscription->id)->where(USER_ID,$user_id)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+            $current = Subscription::select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_end','subscriptions.price')
+            ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
+            ->selectRaw('(select role_id_looking_for from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'role_id_looking_for')
+            ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ')
+            ->where(ID,'!=',$user->subscription->id)->where(USER_ID,$user_id)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
             ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
         }
-        $userProfile->subscription = !empty($current) ? $current : $upcoming;
-        $userProfile->upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
 
-        return $userProfile;
+        return [
+            ID => $user->id,
+            ROLE_ID => $user->role_id,
+            FIRST_NAME => $user->first_name,
+            MIDDLE_NAME => $user->middle_name,
+            LAST_NAME => $user->last_name,
+            EMAIL => $user->email,
+            PHONE_NO => $user->phone_no,
+            DOB => $user->dob,
+            EMAIL_VERIFIED => $user->email_verified,
+            'subscription' => !empty($current) ? $current : $upcoming,
+            'upcomingSubscription' => !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $upcoming : null,
+            USERPROFILE => $user->userProfile,
+            LOCATION => $user->location,
+            'NotificationSetting' => $user->notificationSetting,
+        ];
     }
 
     public function updateUser($user, $input)
