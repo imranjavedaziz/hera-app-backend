@@ -512,6 +512,7 @@ define('SPERM_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LO
 define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
 define('QUARTERLY_PLAN_DESCRIPTION', "Quarterly Plan");
 define('MONTH', "month");
+define('QUARTER', "quarter");
 define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
