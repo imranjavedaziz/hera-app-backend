@@ -9,6 +9,7 @@ use App\Models\EmailVerification;
 use App\Models\User;
 use App\Models\ParentsPreference;
 use App\Models\UserProfile;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use App\Traits\SetterDataTrait;
@@ -231,7 +232,7 @@ class UserRegisterService
 
     public function getUserProfile($user_id)
     {
-        return User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
+        $userProfile = User::select(ID, ROLE_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, EMAIL_VERIFIED, PHONE_NO, DOB)
         ->with([USERPROFILE => function($q) {
                 return $q->select(ID, USER_ID, GENDER_ID, SEXUAL_ORIENTATION_ID, RELATIONSHIP_STATUS_ID, OCCUPATION, BIO);
             },
@@ -250,6 +251,15 @@ class UserRegisterService
         ])
         ->where(ID, $user_id)
         ->first();
+        $upcoming = $userProfile->subscription;
+        if(!empty($upcoming)) {
+            $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$userProfile->subscription->id)->where(USER_ID,$user_id)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+            ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+        }
+        $userProfile->subscription = !empty($current) ? $current : $upcoming;
+        $userProfile->upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
+
+        return $userProfile;
     }
 
     public function updateUser($user, $input)
