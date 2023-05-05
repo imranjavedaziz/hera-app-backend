@@ -18,6 +18,9 @@ use App\Jobs\SendUserImportSuccessJob;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\CreateAdminChatFreiend;
 use App\Jobs\UpdateUserNotificationSetting;
+use App\Jobs\CreateStripeAccount;
+use App\Jobs\CreateStripeCustomer;
+use App\Helpers\CustomHelper;
 
 class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
 {
@@ -64,11 +67,12 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
         try {
             /**$randomPassword = $this->rand_passwd(); **/
             $randomPassword = 'Admin@123';
+            $roleId = $this->getRoles($row[ROLE_ID]);
             $user = User::firstOrCreate([
                 EMAIL    => $row[EMAIL],
                 PHONE_NO => $row[PHONE_NO]
             ], [
-                ROLE_ID    => $this->getRoles($row[ROLE_ID]),
+                ROLE_ID    => $roleId,
                 PROFILE_PIC    => 'https://mbc-dev-kiwitech.s3.amazonaws.com/chat/documents/BAhVUNjoIiwM81TNc3NdkNCVjxeU6GyyPRP8C30l.jpg',
                 FIRST_NAME     => $row[FIRST_NAME],
                 LAST_NAME     => $row[LAST_NAME],
@@ -79,15 +83,26 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 REGISTRATION_STEP => ONE
             ]);
 
+            $user_credentials = [
+                COUNTRY_CODE => '+1',
+                PHONE_NO => $row[PHONE_NO],
+                PASSWORD => $randomPassword,
+                ROLE_ID => $roleId,
+                DELETED_AT => NULL
+            ];
+
             if ($user->wasRecentlyCreated) {
                 $this->insertedRecords++;
                 $username = $this->setUserName($user[ROLE_ID], $user->id);
-                User::where(ID, $user->id)->update([STATUS_ID => SIX,USERNAME=>$username]);
+                $refreshToken = CustomHelper::createRefreshTokenForUser($user, $user_credentials);
+                User::where(ID, $user->id)->update([STATUS_ID => SIX,USERNAME=>$username, REFRESH_TOKEN=> $refreshToken ]);
                 dispatch(new SendUserImportSuccessJob($user, $randomPassword));
                 if ($user[ROLE_ID] != PARENTS_TO_BE) {
                     dispatch(new CreateAdminChatFreiend($user));
                 }
                 dispatch(new UpdateUserNotificationSetting($user->id));
+                dispatch(new CreateStripeAccount($user));
+                dispatch(new CreateStripeCustomer($user));
             } else {
                  $this->existingRecordsCount++;
                  $this->existingRecords[] = [
