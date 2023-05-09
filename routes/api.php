@@ -143,6 +143,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
+            Route::post('payment-transfer', [PaymentController::class, 'paymentTransfer']);
         });
 
         /***Only Parents route***/

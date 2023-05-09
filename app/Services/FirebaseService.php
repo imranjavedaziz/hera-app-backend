@@ -263,4 +263,21 @@ class FirebaseService
         }
         return $response;
     }
+
+    public function updateNextStepStatus($user1,$user2) {
+        try {
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true){
+                $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey)->update([$user2->id.'/next_step' => ONE]);
+            }
+       } catch (ApiException $e) {
+            $request = $e->getRequest();
+            $response = $e->getResponse();
+            $response = $response->getBody();
+            echo $request->getUri().PHP_EOL;
+            echo $request->getBody().PHP_EOL;
+        } catch (\Exception $e) {
+            $response = $e->getMessage();
+        }
+        return $response;
+    }
 }
