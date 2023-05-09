@@ -8,7 +8,7 @@ use App\Models\User;
 
 class PaymentService
 {
-    public function getUsersByProfileMatchAndKeyword($user_id, $keyword) {
+    public function getUsersByProfileMatchAndKeyword($user_id, $keyword = false) {
         $users = User::whereIn(ID, function ($query) use ($user_id) {
                 $query->select(FROM_USER_ID)
                     ->from('profile_matches')
