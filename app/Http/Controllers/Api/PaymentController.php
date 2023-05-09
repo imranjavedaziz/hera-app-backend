@@ -60,7 +60,8 @@ class PaymentController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $matchList = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id, $request->keyword);
-            $response = response()->Success(trans('messages.common_msg.data_found'), $matchList->paginate($limit));
+            $record = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id);
+            $response = response()->Success(trans('messages.common_msg.data_found'), [DATA => $matchList->paginate($limit),'record' => $record->count()]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -335,7 +336,7 @@ class PaymentController extends Controller
      *             @OA\Property(
      *                property="payment_intent_id",
      *                type="string",
-     *                example=pm_1N4ScRGDXbU7wJmtK1BWMhem
+     *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
      *             ),
      *             @OA\Property(
      *                property="payment_request_id",
