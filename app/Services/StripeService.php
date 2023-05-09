@@ -136,4 +136,93 @@ class StripeService
             return $e->getMessage();
         }
     }
+
+    public function transferMoney($PAYMENT_METHOD_ID, $amount, $destinationAccountId) {
+        try {
+            return $this->stripeClient->transfers->create([
+                'amount' => $amount,
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+                'payment_method' => $source,
+                'transfer_data' => [
+                  'destination' => $destinationAccountId,
+                ],
+              ]);
+
+              $this->stripeClient->paymentIntents->create([
+                'amount' => $amount * 100,
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+                'payment_method' => $PAYMENT_METHOD_ID,
+                'transfer_data' => [
+                  'destination' => $destinationAccountId,
+                ],
+                METADATA => [USER_ID => $userId],
+              ]);
+              
+              
+        } catch(\Stripe\Exception\CardException $e) {
+            return $e->getMessage();
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            return $e->getMessage();
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            return $e->getMessage();
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            return $e->getMessage();
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            return $e->getMessage();
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            return $e->getMessage();
+        }
+    }
+    
+    public function createPaymentIntent($destinationAccountId, $input)
+    {
+        try {
+            $paymentIntent = $this->stripeClient->paymentIntents->create([
+                'amount' => $input[AMOUNT] * 100,
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+                'payment_method' => $input['payment_method_id'],
+                'transfer_data' => [
+                  'destination' => $destinationAccountId,
+                ],
+                'transfer' => 'true',
+                METADATA => [TO_USER_ID => $input[TO_USER_ID]],
+              ]);
+            $response[SUCCESS] = true;
+            $response[DATA][PAYMENT_INTENT_ID] = $paymentIntent->id;
+            $response[DATA][CLIENT_SECRET] = $paymentIntent->client_secret;
+            $response[DATA][AMOUNT] = $input[AMOUNT];
+        } catch (\Stripe\Exception\CardException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code;
+        } catch (Exception $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->message();
+            $response[CODE] = $e->getError()->code;
+        }
+        return $response;
+    }
 }
