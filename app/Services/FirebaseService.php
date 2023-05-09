@@ -266,8 +266,9 @@ class FirebaseService
 
     public function updateNextStepStatus($user1,$user2) {
         try {
-            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1->id.'/'.$this->friendsKey.'/'.$user2->id) === true){
-                $this->database->getReference($this->tableName.'/'.$user1->id.'/'.$this->friendsKey)->update([$user2->id.'/next_step' => ONE]);
+            $response = NULL;
+            if ($this->database->getReference($this->tableName)->getSnapshot()->hasChild($user1.'/'.$this->friendsKey.'/'.$user2) === true){
+                $this->database->getReference($this->tableName.'/'.$user1.'/'.$this->friendsKey)->update([$user2.'/next_step' => ONE]);
             }
        } catch (ApiException $e) {
             $request = $e->getRequest();
