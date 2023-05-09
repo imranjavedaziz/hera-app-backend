@@ -8,11 +8,13 @@ use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\PaymentService,
     App\Services\UserRegisterService,
+    App\Services\StripeService
 };
 use App\Http\Requests\UserPaymentRequest;
 use App\Http\Requests\UploadDocumentRequest;
 use App\Http\Requests\PaymentRequestStatusRequest;
 use DB;
+use App\Models\User;
 
 class PaymentController extends Controller
 {
@@ -58,7 +60,8 @@ class PaymentController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $matchList = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id, $request->keyword);
-            $response = response()->Success(trans('messages.common_msg.data_found'), $matchList->paginate($limit));
+            $record = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id);
+            $response = response()->Success(trans('messages.common_msg.data_found'), [DATA => $matchList->paginate($limit),'record' => $record->count()]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -302,6 +305,87 @@ class PaymentController extends Controller
             }
             PaymentService::updatePaymentRequestStatus($request->all());
             $response = response()->Success(trans('messages.payment.request_rejected'));
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/v1/payment-transfer",
+     *     description="User make payment transfer",
+     *     operationId="user-payment-transfer",
+     *     tags={"Payment"},
+     *     summary="User payment transfer",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "User payment transfer",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="to_user_id",
+     *                type="integer",
+     *                example=1
+     *             ),
+     *             @OA\Property(
+     *                property="amount",
+     *                type="float",
+     *                example=500
+     *             ),
+     *             @OA\Property(
+     *                property="payment_intent_id",
+     *                type="string",
+     *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
+     *             ),
+     *             @OA\Property(
+     *                property="payment_request_id",
+     *                type="integer",
+     *                example=1
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function paymentTransfer(UserPaymentRequest $request)
+    {
+        try {
+            $input = $request->all();
+            $user = User::where(ID,$input[TO_USER_ID])->first();
+            $paymentTransfer = StripeService::createPaymentIntent($user->connected_acc_token, $input);
+            if ($paymentTransfer[SUCCESS]) {
+                $response = response()->Success(trans('messages.payment.payment_transfer'), $paymentTransfer[DATA]);
+            } else {
+                $response = response()->Error($response[MESSAGE]);
+            }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

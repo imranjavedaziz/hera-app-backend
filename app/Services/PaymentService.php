@@ -8,7 +8,7 @@ use App\Models\User;
 
 class PaymentService
 {
-    public function getUsersByProfileMatchAndKeyword($user_id, $keyword) {
+    public function getUsersByProfileMatchAndKeyword($user_id, $keyword = false) {
         $users = User::whereIn(ID, function ($query) use ($user_id) {
                 $query->select(FROM_USER_ID)
                     ->from('profile_matches')
@@ -25,7 +25,10 @@ class PaymentService
             })
             ->where(ID, '!=', $user_id)
             ->where(function ($query) use ($keyword) {
-                $query->where(USERNAME, 'like', "%{$keyword}%");
+                $query->where(function($query) use ($keyword) {
+                    $query->whereRaw("CONCAT_WS(' ', FIRST_NAME, MIDDLE_NAME, LAST_NAME) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->orWhere(USERNAME, 'like', "%{$keyword}%");
             })
             ->orderBy(FIRST_NAME, ASC);
     
