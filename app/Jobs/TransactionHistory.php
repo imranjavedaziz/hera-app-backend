@@ -9,6 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Transaction;
+use Facades\{
+    App\Services\StripeService
+};
 
 class TransactionHistory implements ShouldQueue
 {
@@ -36,6 +39,7 @@ class TransactionHistory implements ShouldQueue
      */
     public function handle()
     {
-        Transaction::saveTransaction($this->payment, $this->data);
+        $card = StripeService::getPaymentCardDetails($this->data[PAYMENT_METHOD_ID]);
+        Transaction::saveTransaction($this->payment, $this->data, $card);
     }
 }

@@ -144,6 +144,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
             Route::post('payment-transfer', [PaymentController::class, 'paymentTransfer']);
+            Route::get('transaction-history', [PaymentController::class, 'getTransactionHistoryList']);
         });
 
         /***Only Parents route***/
