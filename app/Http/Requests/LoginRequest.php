@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\ApiFormRequest;
+use App\Http\ValidationRule;
 
 class LoginRequest extends ApiFormRequest
 {
@@ -26,8 +27,9 @@ class LoginRequest extends ApiFormRequest
      */
     public function rules()
     {
-        return [            
-            'email' => 'required|string|email|max:255',
+        return [
+            'country_code' => ValidationRule::COUNTRY_CODE,       
+            'phone_no' => ValidationRule::PHONE,
             'password' => [
                 REQUIRED                        
             ],

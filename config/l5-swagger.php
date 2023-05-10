@@ -187,7 +187,7 @@ return [
                 ],
                 */
                 'bearer' => [
-                    'type' => 'http',
+                    'type' => 'apiKey',
                     'description' => 'Authorization token obtained from logging in.',
                     'name' => 'Authorization',
                     'in' => 'header',

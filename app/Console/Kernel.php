@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\SubscriptionReminder::class,
     ];
 
     /**
@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('subscription:reminder')->dailyAt('1:00');
+        /**$schedule->command('subscription:expired')->dailyAt('1:00');**/
+        $schedule->command('subscription:expired')->everyMinute();
     }
 
     /**

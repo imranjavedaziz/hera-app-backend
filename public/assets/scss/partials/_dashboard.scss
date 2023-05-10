@@ -1,0 +1,146 @@
+// Dashboard
+.dashboard-container {
+    padding: 39px 0px 35px 0px;
+    .user-management-header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .btn-secondary {
+            background-color: unset;
+            border: unset;
+            padding: 0 0 0 5px;
+            &:hover {
+                color: none;
+            }
+            .dropdown-toggle:focus {
+                box-shadow: unset;
+            }
+            &:active:focus {
+                box-shadow: unset;
+            }
+        }
+        .dropdown-menu{
+            transform: translate(10px, 32px) !important;
+        }
+    }
+    .section-title{
+        @include font-bold(23px, normal);
+        color: #353a3a;
+    }
+
+
+}
+
+.dropdown-toggle::after {
+    // border: unset;
+    color: gray;
+}
+
+
+.form-select:focus {
+    box-shadow: unset;
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    box-shadow: unset;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0 20px;
+    clear: both;
+    @include font-regular(14px, 3.21);
+    color: #353a3a;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown-item.hover,
+.dropdown-item:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+.dropdown-item:active {
+    background-color: #fff;
+    color: #353a3a;
+}
+
+// pagination section start here
+.pagination-section {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-right: 35px;
+}
+.pagination-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination {
+    margin: 40px 0px 43px auto;
+    // color: #4d4d4d;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    // background-color: transparent;
+    @include font-regular(13px, normal);
+    .page-item {
+        .page-link {
+            padding: 6px 11px;
+            border: unset;
+            background-color: transparent;
+            color: #82828d;
+            img{
+                vertical-align: baseline;
+            }
+            .previous-arrow {
+                margin: 0 -13px 3px -13px;
+            }
+            .next-arrow {
+                margin: 0 -13px 2px -8px;
+            }
+            &:focus {
+                box-shadow: unset;
+            }
+        }
+        a {
+            color: #82828d;
+            border: none;
+            border-radius: 6px;
+            &:focus,
+            &:hover,
+            &:active {
+                box-shadow: unset;
+                background-color: #98c8c2;
+            }
+        }
+    }
+    .page-item.active .page-link {
+        padding: 6px 11px;
+        background-color: #98c8c2;
+    }
+    .page-item:first-child .page-link{
+        border-radius: 6px;
+    }
+    .page-item:last-child .page-link{
+        border-radius: 6px;
+    }
+    .disabled {
+        .page-link {
+            border: none;
+            color: #000;
+            padding: 0px;
+        }
+    }
+}
+
+#next-page-arrow {
+    color: #000;
+    padding: 0 0 0 10px;
+}

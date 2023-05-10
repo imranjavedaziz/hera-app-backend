@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 19" width="15" height="19">
+	<title>eye</title>
+	<defs>
+		<image  width="15" height="9" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJCAMAAADaUYZlAAAAAXNSR0IB2cksfwAAAFFQTFRFODw8Nzw8R3BMRkZGNjw8Njo6NTo6OTw8Njo6NTo6NkNDNTs7NTo6OT09Njs7NTo6Njo6NTs7QElJOD4+NTs7NTo6NTo6NTo6ODs7NTo6NTk5AUE5igAAABt0Uk5TOUQABZad+S9//xPh2Rny5mTRCyeLkLrEWKeuxRXNKwAAAF9JREFUeJw9zFkOgCAMBNBSZFNAFi3o/Q8qi6EfTV8mUwCGa/gGIKRa1obBflj3k0mBgODPWQkypmbMp4mXvqPxAbudpeKNLJVo5MErTCT6Ad308OlU6ui3//zVbWXED+87BBgGwJgLAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+	</style>
+	<use id="vv" href="#img1" x="0" y="10"/>
+</svg>

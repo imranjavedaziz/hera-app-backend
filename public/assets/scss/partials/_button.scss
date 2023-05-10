@@ -1,0 +1,36 @@
+.btn-primary{
+    @include font-bold(14px, 1.8);
+    letter-spacing: 1.8px;
+    color: #353a3a;
+    background-color: #98c8c2;
+    border-radius: 40px;
+    padding: 2px 6px;
+    border: transparent;
+    text-transform: uppercase;
+    &:hover,
+        &:focus,
+        &:active {
+            box-shadow: none;
+            outline: 0;
+            background-color: #8BC1BA;
+            color: #353a3a;
+        }
+        &.disabled,
+        &:disabled {
+            opacity: 0.5;
+        }
+}
+.btn-hidden{
+    @include font-regular(12px, normal);
+    color: #747474;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+.btn-login{
+    padding: 25px 66px;
+}
+.btn-logout{
+    padding: 9px 20px;
+}
+

@@ -62,5 +62,13 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+        'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
+        'EnsureParentsToBeTokenIsValid' => \App\Http\Middleware\EnsureParentsToBeTokenIsValid::class,
+        'EnsureDonarTokenIsValid' => \App\Http\Middleware\EnsureDonarTokenIsValid::class,
+        'CheckUserAccountStatus' => \App\Http\Middleware\CheckUserAccountStatus::class,
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
+        'admin' => \App\Http\Middleware\Admin::class,
     ];
 }
