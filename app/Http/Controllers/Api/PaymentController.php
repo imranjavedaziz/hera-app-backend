@@ -334,7 +334,7 @@ class PaymentController extends Controller
      *                example=500
      *             ),
      *             @OA\Property(
-     *                property="payment_intent_id",
+     *                property="payment_method_id",
      *                type="string",
      *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
      *             ),
@@ -380,11 +380,14 @@ class PaymentController extends Controller
         try {
             $input = $request->all();
             $user = User::where(ID,$input[TO_USER_ID])->first();
-            $paymentTransfer = StripeService::createPaymentIntent($user->connected_acc_token, $input);
+            $input[ACCOUNT_ID] = $user->connected_acc_token;
+            $input[USER_ID] = AuthHelper::authenticatedUser()->id;
+            $input[STRIPE_CUSTOMER_ID] = AuthHelper::authenticatedUser()->stripe_customer_id;
+            $paymentTransfer = StripeService::createPaymentIntent($input);
             if ($paymentTransfer[SUCCESS]) {
                 $response = response()->Success(trans('messages.payment.payment_transfer'), $paymentTransfer[DATA]);
             } else {
-                $response = response()->Error($response[MESSAGE]);
+                $response = response()->Error($paymentTransfer[MESSAGE]);
             }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
