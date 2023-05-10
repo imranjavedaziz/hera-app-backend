@@ -15,6 +15,7 @@ define('TEN', 10);
 define('FIFTEEN', 15);
 define('THIRTY', 30);
 define('TWENTY', 20);
+define('HUNDRED', 100);
 
 //define status number 
 define('ACTIVE', 1);  // Approved
@@ -643,3 +644,44 @@ define('FILE_MAX', 'file.max');
 define('TRIAL_START', 'trial_start');
 define('PAYMENT_REQUEST_ID', 'payment_request_id');
 define('EXISTS_PAYMENT_REQUEST_ID', 'exists:payment_requests,id');
+
+//define transactipon table
+define('TEMP_ID', 'temp_id');
+define('ACCOUNT_ID', 'account_id');
+define('PAYMENT_INTENT', 'payment_intent');
+define('NET_AMOUNT', 'net_amount');
+define('PAYMENT_TYPE', 'payment_type');
+define('PAYMENT_STATUS', 'payment_status');
+define('PRICE_ID', 'price_id');
+define('SUBSCRIPTION_START', 'subscription_start');
+define('SUBSCRIPTION_END', 'subscription_end');
+define('BRAND', 'brand');
+define('EXP_MONTH', 'brand');
+define('EXP_YEAR', 'brand');
+define('LAST4', 'last4');
+define('RECEIPT_URL', 'receipt_url');
+define('INVOICE_NUMBER', 'invoice_number');
+define('CANCELLATION_DATE', 'cancellation_date');
+define('REFUND_AMOUNT', 'refund_amount');
+define('NET_REFUND_AMOUNT', 'net_refund_amount');
+define('REFUND_ID', 'refund_id');
+define('REFUND_STATUS', 'refund_status');
+
+//define payment type fee
+define('TRANSFER_AMOUNT', 1);
+define('MEMBERSHIP_FEE', 2);
+
+//define payment_statuses text 
+define('PAYMENT_SUCCESS', 1);
+define('PAYMENT_FAILURE', 2);
+define('PAYMENT_CANCEL', 3);
+define('PAYMENT_DELETED', 4);
+
+//define Stripe processing fees
+define('STRIPE_PROCESSING_FEES', 2.9);
+define('STRIPE_ADDITIONAL_FEES', .3);
+define('DAYS', 'days');
+define('STRIPE_CUSTOMER_ID', 'stripe_customer_id');
+define('PAYMENT_INTENT_ID', 'payment_intent_id');
+define('CLIENT_SECRET', 'client_secret');
+define('SUCCEEDED', 'succeeded');
