@@ -73,7 +73,7 @@ class PaymentService
     }
 
     public function getDonarTransactionHistoryList($accountId) {
-        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.account_id,transactions.created_at,users.username, users.profile_pic')
+        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.bank_name,transactions.bank_last4,transactions.created_at,users.username, users.profile_pic')
             ->join('users', 'users.id', '=', 'transactions.user_id')
             ->where([ACCOUNT_ID => $accountId, PAYMENT_TYPE => ONE])
             ->groupBy('transactions.id')

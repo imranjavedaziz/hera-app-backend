@@ -686,3 +686,6 @@ define('PAYMENT_INTENT_ID', 'payment_intent_id');
 define('CLIENT_SECRET', 'client_secret');
 define('SUCCEEDED', 'succeeded');
 define('PAYMENT_METHOD_ID', 'payment_method_id');
+define('BANK_ACCOUNT_TOKEN', 'bank_acc_token');
+define('BANK_NAME', 'bank_name');
+define('BANK_LAST4', 'bank_last4');
