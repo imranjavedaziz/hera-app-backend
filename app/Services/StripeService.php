@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Helpers\CustomHelper;
 use Carbon\Carbon;
 use App\Models\PaymentRequest;
+use App\Models\User;
 use App\Jobs\TransactionHistory;
+use App\Jobs\PaymentNotification;
 
 class StripeService
 {
@@ -160,6 +162,10 @@ class StripeService
             $response[DATA][AMOUNT] = $input[AMOUNT];
             if(!empty($input[PAYMENT_REQUEST_ID]) && $paymentIntent->status === SUCCEEDED) {
                 PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
+                $user =  User::where(ID, $input[USER_ID])->first();
+                $title = 'Payment Transfer!';
+                $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount '. $input[AMOUNT];
+                PaymentNotification::dispatch($title, $description, $input);
             }
             dispatch(new TransactionHistory($paymentIntent, $input));
         } catch (\Stripe\Exception\CardException $e) {

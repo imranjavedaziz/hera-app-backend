@@ -304,7 +304,8 @@ class PaymentController extends Controller
                 return response()->Error(trans('messages.payment.invalid_request'));
             }
             PaymentService::updatePaymentRequestStatus($request->all());
-            $response = response()->Success(trans('messages.payment.request_rejected'));
+            $msg = ( $request->status == TWO) ? trans('messages.payment.request_rejected') : trans('messages.payment.request_already_paid');
+            $response = response()->Success($msg);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
