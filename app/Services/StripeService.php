@@ -147,7 +147,7 @@ class StripeService
                 'currency' => 'usd',
                 'payment_method_types' => ['card'],
                 'customer' => $input[STRIPE_CUSTOMER_ID],
-                'payment_method' => $input['payment_method_id'],
+                'payment_method' => $input[PAYMENT_METHOD_ID],
                 'transfer_data' => [
                   'destination' => $input[ACCOUNT_ID],
                 ],
@@ -185,5 +185,15 @@ class StripeService
             $response[MESSAGE] = $e->getMessage();
         }
         return $response;
+    }
+
+    public function getPaymentCardDetails($paymentMethod)
+    {
+        try {
+            $paymentMethod = $this->stripeClient->paymentMethods->retrieve($paymentMethod);
+            return $paymentMethod->card;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

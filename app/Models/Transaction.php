@@ -42,13 +42,13 @@ class Transaction extends Model
         REFUND_STATUS,
     ];
 
-    public static function saveTransaction($object,$fields) {
-        $transPaymentIntent = self::setTransPaymentIntent($object,$fields);
+    public static function saveTransaction($object, $fields, $card) {
+        $transPaymentIntent = self::setTransPaymentIntent($object, $fields, $card);
         self::create($transPaymentIntent);
         return true;
     }
 
-    public static function setTransPaymentIntent($object,$fields){
+    public static function setTransPaymentIntent($object, $fields, $card){
         return [
             USER_ID => isset($fields[USER_ID])?$fields[USER_ID]:NULL,
             PAYMENT_INTENT => isset($object[ID])?$object[ID]:NULL,
@@ -56,7 +56,11 @@ class Transaction extends Model
             NET_AMOUNT => isset($object[AMOUNT])?$object[AMOUNT]/HUNDRED: NULL,
             DESCRIPTION => isset($fields[DESCRIPTION])?$fields[DESCRIPTION]:NULL,
             PAYMENT_TYPE => isset($fields[PAYMENT_TYPE])?$fields[PAYMENT_TYPE]:TRANSFER_AMOUNT,
-            PAYMENT_STATUS => ($object[STATUS] === SUCCEEDED) ? PAYMENT_SUCCESS : PAYMENT_FAILURE
+            PAYMENT_STATUS => ($object[STATUS] === SUCCEEDED) ? PAYMENT_SUCCESS : PAYMENT_FAILURE,
+            BRAND => isset($card->brand)?$card->brand:NULL,
+            EXP_MONTH => isset($card->exp_month)?$card->exp_month:NULL,
+            EXP_YEAR => isset($card->exp_year)?$card->exp_year:NULL,
+            LAST4 => isset($card->last4)?$card->last4:NULL,
         ];
     }
 }

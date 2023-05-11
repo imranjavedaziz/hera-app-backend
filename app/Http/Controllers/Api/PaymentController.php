@@ -394,4 +394,45 @@ class PaymentController extends Controller
         }
         return $response;
     }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/transaction-history",
+     *      operationId="transaction-history",
+     *      tags={"Payment"},
+     *      summary="Get payment transaction history",
+     *      description="Get payment transaction history",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getTransactionHistoryList(Request $request)
+    {
+        try {
+            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $transactionHistory = PaymentService::getTransactionHistoryList(AuthHelper::authenticatedUser()->id);
+            $response = response()->Success(trans('messages.common_msg.data_found'), $transactionHistory->paginate($limit));
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
 }
