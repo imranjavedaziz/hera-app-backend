@@ -334,6 +334,11 @@ class PaymentController extends Controller
      *                example=500
      *             ),
      *             @OA\Property(
+     *                property="net_amount",
+     *                type="float",
+     *                example=515.24
+     *             ),
+     *             @OA\Property(
      *                property="payment_method_id",
      *                type="string",
      *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
@@ -381,6 +386,7 @@ class PaymentController extends Controller
             $input = $request->all();
             $user = User::where(ID,$input[TO_USER_ID])->first();
             $input[ACCOUNT_ID] = $user->connected_acc_token;
+            $input[BANK_ACCOUNT_TOKEN] = $user->bank_acc_token;
             $input[USER_ID] = AuthHelper::authenticatedUser()->id;
             $input[STRIPE_CUSTOMER_ID] = AuthHelper::authenticatedUser()->stripe_customer_id;
             $paymentTransfer = StripeService::createPaymentIntent($input);

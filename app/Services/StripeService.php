@@ -143,7 +143,7 @@ class StripeService
     {
         try {
             $paymentIntent = $this->stripeClient->paymentIntents->create([
-                'amount' => $input[AMOUNT] * 100,
+                'amount' => $input[NET_AMOUNT] * 100,
                 'currency' => 'usd',
                 'payment_method_types' => ['card'],
                 'customer' => $input[STRIPE_CUSTOMER_ID],
@@ -192,6 +192,14 @@ class StripeService
         try {
             $paymentMethod = $this->stripeClient->paymentMethods->retrieve($paymentMethod);
             return $paymentMethod->card;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function getBanckAccountDetails($accountId, $bankAccountId) {
+        try {
+            return $this->stripeClient->accounts->retrieveExternalAccount($accountId, $bankAccountId);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

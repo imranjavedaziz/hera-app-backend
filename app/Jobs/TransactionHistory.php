@@ -40,6 +40,7 @@ class TransactionHistory implements ShouldQueue
     public function handle()
     {
         $card = StripeService::getPaymentCardDetails($this->data[PAYMENT_METHOD_ID]);
-        Transaction::saveTransaction($this->payment, $this->data, $card);
+        $bankAccount = StripeService::getBanckAccountDetails($this->data[ACCOUNT_ID], $this->data[BANK_ACCOUNT_TOKEN]);
+        Transaction::saveTransaction($this->payment, $this->data, $card, $bankAccount);
     }
 }
