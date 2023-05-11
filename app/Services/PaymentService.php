@@ -6,6 +6,7 @@ use App\Models\PaymentRequest;
 use App\Models\ProfileMatch;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Jobs\PaymentNotification;
 
 class PaymentService
 {
@@ -43,6 +44,11 @@ class PaymentService
         $paymentRequest->amount = $input[AMOUNT];
         $paymentRequest->doc_url = $input[DOC_URL];
         if($paymentRequest->save()){
+            $user =  User::where(ID, $user_id)->first();
+            $title = 'Payment Request!';
+            $description = $user->role->name .' '. $user->first_name. ' sent you a payment request of amount '. $input[AMOUNT];
+            $input[USER_ID] = $user_id;
+            PaymentNotification::dispatch($title, $description, $input);
             return [SUCCESS => true, DATA => $paymentRequest];
         }
         return [SUCCESS => false];
@@ -57,7 +63,22 @@ class PaymentService
     }
 
     public function updatePaymentRequestStatus($input) {
-        return PaymentRequest::where(ID, $input[PAYMENT_REQUEST_ID])->update([STATUS => $input[STATUS]]);
+        $paymentRequest = PaymentRequest::where(ID, $input[PAYMENT_REQUEST_ID])->first();
+        $user =  User::where(ID, $paymentRequest->to_user_id)->first();
+        $input[USER_ID] = $paymentRequest->to_user_id;
+        $input[TO_USER_ID] = $paymentRequest->from_user_id;
+        $input[AMOUNT] = $paymentRequest->amount;
+        if ($input[STATUS] == TWO) {
+            $title = 'Payment Declined!';
+            $description = $user->role->name .' '. $user->first_name. ' declined payment request of amount '. $input[AMOUNT];
+        } else {
+            $title = 'Payment already paid!';
+            $description = $user->role->name .' '. $user->first_name. ' already paid amount '. $input[AMOUNT];
+        }
+        $paymentRequest->status = $input[STATUS];
+        $paymentRequest->save();
+        PaymentNotification::dispatch($title, $description, $input);
+        return true;
     }
 
     public function checkPaymentRequestBelongToPtb($input, $userId) {

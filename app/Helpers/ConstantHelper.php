@@ -463,6 +463,7 @@ define('EXPIRES_DATE', "expires_date");
 define('PROFILE', "profile");
 define('CHAT', "chat");
 define('SUBSCRIBE', "subscribe");
+define('PAYMENT_NOTIFY', "payment");
 define('SENDER_USER', "sender_user");
 define('RECEIVER_USER', "receiver_user");
 define('RECEIVER_ID', "receiver_id");
