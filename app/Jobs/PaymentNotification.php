@@ -24,17 +24,20 @@ class PaymentNotification implements ShouldQueue
     protected $description;
 
     protected $data;
+
+    protected $notifyType;
     
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($title, $description, $data)
+    public function __construct($title, $description, $data, $notifyType)
     {
         $this->title = $title;
         $this->description = $description;
         $this->data = $data;
+        $this->notifyType = $notifyType;
     }
 
     /**
@@ -47,7 +50,7 @@ class PaymentNotification implements ShouldQueue
         $userId = $this->data[USER_ID];
         $paymentArray[USER_ID] = $userId;
         $paymentArray[TO_USER_ID] = $this->data[TO_USER_ID];
-        $paymentArray[NOTIFY_TYPE] = PAYMENT_NOTIFY;
+        $paymentArray[NOTIFY_TYPE] = $this->notifyType;
         $userDevices = DeviceRegistration::where([USER_ID => $this->data[TO_USER_ID], STATUS_ID => ACTIVE])->get();
         foreach($userDevices as $device) {
             FcmTrait::sendPush($device->device_token, $this->title, $this->description, $paymentArray);

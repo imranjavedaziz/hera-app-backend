@@ -163,9 +163,10 @@ class StripeService
             if(!empty($input[PAYMENT_REQUEST_ID]) && $paymentIntent->status === SUCCEEDED) {
                 PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
                 $user =  User::where(ID, $input[USER_ID])->first();
+                $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
                 $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount '. $input[AMOUNT];
-                PaymentNotification::dispatch($title, $description, $input);
+                PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
             dispatch(new TransactionHistory($paymentIntent, $input));
         } catch (\Stripe\Exception\CardException $e) {
