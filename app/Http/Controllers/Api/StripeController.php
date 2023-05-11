@@ -62,7 +62,7 @@ class StripeController extends Controller
             $kycStatus = !empty($accountStatus['individual']['verification'][STATUS]) ? $accountStatus['individual']['verification'][STATUS] : 'incomplete';
             $user->connected_acc_status = $status;
             $user->save();
-            $response = response()->Success(SUCCESS, [STATUS => $status,'kyc_status'=> $kycStatus]);
+            $response = response()->Success(SUCCESS, [STATUS => $status,'kyc_status'=> $kycStatus, 'bank_account' => $user->bank_acc_token]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -202,6 +202,69 @@ class StripeController extends Controller
             } else {
                 $response = response()->Error($result[MESSAGE]);
             }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+     /**
+     * @OA\Post(
+     *     path="/v1/update-bank-account",
+     *     description="Update bank account",
+     *     operationId="update-bank-account",
+     *     tags={"Stripe"},
+     *     summary="Update bank account",
+     *     description="Update bank account",
+     *     @OA\RequestBody(
+     *        required = true,
+     *        description = "Bank account token",
+     *        @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                property="bank_acc_token",
+     *                type="string",
+     *                example="ba_1N3hSx4Caw8san1dfozuBpSA"
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=417,
+     *          description="Expectation Failed"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function updateBankAccount(Request $request)
+    {
+        try {
+            $user = User::where(ID,AuthHelper::authenticatedUser()->id)->first();
+            $user->bank_acc_token = $request->bank_acc_token;
+            $user->save();
+            $response = response()->Success(SUCCESS, ['bank_account' => $user->bank_acc_token]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

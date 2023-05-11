@@ -116,6 +116,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('match-list', [PaymentController::class, 'getMatchList']);
         Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
         Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
+        Route::post('update-bank-account', [StripeController::class, 'updateBankAccount']);
+        Route::get('account-status',[StripeController::class, 'getAccountStatus']);
+        Route::get('transaction-history', [PaymentController::class, 'getTransactionHistoryList']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -127,7 +130,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
             Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
-            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
             Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/
@@ -144,7 +146,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
             Route::post('payment-transfer', [PaymentController::class, 'paymentTransfer']);
-            Route::get('transaction-history', [PaymentController::class, 'getTransactionHistoryList']);
         });
 
         /***Only Parents route***/

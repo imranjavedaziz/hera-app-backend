@@ -428,7 +428,12 @@ class PaymentController extends Controller
     {
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
-            $transactionHistory = PaymentService::getTransactionHistoryList(AuthHelper::authenticatedUser()->id);
+            $user = AuthHelper::authenticatedUser();
+            if ($user->role_id === PARENTS_TO_BE) {
+                $transactionHistory = PaymentService::getPtbTransactionHistoryList($user->id);
+            } else {
+                $transactionHistory = PaymentService::getDonarTransactionHistoryList($user->connected_acc_token);
+            }
             $response = response()->Success(trans('messages.common_msg.data_found'), $transactionHistory->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
