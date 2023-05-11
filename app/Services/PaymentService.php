@@ -64,10 +64,18 @@ class PaymentService
         return PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID], TO_USER_ID => $userId])->first();
     }
 
-    public function getTransactionHistoryList($userId) {
+    public function getPtbTransactionHistoryList($userId) {
         return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.brand,transactions.last4,transactions.created_at,users.username, users.profile_pic')
             ->join('users', 'users.connected_acc_token', '=', 'transactions.account_id')
             ->where([USER_ID => $userId, PAYMENT_TYPE => ONE])
+            ->groupBy('transactions.id')
+            ->orderBy(ID, DESC);
+    }
+
+    public function getDonarTransactionHistoryList($accountId) {
+        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.account_id,transactions.created_at,users.username, users.profile_pic')
+            ->join('users', 'users.id', '=', 'transactions.user_id')
+            ->where([ACCOUNT_ID => $accountId, PAYMENT_TYPE => ONE])
             ->groupBy('transactions.id')
             ->orderBy(ID, DESC);
     }
