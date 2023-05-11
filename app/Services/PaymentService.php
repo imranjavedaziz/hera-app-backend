@@ -45,10 +45,11 @@ class PaymentService
         $paymentRequest->doc_url = $input[DOC_URL];
         if($paymentRequest->save()){
             $user =  User::where(ID, $user_id)->first();
+            $notifyType = 'payment_request';
             $title = 'Payment Request!';
             $description = $user->role->name .' '. $user->first_name. ' sent you a payment request of amount '. $input[AMOUNT];
             $input[USER_ID] = $user_id;
-            PaymentNotification::dispatch($title, $description, $input);
+            PaymentNotification::dispatch($title, $description, $input, $notifyType);
             return [SUCCESS => true, DATA => $paymentRequest];
         }
         return [SUCCESS => false];
@@ -69,15 +70,17 @@ class PaymentService
         $input[TO_USER_ID] = $paymentRequest->from_user_id;
         $input[AMOUNT] = $paymentRequest->amount;
         if ($input[STATUS] == TWO) {
+            $notifyType = 'payment_declined';
             $title = 'Payment Declined!';
             $description = $user->role->name .' '. $user->first_name. ' declined payment request of amount '. $input[AMOUNT];
         } else {
+            $notifyType = 'payment_transfer';
             $title = 'Payment already paid!';
             $description = $user->role->name .' '. $user->first_name. ' already paid amount '. $input[AMOUNT];
         }
         $paymentRequest->status = $input[STATUS];
         $paymentRequest->save();
-        PaymentNotification::dispatch($title, $description, $input);
+        PaymentNotification::dispatch($title, $description, $input, $notifyType);
         return true;
     }
 
