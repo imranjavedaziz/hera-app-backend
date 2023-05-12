@@ -667,6 +667,8 @@ define('REFUND_AMOUNT', 'refund_amount');
 define('NET_REFUND_AMOUNT', 'net_refund_amount');
 define('REFUND_ID', 'refund_id');
 define('REFUND_STATUS', 'refund_status');
+define('PAYOUT_STATUS', 'payout_status');
+define('PAYOUT_ID', 'payout_id');
 
 //define payment type fee
 define('TRANSFER_AMOUNT', 1);
