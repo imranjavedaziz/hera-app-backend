@@ -304,7 +304,8 @@ class PaymentController extends Controller
                 return response()->Error(trans('messages.payment.invalid_request'));
             }
             PaymentService::updatePaymentRequestStatus($request->all());
-            $response = response()->Success(trans('messages.payment.request_rejected'));
+            $msg = ( $request->status == TWO) ? trans('messages.payment.request_rejected') : trans('messages.payment.request_already_paid');
+            $response = response()->Success($msg);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -334,7 +335,12 @@ class PaymentController extends Controller
      *                example=500
      *             ),
      *             @OA\Property(
-     *                property="payment_intent_id",
+     *                property="net_amount",
+     *                type="float",
+     *                example=515.24
+     *             ),
+     *             @OA\Property(
+     *                property="payment_method_id",
      *                type="string",
      *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
      *             ),
@@ -380,12 +386,62 @@ class PaymentController extends Controller
         try {
             $input = $request->all();
             $user = User::where(ID,$input[TO_USER_ID])->first();
-            $paymentTransfer = StripeService::createPaymentIntent($user->connected_acc_token, $input);
+            $input[ACCOUNT_ID] = $user->connected_acc_token;
+            $input[BANK_ACCOUNT_TOKEN] = $user->bank_acc_token;
+            $input[USER_ID] = AuthHelper::authenticatedUser()->id;
+            $input[STRIPE_CUSTOMER_ID] = AuthHelper::authenticatedUser()->stripe_customer_id;
+            $paymentTransfer = StripeService::createPaymentIntent($input);
             if ($paymentTransfer[SUCCESS]) {
                 $response = response()->Success(trans('messages.payment.payment_transfer'), $paymentTransfer[DATA]);
             } else {
-                $response = response()->Error($response[MESSAGE]);
+                $response = response()->Error($paymentTransfer[MESSAGE]);
             }
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v1/transaction-history",
+     *      operationId="transaction-history",
+     *      tags={"Payment"},
+     *      summary="Get payment transaction history",
+     *      description="Get payment transaction history",
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function getTransactionHistoryList(Request $request)
+    {
+        try {
+            $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
+            $user = AuthHelper::authenticatedUser();
+            if ($user->role_id === PARENTS_TO_BE) {
+                $transactionHistory = PaymentService::getPtbTransactionHistoryList($user->id);
+            } else {
+                $transactionHistory = PaymentService::getDonarTransactionHistoryList($user->connected_acc_token);
+            }
+            $response = response()->Success(trans('messages.common_msg.data_found'), $transactionHistory->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

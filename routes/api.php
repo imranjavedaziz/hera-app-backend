@@ -115,6 +115,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
         Route::get('match-list', [PaymentController::class, 'getMatchList']);
         Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
+        Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
+        Route::post('update-bank-account', [StripeController::class, 'updateBankAccount']);
+        Route::get('account-status',[StripeController::class, 'getAccountStatus']);
+        Route::get('transaction-history', [PaymentController::class, 'getTransactionHistoryList']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -125,9 +129,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
-            Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
             Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
-            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
             Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/

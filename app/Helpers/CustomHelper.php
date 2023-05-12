@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Favorite;
 use App\Models\Location;
 use App\Models\Role;
+use App\Models\SubscriptionPlan;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Support\Facades\DB;
@@ -133,5 +134,10 @@ class CustomHelper
         $user->timestamps = false;
         User::where(ID, $user->id)->update([REFRESH_TOKEN => $token]);
         return $token;
+    }
+
+    public static function getProductAmount($productId) {
+        $subscriptionPlan = SubscriptionPlan::where('product_id',$productId)->first();
+        return !empty($subscriptionPlan) ? $subscriptionPlan->unit_amount : 0;
     }
 }
