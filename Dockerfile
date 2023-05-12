@@ -21,10 +21,10 @@ RUN composer update && \
 RUN apt-get update && apt-get install ffmpeg -y
 
 
-#RUN php artisan route:clear && \
-#php artisan migrate && \
-#php artisan config:cache && \
-#php artisan l5-swagger:generate
+RUN php artisan route:clear && \
+php artisan migrate && \
+php artisan config:cache && \
+php artisan l5-swagger:generate
 
 RUN chmod -R 777 /var/www/html/storage/
 
