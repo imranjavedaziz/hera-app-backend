@@ -49,6 +49,9 @@ class PaymentService
             $title = 'Payment Request!';
             $description = $user->role->name .' '. $user->first_name. ' sent you a payment request of amount '. $input[AMOUNT];
             $input[USER_ID] = $user_id;
+            $input[FIRST_NAME] = $user->first_name;
+            $input[ROLE] = $user->role->name;
+            $input[USERNAME] = $user->username;
             PaymentNotification::dispatch($title, $description, $input, $notifyType);
             return [SUCCESS => true, DATA => $paymentRequest];
         }
@@ -69,6 +72,9 @@ class PaymentService
         $input[USER_ID] = $paymentRequest->to_user_id;
         $input[TO_USER_ID] = $paymentRequest->from_user_id;
         $input[AMOUNT] = $paymentRequest->amount;
+        $input[FIRST_NAME] = $user->first_name;
+        $input[ROLE] = $user->first_name;
+        $input[USERNAME] = $user->username;
         if ($input[STATUS] == TWO) {
             $notifyType = 'payment_declined';
             $title = 'Payment Declined!';
