@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
+use App\Models\ParentsPreference;
 use Carbon\Carbon;
 use Facades\{
     App\Services\StripeService
@@ -57,6 +58,7 @@ class StripeSubscriptionService
             $this->cancelActiveSubscription($user[ID]);
             $fields = $this->setSubscriptionObject($session, $user, $plan);
             Subscription::create($fields);
+            ParentsPreference::where(USER_ID, $user[ID])->update([ROLE_ID_LOOKING_FOR => $plan->role_id_looking_for]);
             $subscribe = true;
         }
         return $subscribe;
