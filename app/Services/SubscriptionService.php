@@ -13,6 +13,9 @@ use Log;
 use Carbon\Carbon;
 use App\Traits\StoreReceiptTrait;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use Facades\{
+    App\Services\StripeSubscriptionService
+};
 
 class SubscriptionService
 {
@@ -48,7 +51,11 @@ class SubscriptionService
         }
 
         if($fields[DEVICE_TYPE] == ANDROID) {
-            return $this->androidSubscription($fields);
+            $user = User::find($fields[USER_ID]);
+            $user->subscription_status = SUBSCRIPTION_ENABLED;
+            $user->save();
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
+            return StripeSubscriptionService::createStripeSubscription($fields);
         }
     }
 

@@ -480,8 +480,8 @@ define('EGG_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.egg_donor_monthly");
 define('SPERM_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_monthly");
 
 define('SURROGATE_MONTHLY_PLAN_NAME', "Surrogate Mother Monthly");
-define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donar Monthly");
-define('SPERM_DONER_MONTHLY_PLAN_NAME', "SPERM Donar Monthly");
+define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donor Monthly");
+define('SPERM_DONER_MONTHLY_PLAN_NAME', "Sperm Donor Monthly");
 
 define('SURROGATE_MONTHLY_PLAN_PRICE', "299");
 define('EGG_DONER_MONTHLY_PLAN_PRICE', "299");
@@ -500,8 +500,8 @@ define('EGG_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.egg_donor_quarterly");
 define('SPERM_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_quarterly");
 
 define('SURROGATE_QUARTERLY_PLAN_NAME', "Surrogate Mother Quarterly");
-define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donar Quarterly");
-define('SPERM_DONER_QUARTERLY_PLAN_NAME', "SPERM Donar Quarterly");
+define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donor Quarterly");
+define('SPERM_DONER_QUARTERLY_PLAN_NAME', "Sperm Donor Quarterly");
 
 define('SURROGATE_QUARTERLY_PLAN_PRICE', "749");
 define('EGG_DONER_QUARTERLY_PLAN_PRICE', "749");
@@ -514,7 +514,8 @@ define('SPERM_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LO
 define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
 define('QUARTERLY_PLAN_DESCRIPTION', "Quarterly Plan");
 define('MONTH', "month");
-define('QUARTER', "quarter");
+define('QUARTER', "3 months");
+define('PRODUCT', "product");
 define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
@@ -692,3 +693,5 @@ define('PAYMENT_METHOD_ID', 'payment_method_id');
 define('BANK_ACCOUNT_TOKEN', 'bank_acc_token');
 define('BANK_NAME', 'bank_name');
 define('BANK_LAST4', 'bank_last4');
+define('KEY_CANCELED', 'canceled');
+define('SUBSCRIPTION_OBJECT', 'subscription');

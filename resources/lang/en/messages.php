@@ -139,4 +139,6 @@ return [
         'payment_transfer' => 'Payment amount transfer successfully!',
         'request_already_paid' => 'Payment mark already paid successfully!',
     ],
+    'no_active_subscription_found' => "No active subcription found.",
+    'subscription_canceled' => "Subscription cancelled successfully.",
 ];

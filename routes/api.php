@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\ChatMediaController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
     Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
+    Route::post('stripe-webhooks',[StripeWebhookController::class, 'receiveEventNotifications']);
 
     /***Public register route before authentication***/
     Route::post('register', [UserController::class, 'register']);
@@ -142,6 +144,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
+            Route::post('cancel-subscription',[SubscriptionController::class, 'cancelSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
