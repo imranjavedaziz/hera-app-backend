@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Log;
 
-class WebhookController extends Controller
+class StripeWebhookController extends Controller
 {
     private $stripeWebhookSecret;
 
