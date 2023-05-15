@@ -165,6 +165,9 @@ class StripeService
                 $user =  User::where(ID, $input[USER_ID])->first();
                 $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
+                $input[FIRST_NAME] = $user->first_name;
+                $input[ROLE] = $user->role->name;
+                $input[USERNAME] = $user->username;
                 $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount '. $input[AMOUNT];
                 PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
@@ -207,6 +210,71 @@ class StripeService
     public function getBanckAccountDetails($accountId, $bankAccountId) {
         try {
             return $this->stripeClient->accounts->retrieveExternalAccount($accountId, $bankAccountId);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createProduct($productName, $description)
+    {
+        try {
+            $productInfo = [
+                NAME => $productName,
+                DESCRIPTION => $description ?? NULL,
+            ];
+            return $this->stripeClient->products->create($productInfo);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createPrice($productId,$productName,$interval,$unitAmount, $intervalCount = ONE)
+    {
+        try {
+            $priceInfo = [
+                'unit_amount' => $unitAmount * 100,
+                'currency' => 'usd',
+                'recurring' => ['interval' => $interval, "interval_count" => $intervalCount], // day, week, month or year
+                'product' => $productId,
+                'nickname' => $productName,
+            ];
+            return $this->stripeClient->prices->create($priceInfo);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->create($params);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function updateSubscription($subscriptionId, $params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->update($subscriptionId, $params);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function cancelSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->cancel($params, []);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function retrieveSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->retrieve($params, []);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

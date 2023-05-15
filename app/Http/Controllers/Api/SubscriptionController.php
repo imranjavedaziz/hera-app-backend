@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Facades\{
     App\Services\SubscriptionService,
+    App\Services\StripeSubscriptionService
 };
 use DB;
 use App\Helpers\AuthHelper;
@@ -97,6 +98,11 @@ class SubscriptionController extends Controller
      *                type="string",
      *                example="abcd"
      *             ),
+     *             @OA\Property(
+     *                property="payment_method_id",
+     *                type="string",
+     *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
+     *             ),
      *         ),
      *     ),
      *      @OA\Response(
@@ -186,6 +192,57 @@ class SubscriptionController extends Controller
             $trial_end =  !empty($user->trial_start) ? date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->trial_start))) : null;
             $trial_msg = 'Your free trial period expires on';
             $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/cancel-subscription",
+     *      operationId="cancel-subscription",
+     *      tags={"Subscription"},
+     *      summary="Cancel stripe subscription",
+     *      description="Cancel stripe subscription",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Subscription has been canceled successfully.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function cancelSubscription(Request $request)
+    {
+        try {
+            $canceled = StripeSubscriptionService::cancelSubscription(AuthHelper::authenticatedUser()->id);
+            if($canceled === false) {
+                return response()->Error(trans('messages.no_active_subscription_found'));
+            }
+            if(!empty($canceled->status_id) && $canceled->status_id === INACTIVE) {
+                $response = response()->Success(trans('messages.subscription_canceled'));
+            } else if(!empty($canceled[MESSAGE])) {
+                $response = response()->Success($canceled[MESSAGE]);
+            }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
