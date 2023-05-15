@@ -14,6 +14,11 @@ use App\Models\User;
 use App\Models\DeviceRegistration;
 use App\Constants\NotificationType;
 use App\Traits\FcmTrait;
+use App\Mail\PaymentRequestMail;
+use App\Mail\DonarPaymentSuccessMail;
+use App\Mail\PtbPaymentSuccessMail;
+use App\Mail\PaymentDeclinedMail;
+use Mail;
 
 class PaymentNotification implements ShouldQueue
 {
@@ -48,6 +53,9 @@ class PaymentNotification implements ShouldQueue
     public function handle()
     {
         $userId = $this->data[USER_ID];
+        $fromUser = User::where(ID, $userId)->first();
+        $toUser = User::where(ID, $this->data[TO_USER_ID])->first();
+        $this->sendMail($this->notifyType, $this->data, $toUser->email, $fromUser->email);
         $paymentArray[USER_ID] = $userId;
         $paymentArray[TO_USER_ID] = $this->data[TO_USER_ID];
         $paymentArray[NOTIFY_TYPE] = $this->notifyType;
@@ -67,5 +75,22 @@ class PaymentNotification implements ShouldQueue
         ]);
 
         return true;
+    }
+
+    private function sendMail($notifyType, $data, $toEmail, $fromEmail) {
+        switch ($notifyType) {
+            case "payment_request":
+                Mail::to($toEmail)->send(new PaymentRequestMail($data));
+              break;
+            case "payment_transfer":
+                Mail::to($toEmail)->send(new DonarPaymentSuccessMail($data));
+                Mail::to($fromEmail)->send(new PtbPaymentSuccessMail($data));
+              break;
+            case "payment_declined":
+                Mail::to($toEmail)->send(new PaymentDeclinedMail($data));
+              break;
+            default:
+            Mail::to($toEmail)->send(new PaymentRequestMail($data));
+          }
     }
 }

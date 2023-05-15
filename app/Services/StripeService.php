@@ -165,6 +165,9 @@ class StripeService
                 $user =  User::where(ID, $input[USER_ID])->first();
                 $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
+                $input[FIRST_NAME] = $user->first_name;
+                $input[ROLE] = $user->role->name;
+                $input[USERNAME] = $user->username;
                 $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount '. $input[AMOUNT];
                 PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
