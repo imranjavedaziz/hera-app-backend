@@ -695,3 +695,13 @@ define('BANK_NAME', 'bank_name');
 define('BANK_LAST4', 'bank_last4');
 define('KEY_CANCELED', 'canceled');
 define('SUBSCRIPTION_OBJECT', 'subscription');
+
+//define payout table column
+define('PAYOUT_TXN_ID', 'payout_txn_id');
+define('TRANSFER_TXN_ID', 'transfer_txn_id');
+define('PAYOUT_DATE', 'payout_date');
+define('ERROR_MESSAGE', 'error_message');
+define('ERROR_CODE', 'error_code');
+define('CONNECTED_ACC_TOKEN', 'connected_acc_token');
+define('DONOR', 'donor');
+define('TRANSACTIONS', 'transactions');
