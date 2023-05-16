@@ -41,7 +41,7 @@ class UpdatePayoutStatus extends Command
         foreach ($payouts as $payout) {
             Log::info("Processing payout " . $payout->id);
             $stripe = new StripeService();
-            $data = $stripe->retrivePayout($payout['payout_txn_id'], $payout['donor']['connected_acc_token']);
+            $data = $stripe->retrievePayout($payout['payout_txn_id'], $payout['donor']['connected_acc_token']);
             if ($data) {
                 switch ($data['status']) {
                     case 'paid':

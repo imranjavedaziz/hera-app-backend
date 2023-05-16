@@ -705,3 +705,8 @@ define('ERROR_CODE', 'error_code');
 define('CONNECTED_ACC_TOKEN', 'connected_acc_token');
 define('DONOR', 'donor');
 define('TRANSACTIONS', 'transactions');
+define('MESSAGE_DATA_FOUND', 'messages.common_msg.data_found');
+define('PAYMENT_REQUESTS', 'payment_requests');
+define('PAYOUTS', 'payouts');
+define('PLAN', 'plan');
+define('MBC', 'mbc');

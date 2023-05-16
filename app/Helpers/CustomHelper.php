@@ -123,7 +123,7 @@ class CustomHelper
         return $message;
     }
 
-    public static function createRefreshTokenForUser(User $user, array $credentials): string
+    public static function createRefreshTokenForUser(User $user): string
     {
         $data = serialize([
             USER_ID => $user->id
