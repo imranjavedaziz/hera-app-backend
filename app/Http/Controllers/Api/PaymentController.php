@@ -61,7 +61,7 @@ class PaymentController extends Controller
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $matchList = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id, $request->keyword);
             $record = PaymentService::getUsersByProfileMatchAndKeyword(AuthHelper::authenticatedUser()->id);
-            $response = response()->Success(trans('messages.common_msg.data_found'), [DATA => $matchList->paginate($limit),'record' => $record->count()]);
+            $response = response()->Success(trans(MESSAGE_DATA_FOUND), [DATA => $matchList->paginate($limit),'record' => $record->count()]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -240,7 +240,7 @@ class PaymentController extends Controller
         try {
             $limit = isset($request->limit) && ($request->limit > ZERO) ? $request->limit : DASHBOARD_PAGE_LIMIT;
             $paymentRequestList = PaymentService::getPaymentRequestList(AuthHelper::authenticatedUser());
-            $response = response()->Success(trans('messages.common_msg.data_found'), $paymentRequestList->paginate($limit));
+            $response = response()->Success(trans(MESSAGE_DATA_FOUND), $paymentRequestList->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -441,7 +441,7 @@ class PaymentController extends Controller
             } else {
                 $transactionHistory = PaymentService::getDonarTransactionHistoryList($user->connected_acc_token);
             }
-            $response = response()->Success(trans('messages.common_msg.data_found'), $transactionHistory->paginate($limit));
+            $response = response()->Success(trans(MESSAGE_DATA_FOUND), $transactionHistory->paginate($limit));
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

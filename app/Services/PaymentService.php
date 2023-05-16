@@ -12,7 +12,7 @@ use DB;
 class PaymentService
 {
     public function getUsersByProfileMatchAndKeyword($user_id, $keyword = false) {
-        $users = User::whereIn(ID, function ($query) use ($user_id) {
+        return User::whereIn(ID, function ($query) use ($user_id) {
                 $query->select(FROM_USER_ID)
                     ->from('profile_matches')
                     ->where(function ($query) use ($user_id) {
@@ -34,8 +34,6 @@ class PaymentService
                 ->orWhere(USERNAME, 'like', "%{$keyword}%");
             })
             ->orderBy(FIRST_NAME, ASC);
-    
-        return $users;
     }
 
     public function savePaymentRequest($user_id, $input) {
@@ -61,16 +59,16 @@ class PaymentService
 
     public function getPaymentRequestList($user) {
         if ($user->role_id == PARENTS_TO_BE) {
-            return PaymentRequest::with(['donar'])->leftJoin('transactions', 'transactions.payment_request_id', '=', 'payment_requests.id')
-            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            return PaymentRequest::with(['donar'])->leftJoin('transactions', 'transactions.payment_request_id', '=', PAYMENT_REQUESTS.'.'.ID)
+            ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(TO_USER_ID, $user->id)
-            ->orderBy('payment_requests.id', DESC)
+            ->orderBy(PAYMENT_REQUESTS.'.'.ID, DESC)
             ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
         } else {
-            return PaymentRequest::with(['ptb'])->leftJoin('transactions', 'transactions.payment_request_id', '=', 'payment_requests.id')
-            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            return PaymentRequest::with(['ptb'])->leftJoin('transactions', 'transactions.payment_request_id', '=', PAYMENT_REQUESTS.'.'.ID)
+            ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(FROM_USER_ID, $user->id)
-            ->orderBy('payment_requests.id', DESC)
+            ->orderBy(PAYMENT_REQUESTS.'.'.ID, DESC)
             ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
         }
     }
@@ -106,7 +104,7 @@ class PaymentService
     public function getPtbTransactionHistoryList($userId) {
         return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.brand,transactions.last4,transactions.created_at,users.username, users.profile_pic,COALESCE(payouts.status, 1) as payout_status')
             ->join('users', 'users.connected_acc_token', '=', 'transactions.account_id')
-            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(['transactions.user_id' => $userId, 'transactions.payment_type' => ONE])
             ->groupBy(TRANSACTIONS.'.'.ID)
             ->orderBy(TRANSACTIONS.'.'.ID, DESC);
@@ -115,7 +113,7 @@ class PaymentService
     public function getDonarTransactionHistoryList($accountId) {
         return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.bank_name,transactions.bank_last4,transactions.created_at,users.username, users.profile_pic,COALESCE(payouts.status, 1) as payout_status')
             ->join('users', 'users.id', '=', 'transactions.user_id')
-            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(['transactions.account_id'=> $accountId, 'transactions.payment_type' => ONE])
             ->groupBy(TRANSACTIONS.'.'.ID)
             ->orderBy(TRANSACTIONS.'.'.ID, DESC);

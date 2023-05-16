@@ -390,7 +390,7 @@ class AuthController extends Controller
         if ($refreshToken !== $user->refresh_token) {
             $response = response()->json([MESSAGE => __('messages.invalid_access_token')], Response::HTTP_FORBIDDEN);
         }else{
-            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user, $data)], Response::HTTP_OK);
+            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user)], Response::HTTP_OK);
         }
 
         return $response;

@@ -45,7 +45,7 @@ class ProcessDonarPayout extends Command
             $payoutAmount = 0;
             $processedTransactionIds = [];
             if (sizeof($donor['transactions']) == 0) {
-                Log::info("No bundle bookings for donor " . $donor['id']);
+                Log::info("No transactions for donor " . $donor['id']);
                 continue;
             }
             foreach ($donor['transactions'] as $transaction) {
