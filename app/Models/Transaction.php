@@ -44,6 +44,7 @@ class Transaction extends Model
         NET_REFUND_AMOUNT,
         REFUND_ID,
         REFUND_STATUS,
+        PAYMENT_REQUEST_ID
     ];
 
     public static function saveTransaction($object, $fields, $card, $bankAccount) {
@@ -67,7 +68,8 @@ class Transaction extends Model
             EXP_YEAR => isset($card->exp_year)?$card->exp_year:NULL,
             LAST4 => isset($card->last4)?$card->last4:NULL,
             BANK_NAME => isset($bankAccount->bank_name)?$bankAccount->bank_name:NULL,
-            BANK_LAST4 => isset($bankAccount->last4)?$bankAccount->last4:NULL
+            BANK_LAST4 => isset($bankAccount->last4)?$bankAccount->last4:NULL,
+            PAYMENT_REQUEST_ID => isset($fields[PAYMENT_REQUEST_ID])?$fields[PAYMENT_REQUEST_ID]:NULL
         ];
     }
 

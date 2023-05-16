@@ -7,6 +7,7 @@ use App\Models\ProfileMatch;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Jobs\PaymentNotification;
+use DB;
 
 class PaymentService
 {
@@ -47,7 +48,7 @@ class PaymentService
             $user =  User::where(ID, $user_id)->first();
             $notifyType = 'payment_request';
             $title = 'Payment Request!';
-            $description = $user->role->name .' '. $user->first_name. ' sent you a payment request of amount '. $input[AMOUNT];
+            $description = $user->role->name .' '. $user->username. ' sent you a payment request of amount $'. number_format($input[AMOUNT],2);
             $input[USER_ID] = $user_id;
             $input[FIRST_NAME] = $user->first_name;
             $input[ROLE] = $user->role->name;
@@ -60,9 +61,17 @@ class PaymentService
 
     public function getPaymentRequestList($user) {
         if ($user->role_id == PARENTS_TO_BE) {
-            return PaymentRequest::with(['donar'])->where(TO_USER_ID, $user->id)->orderBy(ID, DESC);
+            return PaymentRequest::with(['donar'])->leftJoin('transactions', 'transactions.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->where(TO_USER_ID, $user->id)
+            ->orderBy('payment_requests.id', DESC)
+            ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
         } else {
-            return PaymentRequest::with(['ptb'])->where(FROM_USER_ID, $user->id)->orderBy(ID, DESC);
+            return PaymentRequest::with(['ptb'])->leftJoin('transactions', 'transactions.payment_request_id', '=', 'payment_requests.id')
+            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->where(FROM_USER_ID, $user->id)
+            ->orderBy('payment_requests.id', DESC)
+            ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
         }
     }
 
@@ -78,11 +87,11 @@ class PaymentService
         if ($input[STATUS] == TWO) {
             $notifyType = 'payment_declined';
             $title = 'Payment Declined!';
-            $description = $user->role->name .' '. $user->first_name. ' declined payment request of amount '. $input[AMOUNT];
+            $description = $user->role->name .' '. $user->first_name. ' declined payment request of amount $'. number_format($input[AMOUNT],2);
         } else {
             $notifyType = 'payment_transfer';
             $title = 'Payment already paid!';
-            $description = $user->role->name .' '. $user->first_name. ' already paid amount '. $input[AMOUNT];
+            $description = $user->role->name .' '. $user->first_name. ' already paid amount $'. number_format($input[AMOUNT],2);
         }
         $paymentRequest->status = $input[STATUS];
         $paymentRequest->save();
@@ -95,19 +104,21 @@ class PaymentService
     }
 
     public function getPtbTransactionHistoryList($userId) {
-        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.brand,transactions.last4,transactions.created_at,transactions.payout_status,users.username, users.profile_pic')
+        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.brand,transactions.last4,transactions.created_at,users.username, users.profile_pic,COALESCE(payouts.status, 1) as payout_status')
             ->join('users', 'users.connected_acc_token', '=', 'transactions.account_id')
-            ->where([USER_ID => $userId, PAYMENT_TYPE => ONE])
-            ->groupBy('transactions.id')
-            ->orderBy(ID, DESC);
+            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->where(['transactions.user_id' => $userId, 'transactions.payment_type' => ONE])
+            ->groupBy(TRANSACTIONS.'.'.ID)
+            ->orderBy(TRANSACTIONS.'.'.ID, DESC);
     }
 
     public function getDonarTransactionHistoryList($accountId) {
-        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.bank_name,transactions.bank_last4,transactions.created_at,transactions.payout_status,users.username, users.profile_pic')
+        return Transaction::selectRaw('transactions.id,transactions.payment_intent,transactions.amount,transactions.net_amount,transactions.payment_status,transactions.bank_name,transactions.bank_last4,transactions.created_at,users.username, users.profile_pic,COALESCE(payouts.status, 1) as payout_status')
             ->join('users', 'users.id', '=', 'transactions.user_id')
-            ->where([ACCOUNT_ID => $accountId, PAYMENT_TYPE => ONE])
-            ->groupBy('transactions.id')
-            ->orderBy(ID, DESC);
+            ->leftJoin('payouts', 'payouts.id', '=', 'transactions.payout_id')
+            ->where(['transactions.account_id'=> $accountId, 'transactions.payment_type' => ONE])
+            ->groupBy(TRANSACTIONS.'.'.ID)
+            ->orderBy(TRANSACTIONS.'.'.ID, DESC);
     }
     
 }

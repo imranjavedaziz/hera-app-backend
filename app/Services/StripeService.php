@@ -150,9 +150,6 @@ class StripeService
                 'payment_method_types' => ['card'],
                 'customer' => $input[STRIPE_CUSTOMER_ID],
                 'payment_method' => $input[PAYMENT_METHOD_ID],
-                'transfer_data' => [
-                  'destination' => $input[ACCOUNT_ID],
-                ],
                 'confirm' => true,
                 METADATA => [TO_USER_ID => $input[TO_USER_ID]],
               ]);
@@ -161,14 +158,13 @@ class StripeService
             $response[DATA][CLIENT_SECRET] = $paymentIntent->client_secret;
             $response[DATA][AMOUNT] = $input[AMOUNT];
             if(!empty($input[PAYMENT_REQUEST_ID]) && $paymentIntent->status === SUCCEEDED) {
-                PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
                 $user =  User::where(ID, $input[USER_ID])->first();
                 $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
                 $input[FIRST_NAME] = $user->first_name;
                 $input[ROLE] = $user->role->name;
                 $input[USERNAME] = $user->username;
-                $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount '. $input[AMOUNT];
+                $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount $'. number_format($input[AMOUNT],2);
                 PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
             dispatch(new TransactionHistory($paymentIntent, $input));
@@ -277,6 +273,83 @@ class StripeService
             return $this->stripeClient->subscriptions->retrieve($params, []);
         } catch (\Exception $e) {
             return $e->getMessage();
+        }
+    }
+
+    public function tranferFund($destination, $amount)
+    {
+        try {
+            $tranfer = $this->stripeClient->transfers->create([
+                'amount' => ($amount) * 100,
+                'currency' => 'usd',
+                'destination' => $destination,
+            ]);
+            $response[SUCCESS] = true;
+            $response[DATA] = $tranfer;
+        } catch (\Exception $e) {
+            $response[SUCCESS] = false;
+        } finally {
+            return $response;
+        }
+    }
+
+    public function payOutToDonor($connectedAcc, $amount)
+    {
+        $response[SUCCESS] = false;
+        try {
+            $stripe = new \Stripe\StripeClient(
+                env(STRIPE_SECRET)
+            );
+            \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
+            $payout = \Stripe\Payout::create([
+                'amount' => ($amount) * 100,
+                'currency' => 'usd',
+            ], [
+                'stripe_account' => $connectedAcc,
+            ]);
+            $response[SUCCESS] = true;
+            $response[DATA] = $payout;
+        } catch (\Stripe\Exception\CardException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'card_error';
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'limit_error';
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'invalid_request';
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'auth_error';
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
+        } catch (\Exception $e) {
+            $response[CODE] = "api_error";
+            $response[MESSAGE] = "Something went wrong";
+        } finally {
+            return $response;
+        }
+    }
+
+    public function retrivePayout($payoutId, $connectedAcc) {
+        $data = false;
+        try {
+            $stripe = new \Stripe\StripeClient(
+                env(STRIPE_SECRET)
+            );
+            \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
+            $data = \Stripe\Payout::retrieve(
+                $payoutId, [
+                'stripe_account' => $connectedAcc,
+            ]);
+        } catch (Exception $e) {
+            $data = false;
+        } finally {
+            return $data;
         }
     }
 }
