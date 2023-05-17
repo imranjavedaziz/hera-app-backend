@@ -710,3 +710,4 @@ define('PAYMENT_REQUESTS', 'payment_requests');
 define('PAYOUTS', 'payouts');
 define('PLAN', 'plan');
 define('MBC', 'mbc');
+define('KEY_STATUS', 'status');

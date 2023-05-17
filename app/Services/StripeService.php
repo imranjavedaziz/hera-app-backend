@@ -157,7 +157,10 @@ class StripeService
             $response[DATA][PAYMENT_INTENT_ID] = $paymentIntent->id;
             $response[DATA][CLIENT_SECRET] = $paymentIntent->client_secret;
             $response[DATA][AMOUNT] = $input[AMOUNT];
-            if(!empty($input[PAYMENT_REQUEST_ID]) && $paymentIntent->status === SUCCEEDED) {
+            if($paymentIntent->status === SUCCEEDED) {
+                if (!empty($input[PAYMENT_REQUEST_ID])) {
+                    PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
+                }
                 $user =  User::where(ID, $input[USER_ID])->first();
                 $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
