@@ -41,7 +41,7 @@ class SendNextStepsMail implements ShouldQueue
     {
         $ptb = User::where(ID, $this->fromUserId)->first();
         $donar = User::where(ID, $this->toUserId)->first();
-        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new AdminNextStepsMail($ptb, $donar));
+        Mail::to(env('ADMIN_EMAIL', 'admin-mbc@yopmail.com'))->send(new AdminNextStepsMail($ptb, $donar));
         Mail::to($ptb->email)->send(new PtbNextStepsMail($ptb, $donar));
         Mail::to($donar->email)->send(new DonarNextStepsMail($ptb, $donar));
     }
