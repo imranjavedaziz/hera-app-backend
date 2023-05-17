@@ -291,6 +291,7 @@ class StripeService
             $response[DATA] = $tranfer;
         } catch (\Exception $e) {
             $response[SUCCESS] = false;
+            $response[DATA] = $e->getMessage();
         } finally {
             return $response;
         }
