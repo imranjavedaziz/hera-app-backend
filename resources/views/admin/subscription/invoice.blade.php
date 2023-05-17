@@ -48,7 +48,7 @@
                             <div class="bill-amount">${{$subscriptionDetail->price}}</div>
                         </div>
                         <div class="cell">
-                            <div class="bill-title bill-weight mb-25">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Google @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a month.</div>
+                            <div class="bill-title bill-weight mb-25">The payment is made via @if ($subscriptionDetail->device_type == 'ios') Apple @else Card @endif Subscription. Subscription will renew automatically on {{$billedDate}} at the current rate of US${{$subscriptionDetail->price}} a month.</div>
                         </div>
                         <div class="cell-bottom">
                             <div class="logo-bill">

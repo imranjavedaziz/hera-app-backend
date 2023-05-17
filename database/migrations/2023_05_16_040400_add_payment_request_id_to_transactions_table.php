@@ -15,7 +15,7 @@ class AddPaymentRequestIdToTransactionsTable extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->string('payment_request_id')->nullable()->after('payout_id');
-            DB::statement("ALTER TABLE `transactions` CHANGE `payout_status` `payout_status` SMALLINT NULL DEFAULT '0' COMMENT '0=>Not Added, 2=>Added';");
+            DB::statement("ALTER TABLE `transactions` CHANGE `payout_status` `payout_status` SMALLINT NULL DEFAULT '0' COMMENT '0=>Not Added, 1=>Added';");
         });
     }
 

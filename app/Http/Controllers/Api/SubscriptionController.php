@@ -61,7 +61,7 @@ class SubscriptionController extends Controller
             $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$upcoming->id)->where(USER_ID,$userId)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
             ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
             }
-            $currentSubscription = !empty($current) && !empty($upcoming) && ($upcoming->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $current : $upcoming;
+            $currentSubscription = !empty($current) && !empty($upcoming) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $current : $upcoming;
             $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
             $preference = ParentsPreference::where(USER_ID, $userId)->first();
             $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $currentSubscription,'preference' => $preference, 'upcomingSubscription' => $upcomingSubscription]);

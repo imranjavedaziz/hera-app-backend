@@ -13,9 +13,7 @@ class AlterIntervalColumnToSubscriptionPlansTable extends Migration
      */
     public function up()
     {
-        Schema::table('subscription_plans', function (Blueprint $table) {
-            DB::statement("ALTER TABLE `subscription_plans` CHANGE `interval` `interval` ENUM('month','year','quarter') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'month';");
-        });
+        DB::statement("ALTER TABLE `subscription_plans` CHANGE `interval` `interval` ENUM('month','year','quarter') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'month';");
     }
 
     /**
@@ -25,8 +23,6 @@ class AlterIntervalColumnToSubscriptionPlansTable extends Migration
      */
     public function down()
     {
-        Schema::table('subscription_plans', function (Blueprint $table) {
 
-        });
     }
 }

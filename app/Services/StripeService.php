@@ -186,7 +186,7 @@ class StripeService
         } catch (\Stripe\Exception\ApiErrorException $e) {
             $response[SUCCESS] = false;
             $response[MESSAGE] = $e->getMessage();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response[SUCCESS] = false;
             $response[MESSAGE] = $e->getMessage();
         }
@@ -293,38 +293,18 @@ class StripeService
         }
     }
 
-    public function payOutToDonor($connectedAcc, $amount)
-    {
+    public function payOutToDonor($connectedAcc, $amount) {
         $response[SUCCESS] = false;
         try {
-            $stripe = new \Stripe\StripeClient(
-                env(STRIPE_SECRET)
-            );
-            \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
-            $payout = \Stripe\Payout::create([
+            $stripe = new \Stripe\StripeClient(env(STRIPE_SECRET));
+            $payout = $stripe->payouts->create([
                 'amount' => ($amount) * 100,
                 'currency' => 'usd',
-            ], [
                 'stripe_account' => $connectedAcc,
             ]);
             $response[SUCCESS] = true;
             $response[DATA] = $payout;
-        } catch (\Stripe\Exception\CardException $e) {
-            $response[MESSAGE] = $e->getError()->message;
-            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'card_error';
-        } catch (\Stripe\Exception\RateLimitException $e) {
-            $response[MESSAGE] = $e->getError()->message;
-            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'limit_error';
-        } catch (\Stripe\Exception\InvalidRequestException $e) {
-            $response[MESSAGE] = $e->getError()->message;
-            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'invalid_request';
-        } catch (\Stripe\Exception\AuthenticationException $e) {
-            $response[MESSAGE] = $e->getError()->message;
-            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'auth_error';
-        } catch (\Stripe\Exception\ApiConnectionException $e) {
-            $response[MESSAGE] = $e->getError()->message;
-            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Stripe\Exception\CardException | \Stripe\Exception\RateLimitException | \Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
             $response[MESSAGE] = $e->getError()->message;
             $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
         } catch (\Exception $e) {
@@ -335,21 +315,15 @@ class StripeService
         }
     }
 
-    public function retrivePayout($payoutId, $connectedAcc) {
-        $data = false;
+
+    public function retrievePayout($payoutId, $connectedAcc) {
         try {
-            $stripe = new \Stripe\StripeClient(
-                env(STRIPE_SECRET)
-            );
             \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
-            $data = \Stripe\Payout::retrieve(
-                $payoutId, [
+            return \Stripe\Payout::retrieve($payoutId, [
                 'stripe_account' => $connectedAcc,
             ]);
-        } catch (Exception $e) {
-            $data = false;
-        } finally {
-            return $data;
+        } catch (\Exception $e) {
+            return false;
         }
-    }
+    }    
 }

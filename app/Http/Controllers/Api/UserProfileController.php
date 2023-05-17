@@ -59,7 +59,6 @@ class UserProfileController extends Controller
     public function getDonerProfileDetails(ProfileDetailsRequest $request)
     {
         try {
-            $user = AuthHelper::authenticatedUser();
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());
             if ($doner_profile_details_data) {
                 $response = response()->Success(trans(LANG_DATA_FOUND), $doner_profile_details_data);

@@ -4,13 +4,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\StripeService;
-use App\Services\PayoutService;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Payout;
 use App\Constants\PayoutStatus;
 use Carbon\Carbon;
 use Log;
+use Facades\{
+    App\Services\PayoutService
+};
 
 class ProcessDonarPayout extends Command
 {
@@ -45,7 +47,7 @@ class ProcessDonarPayout extends Command
             $payoutAmount = 0;
             $processedTransactionIds = [];
             if (sizeof($donor['transactions']) == 0) {
-                Log::info("No bundle bookings for donor " . $donor['id']);
+                Log::info("No transactions for donor " . $donor['id']);
                 continue;
             }
             foreach ($donor['transactions'] as $transaction) {

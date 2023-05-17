@@ -99,9 +99,9 @@ class Transaction extends Model
 
     private static function setInvoiceTransactionFields($object,$userId){
         return [
-            TEMP_ID => isset($object->id)?$object->id:NULL,
-            USER_ID => isset($userId)?$userId:NULL,
-            PAYMENT_INTENT => isset($object->payment_intent)?$object->payment_intent:NULL,
+            TEMP_ID => $object->id ?? NULL,
+            USER_ID => $userId ?? NULL,
+            PAYMENT_INTENT => $object->payment_intent ?? NULL,
             AMOUNT => isset($object->amount_paid)?$object->amount_paid/HUNDRED: NULL,
             DESCRIPTION => isset($object->lines->data[0]->description)?$object->lines->data[0]->description:NULL,
             STATUS => isset($object->status) && ($object->status === 'paid') ? PAYMENT_SUCCESS : PAYMENT_FAILURE,

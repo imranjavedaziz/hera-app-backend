@@ -299,15 +299,15 @@ define('REJECTED_BY_DONAR', 4);
 define('FROMUSER', 'fromUser');
 define('TOUSER', 'toUser');
 
-define('LOCATION_VALUE', 45);
-define('AGE_VALUE', 45);
-define('RACE_VALUE', 45);
-define('ETHNICITY_VALUE', 45);
-define('HEIGHT_VALUE', 45);
-define('HAIR_COLOUR_VALUE', 45);
-define('EYE_COLOUR_VALUE', 45);
-define('EDUCATION_VALUE', 45);
-define('CRITERIA_WEIGHT', 360);
+define('LOCATION_VALUE', 20);
+define('AGE_VALUE', 15);
+define('RACE_VALUE', 60);
+define('ETHNICITY_VALUE', 50);
+define('HEIGHT_VALUE', 30);
+define('HAIR_COLOUR_VALUE', 40);
+define('EYE_COLOUR_VALUE', 35);
+define('EDUCATION_VALUE', 25);
+define('CRITERIA_WEIGHT', 275);
 define('MATCH_VALUE', 'match_value');
 
 //define user relationship and function constants
@@ -705,3 +705,8 @@ define('ERROR_CODE', 'error_code');
 define('CONNECTED_ACC_TOKEN', 'connected_acc_token');
 define('DONOR', 'donor');
 define('TRANSACTIONS', 'transactions');
+define('MESSAGE_DATA_FOUND', 'messages.common_msg.data_found');
+define('PAYMENT_REQUESTS', 'payment_requests');
+define('PAYOUTS', 'payouts');
+define('PLAN', 'plan');
+define('MBC', 'mbc');

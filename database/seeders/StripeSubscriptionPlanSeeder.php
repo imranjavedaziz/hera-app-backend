@@ -18,62 +18,58 @@ class StripeSubscriptionPlanSeeder extends Seeder
      */
     public function run()
     {
-        $surrogateMotherMonthlyPlan = SubscriptionPlan::where(NAME,SURROGATE_MONTHLY_PLAN_NAME)->first();
-        if(!empty($surrogateMotherMonthlyPlan)) {
-            $discription = 'MBC ' . SURROGATE_MONTHLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(SURROGATE_MONTHLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,SURROGATE_MONTHLY_PLAN_NAME, MONTH, SURROGATE_MONTHLY_PLAN_PRICE);
-                StripeSubscriptionService::savePlan($createPrice, $surrogateMotherMonthlyPlan->id);
+        $plans = [
+            SURROGATE_MONTHLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' '. SURROGATE_MONTHLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => SURROGATE_MONTHLY_PLAN_PRICE,
+            ],
+            EGG_DONER_MONTHLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' ' . EGG_DONER_MONTHLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => EGG_DONER_MONTHLY_PLAN_PRICE,
+            ],
+            SPERM_DONER_MONTHLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' ' . SPERM_DONER_MONTHLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => SPERM_DONER_MONTHLY_PLAN_PRICE,
+            ],
+            SURROGATE_QUARTERLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' ' . SURROGATE_QUARTERLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => SURROGATE_QUARTERLY_PLAN_PRICE,
+                INTERVAL_COUNT => THREE,
+            ],
+            EGG_DONER_QUARTERLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' ' . EGG_DONER_QUARTERLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => EGG_DONER_QUARTERLY_PLAN_PRICE,
+                INTERVAL_COUNT => THREE,
+            ],
+            SPERM_DONER_QUARTERLY_PLAN_NAME => [
+                DESCRIPTION => MBC.' ' . SPERM_DONER_QUARTERLY_PLAN_NAME . ' ' . PLAN,
+                INTERVAL => MONTH,
+                PRICE => SPERM_DONER_QUARTERLY_PLAN_PRICE,
+                INTERVAL_COUNT => THREE,
+            ],
+        ];
+        foreach ($plans as $planName => $planData) {
+            $subscriptionPlan = SubscriptionPlan::where(NAME, $planName)->first();
+            if (empty($subscriptionPlan)) {
+                continue;
             }
-        }
-        $eggDonorMonthlyPlan = SubscriptionPlan::where(NAME,EGG_DONER_MONTHLY_PLAN_NAME)->first();
-        if(!empty($eggDonorMonthlyPlan)) {
-            $discription = 'MBC ' . EGG_DONER_MONTHLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(EGG_DONER_MONTHLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,EGG_DONER_MONTHLY_PLAN_NAME, MONTH, EGG_DONER_MONTHLY_PLAN_PRICE);
-                StripeSubscriptionService::savePlan($createPrice, $eggDonorMonthlyPlan->id);
+            $createProduct = StripeService::createProduct($planName, $planData[DESCRIPTION]);
+            if (empty($createProduct) || empty($createProduct->id) || $createProduct->object !== PRODUCT) {
+                continue;
             }
-        }
-
-        $spermDonorMonthlyPlan = SubscriptionPlan::where(NAME,SPERM_DONER_MONTHLY_PLAN_NAME)->first();
-        if(!empty($spermDonorMonthlyPlan)) {
-            $discription = 'MBC ' . SPERM_DONER_MONTHLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(SPERM_DONER_MONTHLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,SPERM_DONER_MONTHLY_PLAN_NAME, MONTH, SPERM_DONER_MONTHLY_PLAN_PRICE);
-                StripeSubscriptionService::savePlan($createPrice, $spermDonorMonthlyPlan->id);
-            }
-        }
-
-        $surrogateMotherQuarterlyPlan = SubscriptionPlan::where(NAME,SURROGATE_QUARTERLY_PLAN_NAME)->first();
-        if(!empty($surrogateMotherQuarterlyPlan)) {
-            $discription = 'MBC ' . SURROGATE_QUARTERLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(SURROGATE_QUARTERLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,SURROGATE_QUARTERLY_PLAN_NAME, MONTH, SURROGATE_QUARTERLY_PLAN_PRICE, THREE);
-                StripeSubscriptionService::savePlan($createPrice, $surrogateMotherQuarterlyPlan->id);
-            }
-        }
-        $eggDonorQuarterlyPlan = SubscriptionPlan::where(NAME,EGG_DONER_QUARTERLY_PLAN_NAME)->first();
-        if(!empty($eggDonorQuarterlyPlan)) {
-            $discription = 'MBC ' . EGG_DONER_QUARTERLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(EGG_DONER_QUARTERLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,EGG_DONER_QUARTERLY_PLAN_NAME, MONTH, EGG_DONER_QUARTERLY_PLAN_PRICE, THREE);
-                StripeSubscriptionService::savePlan($createPrice, $eggDonorQuarterlyPlan->id);
-            }
-        }
-
-        $spermDonorQuarterlyPlan = SubscriptionPlan::where(NAME,SPERM_DONER_QUARTERLY_PLAN_NAME)->first();
-        if(!empty($spermDonorQuarterlyPlan)) {
-            $discription = 'MBC ' . SPERM_DONER_QUARTERLY_PLAN_NAME.' Plan';
-            $createProduct = StripeService::createProduct(SPERM_DONER_QUARTERLY_PLAN_NAME, $discription);
-            if(!empty($createProduct) && !empty($createProduct->id) && $createProduct->object === PRODUCT) {
-                $createPrice = StripeService::createPrice($createProduct->id,SPERM_DONER_QUARTERLY_PLAN_NAME, MONTH, SPERM_DONER_QUARTERLY_PLAN_PRICE, THREE);
-                StripeSubscriptionService::savePlan($createPrice, $spermDonorQuarterlyPlan->id);
-            }
+            $createPrice = StripeService::createPrice(
+                $createProduct->id,
+                $planName,
+                $planData[INTERVAL],
+                $planData[PRICE],
+                $planData[INTERVAL_COUNT] ?? ONE
+            );
+            StripeSubscriptionService::savePlan($createPrice, $subscriptionPlan->id);
         }
     }
 }
