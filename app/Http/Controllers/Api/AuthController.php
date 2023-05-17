@@ -116,6 +116,8 @@ class AuthController extends Controller
                     $user->access_token = $oauth_token;
                     $user->stripe_key = env(STRIPE_KEY) ?? null;
                     $user->stripe_secret = env(STRIPE_SECRET) ?? null;
+                    $user->stripe_processing_fees = STRIPE_PROCESSING_FEES;
+                    $user->stripe_additional_fees = STRIPE_ADDITIONAL_FEES;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
                     $response = response()->Error($message);
