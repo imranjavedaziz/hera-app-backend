@@ -19,7 +19,7 @@ class PayoutService
                     $this->savePayoutData($pendingPayout, $tranfer, $stripeService);
                 } else {
                     Log::info("Tranfer failed for donor " . $pendingPayout[USER_ID]);
-                    Log::info("Details of  Failed transfer fund : ". $tranfer);
+                    Log::info("Details of  Failed transfer fund : ". $tranfer[DATA]);
                 }
             } else {
                 Log::info("Details missing of donor " . $pendingPayout[USER_ID]);
