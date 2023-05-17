@@ -319,10 +319,9 @@ class StripeService
     public function retrievePayout($payoutId, $connectedAcc) {
         try {
             \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
-            $payout = \Stripe\Payout::retrieve($payoutId, [
+            return \Stripe\Payout::retrieve($payoutId, [
                 'stripe_account' => $connectedAcc,
             ]);
-            return $payout;
         } catch (\Exception $e) {
             return false;
         }
