@@ -17,9 +17,12 @@ class PayoutService
                 $tranfer =  $stripeService->tranferFund($pendingPayout[DONOR][CONNECTED_ACC_TOKEN], $pendingPayout->amount);
                 if ($tranfer && $tranfer[SUCCESS]) {
                     $this->savePayoutData($pendingPayout, $tranfer, $stripeService);
+                } else {
+                    Log::info("Tranfer failed for donor " . $pendingPayout[USER_ID]);
+                    Log::info("Details of  Failed transfer fund : ". $tranfer);
                 }
             } else {
-                Log::info("Tranfer failed for donor " . $pendingPayout[USER_ID]);
+                Log::info("Details missing of donor " . $pendingPayout[USER_ID]);
             }
         }
         return true;
