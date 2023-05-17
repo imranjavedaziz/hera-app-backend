@@ -59,17 +59,19 @@ class PaymentService
 
     public function getPaymentRequestList($user) {
         if ($user->role_id == PARENTS_TO_BE) {
-            return PaymentRequest::with(['donar'])->leftJoin('transactions', 'transactions.payment_request_id', '=', PAYMENT_REQUESTS.'.'.ID)
+            return PaymentRequest::with(['donar'])
+            ->leftJoin('transactions', 'transactions.payment_request_id', '=', PAYMENT_REQUESTS.'.'.ID)
             ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(TO_USER_ID, $user->id)
             ->orderBy(PAYMENT_REQUESTS.'.'.ID, DESC)
-            ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
+            ->select(DB::raw('DISTINCT payment_requests.*'), DB::raw('COALESCE(payouts.status, 1) as payout_status'));
+
         } else {
             return PaymentRequest::with(['ptb'])->leftJoin('transactions', 'transactions.payment_request_id', '=', PAYMENT_REQUESTS.'.'.ID)
             ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(FROM_USER_ID, $user->id)
             ->orderBy(PAYMENT_REQUESTS.'.'.ID, DESC)
-            ->select('payment_requests.*', DB::raw('COALESCE(payouts.status, 1) as payout_status'));
+            ->select(DB::raw('DISTINCT payment_requests.*'), DB::raw('COALESCE(payouts.status, 1) as payout_status'));
         }
     }
 

@@ -151,6 +151,8 @@ class UserController extends Controller
                 $customer = StripeService::createStripeCustomer($user);
                 $user->connected_acc_token = $account->id;
                 $user->stripe_customer_id = $customer->id;
+                $user->stripe_processing_fees = STRIPE_PROCESSING_FEES;
+                $user->stripe_additional_fees = STRIPE_ADDITIONAL_FEES;
                 User::where(ID,$user->id)->update(['stripe_customer_id'=>$customer->id, 'connected_acc_token' => $account->id]);
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {
