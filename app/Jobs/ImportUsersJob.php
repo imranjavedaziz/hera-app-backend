@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class ImportUsersJob implements ShouldQueue
 {
@@ -43,8 +44,12 @@ class ImportUsersJob implements ShouldQueue
             'existingRecords' => $existingRecords,
         ];
         $adminEmail = env('ADMIN_EMAIL', 'admin-mbc@yopmail.com');
-        Mail::send('emails.import-summary', $data, function ($message) use ($adminEmail) {
-            $message->to($adminEmail)->subject('User Import Summary');
+        $pdf = PDF::loadView('admin.pdf.user-import', $data);
+        Mail::send('emails.import-summary', $data, function ($message) use ($adminEmail, $pdf) {
+            $message->to($adminEmail)
+            ->subject('User Import Summary')
+            ->attachData($pdf->output(), 'import-summary.pdf', ['mime' => 'application/pdf'])
+            ->setBody('Please see the attached PDF for the import summary.');
         });
     }
 }

@@ -117,6 +117,7 @@ class PaymentService
             ->join('users', 'users.id', '=', 'transactions.user_id')
             ->leftJoin(PAYOUTS, PAYOUTS.'.'.ID, '=', TRANSACTIONS.'.'.PAYOUT_ID)
             ->where(['transactions.account_id'=> $accountId, 'transactions.payment_type' => ONE])
+            ->where('payouts.status' ,'!=', ONE)
             ->groupBy(TRANSACTIONS.'.'.ID)
             ->orderBy(TRANSACTIONS.'.'.ID, DESC);
     }
