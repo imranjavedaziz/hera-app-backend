@@ -59,6 +59,11 @@ class UserProfileController extends Controller
     public function getDonerProfileDetails(ProfileDetailsRequest $request)
     {
         try {
+            $user = AuthHelper::authenticatedUser();
+            $matchRequest = UserProfileService::profileMatchRequest($user->id, $request->user_id);
+            if($user->subscription_status == SUBSCRIPTION_DISABLED && $matchRequest->status != TWO) {
+                return response()->json([DATA => []], 422);
+            }
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());
             if ($doner_profile_details_data) {
                 $response = response()->Success(trans(LANG_DATA_FOUND), $doner_profile_details_data);
