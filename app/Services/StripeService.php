@@ -313,7 +313,7 @@ class StripeService
             $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
         } catch (\Exception $e) {
             $response[CODE] = "api_error";
-            $response[MESSAGE] = "Something went wrong";
+            $response[MESSAGE] = $e->getMessage();
         } finally {
             return $response;
         }
@@ -329,5 +329,5 @@ class StripeService
         } catch (\Exception $e) {
             return false;
         }
-    }    
+    }
 }
