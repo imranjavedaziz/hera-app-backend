@@ -23,6 +23,7 @@ define('INACTIVE', 2);// Inactive
 define('PENDING', 3); // Pending
 define('REJECTED', 4); // Rejected or Unapproved or Canceled
 define('DELETED', 5); // Deleted
+define('IMPORTED', 6); // Deleted
 
 //define role number 
 define('ADMIN', 1);

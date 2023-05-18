@@ -91,9 +91,9 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 dispatch(new SendUserImportSuccessJob($user, $randomPassword));
                 if ($user[ROLE_ID] != PARENTS_TO_BE) {
                     dispatch(new CreateAdminChatFreiend($user));
+                    dispatch(new CreateStripeAccount($user));
                 }
                 dispatch(new UpdateUserNotificationSetting($user->id));
-                dispatch(new CreateStripeAccount($user));
                 dispatch(new CreateStripeCustomer($user));
             } else {
                  $this->existingRecordsCount++;
