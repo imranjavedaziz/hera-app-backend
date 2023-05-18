@@ -301,11 +301,10 @@ class StripeService
         $response[SUCCESS] = false;
         try {
             $stripe = new \Stripe\StripeClient(env(STRIPE_SECRET));
-            $payout = $stripe->payouts->create([
-                'amount' => ($amount) * 100,
-                'currency' => 'usd',
-                'stripe_account' => $connectedAcc,
-            ]);
+            $payout = $stripe->payouts->create(
+                ['amount' => ($amount) * 100, 'currency' => 'usd'],
+                ['stripe_account' => $connectedAcc]
+            );
             $response[SUCCESS] = true;
             $response[DATA] = $payout;
         } catch (\Stripe\Exception\CardException | \Stripe\Exception\RateLimitException | \Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
@@ -318,7 +317,6 @@ class StripeService
             return $response;
         }
     }
-
 
     public function retrievePayout($payoutId, $connectedAcc) {
         try {
