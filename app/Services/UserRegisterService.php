@@ -281,7 +281,7 @@ class UserRegisterService
             'upcomingSubscription' => $upcomingSubscription,
             USERPROFILE => $user->userProfile,
             LOCATION => $user->location,
-            'NotificationSetting' => $user->notificationSetting,
+            'notification_setting' => $user->notificationSetting,
         ];
     }
 
