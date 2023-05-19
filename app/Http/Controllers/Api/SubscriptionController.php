@@ -191,7 +191,7 @@ class SubscriptionController extends Controller
             $isTrial = empty($subscription) ?  true : false;
             $trial_end =  !empty($user->trial_start) ? date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->trial_start))) : null;
             $trial_msg = 'Your free trial period expires on';
-            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
+            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg, SUBSCRIPTION_CANCEL => $user->subscription_cancel]);
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }
@@ -238,7 +238,7 @@ class SubscriptionController extends Controller
             if($canceled === false) {
                 return response()->Error(trans('messages.no_active_subscription_found'));
             }
-            if(!empty($canceled->status_id) && $canceled->status_id === INACTIVE) {
+            if(!empty($canceled[STATUS_ID]) && $canceled[STATUS_ID] === INACTIVE) {
                 $response = response()->Success(trans('messages.subscription_canceled'));
             } else if(!empty($canceled[MESSAGE])) {
                 $response = response()->Success($canceled[MESSAGE]);
