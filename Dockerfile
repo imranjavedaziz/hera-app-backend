@@ -14,19 +14,16 @@ RUN sed -i "s/memory_limit = .*/memory_limit = 350M/" /etc/php/8.0/fpm/php.ini
 
 RUN apt-get update && \
     apt-get install -y software-properties-common
-#RUN composer update && \ 
- #apt-get update && \
- #apt-get install -y software-properties-common
 
 # Install "ffmpeg"
 #RUN add-apt-repository ppa:jonathonf/ffmpeg-4 -y
 RUN apt-get update && apt-get install ffmpeg -y
 
 
-RUN php artisan route:clear && \
-php artisan migrate && \
-php artisan config:cache && \
-php artisan l5-swagger:generate
+#RUN php artisan route:clear && \
+#php artisan migrate && \
+#php artisan config:cache && \
+#php artisan l5-swagger:generate
 
 RUN chmod -R 777 /var/www/html/storage/
 
