@@ -92,6 +92,14 @@ class StripeSubscriptionService
                 $fields[CANCELED_AT] = date(DATE_TIME,$cancelSubscription->canceled_at);
                 Subscription::where(ID, $subscription->id)->update($fields);
             }
+            $user = User::find($userId);
+            if ($user->subscription_cancel == ONE) {
+                $user->subscription_cancel = ZERO;
+                $user->save();
+                $fields[STATUS_ID]  = INACTIVE;
+                $fields[CANCELED_AT] = Carbon::now();
+                Subscription::where(ID, $subscription->id)->update($fields);
+            }
         }
         return true;
     }
