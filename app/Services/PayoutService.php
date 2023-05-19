@@ -9,26 +9,24 @@ use App\Models\User;
 
 class PayoutService
 {
-    public function processPayout($exsistingPayouts, $stripeService) {
-        foreach ($exsistingPayouts as $pendingPayout) {
-            if ($pendingPayout[DONOR] && $pendingPayout[DONOR][CONNECTED_ACC_TOKEN]) {
-                Log::info("Tranfering amount to donor " . $pendingPayout[USER_ID]);
-                $tranfer = false;
-                $tranfer =  $stripeService->tranferFund($pendingPayout[DONOR][CONNECTED_ACC_TOKEN], $pendingPayout->amount);
-                if ($tranfer && $tranfer[SUCCESS]) {
-                    $this->savePayoutData($pendingPayout, $tranfer, $stripeService);
-                } else {
-                    Log::info("Tranfer failed for donor " . $pendingPayout[USER_ID]);
-                    Log::info("Details of  Failed transfer fund : ". $tranfer[DATA]);
-                }
+    public function processPayout($pendingPayout, $stripeService, $transaction) {
+        if ($pendingPayout[DONOR] && $pendingPayout[DONOR][CONNECTED_ACC_TOKEN]) {
+            Log::info("Tranfering amount to donor " . $pendingPayout[USER_ID]);
+            $tranfer = false;
+            $tranfer =  $stripeService->tranferFund($pendingPayout[DONOR][CONNECTED_ACC_TOKEN], $pendingPayout->amount);
+            if ($tranfer && $tranfer[SUCCESS]) {
+                $this->savePayoutData($pendingPayout, $tranfer, $stripeService, $transaction);
             } else {
-                Log::info("Details missing of donor " . $pendingPayout[USER_ID]);
+                Log::info("Tranfer failed for donor " . $pendingPayout[USER_ID]);
+                Log::info("Details of  Failed transfer fund : ". $tranfer[DATA]);
             }
+        } else {
+            Log::info("Details missing of donor " . $pendingPayout[USER_ID]);
         }
         return true;
     }
 
-    private function savePayoutData($pendingPayout, $tranfer, $stripeService) {
+    private function savePayoutData($pendingPayout, $tranfer, $stripeService, $transaction) {
         Log::info("Tranfered amount to donor " . $pendingPayout[USER_ID]);
         $pendingPayout->transfer_txn_id = $tranfer[DATA][ID];
         $pendingPayout->payout_date = Carbon::now();
@@ -51,6 +49,7 @@ class PayoutService
             $pendingPayout->error_message = $payoutConnectedAcc[MESSAGE];
             $pendingPayout->save();
             Log::info("Payout failed for donor " . $pendingPayout[USER_ID]);
+            Log::info("Payout failed msg " . $pendingPayout[USER_ID]);
         }
         return true;
     }

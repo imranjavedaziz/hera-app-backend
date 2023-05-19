@@ -61,7 +61,7 @@ class UserProfileController extends Controller
         try {
             $user = AuthHelper::authenticatedUser();
             $matchRequest = UserProfileService::profileMatchRequest($user->id, $request->user_id);
-            if($user->subscription_status == SUBSCRIPTION_DISABLED && $matchRequest->status != TWO) {
+            if($user->subscription_status == SUBSCRIPTION_DISABLED && (empty($matchRequest) || (!empty($matchRequest)&& $matchRequest->status != TWO))) {
                 return response()->json([DATA => []], 422);
             }
             $doner_profile_details_data = UserProfileService::getDonerProfileDetails($request->all());

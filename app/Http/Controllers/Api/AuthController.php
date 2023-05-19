@@ -108,8 +108,8 @@ class AuthController extends Controller
             $message = CustomHelper::getDeleteInactiveMsg($user);
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
                 if (($user->status_id === ACTIVE || $user->status_id === INACTIVE || $user->status_id === IMPORTED) && $user->deactivated_by != ONE) {
+                    User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
                     if ($user->status_id === INACTIVE) {
-                        User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
                         dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
                         dispatch(new UpdateStatusOnFirebaseJob($user, ACTIVE, STATUS_ID));
                     }
