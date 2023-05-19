@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterIntervalColumnToSubscriptionPlansTable extends Migration
+class AddPriceIdToSubscriptionPlansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class AlterIntervalColumnToSubscriptionPlansTable extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE `subscription_plans` CHANGE `interval` `interval` ENUM('month','year','3 months') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'month';");
+        Schema::table('subscription_plans', function (Blueprint $table) {
+            $table->string('price_id')->nullable()->after('android_product');
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AlterIntervalColumnToSubscriptionPlansTable extends Migration
      */
     public function down()
     {
-
+        Schema::table('subscription_plans', function (Blueprint $table) {
+            $table->dropColumn(['price_id']);
+        });
     }
 }

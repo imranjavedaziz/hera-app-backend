@@ -136,5 +136,9 @@ return [
         'request_rejected' => 'Payment request rejected successfully!',
         'invalid_request' => 'Payment request is not belongs to this account.',
         'save_kyc' => 'Kyc details save successfully!',
+        'payment_transfer' => 'Payment amount transfer successfully!',
+        'request_already_paid' => 'Payment mark already paid successfully!',
     ],
+    'no_active_subscription_found' => "No active subcription found.",
+    'subscription_canceled' => "Subscription cancelled successfully.",
 ];

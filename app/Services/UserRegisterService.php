@@ -271,7 +271,7 @@ class UserRegisterService
             PHONE_NO => $user->phone_no,
             DOB => $user->dob,
             EMAIL_VERIFIED => $user->email_verified,
-            'subscription' => !empty($current) ? $current : $upcoming,
+            'subscription' => !empty($current) && !empty($upcoming) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $current : $upcoming,
             'upcomingSubscription' => !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $upcoming : null,
             USERPROFILE => $user->userProfile,
             LOCATION => $user->location,

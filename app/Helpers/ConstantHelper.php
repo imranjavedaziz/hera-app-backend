@@ -15,6 +15,7 @@ define('TEN', 10);
 define('FIFTEEN', 15);
 define('THIRTY', 30);
 define('TWENTY', 20);
+define('HUNDRED', 100);
 
 //define status number 
 define('ACTIVE', 1);  // Approved
@@ -22,6 +23,7 @@ define('INACTIVE', 2);// Inactive
 define('PENDING', 3); // Pending
 define('REJECTED', 4); // Rejected or Unapproved or Canceled
 define('DELETED', 5); // Deleted
+define('IMPORTED', 6); // Deleted
 
 //define role number 
 define('ADMIN', 1);
@@ -298,15 +300,15 @@ define('REJECTED_BY_DONAR', 4);
 define('FROMUSER', 'fromUser');
 define('TOUSER', 'toUser');
 
-define('LOCATION_VALUE', 45);
-define('AGE_VALUE', 45);
-define('RACE_VALUE', 45);
-define('ETHNICITY_VALUE', 45);
-define('HEIGHT_VALUE', 45);
-define('HAIR_COLOUR_VALUE', 45);
-define('EYE_COLOUR_VALUE', 45);
-define('EDUCATION_VALUE', 45);
-define('CRITERIA_WEIGHT', 360);
+define('LOCATION_VALUE', 20);
+define('AGE_VALUE', 15);
+define('RACE_VALUE', 60);
+define('ETHNICITY_VALUE', 50);
+define('HEIGHT_VALUE', 30);
+define('HAIR_COLOUR_VALUE', 40);
+define('EYE_COLOUR_VALUE', 35);
+define('EDUCATION_VALUE', 25);
+define('CRITERIA_WEIGHT', 275);
 define('MATCH_VALUE', 'match_value');
 
 //define user relationship and function constants
@@ -462,6 +464,7 @@ define('EXPIRES_DATE', "expires_date");
 define('PROFILE', "profile");
 define('CHAT', "chat");
 define('SUBSCRIBE', "subscribe");
+define('PAYMENT_NOTIFY', "payment");
 define('SENDER_USER', "sender_user");
 define('RECEIVER_USER', "receiver_user");
 define('RECEIVER_ID', "receiver_id");
@@ -478,8 +481,8 @@ define('EGG_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.egg_donor_monthly");
 define('SPERM_DONER_MONTHLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_monthly");
 
 define('SURROGATE_MONTHLY_PLAN_NAME', "Surrogate Mother Monthly");
-define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donar Monthly");
-define('SPERM_DONER_MONTHLY_PLAN_NAME', "SPERM Donar Monthly");
+define('EGG_DONER_MONTHLY_PLAN_NAME', "Egg Donor Monthly");
+define('SPERM_DONER_MONTHLY_PLAN_NAME', "Sperm Donor Monthly");
 
 define('SURROGATE_MONTHLY_PLAN_PRICE', "299");
 define('EGG_DONER_MONTHLY_PLAN_PRICE', "299");
@@ -498,8 +501,8 @@ define('EGG_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.egg_donor_quarterly");
 define('SPERM_DONER_QUARTERLY_ANDROID_PLAN', "com.hera_dev.sperm_donor_quarterly");
 
 define('SURROGATE_QUARTERLY_PLAN_NAME', "Surrogate Mother Quarterly");
-define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donar Quarterly");
-define('SPERM_DONER_QUARTERLY_PLAN_NAME', "SPERM Donar Quarterly");
+define('EGG_DONER_QUARTERLY_PLAN_NAME', "Egg Donor Quarterly");
+define('SPERM_DONER_QUARTERLY_PLAN_NAME', "Sperm Donor Quarterly");
 
 define('SURROGATE_QUARTERLY_PLAN_PRICE', "749");
 define('EGG_DONER_QUARTERLY_PLAN_PRICE', "749");
@@ -512,7 +515,8 @@ define('SPERM_DONER_QUARTERLY_OFFER_TOKEN', "AUj/YhjkYvJ0No6oMdBzvcZ8r1L1KD1v0LO
 define('MONTHLY_PLAN_DESCRIPTION', "Monthly Plan");
 define('QUARTERLY_PLAN_DESCRIPTION', "Quarterly Plan");
 define('MONTH', "month");
-define('QUARTER', "quarter");
+define('QUARTER', "3 months");
+define('PRODUCT', "product");
 define('OFFER_TOKEN', "offer_token");
 define('APPLE_CHARGES', "30");
 define('GOOGLE_CHARGES', "15");
@@ -643,3 +647,69 @@ define('FILE_MAX', 'file.max');
 define('TRIAL_START', 'trial_start');
 define('PAYMENT_REQUEST_ID', 'payment_request_id');
 define('EXISTS_PAYMENT_REQUEST_ID', 'exists:payment_requests,id');
+
+//define transactipon table
+define('TEMP_ID', 'temp_id');
+define('ACCOUNT_ID', 'account_id');
+define('PAYMENT_INTENT', 'payment_intent');
+define('NET_AMOUNT', 'net_amount');
+define('PAYMENT_TYPE', 'payment_type');
+define('PAYMENT_STATUS', 'payment_status');
+define('PRICE_ID', 'price_id');
+define('SUBSCRIPTION_START', 'subscription_start');
+define('SUBSCRIPTION_END', 'subscription_end');
+define('BRAND', 'brand');
+define('EXP_MONTH', 'exp_month');
+define('EXP_YEAR', 'exp_year');
+define('LAST4', 'last4');
+define('RECEIPT_URL', 'receipt_url');
+define('INVOICE_NUMBER', 'invoice_number');
+define('CANCELLATION_DATE', 'cancellation_date');
+define('REFUND_AMOUNT', 'refund_amount');
+define('NET_REFUND_AMOUNT', 'net_refund_amount');
+define('REFUND_ID', 'refund_id');
+define('REFUND_STATUS', 'refund_status');
+define('PAYOUT_STATUS', 'payout_status');
+define('PAYOUT_ID', 'payout_id');
+
+//define payment type fee
+define('TRANSFER_AMOUNT', 1);
+define('MEMBERSHIP_FEE', 2);
+
+//define payment_statuses text 
+define('PAYMENT_SUCCESS', 1);
+define('PAYMENT_FAILURE', 2);
+define('PAYMENT_CANCEL', 3);
+define('PAYMENT_DELETED', 4);
+
+//define Stripe processing fees
+define('STRIPE_PROCESSING_FEES', 2.9);
+define('STRIPE_ADDITIONAL_FEES', .3);
+define('DAYS', 'days');
+define('STRIPE_CUSTOMER_ID', 'stripe_customer_id');
+define('PAYMENT_INTENT_ID', 'payment_intent_id');
+define('CLIENT_SECRET', 'client_secret');
+define('SUCCEEDED', 'succeeded');
+define('PAYMENT_METHOD_ID', 'payment_method_id');
+define('BANK_ACCOUNT_TOKEN', 'bank_acc_token');
+define('BANK_NAME', 'bank_name');
+define('BANK_LAST4', 'bank_last4');
+define('KEY_CANCELED', 'canceled');
+define('SUBSCRIPTION_OBJECT', 'subscription');
+
+//define payout table column
+define('PAYOUT_TXN_ID', 'payout_txn_id');
+define('TRANSFER_TXN_ID', 'transfer_txn_id');
+define('PAYOUT_DATE', 'payout_date');
+define('ERROR_MESSAGE', 'error_message');
+define('ERROR_CODE', 'error_code');
+define('CONNECTED_ACC_TOKEN', 'connected_acc_token');
+define('DONOR', 'donor');
+define('TRANSACTIONS', 'transactions');
+define('MESSAGE_DATA_FOUND', 'messages.common_msg.data_found');
+define('PAYMENT_REQUESTS', 'payment_requests');
+define('PAYOUTS', 'payouts');
+define('PLAN', 'plan');
+define('MBC', 'mbc');
+define('KEY_STATUS', 'status');
+define('SUBSCRIPTION_CANCEL', 'subscription_cancel');

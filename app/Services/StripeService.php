@@ -4,6 +4,10 @@ namespace App\Services;
 
 use App\Helpers\CustomHelper;
 use Carbon\Carbon;
+use App\Models\PaymentRequest;
+use App\Models\User;
+use App\Jobs\TransactionHistory;
+use App\Jobs\PaymentNotification;
 
 class StripeService
 {
@@ -134,6 +138,194 @@ class StripeService
             ]);
         } catch (\Exception $e) {
             return $e->getMessage();
+        }
+    }
+
+    public function createPaymentIntent($input)
+    {
+        try {
+            $paymentIntent = $this->stripeClient->paymentIntents->create([
+                'amount' => $input[NET_AMOUNT] * 100,
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+                'customer' => $input[STRIPE_CUSTOMER_ID],
+                'payment_method' => $input[PAYMENT_METHOD_ID],
+                'confirm' => true,
+                METADATA => [TO_USER_ID => $input[TO_USER_ID]],
+              ]);
+            $response[SUCCESS] = true;
+            $response[DATA][PAYMENT_INTENT_ID] = $paymentIntent->id;
+            $response[DATA][CLIENT_SECRET] = $paymentIntent->client_secret;
+            $response[DATA][AMOUNT] = $input[AMOUNT];
+            if($paymentIntent->status === SUCCEEDED) {
+                if (!empty($input[PAYMENT_REQUEST_ID])) {
+                    PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
+                }
+                $user =  User::where(ID, $input[USER_ID])->first();
+                $notifyType = 'payment_transfer';
+                $title = 'Payment Transfer!';
+                $input[FIRST_NAME] = $user->first_name;
+                $input[ROLE] = $user->role->name;
+                $input[USERNAME] = $user->username;
+                $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount $'. number_format($input[AMOUNT],2);
+                PaymentNotification::dispatch($title, $description, $input, $notifyType);
+            }
+            dispatch(new TransactionHistory($paymentIntent, $input));
+        } catch (\Stripe\Exception\CardException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        } catch (\Exception $e) {
+            $response[SUCCESS] = false;
+            $response[MESSAGE] = $e->getMessage();
+        }
+        return $response;
+    }
+
+    public function getPaymentCardDetails($paymentMethod)
+    {
+        try {
+            $paymentMethod = $this->stripeClient->paymentMethods->retrieve($paymentMethod);
+            return $paymentMethod->card;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function getBanckAccountDetails($accountId, $bankAccountId) {
+        try {
+            return $this->stripeClient->accounts->retrieveExternalAccount($accountId, $bankAccountId);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createProduct($productName, $description)
+    {
+        try {
+            $productInfo = [
+                NAME => $productName,
+                DESCRIPTION => $description ?? NULL,
+            ];
+            return $this->stripeClient->products->create($productInfo);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createPrice($productId,$productName,$interval,$unitAmount, $intervalCount = ONE)
+    {
+        try {
+            $priceInfo = [
+                'unit_amount' => $unitAmount * 100,
+                'currency' => 'usd',
+                'recurring' => ['interval' => $interval, "interval_count" => $intervalCount], // day, week, month or year
+                'product' => $productId,
+                'nickname' => $productName,
+            ];
+            return $this->stripeClient->prices->create($priceInfo);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function createSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->create($params);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function updateSubscription($subscriptionId, $params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->update($subscriptionId, $params);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function cancelSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->cancel($params, []);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function retrieveSubscription($params)
+    {
+        try {
+            return $this->stripeClient->subscriptions->retrieve($params, []);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function tranferFund($destination, $amount)
+    {
+        try {
+            $tranfer = $this->stripeClient->transfers->create([
+                'amount' => ($amount) * 100,
+                'currency' => 'usd',
+                'destination' => $destination,
+            ]);
+            $response[SUCCESS] = true;
+            $response[DATA] = $tranfer;
+        } catch (\Exception $e) {
+            $response[SUCCESS] = false;
+            $response[DATA] = $e->getMessage();
+        } finally {
+            return $response;
+        }
+    }
+
+    public function payOutToDonor($connectedAcc, $amount) {
+        $response[SUCCESS] = false;
+        try {
+            $stripe = new \Stripe\StripeClient(env(STRIPE_SECRET));
+            $payout = $stripe->payouts->create(
+                ['amount' => ($amount) * 100, 'currency' => 'usd'],
+                ['stripe_account' => $connectedAcc]
+            );
+            $response[SUCCESS] = true;
+            $response[DATA] = $payout;
+        } catch (\Stripe\Exception\CardException | \Stripe\Exception\RateLimitException | \Stripe\Exception\InvalidRequestException | \Stripe\Exception\AuthenticationException | \Stripe\Exception\ApiConnectionException | \Stripe\Exception\ApiErrorException $e) {
+            $response[MESSAGE] = $e->getError()->message;
+            $response[CODE] = $e->getError()->code ? $e->getError()->code : 'api_error';
+        } catch (\Exception $e) {
+            $response[CODE] = "api_error";
+            $response[MESSAGE] = $e->getMessage();
+        } finally {
+            return $response;
+        }
+    }
+
+    public function retrievePayout($payoutId, $connectedAcc) {
+        try {
+            \Stripe\Stripe::setApiKey(env(STRIPE_SECRET));
+            return \Stripe\Payout::retrieve($payoutId, [
+                'stripe_account' => $connectedAcc,
+            ]);
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }

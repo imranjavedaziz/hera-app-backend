@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Helpers\AuthHelper;
 use Facades\{
     App\Services\ChatFeedbackService,
+    App\Services\FirebaseService,
 };
 use App\Http\Requests\SaveChatFeedbackRequest;
 use App\Http\Requests\NextStepsRequest;
@@ -141,6 +142,7 @@ class ChatFeedbackController extends Controller
             $saveNextSteps = ChatFeedbackService::saveNextSteps(AuthHelper::authenticatedUser()->id, $request->to_user_id);
             if($saveNextSteps[SUCCESS]){
                 DB::commit();
+                FirebaseService::updateNextStepStatus(AuthHelper::authenticatedUser()->id, $request->to_user_id);
                 $response = response()->Success(trans($saveNextSteps[MESSAGE]), $saveNextSteps[DATA]);
             }else {
                 $response = response()->Error(trans(LANG_SOMETHING_WRONG));

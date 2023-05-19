@@ -107,15 +107,17 @@ class AuthController extends Controller
             }
             $message = CustomHelper::getDeleteInactiveMsg($user);
             if ($oauth_token = JWTAuth::attempt($user_credentials)) {
-                if (($user->status_id === ACTIVE || $user->status_id === INACTIVE ) && $user->deactivated_by != ONE) {
+                if (($user->status_id === ACTIVE || $user->status_id === INACTIVE || $user->status_id === IMPORTED) && $user->deactivated_by != ONE) {
+                    User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
                     if ($user->status_id === INACTIVE) {
-                        User::where(ID, $user->id)->update([STATUS_ID => ACTIVE]);
                         dispatch(new SendDeactiveDeleteUserJob($user->id, ACTIVE));
                         dispatch(new UpdateStatusOnFirebaseJob($user, ACTIVE, STATUS_ID));
                     }
                     $user->access_token = $oauth_token;
                     $user->stripe_key = env(STRIPE_KEY) ?? null;
                     $user->stripe_secret = env(STRIPE_SECRET) ?? null;
+                    $user->stripe_processing_fees = STRIPE_PROCESSING_FEES;
+                    $user->stripe_additional_fees = STRIPE_ADDITIONAL_FEES;
                     $response = response()->Success(trans('messages.logged_in'), $user);
                 } else {
                     $response = response()->Error($message);
@@ -390,7 +392,7 @@ class AuthController extends Controller
         if ($refreshToken !== $user->refresh_token) {
             $response = response()->json([MESSAGE => __('messages.invalid_access_token')], Response::HTTP_FORBIDDEN);
         }else{
-            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user, $data)], Response::HTTP_OK);
+            $response = response()->json([MESSAGE => 'success', 'token' => JWTAuth::fromUser($user), REFRESH_TOKEN => customHelper::createRefreshTokenForUser($user)], Response::HTTP_OK);
         }
 
         return $response;

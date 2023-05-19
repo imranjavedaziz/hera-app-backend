@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\ChatMediaController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('in-app-webhook-ios',[InAppWebhookController::class, 'iosSubscriptionEvent']);
     Route::post('in-app-webhook-android',[InAppWebhookController::class, 'androidSubscriptionEvent']);
+    Route::post('stripe-webhooks',[StripeWebhookController::class, 'receiveEventNotifications']);
 
     /***Public register route before authentication***/
     Route::post('register', [UserController::class, 'register']);
@@ -115,6 +117,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('chat-media', [ChatMediaController::class, 'getChatMedia']);
         Route::get('match-list', [PaymentController::class, 'getMatchList']);
         Route::post('upload-payment-doc', [PaymentController::class, 'uploadPaymentDocument']);
+        Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
+        Route::post('update-bank-account', [StripeController::class, 'updateBankAccount']);
+        Route::get('account-status',[StripeController::class, 'getAccountStatus']);
+        Route::get('transaction-history', [PaymentController::class, 'getTransactionHistoryList']);
 
         /***Only Donar route***/
         Route::middleware([EnsureDonarTokenIsValid::class])->group(function(){
@@ -125,9 +131,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('ptb-profile-details',[UserProfileController::class, 'getPtbProfileDetails']);
             Route::post('profile-match-request-response', [ProfileMatchController::class, 'profileMatchRequestResponse']);
             Route::post('payment-request', [PaymentController::class, 'paymentRequest']);
-            Route::get('payment-request-list', [PaymentController::class, 'getPaymentRequestList']);
             Route::post('save-kyc-details', [StripeController::class, 'saveKycDetails']);
-            Route::get('account-status',[StripeController::class, 'getAccountStatus']);
             Route::post('upload-kyc-doc', [StripeController::class, 'uploadkycDocument']);
         });
         /***Only Parents route***/
@@ -140,9 +144,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             Route::get('preferences-age-range-data',[UserController::class, 'getPreferencesAgeRangeData']);
             Route::get('subscription-plan',[SubscriptionController::class, 'getPlan']);
             Route::post('create-subscription',[SubscriptionController::class, 'createSubscription']);
+            Route::post('cancel-subscription',[SubscriptionController::class, 'cancelSubscription']);
             Route::post('chat-feedback', [ChatFeedbackController::class, 'saveChatFeedback']);
             Route::post('next-steps', [ChatFeedbackController::class, 'saveNextSteps']);
             Route::post('payment-request-status', [PaymentController::class, 'updatePaymentRequestStatus']);
+            Route::post('payment-transfer', [PaymentController::class, 'paymentTransfer']);
         });
 
         /***Only Parents route***/

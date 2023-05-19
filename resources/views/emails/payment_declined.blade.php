@@ -2,7 +2,6 @@
 @section('content')
 <table
 style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-serif; height: 100%;" aria-describedby="Account Verify">
-<!-- // new table -->
 <tr>
     <th scope="col">
     </th>
@@ -22,22 +21,17 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    Hello {{ $user['first_name'] }}!
+                    You Payment Request Declined
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 8px 40px;">
-                    We are glad to inform you, that we have created your account as ’{{ $user['role']['name'] }}’ on HERA. You can now login & connect with Intended Parents on the platform. The Intended Parents join our platform as they are looking for either a Surrogate Mother or an Egg Donor or a Sperm Donor. Your profile will be visible to the Intended Parents who have set their Preference Criteria that matches your profile description. If they like your profile, they might send you a match request.
-                </td>
-            </tr>
-            <tr>
-                <td style="font-size: 14px; line-height: 22px; padding: 0 40px 23px 40px; font-style: italic; color: #000;">
-                    <span style="color: rgb(255 69 68);">*</span>We value your privacy and so we will not disclose your name to the intended parents. An ID will be displayed on your profile ({{ $user['username']}})
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 5px 40px;">
+                    Hello {{$data['first_name']}},
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-					Your login credential is your mobile no <span style="font-weight: bold;">{{ $user['phone_no'] }}</span> and password is  <span style="font-weight: bold;">{{ $password  }}</span>
+                {{$data['role']}} #{{$data['username']}} has declined your payment request of amount ${{$data['amount']}}.
                 </td>
             </tr>
             <tr>
@@ -49,7 +43,7 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 17px;">
-                    <img src="{{ asset('assets/images/logo-gray.png') }}" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
+                    <img src="./img/logo-gray.png" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
                     You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
                 </td>
             </tr>
@@ -57,4 +51,5 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
     </td>
 </tr>
 </table>
+<!-- end template body -->
 @stop

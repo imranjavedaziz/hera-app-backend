@@ -22,22 +22,36 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    Hello {{ $user['first_name'] }}!
+                    Payment Initiated
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 8px 40px;">
-                    We are glad to inform you, that we have created your account as ’{{ $user['role']['name'] }}’ on HERA. You can now login & connect with Intended Parents on the platform. The Intended Parents join our platform as they are looking for either a Surrogate Mother or an Egg Donor or a Sperm Donor. Your profile will be visible to the Intended Parents who have set their Preference Criteria that matches your profile description. If they like your profile, they might send you a match request.
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 5px 40px;">
+                Hello {{$data['to_user_first_name']}},
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 14px; line-height: 22px; padding: 0 40px 23px 40px; font-style: italic; color: #000;">
-                    <span style="color: rgb(255 69 68);">*</span>We value your privacy and so we will not disclose your name to the intended parents. An ID will be displayed on your profile ({{ $user['username']}})
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 27px 40px;">Intended Parent {{$data['first_name']}} has initiated a payment of ${{$data['amount']}} to your bank account.The amount will be reflected in your account within 2-3 working days.
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-					Your login credential is your mobile no <span style="font-weight: bold;">{{ $user['phone_no'] }}</span> and password is  <span style="font-weight: bold;">{{ $password  }}</span>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 0px 40px;font-weight: normal;">
+                    Initiated Amount
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 18px 40px;font-weight: bold;">
+                ${{$data['amount']}}
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 0px 40px;font-weight: normal;">
+                    Initiated On
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 18px 40px;font-weight: bold;">
+                <?php echo \Carbon\Carbon::now()->format('M d, Y'); ?>
                 </td>
             </tr>
             <tr>
@@ -57,4 +71,7 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
     </td>
 </tr>
 </table>
+
+
+
 @stop

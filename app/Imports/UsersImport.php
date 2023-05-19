@@ -83,25 +83,17 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
                 REGISTRATION_STEP => ONE
             ]);
 
-            $user_credentials = [
-                COUNTRY_CODE => '+1',
-                PHONE_NO => $row[PHONE_NO],
-                PASSWORD => $randomPassword,
-                ROLE_ID => $roleId,
-                DELETED_AT => NULL
-            ];
-
             if ($user->wasRecentlyCreated) {
                 $this->insertedRecords++;
                 $username = $this->setUserName($user[ROLE_ID], $user->id);
-                $refreshToken = CustomHelper::createRefreshTokenForUser($user, $user_credentials);
+                $refreshToken = CustomHelper::createRefreshTokenForUser($user);
                 User::where(ID, $user->id)->update([STATUS_ID => SIX,USERNAME=>$username, REFRESH_TOKEN=> $refreshToken ]);
                 dispatch(new SendUserImportSuccessJob($user, $randomPassword));
                 if ($user[ROLE_ID] != PARENTS_TO_BE) {
                     dispatch(new CreateAdminChatFreiend($user));
+                    dispatch(new CreateStripeAccount($user));
                 }
                 dispatch(new UpdateUserNotificationSetting($user->id));
-                dispatch(new CreateStripeAccount($user));
                 dispatch(new CreateStripeCustomer($user));
             } else {
                  $this->existingRecordsCount++;

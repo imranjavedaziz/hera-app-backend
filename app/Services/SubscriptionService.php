@@ -13,6 +13,9 @@ use Log;
 use Carbon\Carbon;
 use App\Traits\StoreReceiptTrait;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use Facades\{
+    App\Services\StripeSubscriptionService
+};
 
 class SubscriptionService
 {
@@ -48,38 +51,11 @@ class SubscriptionService
         }
 
         if($fields[DEVICE_TYPE] == ANDROID) {
-            return $this->androidSubscription($fields);
-        }
-    }
-
-    private function androidSubscription($fields){
-        $plan = SubscriptionPlan::where(ANDROID_PRODUCT,$fields[PRODUCT_ID])->first();
-        $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
-        $fields[PRICE] = $plan->price;
-        $receiptService = StoreReceiptTrait::playStoreServiceAccount($fields[PURCHASE_TOKEN],$fields[PRODUCT_ID]);
-        /***purchaseState
-         * 0: Purchase was completed.
-         * 1: Purchase was canceled.
-         * 2: Purchase is pending.
-         ****/
-        if(!empty($receiptService)
-            && !empty($receiptService->orderId)
-            && $receiptService->acknowledgementState == ONE
-            && $receiptService->autoRenewing == ONE
-            ) {     
-            $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-            $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-            $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
-            $fields[SUBSCRIPTION_ID] = $receiptService->orderId;
-            $fields[ORIGINAL_TRANSACTION_ID] = $receiptService->orderId;
-            $subscriptionFields = $this->setSubscriptionFields($fields);
-            Subscription::where(USER_ID,$fields[USER_ID])->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
-            ParentsPreference::where(USER_ID, $fields[USER_ID])->update([ROLE_ID_LOOKING_FOR => $plan->role_id_looking_for]);
-            if(!empty($subscriptionFields)) {
-                return $this->createNewSubscription($subscriptionFields);
-            }
-        } else {
-            return $receiptService;
+            $user = User::find($fields[USER_ID]);
+            $user->subscription_status = SUBSCRIPTION_ENABLED;
+            $user->save();
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
+            return StripeSubscriptionService::createStripeSubscription($fields);
         }
     }
 
