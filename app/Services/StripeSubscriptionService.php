@@ -129,13 +129,11 @@ class StripeSubscriptionService
                 }
             }
             if(!empty($fields[STATUS_ID]) && $fields[STATUS_ID] === INACTIVE) {
-                Subscription::where(ID, $subscription->id)->update($fields);
                 $user = User::find($userId);
                 $user->update([
-                    SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
+                    SUBSCRIPTION_CANCEL=>ONE
                 ]);
-                dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
-                return Subscription::where(USER_ID,$userId)->where(SUBSCRIPTION_ID,$subscription->subscription_id)->first();
+                return $fields;
             }
             return $retrieveSubscription;
         }

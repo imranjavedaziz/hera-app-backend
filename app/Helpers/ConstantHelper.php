@@ -712,3 +712,4 @@ define('PAYOUTS', 'payouts');
 define('PLAN', 'plan');
 define('MBC', 'mbc');
 define('KEY_STATUS', 'status');
+define('SUBSCRIPTION_CANCEL', 'subscription_cancel');

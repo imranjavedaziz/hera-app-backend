@@ -22,36 +22,17 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    Payment Initiated
+                    A Payment was Sent to You
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 5px 40px;">
-                Hello {{$data['to_user_first_name']}},
+                    Hello {{$data['to_user_first_name']}},
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 27px 40px;">Intended Parent {{$data['first_name']}} has initiated a payment of ${{$data['amount']}} to your bank account.The amount will be reflected in your account within 2-3 working days.
-                </td>
-            </tr>
-            <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 0px 40px;font-weight: normal;">
-                    Initiated Amount
-                </td>
-            </tr>
-            <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 18px 40px;font-weight: bold;">
-                ${{$data['amount']}}
-                </td>
-            </tr>
-            <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 0px 40px;font-weight: normal;">
-                    Initiated On
-                </td>
-            </tr>
-            <tr>
-                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 18px 40px;font-weight: bold;">
-                <?php echo \Carbon\Carbon::now()->format('M d, Y'); ?>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
+                    You have received a payment of ${{$data['amount']}} from Intended Parent {{$data['first_name']}}. The amount is credited to your bank account ending with 0283.
                 </td>
             </tr>
             <tr>
@@ -71,7 +52,5 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
     </td>
 </tr>
 </table>
-
-
-
+<!-- end template body -->
 @stop

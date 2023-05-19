@@ -38,6 +38,7 @@ class User extends Authenticatable implements JWTSubject
         RECENT_ACTIVITY,
         SUBSCRIPTION_STATUS,
         TRIAL_START,
+        SUBSCRIPTION_CANCEL
     ];
 
     /**
