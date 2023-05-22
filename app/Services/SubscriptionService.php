@@ -127,14 +127,13 @@ class SubscriptionService
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
                 $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first(); 
                 $this->setAndCreateSubscriptionData($plan, $data);
-        }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
+        }elseif($data[NOTIFICATION_TYPE] == 'DID_CHANGE_RENEWAL_STATUS' && $data[SUB_TYPE] == 'AUTO_RENEW_DISABLED'){
+            Log::info('Cancel ios subscription');
             $userId = $prevSubDetails[USER_ID];
-            Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
             $user = User::find($userId);
             $user->update([
-                SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
+                SUBSCRIPTION_CANCEL=>ONE
             ]);
-            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -170,6 +169,7 @@ class SubscriptionService
         Log::info(json_encode($signedTransactionInfo));
         return [
             NOTIFICATION_TYPE  => $payloadInfo->notificationType,
+            SUB_TYPE           => $payloadInfo->subtype ?? null,
             PRODUCT_ID          => $signedPayloadInfo->productId,
             AUTORENEW_STATUS    => $signedPayloadInfo->autoRenewStatus,
             START_DATE          => date(DATE_TIME, $signedTransactionInfo->purchaseDate/1000),

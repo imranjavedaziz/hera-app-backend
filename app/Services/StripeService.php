@@ -167,7 +167,7 @@ class StripeService
                 $input[FIRST_NAME] = $user->first_name;
                 $input[ROLE] = $user->role->name;
                 $input[USERNAME] = $user->username;
-                $description = $user->role->name .' '. $user->first_name. ' sent you a payment of amount $'. number_format($input[AMOUNT],2);
+                $description = $user->first_name.' sent you a payment of $'. number_format($input[AMOUNT],2);
                 PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
             dispatch(new TransactionHistory($paymentIntent, $input));
