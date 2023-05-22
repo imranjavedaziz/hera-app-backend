@@ -46,7 +46,7 @@ class PaymentService
             $user =  User::where(ID, $user_id)->first();
             $notifyType = 'payment_request';
             $title = 'Payment Request!';
-            $description = $user->role->name .' '. $user->username. ' sent you a payment request of amount $'. number_format($input[AMOUNT],2);
+            $description = 'A new payment request of $'. number_format($input[AMOUNT],2).' from '. $user->username;
             $input[USER_ID] = $user_id;
             $input[FIRST_NAME] = $user->first_name;
             $input[ROLE] = $user->role->name;
@@ -87,11 +87,11 @@ class PaymentService
         if ($input[STATUS] == TWO) {
             $notifyType = 'payment_declined';
             $title = 'Payment Declined!';
-            $description = $user->role->name .' '. $user->first_name. ' declined payment request of amount $'. number_format($input[AMOUNT],2);
+            $description = $user->first_name. ' rejected your payment request.';
         } else {
             $notifyType = 'payment_transfer';
             $title = 'Payment already paid!';
-            $description = $user->role->name .' '. $user->first_name. ' already paid amount $'. number_format($input[AMOUNT],2);
+            $description = $user->first_name.' marked your payment request of $'. number_format($input[AMOUNT],2).' as already paid.';
         }
         $paymentRequest->status = $input[STATUS];
         $paymentRequest->save();
