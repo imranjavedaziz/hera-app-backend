@@ -260,10 +260,12 @@ class SubscriptionService
     }
 
     public function getExpiredSubcription() {
+        $twoHour = Carbon::now()->subHours(2)->format(DATE_TIME);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))**/
+            ->where(CURRENT_PERIOD_END, '<',$twoHour)
             ->get();
     }
 }
