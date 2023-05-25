@@ -29,7 +29,7 @@ class DonarPaymentSuccessMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | You received a Payment")->view('emails.donar_payment_success', [
+        return $this->subject("HERA | Payment Initiated")->view('emails.donar_payment_success', [
             'data' => $this->data
         ]);
     }

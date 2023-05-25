@@ -6,7 +6,7 @@ use App\Helpers\CustomHelper;
 use Carbon\Carbon;
 use App\Models\PaymentRequest;
 use App\Models\User;
-use App\Jobs\TransactionHistory;
+use App\Models\Transaction;
 use App\Jobs\PaymentNotification;
 
 class StripeService
@@ -165,12 +165,13 @@ class StripeService
                 $notifyType = 'payment_transfer';
                 $title = 'Payment Transfer!';
                 $input[FIRST_NAME] = $user->first_name;
-                $input[ROLE] = $user->role->name;
-                $input[USERNAME] = $user->username;
+                $input[PAYMENT_INTENT_ID] = $paymentIntent->id;
                 $description = $user->first_name.' sent you a payment of $'. number_format($input[AMOUNT],2);
+                $card = $this->getPaymentCardDetails($input[PAYMENT_METHOD_ID]);
+                $bankAccount = $this->getBanckAccountDetails($input[ACCOUNT_ID], $input[BANK_ACCOUNT_TOKEN]);
+                $input['transaction'] = Transaction::saveTransaction($paymentIntent, $input, $card, $bankAccount);
                 PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
-            dispatch(new TransactionHistory($paymentIntent, $input));
         } catch (\Stripe\Exception\CardException $e) {
             $response[SUCCESS] = false;
             $response[MESSAGE] = $e->getMessage();
