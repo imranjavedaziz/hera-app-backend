@@ -8,6 +8,7 @@ use DB;
 use App\Jobs\SendNextStepsMail;
 use App\Models\ChatMedia;
 use App\Helpers\AuthHelper;
+use App\Models\User;
 
 class ChatFeedbackService
 {
@@ -42,7 +43,9 @@ class ChatFeedbackService
         $ctaNextSteps->to_user_id = $toUserId;
         if($ctaNextSteps->save()){
             SendNextStepsMail::dispatch($formUserId, $toUserId);
-            return [SUCCESS => true, MESSAGE => __('messages.chat.nextSteps'), DATA => $ctaNextSteps];
+            $toUser = User::where(ID,$toUserId)->first();
+            $message = __('messages.chat.nextSteps', ['usertype' => $toUser->role->name, USERNAME => $toUser->username]);
+            return [SUCCESS => true, MESSAGE => $message, DATA => $ctaNextSteps];
         }
         return [SUCCESS => false];
     }
