@@ -52,7 +52,7 @@ class PaymentService
             $input[FIRST_NAME] = $user->first_name;
             $input[ROLE] = $user->role->name;
             $input[USERNAME] = $user->username;
-            $input[PAYMENT_REQUEST_ID] = $payout->id;
+            $input[PAYMENT_REQUEST_ID] = $paymentRequest->id;
             PaymentNotification::dispatch($title, $description, $input, $notifyType);
             return [SUCCESS => true, DATA => $paymentRequest];
         }
