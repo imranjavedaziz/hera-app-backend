@@ -150,6 +150,6 @@ class StripeSubscriptionService
 
     public function updateSubscription($userId,$input) {
         return Subscription::where([USER_ID => $userId,SUBSCRIPTION_ID => $input[SUBSCRIPTION_ID],PRODUCT_ID => $input[PRODUCT_ID]])
-        ->update([CURRENT_PERIOD_START => $input[CURRENT_PERIOD_START],CURRENT_PERIOD_END => $input[CURRENT_PERIOD_END], STATUS_ID => $input[STATUS_ID]]);
+        ->update([CURRENT_PERIOD_START => $input[CURRENT_PERIOD_START],CURRENT_PERIOD_END => $input[CURRENT_PERIOD_END], STATUS_ID => $input[STATUS_ID],ORIGINAL_TRANSACTION_ID => $input[PAYMENT_INTENT]]);
     }
 }
