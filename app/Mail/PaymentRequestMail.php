@@ -29,7 +29,7 @@ class PaymentRequestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | A New Payment Request")->view('emails.payment_request', [
+        return $this->subject("HERA | Payment Request Received")->view('emails.payment_request', [
             'data' => $this->data
         ]);
     }

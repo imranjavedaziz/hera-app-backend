@@ -714,3 +714,5 @@ define('PLAN', 'plan');
 define('MBC', 'mbc');
 define('KEY_STATUS', 'status');
 define('SUBSCRIPTION_CANCEL', 'subscription_cancel');
+define('TO_USER_FIRST_NAME', 'to_user_first_name');
+define('DEFAULT_TIMEZONE', 'America/Los_Angeles');

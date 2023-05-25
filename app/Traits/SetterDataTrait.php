@@ -75,7 +75,7 @@ trait setterDataTrait {
     private function setUserName($role_id, $user_id){
         switch ($role_id) {
             case 2:
-                $username = 'PTB'.rand(1000, 9999).$user_id;
+                $username = 'IP'.rand(1000, 9999).$user_id;
                 break;
             case 3:
                 $username = 'SM'.rand(1000, 9999).$user_id;
