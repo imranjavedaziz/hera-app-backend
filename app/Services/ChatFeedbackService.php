@@ -71,7 +71,7 @@ class ChatFeedbackService
 
     public function getChatMedia($to_user_id)  {
         $from_user_id = AuthHelper::authenticatedUser()->id;
-        return ChatMedia::select(FROM_USER_ID, TO_USER_ID, URL, UPDATED_AT, CREATED_AT)
+        return ChatMedia::select(ID,FROM_USER_ID, TO_USER_ID, URL, UPDATED_AT, CREATED_AT)
         ->where(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $from_user_id);
             $query->where(TO_USER_ID, $to_user_id);  
@@ -79,6 +79,6 @@ class ChatFeedbackService
         ->orWhere(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $to_user_id);
             $query->where(TO_USER_ID, $from_user_id);  
-        });
+        })->orderBY(CREATED_AT, DESC);
     }
 }
