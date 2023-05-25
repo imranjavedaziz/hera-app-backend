@@ -124,6 +124,7 @@ class Transaction extends Model
             CURRENT_PERIOD_START => isset($object->lines->data[0]->period->start)?date(DATE_TIME,$object->lines->data[0]->period->start):NULL,
             CURRENT_PERIOD_END => isset($object->lines->data[0]->period->end)?date(DATE_TIME,$object->lines->data[0]->period->end):NULL,
             STATUS_ID => isset($object->status) && ($object->status === 'paid') ? ACTIVE : INACTIVE,
+            PAYMENT_INTENT => $object->payment_intent ?? NULL,
         ];
     }
 }
