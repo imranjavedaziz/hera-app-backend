@@ -49,8 +49,7 @@ class Transaction extends Model
 
     public static function saveTransaction($object, $fields, $card, $bankAccount) {
         $transPaymentIntent = self::setTransPaymentIntent($object, $fields, $card, $bankAccount);
-        self::create($transPaymentIntent);
-        return true;
+        return self::create($transPaymentIntent);
     }
 
     public static function setTransPaymentIntent($object, $fields, $card, $bankAccount){

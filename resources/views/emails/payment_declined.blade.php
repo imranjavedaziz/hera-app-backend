@@ -21,17 +21,17 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    You Payment Request Declined
+                Payment Request Declined by Intended Parent
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 5px 40px;">
-                    Hello {{$data['first_name']}},
+                    Hello {{$data[TO_USER_FIRST_NAME]}},
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-                {{$data['role']}} #{{$data['username']}} has declined your payment request of amount ${{$data['amount']}}.
+                Intended Parent {{$data[FIRST_NAME]}} has declined your payment request for ${{$data['amount']}}. If you have any concern, kindly connect with the respective user on HERA app. Do not reply to this email. For any questions, please use the Support From in the Mobile App.
                 </td>
             </tr>
             <tr>
@@ -43,8 +43,8 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 17px;">
-                    <img src="./img/logo-gray.png" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
-                    You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
+                    <img src="{{ asset('assets/images/logo-gray.png') }}" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
+                    You have received this email as a registered user of HERA Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
                 </td>
             </tr>
         </table>
