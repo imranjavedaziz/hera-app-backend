@@ -26,12 +26,12 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 5px 40px;">
-                    Hello {{$data['first_name']}},
+                    Hello {{$data[TO_USER_FIRST_NAME]}},
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 23px 40px;">
-                {{$data['role']}} #{{$data['username']}} has requested you for a payment of ${{$data['amount']}}. You can use HERA Pay on the platform to pay the requested amount.
+                {{$data['role']}} #{{$data['username']}} has sent you a payment request for ${{$data['amount']}}. Kindly make the payment through HERA app. Do not reply to this email. For any questions, please use the Support Form in the Mobile App.
                 </td>
             </tr>
             <tr>
@@ -43,8 +43,8 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 17px;">
-                    <img src="./img/logo-gray.png" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
-                    You have received this email as a registered user of HERA Application. If you have any questions, please fill the Inquiry Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
+                    <img src="{{ asset('assets/images/logo-gray.png') }}" alt="Logo" width="40" height="auto" style="margin-bottom: 10px;"><br />
+                    You have received this email as a registered user of HERA Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
                 </td>
             </tr>
         </table>

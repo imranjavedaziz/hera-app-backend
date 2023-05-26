@@ -19,6 +19,7 @@ use App\Mail\DonarPaymentSuccessMail;
 use App\Mail\PtbPaymentSuccessMail;
 use App\Mail\PaymentDeclinedMail;
 use Mail;
+use Carbon\Carbon;
 
 class PaymentNotification implements ShouldQueue
 {
@@ -55,13 +56,13 @@ class PaymentNotification implements ShouldQueue
         $userId = $this->data[USER_ID];
         $fromUser = User::where(ID, $userId)->first();
         $toUser = User::where(ID, $this->data[TO_USER_ID])->first();
+        $this->data[TO_USER_FIRST_NAME] = $toUser->first_name;
+        $this->data['to_role'] = $toUser->role->name;
+        $this->data['to_username'] = $toUser->username;
         $this->sendMail($this->notifyType, $this->data, $toUser->email, $fromUser->email);
-        $paymentArray[USER_ID] = $userId;
-        $paymentArray[TO_USER_ID] = $this->data[TO_USER_ID];
-        $paymentArray[NOTIFY_TYPE] = $this->notifyType;
         $userDevices = DeviceRegistration::where([USER_ID => $this->data[TO_USER_ID], STATUS_ID => ACTIVE])->get();
         foreach($userDevices as $device) {
-            FcmTrait::sendPush($device->device_token, $this->title, $this->description, $paymentArray);
+            FcmTrait::sendPush($device->device_token, $this->title, $this->description, []);
             $this->saveNotificationInDB($this->title, $this->description, $this->data[TO_USER_ID]);
         }
     }
@@ -83,6 +84,9 @@ class PaymentNotification implements ShouldQueue
                 Mail::to($toEmail)->send(new PaymentRequestMail($data));
               break;
             case "payment_transfer":
+                $data['transaction_date'] =  Carbon::now(DEFAULT_TIMEZONE)->format('M d, Y');
+                $data['transaction_time'] =  Carbon::now(DEFAULT_TIMEZONE)->format('h:i a (T)');
+                $data['fee'] = $data[NET_AMOUNT] - $data[AMOUNT];
                 Mail::to($toEmail)->send(new DonarPaymentSuccessMail($data));
                 Mail::to($fromEmail)->send(new PtbPaymentSuccessMail($data));
               break;

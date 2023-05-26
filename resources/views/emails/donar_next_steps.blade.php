@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                    {{$ptb['first_name']}} is intersted in you for further conversations.
+                    Good News! Intended Parent {{$ptb['first_name']}} has just confirmed to go ahead with you as their {{$donar->role->name}} & proceed with the next steps.
                     </td>
                 </tr>
                 <tr>

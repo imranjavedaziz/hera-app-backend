@@ -193,17 +193,25 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
+        /***$dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
             ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            ->get();***/
+            $dateAfterTenDay = Carbon::now()->subMinutes(30)->format(DATE_TIME);
+            return Subscription::with('user')
+            ->where(STATUS_ID,ACTIVE)
+            ->whereDate(CURRENT_PERIOD_END, '<', $dateAfterTenDay)
             ->get();
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
-        return User::whereDate(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        /**$twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
+        return User::whereDate(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();***/
+
+        $twentyMinutesAgo = Carbon::now()->subMinutes(30)->format(DATE_TIME);
+        return User::where(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {

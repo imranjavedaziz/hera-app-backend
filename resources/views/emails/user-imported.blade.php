@@ -32,7 +32,7 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="font-size: 14px; line-height: 22px; padding: 0 40px 23px 40px; font-style: italic; color: #000;">
-                    <span style="color: rgb(255 69 68);">*</span>We value your privacy and so we will not disclose your name to the intended parents. An ID will be displayed on your profile ({{ $user['username']}})
+                    <span style="color: #ff4544;">*</span>We value your privacy and so we will not disclose your name to the intended parents. An ID will be displayed on your profile ({{ $user['username']}})
                 </td>
             </tr>
             <tr>

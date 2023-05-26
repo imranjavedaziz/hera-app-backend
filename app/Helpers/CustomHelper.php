@@ -105,9 +105,6 @@ class CustomHelper
             case ($user->deactivated_by == ONE):
                 $message = trans('messages.user_account_deactivated_by_admin');
                 break;
-            case ($user->status_id == SIX):
-                $message = trans('messages.user_account_imported_by_admin');
-                break;
             default:
                 $message = trans('messages.invalid_user_pass');
                 break;

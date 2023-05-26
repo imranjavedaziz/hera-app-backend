@@ -49,8 +49,7 @@ class Transaction extends Model
 
     public static function saveTransaction($object, $fields, $card, $bankAccount) {
         $transPaymentIntent = self::setTransPaymentIntent($object, $fields, $card, $bankAccount);
-        self::create($transPaymentIntent);
-        return true;
+        return self::create($transPaymentIntent);
     }
 
     public static function setTransPaymentIntent($object, $fields, $card, $bankAccount){
@@ -125,6 +124,7 @@ class Transaction extends Model
             CURRENT_PERIOD_START => isset($object->lines->data[0]->period->start)?date(DATE_TIME,$object->lines->data[0]->period->start):NULL,
             CURRENT_PERIOD_END => isset($object->lines->data[0]->period->end)?date(DATE_TIME,$object->lines->data[0]->period->end):NULL,
             STATUS_ID => isset($object->status) && ($object->status === 'paid') ? ACTIVE : INACTIVE,
+            PAYMENT_INTENT => $object->payment_intent ?? NULL,
         ];
     }
 }
