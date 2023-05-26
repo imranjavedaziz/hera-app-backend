@@ -60,10 +60,13 @@ class PaymentNotification implements ShouldQueue
         $this->data['to_role'] = $toUser->role->name;
         $this->data['to_username'] = $toUser->username;
         $this->sendMail($this->notifyType, $this->data, $toUser->email, $fromUser->email);
-        $userDevices = DeviceRegistration::where([USER_ID => $this->data[TO_USER_ID], STATUS_ID => ACTIVE])->get();
-        foreach($userDevices as $device) {
-            FcmTrait::sendPush($device->device_token, $this->title, $this->description, []);
+        if ($this->notifyType == 'payment_request' || $this->notifyType == 'payment_declined' || $this->notifyType == 'payment_transfer') {
+          $pushData[NOTIFY_TYPE] = $this->notifyType;
+          $userDevices = DeviceRegistration::where([USER_ID => $this->data[TO_USER_ID], STATUS_ID => ACTIVE])->get();
+          foreach($userDevices as $device) {
+            FcmTrait::sendPush($device->device_token, $this->title, $this->description, $pushData);
             $this->saveNotificationInDB($this->title, $this->description, $this->data[TO_USER_ID]);
+          }
         }
     }
 
@@ -83,7 +86,7 @@ class PaymentNotification implements ShouldQueue
             case "payment_request":
                 Mail::to($toEmail)->send(new PaymentRequestMail($data));
               break;
-            case "payment_transfer":
+            case "payment_initiate":
                 $data['transaction_date'] =  Carbon::now(DEFAULT_TIMEZONE)->format('M d, Y');
                 $data['transaction_time'] =  Carbon::now(DEFAULT_TIMEZONE)->format('h:i a (T)');
                 $data['fee'] = $data[NET_AMOUNT] - $data[AMOUNT];
@@ -94,7 +97,7 @@ class PaymentNotification implements ShouldQueue
                 Mail::to($toEmail)->send(new PaymentDeclinedMail($data));
               break;
             default:
-            Mail::to($toEmail)->send(new PaymentRequestMail($data));
+            break;
           }
     }
 }

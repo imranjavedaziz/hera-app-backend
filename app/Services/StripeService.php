@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\PaymentRequest;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Jobs\PaymentNotification;
 
 class StripeService
 {
@@ -166,6 +167,7 @@ class StripeService
                 $card = $this->getPaymentCardDetails($input[PAYMENT_METHOD_ID]);
                 $bankAccount = $this->getBanckAccountDetails($input[ACCOUNT_ID], $input[BANK_ACCOUNT_TOKEN]);
                 Transaction::saveTransaction($paymentIntent, $input, $card, $bankAccount);
+                PaymentNotification::dispatch('', '', $input, 'payment_initiate');
             }
         } catch (\Stripe\Exception\CardException $e) {
             $response[SUCCESS] = false;
