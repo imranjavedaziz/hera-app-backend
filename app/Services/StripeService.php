@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use App\Models\PaymentRequest;
 use App\Models\User;
 use App\Models\Transaction;
-use App\Jobs\PaymentNotification;
 
 class StripeService
 {
@@ -162,15 +161,11 @@ class StripeService
                     PaymentRequest::where([ID => $input[PAYMENT_REQUEST_ID]])->update([STATUS => ONE]);
                 }
                 $user =  User::where(ID, $input[USER_ID])->first();
-                $notifyType = 'payment_transfer';
-                $title = 'Payment Transfer!';
                 $input[FIRST_NAME] = $user->first_name;
                 $input[PAYMENT_INTENT_ID] = $paymentIntent->id;
-                $description = $user->first_name.' sent you a payment of $'. number_format($input[AMOUNT],2);
                 $card = $this->getPaymentCardDetails($input[PAYMENT_METHOD_ID]);
                 $bankAccount = $this->getBanckAccountDetails($input[ACCOUNT_ID], $input[BANK_ACCOUNT_TOKEN]);
-                $input['transaction'] = Transaction::saveTransaction($paymentIntent, $input, $card, $bankAccount);
-                PaymentNotification::dispatch($title, $description, $input, $notifyType);
+                Transaction::saveTransaction($paymentIntent, $input, $card, $bankAccount);
             }
         } catch (\Stripe\Exception\CardException $e) {
             $response[SUCCESS] = false;
