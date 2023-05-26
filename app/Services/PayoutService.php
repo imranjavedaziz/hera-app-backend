@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Mail\DonarPayoutMail;
 use App\Mail\PtbPayoutMail;
 use Mail;
+use App\Jobs\PaymentNotification;
 
 class PayoutService
 {
@@ -49,6 +50,12 @@ class PayoutService
             if($donor) {
                 Mail::to($donor->email)->send(new DonarPayoutMail($donarData , true));
                 Mail::to($ptb->email)->send(new PtbPayoutMail($ptbData, true));
+                $notifyType = 'payment_transfer';
+                $title = 'Payment Transfer!';
+                $description = $ptb->first_name.' sent you a payment of $'. number_format($transaction[AMOUNT],2);
+                $input[USER_ID] = $ptb->id;
+                $input[TO_USER_ID] = $donor->id;
+                PaymentNotification::dispatch($title, $description, $input, $notifyType);
             }
         } else {
             $pendingPayout->status = PayoutStatus::FAILED;
