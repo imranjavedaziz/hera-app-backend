@@ -14,6 +14,9 @@ use App\Mail\EmailActivatedByAdminMail;
 use App\Mail\EmailDeactivatedByAdminMail;
 use App\Mail\EmailDeletedByAdminMail;
 use Log;
+use Facades\{
+    App\Services\StripeSubscriptionService
+};
 
 class SendActiveDeactiveUserJob implements ShouldQueue
 {
@@ -45,8 +48,10 @@ class SendActiveDeactiveUserJob implements ShouldQueue
             Mail::to($user->email)->send(new EmailActivatedByAdminMail($user, true));
         }elseif ($this->status_id == INACTIVE) {
             Mail::to($user->email)->send(new EmailDeactivatedByAdminMail($user));
+            StripeSubscriptionService::cancelSubscription($user->id);
         }elseif ($this->status_id == DELETED) {
             Mail::to($user->email)->send(new EmailDeletedByAdminMail($user));
+            StripeSubscriptionService::cancelSubscription($user->id);
         }
     }
 }
