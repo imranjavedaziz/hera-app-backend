@@ -60,10 +60,9 @@ class PaymentNotification implements ShouldQueue
         $this->data['to_role'] = $toUser->role->name;
         $this->data['to_username'] = $toUser->username;
         $this->sendMail($this->notifyType, $this->data, $toUser->email, $fromUser->email);
-        $pushData = $this->getPushData($this->notifyType, $this->data, $fromUser);
         $userDevices = DeviceRegistration::where([USER_ID => $this->data[TO_USER_ID], STATUS_ID => ACTIVE])->get();
         foreach($userDevices as $device) {
-            FcmTrait::sendPush($device->device_token, $this->title, $this->description, $pushData);
+            FcmTrait::sendPush($device->device_token, $this->title, $this->description, []);
             $this->saveNotificationInDB($this->title, $this->description, $this->data[TO_USER_ID]);
         }
     }
@@ -97,36 +96,5 @@ class PaymentNotification implements ShouldQueue
             default:
             Mail::to($toEmail)->send(new PaymentRequestMail($data));
           }
-    }
-
-    private function getPushData($notifyType, $data, $fromUser) {
-        $paymentArray[NOTIFY_TYPE] = $notifyType;
-        switch ($notifyType) {
-            case "payment_request":
-              $paymentArray['profile_pic'] = $fromUser->profile_pic;
-              $paymentArray[USERNAME] = $fromUser->username;
-              $paymentArray[ROLE_ID] = $fromUser->role_id;
-              $paymentArray[AMOUNT] = $data[AMOUNT];
-              $paymentArray[ID] = $data[PAYMENT_REQUEST_ID];
-              break;
-            case "payment_transfer":
-              $transaction = $data['transaction'];
-              $paymentArray['profile_pic'] = $fromUser->profile_pic;
-              $paymentArray[USERNAME] = $fromUser->username;
-              $paymentArray[ROLE_ID] = $fromUser->role_id;
-              $paymentArray[AMOUNT] = $data[AMOUNT];
-              $paymentArray[NET_AMOUNT] = $data[AMOUNT];
-              $paymentArray[BANK_LAST4] = $transaction->bank_last4;
-              $paymentArray[BANK_NAME] = $transaction->bank_name;
-              $paymentArray[CREATED_AT] = $transaction->created_at;
-              $paymentArray[PAYMENT_INTENT] = $transaction->payment_intent;
-              $paymentArray[PAYMENT_STATUS] = $transaction->payment_status;
-              $paymentArray[PAYOUT_STATUS] = ONE;
-              $paymentArray[ID] = $transaction->id;
-              break;
-            default:
-            
-          }
-        return $paymentArray;
     }
 }
