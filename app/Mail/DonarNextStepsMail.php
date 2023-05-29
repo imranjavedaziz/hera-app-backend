@@ -33,7 +33,7 @@ class DonarNextStepsMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Someone intersted in you")->view('emails.donar_next_steps', [
+        return $this->subject("HERA Family Planning | Intended Parent ".$this->ptb->first_name." is Interested")->view('emails.donar_next_steps', [
             'ptb' => $this->ptb,
             'donar' => $this->donar,
         ]);
