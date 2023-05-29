@@ -33,7 +33,7 @@ class PtbNextStepsMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | You have looking someone")->view('emails.ptb_next_steps', [
+        return $this->subject("HERA Family Planning | Interested in ".$this->donar->role->name.' '. $this->donar->username)->view('emails.ptb_next_steps', [
             'ptb' => $this->ptb,
             'donar' => $this->donar,
         ]);

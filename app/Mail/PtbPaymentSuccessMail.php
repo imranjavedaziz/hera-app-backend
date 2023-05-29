@@ -29,7 +29,7 @@ class PtbPaymentSuccessMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | A Payment Initiated")->view('emails.ptb_payment_success', [
+        return $this->subject("HERA Family Planning | Payment Initiated")->view('emails.ptb_payment_success', [
             'data' => $this->data
         ]);
     }

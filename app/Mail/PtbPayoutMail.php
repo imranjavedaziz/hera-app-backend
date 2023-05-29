@@ -32,10 +32,10 @@ class PtbPayoutMail extends Mailable
      */
     public function build()
     {
-        $subject = "HERA | Payment Failed";
+        $subject = "HERA Family Planning | Payment Failed";
         $emailTemplate = 'emails.ptb_payout_failed';
         if ($this->success) {
-            $subject = "HERA | Payment Successful";
+            $subject = "HERA Family Planning | Payment Successful";
             $emailTemplate = 'emails.ptb_payout_success';
         }
         return $this->subject($subject)->view($emailTemplate, [

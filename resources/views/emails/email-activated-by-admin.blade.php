@@ -27,19 +27,20 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; line-height: 25px; padding: 0 40px 23px 40px;">
-                        Your HERA account has been successfully reactivated. Explore, Match & Chat with <?php if($user['role_id'] != 2) { ?> intended parents<?php }else{ ?> surrogate mothers/egg donors/sperm donors<?php } ?>.
+                        Your HERA Family Planning account has been successfully reactivated. Explore, Match & Chat with <?php if($user['role_id'] != 2) { ?> intended parents<?php }else{ ?> surrogate mothers/egg donors/sperm donors<?php } ?>.
                     </td>
                 </tr>
                 <tr>
                     <td style="font-size: 16px; padding: 0 40px 27px 40px; font-weight: bold; line-height: 25px;">
                         Regards,<br />
-                        HERA
+                        HERA Team
                     </td>
                 </tr>
                 <tr>
                     <td style="background-color: #f7f5f0; color: #87857e; font-size: 12px; padding: 19px 40px 25px 40px;line-height: 1.42;">
                         <img src="{{ asset('assets/images/logo-gray.png') }}" alt="Logo" width="43" height="auto" style="margin-bottom: 5px;"><br />
-                        You have received this email as a registered user of HERA Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:help@hera.com" style="font-weight: bold; color: #87857e;">help@hera.com</a>
+                        You have received this email as a registered user of HERA Family Planning Application. If you have any questions, please fill the Support Form using our mobile application or email us at <a href="mailto:support@makingbabyconnection.com" style="font-weight: bold; color: #87857e;">support@makingbabyconnection.com</a>
+                        <div><a href="https://makingbabyconnection.com/terms-of-service/" style="font-weight: bold; color: #87857e;">Terms Conditions</a> | <a href="https://makingbabyconnection.com/privacy-policy/" style="font-weight: bold; color: #87857e;">Privacy Policy</a></div>
                     </td>
                 </tr>
             </table>

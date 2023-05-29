@@ -21,14 +21,10 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
                 </td>
             </tr>
             <tr>
-                <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    Surrogate Mother confirmed by Intended Parent
-                </td>
-            </tr>
-            <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 70px 40px;">
-                Intended Parent {{$ptb['first_name']}} has confirmed to go ahead with {{$donar->role->name}} #{{$donar['username']}} ({{$donar['first_name']}}).
-                </td>
+                Intended Parent {{$ptb['first_name']}} has shown interest in {{$donar->role->name}} #{{$donar['username']}} through the HERA Family Planning app.
+                <div><a href="https://makingbabyconnection.com/terms-of-service/" style="font-weight: bold; color: #87857e;">Terms Conditions</a> | <a href="https://makingbabyconnection.com/privacy-policy/" style="font-weight: bold; color: #87857e;">Privacy Policy</a></div>    
+            </td>
             </tr>
         </table>
     </td>
