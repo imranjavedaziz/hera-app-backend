@@ -32,7 +32,7 @@ class AdminNextStepsMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Someone intersted in someone")->view('emails.admin_next_steps', [
+        return $this->subject("HERA Family Planning | ".$this->ptb->first_name." shows interest in ". $this->donar->role->name.' '.$this->donar->username)->view('emails.admin_next_steps', [
             'ptb' => $this->ptb,
             'donar' => $this->donar,
         ]);

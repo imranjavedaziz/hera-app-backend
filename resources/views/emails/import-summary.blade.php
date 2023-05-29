@@ -22,12 +22,12 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
-                    Bulk Import Completed!
+                    The Bulk upload completed successfully.
                 </td>
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 22px 40px;">
-                    You had initiated Bulk import of users on the platform & the process is now completed. An email notification has been sent to the accounts that have been added through the Bulk import. Users can find their credentials in the email notification to log in to their HERA account. Once they have logged in for the first time, their status will be updated to Active on HERA Dashboard.
+                    Users whose records has been added are registered successfully and have received their credentials over email. Now they can login and complete setup their profile to use the services.
                 </td>
             </tr>
             <tr>

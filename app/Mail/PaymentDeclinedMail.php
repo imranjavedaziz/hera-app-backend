@@ -29,7 +29,7 @@ class PaymentDeclinedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("HERA | Payment Request Declined")->view('emails.payment_declined', [
+        return $this->subject("HERA Family Planning | Payment Request Declined")->view('emails.payment_declined', [
             'data' => $this->data
         ]);
     }
