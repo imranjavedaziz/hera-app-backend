@@ -716,3 +716,7 @@ define('KEY_STATUS', 'status');
 define('SUBSCRIPTION_CANCEL', 'subscription_cancel');
 define('TO_USER_FIRST_NAME', 'to_user_first_name');
 define('DEFAULT_TIMEZONE', 'America/Los_Angeles');
+define('ANDROID_APP_VERSION', 1.0);
+define('IOS_APP_VERSION', 1.0);
+define('VERSION', 'Version');
+define('PLATFORM', 'Platform');
