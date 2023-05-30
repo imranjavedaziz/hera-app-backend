@@ -11,7 +11,6 @@
     <p>Total records: {{ $totalRecords }}</p>
     <p>Skipped records count: {{ $skippedRecordsCount }}</p>
     <p>Inserted records: {{ $insertedRecords }}</p>
-    <p>Existing records Count: {{ $existingRecordsCount }}</p>
 
     @if(is_array($skippedRecords) && count($skippedRecords) > 0)
             <p>Skipped records:</p>
