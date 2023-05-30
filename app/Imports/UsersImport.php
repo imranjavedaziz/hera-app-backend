@@ -42,7 +42,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
             EMAIL => ValidationRule::EMAIL,
             DOB => ValidationRule::DOB,
             PHONE_NO => [ValidationRule::PHONE, Rule::unique('users')],
-            ROLE_ID => Rule::in(['PARENTS_TO_BE', 'SURROGATE_MOTHER','EGG_DONOR','SPERM_DONOR']),
+            ROLE_ID => Rule::in(['INTENDED_PARENT', 'SURROGATE_MOTHER','EGG_DONOR','SPERM_DONOR']),
         ];
     }
 
@@ -173,7 +173,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnFailure
 
     public function getRoles($roleKey) {
         $roles = [
-            'PARENTS_TO_BE' => 2,
+            'INTENDED_PARENT' => 2,
             'SURROGATE_MOTHER' => 3,
             'EGG_DONOR' => 4,
             'SPERM_DONOR' => 5
