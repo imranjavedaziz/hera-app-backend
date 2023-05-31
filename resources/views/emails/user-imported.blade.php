@@ -32,7 +32,7 @@ style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: '
             </tr>
             <tr>
                 <td style="font-size: 16px; line-height: 22px; padding: 0 40px 8px 40px;">
-                    To get started, please download the "HERA Family Plan" mobile app from the App Store or Google Play. Once you have downloaded the app, open it and login in using the below mentioned credentials.
+                    To get started, please download the "HERA Family Planning!" mobile app from the App Store or Google Play. Once you have downloaded the app, open it and login in using the below mentioned credentials.
                 </td>
             </tr>
             <tr>

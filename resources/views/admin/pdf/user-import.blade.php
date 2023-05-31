@@ -13,7 +13,7 @@
     <p>Inserted records: {{ $insertedRecords }}</p>
 
     @if(is_array($skippedRecords) && count($skippedRecords) > 0)
-            <p>Skipped records:</p>
+            <p>Please find the Skipped Records reason mentioned below.</p>
             <table aria-describedby="report List">
                 <thead>
                     <tr>
