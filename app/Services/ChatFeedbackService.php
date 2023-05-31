@@ -8,6 +8,7 @@ use DB;
 use App\Jobs\SendNextStepsMail;
 use App\Models\ChatMedia;
 use App\Helpers\AuthHelper;
+use App\Models\User;
 
 class ChatFeedbackService
 {
@@ -42,7 +43,9 @@ class ChatFeedbackService
         $ctaNextSteps->to_user_id = $toUserId;
         if($ctaNextSteps->save()){
             SendNextStepsMail::dispatch($formUserId, $toUserId);
-            return [SUCCESS => true, MESSAGE => __('messages.chat.nextSteps'), DATA => $ctaNextSteps];
+            $toUser = User::where(ID,$toUserId)->first();
+            $message = __('messages.chat.nextSteps', ['usertype' => $toUser->role->name, USERNAME => $toUser->username]);
+            return [SUCCESS => true, MESSAGE => $message, DATA => $ctaNextSteps];
         }
         return [SUCCESS => false];
     }
@@ -71,7 +74,7 @@ class ChatFeedbackService
 
     public function getChatMedia($to_user_id)  {
         $from_user_id = AuthHelper::authenticatedUser()->id;
-        return ChatMedia::select(FROM_USER_ID, TO_USER_ID, URL, UPDATED_AT, CREATED_AT)
+        return ChatMedia::select(ID,FROM_USER_ID, TO_USER_ID, URL, UPDATED_AT, CREATED_AT)
         ->where(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $from_user_id);
             $query->where(TO_USER_ID, $to_user_id);  
@@ -79,6 +82,6 @@ class ChatFeedbackService
         ->orWhere(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $to_user_id);
             $query->where(TO_USER_ID, $from_user_id);  
-        });
+        })->orderBY(CREATED_AT, DESC);
     }
 }

@@ -57,6 +57,12 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
+            $versionArray = [ANDROID => ANDROID_APP_VERSION, IOS => IOS_APP_VERSION];
+            $version = $request->header(VERSION);
+            $plateform = $request->header(PLATFORM);
+            if (isset($versionArray[$plateform]) && $versionArray[$plateform] > $version) {
+                return response()->json([MESSAGE => 'Please use latest app version', DATA => $versionArray[$plateform]],308);
+            }
             return Limit::perMinute(1000)->by(optional($request->user())->id ?: $request->ip());
         });
     }

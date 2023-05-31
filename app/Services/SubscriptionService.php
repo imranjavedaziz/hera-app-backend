@@ -13,6 +13,9 @@ use Log;
 use Carbon\Carbon;
 use App\Traits\StoreReceiptTrait;
 use App\Jobs\UpdateStatusOnFirebaseJob;
+use Facades\{
+    App\Services\StripeSubscriptionService
+};
 
 class SubscriptionService
 {
@@ -48,38 +51,11 @@ class SubscriptionService
         }
 
         if($fields[DEVICE_TYPE] == ANDROID) {
-            return $this->androidSubscription($fields);
-        }
-    }
-
-    private function androidSubscription($fields){
-        $plan = SubscriptionPlan::where(ANDROID_PRODUCT,$fields[PRODUCT_ID])->first();
-        $fields[SUBSCRIPTION_PLAN_ID] = $plan->id;
-        $fields[PRICE] = $plan->price;
-        $receiptService = StoreReceiptTrait::playStoreServiceAccount($fields[PURCHASE_TOKEN],$fields[PRODUCT_ID]);
-        /***purchaseState
-         * 0: Purchase was completed.
-         * 1: Purchase was canceled.
-         * 2: Purchase is pending.
-         ****/
-        if(!empty($receiptService)
-            && !empty($receiptService->orderId)
-            && $receiptService->acknowledgementState == ONE
-            && $receiptService->autoRenewing == ONE
-            ) {     
-            $startEndDate = $this->calulateSubscriptionStartEndDate($plan);
-            $fields[CURRENT_PERIOD_START] = $startEndDate[CURRENT_PERIOD_START];
-            $fields[CURRENT_PERIOD_END] = $startEndDate[CURRENT_PERIOD_END];
-            $fields[SUBSCRIPTION_ID] = $receiptService->orderId;
-            $fields[ORIGINAL_TRANSACTION_ID] = $receiptService->orderId;
-            $subscriptionFields = $this->setSubscriptionFields($fields);
-            Subscription::where(USER_ID,$fields[USER_ID])->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
-            ParentsPreference::where(USER_ID, $fields[USER_ID])->update([ROLE_ID_LOOKING_FOR => $plan->role_id_looking_for]);
-            if(!empty($subscriptionFields)) {
-                return $this->createNewSubscription($subscriptionFields);
-            }
-        } else {
-            return $receiptService;
+            $user = User::find($fields[USER_ID]);
+            $user->subscription_status = SUBSCRIPTION_ENABLED;
+            $user->save();
+            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_ENABLED, RECIEVER_SUBSCRIPTION));
+            return StripeSubscriptionService::createStripeSubscription($fields);
         }
     }
 
@@ -151,14 +127,13 @@ class SubscriptionService
         if ($data[NOTIFICATION_TYPE] == 'DID_RENEW') {
                 $plan = SubscriptionPlan::where(IOS_PRODUCT,$data[PRODUCT_ID])->first(); 
                 $this->setAndCreateSubscriptionData($plan, $data);
-        }elseif($data[NOTIFICATION_TYPE] == 'CANCEL'){
+        }elseif($data[NOTIFICATION_TYPE] == 'DID_CHANGE_RENEWAL_STATUS' && $data[SUB_TYPE] == 'AUTO_RENEW_DISABLED'){
+            Log::info('Cancel ios subscription');
             $userId = $prevSubDetails[USER_ID];
-            Subscription::where(USER_ID,$userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
             $user = User::find($userId);
             $user->update([
-                SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
+                SUBSCRIPTION_CANCEL=>ONE
             ]);
-            dispatch(new UpdateStatusOnFirebaseJob($user, SUBSCRIPTION_DISABLED, RECIEVER_SUBSCRIPTION));
         }
         return true;
     }
@@ -194,6 +169,7 @@ class SubscriptionService
         Log::info(json_encode($signedTransactionInfo));
         return [
             NOTIFICATION_TYPE  => $payloadInfo->notificationType,
+            SUB_TYPE           => $payloadInfo->subtype ?? null,
             PRODUCT_ID          => $signedPayloadInfo->productId,
             AUTORENEW_STATUS    => $signedPayloadInfo->autoRenewStatus,
             START_DATE          => date(DATE_TIME, $signedTransactionInfo->purchaseDate/1000),
@@ -217,17 +193,25 @@ class SubscriptionService
     }
 
     public function getSubcriptionEndBeforeTenDay() {
-        $dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
+        /***$dateAfterTenDay = Carbon::now()->addDay(TEN)->format(YMD_FORMAT);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
             ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
             ->whereDate(CURRENT_PERIOD_END, $dateAfterTenDay)
+            ->get();***/
+            $dateAfterTenDay = Carbon::now()->subMinutes(30)->format(DATE_TIME);
+            return Subscription::with('user')
+            ->where(STATUS_ID,ACTIVE)
+            ->whereDate(CURRENT_PERIOD_END, '<', $dateAfterTenDay)
             ->get();
     }
 
     public function getTrialSubscriptionEndBeforeTenDay() {
-        $twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
-        return User::whereDate(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
+        /**$twentyDaytoday = Carbon::now()->subDays(TWENTY)->format(YMD_FORMAT);
+        return User::whereDate(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();***/
+
+        $twentyMinutesAgo = Carbon::now()->subMinutes(30)->format(DATE_TIME);
+        return User::where(TRIAL_START,'<=',$twentyDaytoday)->where(['role_id' => PARENTS_TO_BE,SUBSCRIPTION_STATUS=> SUBSCRIPTION_TRIAL])->orderBy(ID, DESC)->get();
     }
 
     public function getSubscriptionStatus($userId) {
@@ -284,10 +268,12 @@ class SubscriptionService
     }
 
     public function getExpiredSubcription() {
+        $twoHour = Carbon::now()->subHours(2)->format(DATE_TIME);
         return Subscription::with('user')
             ->where(STATUS_ID,ACTIVE)
-            ->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
-            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))
+            /**->whereDate(CURRENT_PERIOD_START, '<', Carbon::now()->format(YMD_FORMAT))
+            ->whereDate(CURRENT_PERIOD_END, Carbon::now()->format(YMD_FORMAT))**/
+            ->where(CURRENT_PERIOD_END, '<',$twoHour)
             ->get();
     }
 }

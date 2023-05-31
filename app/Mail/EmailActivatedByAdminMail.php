@@ -31,6 +31,6 @@ class EmailActivatedByAdminMail extends Mailable
     public function build()
     {
         $title = ($this->isAdmin) ? 'Account Reactivated!' : 'Account Reactivated Successfully!' ;
-        return $this->subject("HERA | ".$title)->view('emails.email-activated-by-admin');
+        return $this->subject("HERA Family Planning | ".$title)->view('emails.email-activated-by-admin');
     }
 }

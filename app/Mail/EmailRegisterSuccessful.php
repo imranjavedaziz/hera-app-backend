@@ -29,6 +29,6 @@ class EmailRegisterSuccessful extends Mailable
     public function build()
     {
         $role_name = $this->user->role->name;
-        return $this->subject("HERA | Registered As ".$role_name." Successfully!")->view('emails.email-register-successful');
+        return $this->subject("HERA Family Planning | Registered As ".$role_name." Successfully!")->view('emails.email-register-successful');
     }
 }

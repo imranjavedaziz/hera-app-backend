@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\CtaNextStep;
 use App\Models\ProfileMatch;
 use App\Helpers\AuthHelper;
 use DB;
@@ -33,10 +34,13 @@ class UserProfileService
                 ->selectRaw('(select name from education where id='.EDUCATION_ID.AS_CONNECT.EDUCATION.' ');
             }, LOCATION, DONERPHOTOGALLERY, DONERVIDEOGALLERY
         ])->where(ID, $input[USER_ID])->first();
-        $input[RECEIVER_ID] = AuthHelper::authenticatedUser()->id; /** use sender id  as reciver_id for matching chat section **/
+        $fromUserId = AuthHelper::authenticatedUser()->id;
+        $input[RECEIVER_ID] = $fromUserId; /** use sender id  as reciver_id for matching chat section **/
         $input[MESSAGE] = "";
         $user->profile_match_request = $this->profileMatchRequest($input[RECEIVER_ID], $input[USER_ID]);
         $user->profile_match_chat = FcmService::sendPushNotification($input, $input[USER_ID],false);
+        $ctaNextStep = CtaNextStep::where([FROM_USER_ID => $fromUserId, TO_USER_ID => $input[USER_ID]])->first();
+        $user->next_step = !empty($ctaNextStep) ? true :false;
         return $user;
     }
 
@@ -61,7 +65,7 @@ class UserProfileService
         return $user;
     }
 
-    private function profileMatchRequest($from_user_id, $to_user_id){
+    public function profileMatchRequest($from_user_id, $to_user_id){
         return ProfileMatch::select(FROM_USER_ID, TO_USER_ID, STATUS, UPDATED_AT, CREATED_AT)
         ->where(function ($query) use ($from_user_id, $to_user_id) {
             $query->where(FROM_USER_ID, $from_user_id);

@@ -1,69 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Import Users Job Report</title>
-</head>
-<body>
-    <h2>Import Users Job Report</h2>
-    <p>Total records: {{ $totalRecords }}</p>
-    <p>Skipped records count: {{ $skippedRecordsCount }}</p>
-    <p>Inserted records: {{ $insertedRecords }}</p>
-    <p>Existing records Count: {{ $existingRecordsCount }}</p>
-
-    @if(is_array($skippedRecords) && count($skippedRecords) > 0)
-            <p>Skipped records:</p>
-            <table aria-describedby="report List">
-                <thead>
-                    <tr>
-                        <th scope="col">Row No.</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Error</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($skippedRecords as $record)
-                        <tr>
-                            <td>{{ $record['row'] }}</td>
-                            <td>{{ $record['email'] }}</td>
-                            <td>
-                                @if(is_array($record['errors']) && count($record['errors']) > 0)
-                                    <ul>
-                                        @foreach($record['errors'] as $error)
-                                            <li>{{ implode(', ', $error) }}</li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-
-
-    @if(is_array($existingRecords) && count($existingRecords) > 0)
-        <p>Already existing records:</p>
-        <table aria-describedby="existing report">
-            <thead>
-                <tr>
-                    <th scope="col">Row No.</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($existingRecords as $record)
-                    <tr>
-                        <td>{{ $record['row'] }}</td>
-                        <td>{{ $record['email'] }}</td>
-                        <td>{{ is_array($record['errors']) ? implode(",", $record['errors']) : $record['errors'] }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
+@extends('emails.layouts.base-template')
+@section('content')
+<table
+style="background: #f2f2f2; border: 0; margin: auto; width: 100%; font-family: 'Open Sans', sans-serif; height: 100%;" aria-describedby="Account Verify">
+<!-- // new table -->
+<tr style="display:none">
+    <th scope="col">
+    </th>
+</tr>
+<tr>
+    <td>
+        <table
+            style="background-color: white; width: 100%; max-width: 840px; margin:0 auto; font-family: 'Open Sans', sans-serif;border:0;padding: 0px; color: #353a3a; border-collapse: collapse;" aria-describedby="Account Verify">
+            <tr style="display:none">
+                <th scope="col">
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center; padding-top: 45px; padding-bottom: 41px;">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" width="155" height="auto">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center; padding-bottom: 22px; font-weight: bold; font-size: 26px;">
+                    The Bulk upload completed successfully.
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 22px 40px;">
+                    Users whose records has been added are registered successfully and have received their credentials over email. Now they can login and complete setup their profile to use the services.
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 18px 40px;font-weight: bold;">
+                    Import Status
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 8px 40px;">
+                    Total Records: <strong>{{ $totalRecords }} Users</strong>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 8px 40px;">
+                    Success Records: <strong>{{ $insertedRecords }} Users</strong>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 16px; line-height: 22px; padding: 0 40px 30px 40px; color: #ff4544;">
+                    Skipped Records: <strong>{{ $skippedRecordsCount }} Users</strong>
+                </td>
+            </tr>
         </table>
-    @endif
-</body>
-</html>
+    </td>
+</tr>
+</table>
+@stop

@@ -33,7 +33,7 @@ class UserImportSuccessMail extends Mailable
     public function build()
     {
         $role_name = $this->user->role->name;
-        return $this->subject("HERA | Imported As ".$role_name." Successfully!")->view('emails.user-imported',[
+        return $this->subject("Welcome to HERA Family Planning!")->view('emails.user-imported',[
             'user' => $this->user,
             'password' => $this->password,
         ]);

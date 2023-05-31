@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Facades\{
     App\Services\SubscriptionService,
+    App\Services\StripeSubscriptionService
 };
 use DB;
 use App\Helpers\AuthHelper;
@@ -55,13 +56,18 @@ class SubscriptionController extends Controller
     {
         try {
             $userId = AuthHelper::authenticatedUser()->id;
-            $upcoming = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
-            if(!empty($upcoming)) {
-            $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$upcoming->id)->where(USER_ID,$userId)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
-            ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+            $upcoming = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end','subscriptions.device_type')->where(STATUS_ID,ACTIVE)->where(USER_ID,$userId)->orderBY(ID,DESC)->first();
+            if (!empty($upcoming) && $upcoming->device_type == ANDROID) {
+                $currentSubscription = $upcoming;
+                $upcomingSubscription = null;
+            } else {
+                if(!empty($upcoming)) {
+                    $current = Subscription::with(['subscriptionPlan'])->select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_start','subscriptions.current_period_end')->where(ID,'!=',$upcoming->id)->where(USER_ID,$userId)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+                    ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+                }
+                $currentSubscription = !empty($current) && !empty($upcoming) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $current : $upcoming;
+                $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
             }
-            $currentSubscription = !empty($current) ? $current : $upcoming;
-            $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->subscriptionPlan->role_id_looking_for === $current->subscriptionPlan->role_id_looking_for) ? $upcoming : null;
             $preference = ParentsPreference::where(USER_ID, $userId)->first();
             $response = response()->Success(trans('messages.common_msg.data_found'),['plan' =>  SubscriptionService::getSubscriptionPlan(),'subscription' => $currentSubscription,'preference' => $preference, 'upcomingSubscription' => $upcomingSubscription]);
         } catch (\Exception $e) {
@@ -96,6 +102,11 @@ class SubscriptionController extends Controller
      *                property="purchase_token",
      *                type="string",
      *                example="abcd"
+     *             ),
+     *             @OA\Property(
+     *                property="payment_method_id",
+     *                type="string",
+     *                example="pm_1N4ScRGDXbU7wJmtK1BWMhem"
      *             ),
      *         ),
      *     ),
@@ -185,7 +196,58 @@ class SubscriptionController extends Controller
             $isTrial = empty($subscription) ?  true : false;
             $trial_end =  !empty($user->trial_start) ? date(YMD_FORMAT, strtotime(SUBSCRIPTION_TRIAL_PERIOD, strtotime($user->trial_start))) : null;
             $trial_msg = 'Your free trial period expires on';
-            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg]);
+            $response = response()->Success(trans('messages.common_msg.data_found'), [STATUS => $user->subscription_status,'is_trial' => $isTrial , 'trial_end' => $trial_end,'trial_msg' => $trial_msg, SUBSCRIPTION_CANCEL => $user->subscription_cancel]);
+        } catch (\Exception $e) {
+            $response = response()->Error($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/v1/cancel-subscription",
+     *      operationId="cancel-subscription",
+     *      tags={"Subscription"},
+     *      summary="Cancel stripe subscription",
+     *      description="Cancel stripe subscription",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Subscription has been canceled successfully.",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      ),
+     *      security={ {"bearer": {}} },
+     *  )
+     */
+    public function cancelSubscription(Request $request)
+    {
+        try {
+            $canceled = StripeSubscriptionService::cancelSubscription(AuthHelper::authenticatedUser()->id);
+            if($canceled === false) {
+                return response()->Error(trans('messages.no_active_subscription_found'));
+            }
+            if(!empty($canceled[STATUS_ID]) && $canceled[STATUS_ID] === INACTIVE) {
+                $response = response()->Success(trans('messages.subscription_canceled'));
+            } else if(!empty($canceled[MESSAGE])) {
+                $response = response()->Success($canceled[MESSAGE]);
+            }
         } catch (\Exception $e) {
             $response = response()->Error($e->getMessage());
         }

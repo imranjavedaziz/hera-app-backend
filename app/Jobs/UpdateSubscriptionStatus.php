@@ -36,7 +36,7 @@ class UpdateSubscriptionStatus implements ShouldQueue
     public function handle()
     {
         Subscription::where(USER_ID,$this->userId)->where(STATUS_ID,ACTIVE)->update([STATUS_ID => INACTIVE]);
-        $user = User::find($this->userId);
+        $user = User::where(ID, $this->userId)->first();
         $user->update([
             SUBSCRIPTION_STATUS=>SUBSCRIPTION_DISABLED
         ]);

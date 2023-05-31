@@ -240,7 +240,7 @@ class UserRegisterService
                 return $q->select(ID, USER_ID, STATE_ID, ZIPCODE);
             },
             SUBSCRIPTION => function($q) {
-                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE)
+                return $q->select(ID, USER_ID, CURRENT_PERIOD_END, SUBSCRIPTION_PLAN_ID, PRICE,DEVICE_TYPE)
                 ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
                 ->selectRaw('(select role_id_looking_for from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'role_id_looking_for')
                 ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ');
@@ -252,15 +252,21 @@ class UserRegisterService
         ->where(ID, $user_id)
         ->first();
         $upcoming = $user->subscription;
-        if(!empty($upcoming)) {
-            $current = Subscription::select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_end','subscriptions.price')
-            ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
-            ->selectRaw('(select role_id_looking_for from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'role_id_looking_for')
-            ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ')
-            ->where(ID,'!=',$user->subscription->id)->where(USER_ID,$user_id)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
-            ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+        if (!empty($upcoming) && $upcoming->device_type == ANDROID) {
+            $currentSubscription = $upcoming;
+            $upcomingSubscription = null;
+        } else {
+            if(!empty($upcoming)) {
+                $current = Subscription::select('subscriptions.id','subscriptions.user_id','subscriptions.subscription_plan_id','subscriptions.current_period_end','subscriptions.price')
+                ->selectRaw('(select name from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.NAME.' ')
+                ->selectRaw('(select role_id_looking_for from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'role_id_looking_for')
+                ->selectRaw('(select subscription_plans.interval from subscription_plans where id='.SUBSCRIPTION_PLAN_ID.AS_CONNECT.'subscription_interval ')
+                ->where(ID,'!=',$user->subscription->id)->where(USER_ID,$user_id)->where(CURRENT_PERIOD_START, '<=', Carbon::now())
+                ->where(CURRENT_PERIOD_END,'>=', Carbon::now())->orderBY(ID,DESC)->first();
+            }
+            $currentSubscription = !empty($current) && !empty($upcoming) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $current : $upcoming;
+            $upcomingSubscription  = !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $upcoming : null;
         }
-
         return [
             ID => $user->id,
             ROLE_ID => $user->role_id,
@@ -271,11 +277,11 @@ class UserRegisterService
             PHONE_NO => $user->phone_no,
             DOB => $user->dob,
             EMAIL_VERIFIED => $user->email_verified,
-            'subscription' => !empty($current) ? $current : $upcoming,
-            'upcomingSubscription' => !empty($upcoming) && !empty($current) && ($upcoming->role_id_looking_for === $current->role_id_looking_for) ? $upcoming : null,
+            'subscription' => $currentSubscription,
+            'upcomingSubscription' => $upcomingSubscription,
             USERPROFILE => $user->userProfile,
             LOCATION => $user->location,
-            'NotificationSetting' => $user->notificationSetting,
+            'notification_setting' => $user->notificationSetting,
         ];
     }
 

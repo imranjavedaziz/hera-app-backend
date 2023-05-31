@@ -141,15 +141,8 @@ class UserController extends Controller
             $user = UserRegisterService::register($request->all());
             if ($user) {
                 DB::commit();
-                $user_credentials = [
-                    COUNTRY_CODE => $request->country_code,
-                    PHONE_NO => $request->phone_no,
-                    PASSWORD => $request->password,
-                    ROLE_ID => [PARENTS_TO_BE, SURROGATE_MOTHER, EGG_DONER, SPERM_DONER],
-                    DELETED_AT => NULL
-                ];
                 $oauth_token = JWTAuth::attempt([PHONE_NO => strtolower($request->phone_no), PASSWORD => $request->password, DELETED_AT => NULL]);
-                $refreshToken = CustomHelper::createRefreshTokenForUser($user, $user_credentials);
+                $refreshToken = CustomHelper::createRefreshTokenForUser($user);
                 $user->access_token = $oauth_token;
                 $user->refresh_token = $refreshToken;
                 $user->stripe_key = env(STRIPE_KEY) ?? null;
@@ -158,6 +151,8 @@ class UserController extends Controller
                 $customer = StripeService::createStripeCustomer($user);
                 $user->connected_acc_token = $account->id;
                 $user->stripe_customer_id = $customer->id;
+                $user->stripe_processing_fees = STRIPE_PROCESSING_FEES;
+                $user->stripe_additional_fees = STRIPE_ADDITIONAL_FEES;
                 User::where(ID,$user->id)->update(['stripe_customer_id'=>$customer->id, 'connected_acc_token' => $account->id]);
                 $response = response()->Success(trans('messages.register.success'), $user);
             } else {

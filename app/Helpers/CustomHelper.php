@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Favorite;
 use App\Models\Location;
 use App\Models\Role;
+use App\Models\SubscriptionPlan;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Support\Facades\DB;
@@ -104,9 +105,6 @@ class CustomHelper
             case ($user->deactivated_by == ONE):
                 $message = trans('messages.user_account_deactivated_by_admin');
                 break;
-            case ($user->status_id == SIX):
-                $message = trans('messages.user_account_imported_by_admin');
-                break;
             default:
                 $message = trans('messages.invalid_user_pass');
                 break;
@@ -122,7 +120,7 @@ class CustomHelper
         return $message;
     }
 
-    public static function createRefreshTokenForUser(User $user, array $credentials): string
+    public static function createRefreshTokenForUser(User $user): string
     {
         $data = serialize([
             USER_ID => $user->id
@@ -133,5 +131,10 @@ class CustomHelper
         $user->timestamps = false;
         User::where(ID, $user->id)->update([REFRESH_TOKEN => $token]);
         return $token;
+    }
+
+    public static function getProductAmount($productId) {
+        $subscriptionPlan = SubscriptionPlan::where('product_id',$productId)->first();
+        return !empty($subscriptionPlan) ? $subscriptionPlan->unit_amount : 0;
     }
 }
