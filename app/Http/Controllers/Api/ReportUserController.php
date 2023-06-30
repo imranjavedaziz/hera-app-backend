@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ReportUserRequest;
 use App\Helpers\AuthHelper;
 use App\Models\ReportUser;
+use App\Jobs\SendReportMail;
 use DB;
 
 class ReportUserController extends Controller
@@ -73,6 +74,7 @@ class ReportUserController extends Controller
             }
             $reportUser = ReportUser::create($input);
             if ($reportUser) {
+                SendReportMail::dispatch($input[FROM_USER_ID], $input[TO_USER_ID]);
                 DB::commit();
                 $response = response()->Success(trans('messages.user_report'), $reportUser);
             } else {
