@@ -402,6 +402,14 @@ class PaymentController extends Controller
         return $response;
     }
 
+    public function forwardRequest(Request $request) {
+        return PaymentService::forwardRequest();
+    }
+
+    public function pollTransactionResult(Request $request) {
+        return PaymentService::pollTransactionResult();
+    }
+
     /**
      * @OA\Get(
      *      path="/v1/transaction-history",
