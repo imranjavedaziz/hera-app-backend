@@ -32,7 +32,6 @@ class SetPreferencesRequest extends ApiFormRequest
             AGE => ValidationRule::AGE,
             HEIGHT => ValidationRule::HEIGHT,
             RACE => ValidationRule::RACE,
-            ETHNICITY => ValidationRule::ETHNICITY,
             HAIR_COLOUR => ValidationRule::HAIR_COLOUR,
             EYE_COLOUR => ValidationRule::EYE_COLOUR,
             EDUCATION => ValidationRule::EDUCATION,
