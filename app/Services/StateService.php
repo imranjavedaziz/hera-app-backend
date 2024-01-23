@@ -8,6 +8,15 @@ class StateService
 {
     public function getStates()
     {
-        return State::select(ID, CODE, NAME)->where(STATUS_ID, 1)->get();
+        $dbStates = State::select(ID, CODE, NAME)->where('STATUS_ID', 1)->get();
+        $customData = [
+            'id'   => 0,
+            'code' => 'No Preference',
+            'name' => 'No Preference',
+        ];
+        $dbStatesArray = $dbStates->toArray();
+        array_unshift($dbStatesArray, $customData);
+
+        return $dbStatesArray;
     }
 }
