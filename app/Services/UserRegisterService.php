@@ -104,7 +104,7 @@ class UserRegisterService
         $parents_preference->age = $input[AGE];
         $parents_preference->height = $input[HEIGHT];
         $parents_preference->race = $input[RACE];
-        $parents_preference->ethnicity = $input[ETHNICITY];
+        $parents_preference->ethnicity = $input[ETHNICITY] ?? NULL;
         $parents_preference->hair_colour = $input[HAIR_COLOUR];
         $parents_preference->eye_colour = $input[EYE_COLOUR];
         $parents_preference->education = $input[EDUCATION];
