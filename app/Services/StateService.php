@@ -16,7 +16,8 @@ class StateService
         ];
         $dbStatesArray = $dbStates->toArray();
         array_unshift($dbStatesArray, $customData);
-
+echo"<pre>";
+print_r($customData);exit;
         return $dbStatesArray;
     }
 }
