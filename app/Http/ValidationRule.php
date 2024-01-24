@@ -24,7 +24,7 @@ class ValidationRule
     public const SEXUAL_ORIENTATION_ID =[BAIL, REQUIRED, EXISTS_SEXUAL_ORIENTATIONS_ID];
     public const RELATIONSHIP_STATUS_ID =[BAIL, REQUIRED, EXISTS_RELATIONSHIP_STATUSES_ID];
     public const BIO =[BAIL, REQUIRED, STRING,  'max:250'];
-    public const STATE =[BAIL, REQUIRED, EXISTS_STATE_ID];
+    public const STATE =[BAIL, REQUIRED];
     public const ZIPCODE =[BAIL, REQUIRED, NUMERIC, 'digits:5'];
     public const AGE =[BAIL, REQUIRED];
     public const HEIGHT =[BAIL, REQUIRED];
@@ -39,7 +39,7 @@ class ValidationRule
     public const WEIGHT_ID =[BAIL, REQUIRED, EXISTS_WEIGHTS_ID];
     public const HAIR_COLOUR_ID =[BAIL, REQUIRED, EXISTS_HAIR_COLOURS_ID];
     public const EYE_COLOUR_ID =[BAIL, REQUIRED, EXISTS_EYE_COLOURS_ID];
-    public const EDUCATION_ID =[BAIL, REQUIRED, EXISTS_EDUCATION_ID];
+    public const EDUCATION_ID =[BAIL, REQUIRED];
     public const STATUS =[BAIL, REQUIRED];
     public const IMAGE =[BAIL, REQUIRED_WITHOUT_VIDEO, SOMETIMES, NULLABLE, IMAGE];
     public const VIDEO =[BAIL, REQUIRED_WITHOUT_IMAGE, SOMETIMES, NULLABLE];
@@ -47,7 +47,7 @@ class ValidationRule
     public const PURCHASE_TOKEN =[BAIL, REQUIRED, STRING];
     public const KEYWORD =[BAIL, SOMETIMES, NULLABLE, 'min:1'];
     public const STATE_IDS_ARRAY =[BAIL, SOMETIMES, NULLABLE, ARRAYY, MIN_ONE, 'max:3'];
-    public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE, EXISTS_STATE_ID];
+    public const STATE_IDS_ELEMENTS =[BAIL, SOMETIMES, NULLABLE];
     public const DEVICE_ID =[BAIL, REQUIRED, STRING];
     public const DEVICE_TOKEN =[BAIL, REQUIRED, STRING];
     public const DEVICE_TYPE =[BAIL, REQUIRED, STRING];

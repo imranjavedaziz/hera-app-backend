@@ -180,8 +180,15 @@ class UserRegisterService
         $doner_gallery->user_id = $input[USER_ID];
         $doner_gallery->file_name = $file[FILE_NAME];
         $doner_gallery->file_url = $file[FILE_URL];
-        $doner_gallery->file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
+        $file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
+        $doner_gallery->file_type = $file_type;
         $doner_gallery->save();
+        if (empty($user->profile_pic) && ($file_type == IMAGE)) {
+            $user->profile_pic = $file[FILE_URL];
+            if($user->save()){
+                dispatch(new UpdateUserDetailOnFirebase($user));
+            }
+        }
         return [SUCCESS => true, DATA => $doner_gallery];
     }
 
