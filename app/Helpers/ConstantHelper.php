@@ -720,3 +720,4 @@ define('ANDROID_APP_VERSION', '1.0');
 define('IOS_APP_VERSION', '1.0');
 define('VERSION', 'Version');
 define('PLATFORM', 'Platform');
+define('NO_PREFERENCE', 'No Preference');
