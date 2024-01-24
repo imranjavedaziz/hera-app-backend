@@ -308,7 +308,7 @@ define('HEIGHT_VALUE', 30);
 define('HAIR_COLOUR_VALUE', 40);
 define('EYE_COLOUR_VALUE', 35);
 define('EDUCATION_VALUE', 25);
-define('CRITERIA_WEIGHT', 275);
+define('CRITERIA_WEIGHT', 225);
 define('MATCH_VALUE', 'match_value');
 
 //define user relationship and function constants
