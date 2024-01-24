@@ -15,7 +15,7 @@ class UserProfileService
 {
     public function getDonerProfileDetails($input)
     {
-        $user = User::select(ID, USERNAME, ROLE_ID, PROFILE_PIC, DOB, SUBSCRIPTION_STATUS)
+        $user = User::select(ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ROLE_ID, PROFILE_PIC, DOB, SUBSCRIPTION_STATUS)
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
