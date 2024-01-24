@@ -20,7 +20,7 @@ class RaceSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $races = [
             [
-                NAME  => 'White',
+                NAME  => 'Caucasian',
                 STATUS_ID   => ACTIVE
             ],
             [
