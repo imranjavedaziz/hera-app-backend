@@ -64,7 +64,16 @@ trait setterDataTrait {
 
     private function getEducationData()
     {
-        return Education::select(ID, NAME)->where(STATUS_ID, 1)->get();
+        $dbEducations =  Education::select(ID, NAME)->where(STATUS_ID, 1)->get();
+        $customData = [
+            ID   => ZERO,
+            CODE => NO_PREFERENCE,
+            NAME => NO_PREFERENCE
+        ];
+        $dbEducationsArray = $dbEducations->toArray();
+        array_unshift($dbEducationsArray, $customData);
+
+        return $dbEducationsArray;
     }
 
     private function getRoleData()

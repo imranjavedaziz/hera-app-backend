@@ -10,9 +10,9 @@ class StateService
     {
         $dbStates = State::select(ID, CODE, NAME)->where('STATUS_ID', 1)->get();
         $customData = [
-            'id'   => 0,
-            'code' => 'No Preference',
-            'name' => 'No Preference',
+            ID   => ZERO,
+            CODE => NO_PREFERENCE,
+            NAME => NO_PREFERENCE
         ];
         $dbStatesArray = $dbStates->toArray();
         array_unshift($dbStatesArray, $customData);
