@@ -209,9 +209,10 @@ class UserRegisterService
             $data = Storage::disk('s3')->delete('images/user_gellery/'.$doner_gallery->file_name);
             if($data){
                 $doner_gallery->delete();
-                $user = User::where([ID => $userId, PROFILE_PIC=> $doner_gallery->file_url]);
+                $user = User::where([ID => $userId, PROFILE_PIC=> $doner_gallery->file_url])->first();
                 if(!empty($user)){
-                    $user->update([PROFILE_PIC=> '']);
+                    $user->profile_pic = '';
+                    $user->save();
                     dispatch(new UpdateUserDetailOnFirebase($user));
                 }
             }
