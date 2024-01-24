@@ -721,3 +721,4 @@ define('IOS_APP_VERSION', '1.0');
 define('VERSION', 'Version');
 define('PLATFORM', 'Platform');
 define('NO_PREFERENCE', 'No Preference');
+define('DEFAULT_PROFILE_IMAGE', 'https://mbc-dev-kiwitech.s3.amazonaws.com/chat/documents/BAhVUNjoIiwM81TNc3NdkNCVjxeU6GyyPRP8C30l.jpg');

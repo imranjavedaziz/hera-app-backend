@@ -211,7 +211,7 @@ class UserRegisterService
                 $doner_gallery->delete();
                 $user = User::where([ID => $userId, PROFILE_PIC=> $doner_gallery->file_url])->first();
                 if(!empty($user)){
-                    $user->profile_pic = '';
+                    $user->profile_pic = DEFAULT_PROFILE_IMAGE;
                     $user->save();
                     dispatch(new UpdateUserDetailOnFirebase($user));
                 }
