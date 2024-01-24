@@ -138,8 +138,6 @@ class UserRegisterService
         $doner_attribute->user_id = $input[USER_ID];
         $doner_attribute->height_id = $input[HEIGHT_ID];
         $doner_attribute->race_id = $input[RACE_ID];
-        $doner_attribute->mother_ethnicity_id = $input[MOTHER_ETHNICITY_ID];
-        $doner_attribute->father_ethnicity_id = $input[FATHER_ETHNICITY_ID];
         $doner_attribute->weight_id = $input[WEIGHT_ID];
         $doner_attribute->hair_colour_id = $input[HAIR_COLOUR_ID];
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
