@@ -20,6 +20,10 @@ class EducationSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $education = [
             [
+                NAME  => NO_PREFERENCE,
+                STATUS_ID   => ACTIVE
+            ],
+            [
                 NAME  => 'High School',
                 STATUS_ID   => ACTIVE
             ],

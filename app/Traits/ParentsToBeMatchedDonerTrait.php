@@ -105,7 +105,9 @@ trait ParentsToBeMatchedDonerTrait
         $value = LOCATION_VALUE * 1/3;
         $state_id = $donarState ? $donarState->state_id : NULL;
         $statePreference = explode(',',$preference);
-        if (isset($state_id) && in_array($state_id , $statePreference)) {
+        if (in_array(ONE, $statePreference)) {
+            $value = LOCATION_VALUE * 1/3;
+        } elseif (isset($state_id) && in_array($state_id, $statePreference)) {
             $value = LOCATION_VALUE;
         }
         return $value;
@@ -217,7 +219,9 @@ trait ParentsToBeMatchedDonerTrait
     {
         $educationPreference = explode(',',$preference);
         $value = EDUCATION_VALUE * 1/3;
-        if (in_array($education, $educationPreference)) {
+        if (in_array(ONE, $educationPreference)) {
+            $value = EDUCATION_VALUE * 1/3;
+        } elseif (in_array($education, $educationPreference)) {
             $value = EDUCATION_VALUE;
         }
         return $value;

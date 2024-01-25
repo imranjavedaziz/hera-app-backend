@@ -21,6 +21,7 @@ class StateSeeder extends Seeder
         State::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $this->states = [
+            [NO_PREFERENCE, NO_PREFERENCE],
             ['AL','Alabama'],
             ['AK','Alaska'],
             ['AZ','Arizona'],
