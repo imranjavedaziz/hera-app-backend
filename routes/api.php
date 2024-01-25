@@ -53,7 +53,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
             ],
             Responses::HTTP_OK
         );
-    });    
+    });
     Route::fallback(function () {
         return Response::json(
             [
@@ -66,7 +66,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 
     /*******Test Route*****/
     Route::get('update-firebase-chat', [StateController::class, 'updateFirebaseChat']);
-    
+
     /***Public route before authentication***/
     Route::post('login', [AuthController::class, 'login']);
     Route::post('sent-otp', [AuthController::class, 'sentOtp']);
@@ -86,6 +86,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::get('roles', [EnquiryController::class, 'getRoles']);
     Route::post('enquiry', [EnquiryController::class, 'enquiry']);
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
+    Route::post('forward-request', [PaymentController::class, 'forwardRequest']);
+    Route::post('transaction-result', [PaymentController::class, 'pollTransactionResult']);
 
     Route::group([MIDDLEWARE => ['jwt.verify', 'CheckUserAccountStatus']], function() {
         Route::post('update-account-status', [AuthController::class, 'updateAccountStatus']);

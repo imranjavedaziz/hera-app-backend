@@ -104,7 +104,7 @@ class UserRegisterService
         $parents_preference->age = $input[AGE];
         $parents_preference->height = $input[HEIGHT];
         $parents_preference->race = $input[RACE];
-        $parents_preference->ethnicity = $input[ETHNICITY];
+        $parents_preference->ethnicity = $input[ETHNICITY] ?? NULL;
         $parents_preference->hair_colour = $input[HAIR_COLOUR];
         $parents_preference->eye_colour = $input[EYE_COLOUR];
         $parents_preference->education = $input[EDUCATION];
@@ -138,8 +138,6 @@ class UserRegisterService
         $doner_attribute->user_id = $input[USER_ID];
         $doner_attribute->height_id = $input[HEIGHT_ID];
         $doner_attribute->race_id = $input[RACE_ID];
-        $doner_attribute->mother_ethnicity_id = $input[MOTHER_ETHNICITY_ID];
-        $doner_attribute->father_ethnicity_id = $input[FATHER_ETHNICITY_ID];
         $doner_attribute->weight_id = $input[WEIGHT_ID];
         $doner_attribute->hair_colour_id = $input[HAIR_COLOUR_ID];
         $doner_attribute->eye_colour_id = $input[EYE_COLOUR_ID];
@@ -180,8 +178,15 @@ class UserRegisterService
         $doner_gallery->user_id = $input[USER_ID];
         $doner_gallery->file_name = $file[FILE_NAME];
         $doner_gallery->file_url = $file[FILE_URL];
-        $doner_gallery->file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
+        $file_type = strstr($file[MIME], "video/") ? VIDEO : IMAGE;
+        $doner_gallery->file_type = $file_type;
         $doner_gallery->save();
+        if (empty($user->profile_pic) && ($file_type == IMAGE)) {
+            $user->profile_pic = $file[FILE_URL];
+            if($user->save()){
+                dispatch(new UpdateUserDetailOnFirebase($user));
+            }
+        }
         return [SUCCESS => true, DATA => $doner_gallery];
     }
 
@@ -202,6 +207,12 @@ class UserRegisterService
             $data = Storage::disk('s3')->delete('images/user_gellery/'.$doner_gallery->file_name);
             if($data){
                 $doner_gallery->delete();
+                $user = User::where([ID => $userId, PROFILE_PIC=> $doner_gallery->file_url])->first();
+                if(!empty($user)){
+                    $user->profile_pic = DEFAULT_PROFILE_IMAGE;
+                    $user->save();
+                    dispatch(new UpdateUserDetailOnFirebase($user));
+                }
             }
         }
         return true;

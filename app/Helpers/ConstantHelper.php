@@ -308,7 +308,7 @@ define('HEIGHT_VALUE', 30);
 define('HAIR_COLOUR_VALUE', 40);
 define('EYE_COLOUR_VALUE', 35);
 define('EDUCATION_VALUE', 25);
-define('CRITERIA_WEIGHT', 275);
+define('CRITERIA_WEIGHT', 225);
 define('MATCH_VALUE', 'match_value');
 
 //define user relationship and function constants
@@ -720,3 +720,5 @@ define('ANDROID_APP_VERSION', '1.0');
 define('IOS_APP_VERSION', '1.0');
 define('VERSION', 'Version');
 define('PLATFORM', 'Platform');
+define('NO_PREFERENCE', 'No Preference');
+define('DEFAULT_PROFILE_IMAGE', 'https://mbc-dev-kiwitech.s3.amazonaws.com/chat/documents/BAhVUNjoIiwM81TNc3NdkNCVjxeU6GyyPRP8C30l.jpg');

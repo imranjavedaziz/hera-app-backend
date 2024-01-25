@@ -15,7 +15,7 @@ class UserProfileService
 {
     public function getDonerProfileDetails($input)
     {
-        $user = User::select(ID, USERNAME, ROLE_ID, PROFILE_PIC, DOB, SUBSCRIPTION_STATUS)
+        $user = User::select(ID, USERNAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, ROLE_ID, PROFILE_PIC, DOB, SUBSCRIPTION_STATUS)
         ->selectRaw('(select name from roles where id='.ROLE_ID.AS_CONNECT.ROLE.' ')
         ->selectRaw('DATE_FORMAT(FROM_DAYS(DATEDIFF(now(),dob)), "%Y")+0 AS age')
         ->with([
@@ -23,7 +23,7 @@ class UserProfileService
                 return $q->select(ID, USER_ID, OCCUPATION, BIO);
             },
             DONERATTRIBUTE => function($q) {
-                return $q->select(ID, USER_ID, HEIGHT_ID, RACE_ID, MOTHER_ETHNICITY_ID, FATHER_ETHNICITY_ID, WEIGHT_ID, HAIR_COLOUR_ID, EYE_COLOUR_ID)
+                return $q->select(ID, USER_ID, HEIGHT_ID, RACE_ID, MOTHER_ETHNICITY_ID, FATHER_ETHNICITY_ID, WEIGHT_ID, HAIR_COLOUR_ID, EYE_COLOUR_ID, EDUCATION_ID)
                 ->selectRaw('(select name from heights where id='.HEIGHT_ID.AS_CONNECT.HEIGHT.' ')
                 ->selectRaw('(select name from races where id='.RACE_ID.AS_CONNECT.RACE.' ')
                 ->selectRaw('(select name from ethnicities where id='.MOTHER_ETHNICITY_ID.AS_CONNECT.MOTHER_ETHNICITY.' ')

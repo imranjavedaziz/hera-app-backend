@@ -9,9 +9,82 @@ use App\Models\Transaction;
 use App\Jobs\PaymentNotification;
 use DB;
 use App\Helpers\CustomHelper;
+use Illuminate\Support\Facades\Http;
 
 class PaymentService
 {
+    private const HOSTED_PAYMENTS_GATEWAY_BASE_URL = 'https://dev-paynow.itscocloud.com';
+    private const HOSTED_PAYMENTS_EXECUTE_URL = self::HOSTED_PAYMENTS_GATEWAY_BASE_URL . '/execute';
+    private const HOSTED_PAYMENTS_RESPONSE_URL = self::HOSTED_PAYMENTS_GATEWAY_BASE_URL . '/Response';
+
+    public function forwardRequest() {
+        $ips = '123';
+        $returnQueryParams = [
+            'IPS' => $ips
+        ];
+        $returnUrl = self::createUrlWithQueryParams(self::HOSTED_PAYMENTS_RESPONSE_URL, $returnQueryParams);
+        $queryParams = [
+            'isTest' => '1',
+            'ReturnURL' => $returnUrl,
+            'AutoReturn' => '1',
+            'License' => '',
+            'AccountToken' => 'C8E33719BEC41A4EA07B9E09681ED1323B9074E1651209203BE4C24452E884B4DD848601',
+            'AcceptorID' => '364800780',
+            'AccountID' => '1217395',
+            'TransactionSetup' => '1',
+            'Amount' => '16.00',
+            'ReferenceNumber' => '001',
+            'TerminalID' => '002',
+            'LaneNumber' => '003',
+            'BillingAddress1' => '100',
+            'BillingZipcode' => '33606',
+            'CVVRequired' => '1'
+        ];
+        echo("defined query params\n");
+
+        // Send the POST request to the external URL
+        $requestUrl = self::createUrlWithQueryParams(self::HOSTED_PAYMENTS_EXECUTE_URL, $queryParams);
+        echo("POST $requestUrl\n");
+        $response = Http::post($requestUrl);
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            echo("got successful response from worldpay\n");
+            return response($response->body(), 200)
+                ->header('Content-Type', 'text/html');
+//            return response()->json($response->json(), $response->status());
+        }
+
+        // Handle the error
+        return response()->json([
+            'error' => 'Failed to fetch from external API'
+        ], $response->status());
+
+    }
+
+    public function pollTransactionResult() {
+        $queryParams = [
+            'IPS' => '123',
+            'Response' => 'Y'
+        ];
+
+        $request_url = createUrlWithQueryParams(self::HOSTED_PAYMENTS_RESPONSE_URL, $queryParams);
+        $response = Http::get($request_url);
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            echo("got transaction result from worldpay\n");
+            return response($response->body(), 200)
+                ->header('Content-Type', 'text/html');
+//            return response()->json($response->json(), $response->status());
+        }
+
+        // Handle the error
+        return response()->json([
+            'error' => 'Failed to fetch from external API'
+        ], $response->status());
+    }
+
     public function getUsersByProfileMatchAndKeyword($user_id, $keyword = false) {
         return User::whereIn(ID, function ($query) use ($user_id) {
                 $query->select(FROM_USER_ID)
@@ -119,5 +192,8 @@ class PaymentService
             ->groupBy(TRANSACTIONS.'.'.ID)
             ->orderBy(TRANSACTIONS.'.'.ID, DESC);
     }
-    
+
+    private function createUrlWithQueryParams($baseUrl, $queryParams) {
+        return $baseUrl . '?' . http_build_query($queryParams);
+    }
 }
