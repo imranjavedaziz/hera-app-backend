@@ -30,8 +30,6 @@ class SetAttributesRequest extends ApiFormRequest
         return [
             HEIGHT_ID => ValidationRule::HEIGHT_ID,
             RACE_ID => ValidationRule::RACE_ID,
-            MOTHER_ETHNICITY_ID => ValidationRule::ETHNICITY_ID,
-            FATHER_ETHNICITY_ID => ValidationRule::ETHNICITY_ID,
             WEIGHT_ID => ValidationRule::WEIGHT_ID,
             HAIR_COLOUR_ID => ValidationRule::HAIR_COLOUR_ID,
             EYE_COLOUR_ID => ValidationRule::EYE_COLOUR_ID,
