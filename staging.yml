@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mbc-staging-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mbc-staging-app
+    restart: always
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    networks:
+      - mbc-staging-network
+
+  mbc-staging-webserver:
+    build:
+      context: ./nginx-staging
+      dockerfile: Dockerfile
+    container_name: mbc-staging-webserver
+    restart: always
+    volumes:
+      - ./public:/var/www/html/public
+      - ./devlogdna:/var/log/nginx
+    ports:
+      - "8083:80"
+    depends_on:
+      - mbc-staging-app
+    networks: 
+      - mbc-staging-network
+
+networks:
+  mbc-staging-network:
+    driver: bridge

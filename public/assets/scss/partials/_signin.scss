@@ -1,0 +1,98 @@
+.signin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+    background-color: #f7f5f0;
+    padding: 50px 0 51px 0;
+    position: relative;
+    .app-logo {
+        position: absolute;
+        top: 27px;
+        left: 100px;
+        img{
+            width: 123px;
+        }
+    }
+    .login-form {
+        flex: inherit;
+        width: 100%;
+        max-width: 486px;
+        color: #ffffff;
+        padding: 58px 47px;
+        background-color: #fff;
+        max-height: 540px;
+        .signin-title{
+            @include font-bold(23px, normal);
+            color: #353a3a;
+            margin-bottom: 30px;
+        }
+        .login-form-wrapper{
+            input{
+                border-bottom: 2px solid #e4e2d8;
+                background-color: transparent;
+                @include font-bold(16px, 21px);
+                color: #353a3a;
+                &:focus{
+                    border-bottom: 2px solid #1DBFF1;
+                }
+                &.error{
+                    border-bottom: 2px solid #ff4544;
+                }
+            }
+            label{
+                @include font-regular(16px, 21px);
+                color: #353a3a;
+                padding: 9px 0;
+                margin-left: -2px;
+            }
+            .invalid-field{
+                position: absolute;
+                bottom: -25px;
+                right: 0;
+                color: #ff4544;
+                @include font-regular(14px, normal);
+            }
+            .eye-img{
+                position: absolute;
+                bottom: 8px;
+                right: 0;
+            }
+            .login-button{
+                text-align: center;
+                margin-top: 50px;
+            }
+        }
+    }
+}
+
+
+
+//old tag
+.form-control {
+    border: unset;
+    border-radius: unset;
+    &::placeholder{
+        color: #353a3a;
+    }
+}
+
+.form-floating>.form-control {
+    padding: 9px 0;
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label,
+.form-floating>.form-select~label {
+    opacity: .65;
+    transform: scale(.8) translateY(-0.2rem) translateX(0.15rem) !important;
+}
+
+.form-floating>.form-control:focus,
+.form-floating>.form-control:not(:placeholder-shown) {
+    padding-top: 2rem;
+    padding-bottom: 0.625rem;
+}

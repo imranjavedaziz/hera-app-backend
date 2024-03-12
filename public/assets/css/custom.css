@@ -1,0 +1,104 @@
+.btn-red{
+  background-color: #f18d93;
+}
+
+.btn-red:hover{
+  background-color: #f18d93;
+}
+
+.page-link {
+  margin-right: 4px;
+}
+
+.btn-dropdown-after .dropdown-toggle::after{
+  display: none;
+}
+.inactive-span span{
+  font-weight: bold;
+  white-space: nowrap;
+}
+.deactivate-user, .td-user-left{
+	cursor: pointer;
+}
+
+input[type="search"]::-webkit-search-cancel-button{
+  visibility: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-close{
+  line-height: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 11px;
+  right: 18px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-wrapper .chat-wrapper-left .chat-left-containt .user-chat-sec.recent-message {
+  background-color: #cfbbc3;
+}
+
+.read-dot {
+  position: absolute;
+  right: 0px;
+  top: 24px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: solid 1px #fff;
+  background-color: #98c8c2;
+}
+
+.btn-import{
+  width: 175px;
+  height: 45px;
+  border-radius: 4px;
+  padding: 10px 0 !important;
+  margin-left: 7px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.75px;
+  position: relative;
+  cursor: pointer;
+}
+.btn-download{
+  width: 199px;
+  height: 45px;
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.75px;
+  border: 1px solid #353a3a;
+  font-size: 12px;
+
+  color: #353a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.input-file-style{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 0;
+}
+
+.download-csv {
+  width: 100%;
+  margin-right: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.download-csv a{color: #353a3a;}
+.btn-import img{margin-right: 13px;}

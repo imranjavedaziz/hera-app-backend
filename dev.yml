@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mbc-dev-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mbc-dev-app
+    restart: always
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    networks:
+      - mbc-dev-network
+
+  mbc-dev-webserver:
+    build:
+      context: ./nginx-dev
+      dockerfile: Dockerfile
+    container_name: mbc-dev-webserver
+    restart: always
+    volumes:
+      - ./public:/var/www/html/public
+      - ./devlogdna:/var/log/nginx
+    ports:
+      - "8081:80"
+    depends_on:
+      - mbc-dev-app
+    networks: 
+      - mbc-dev-network
+
+networks:
+  mbc-dev-network:
+    driver: bridge
